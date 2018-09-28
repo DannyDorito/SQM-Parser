@@ -7,14 +7,22 @@ import { Component } from '@angular/core';
 })
 export class HomeComponent {
   functions = [
-    {name: 'Function 1', description: 'function 1 description', function: 'execute 1'},
-    {name: 'Function 2', description: 'function 2 description', function: 'execute 2'},
-    {name: 'Function 3', description: 'function 3 description', function: 'execute 3'},
-    {name: 'Function 4', description: 'function 4 description', function: 'execute 4'},
-    {name: 'Function 5', description: 'function 5 description', function: 'execute 5'},
-    {name: 'Function 6', description: 'function 6 description', function: 'execute 6'},
-    {name: 'Function 7', description: 'function 7 description', function: 'execute 7'},
-    {name: 'Function 8', description: 'function 8 description', function: 'execute 8'},
-    {name: 'Function 9', description: 'function 9 description', function: 'execute 9'}
+    {name: 'Function 1', description: 'description', function: 'execute 1', image: 'edit'},
+    {name: 'Function 2', description: 'description', function: 'execute 2', image: 'edit'},
+    {name: 'Function 3', description: 'description', function: 'execute 3', image: 'edit'},
+    {name: 'Function 4', description: 'description', function: 'execute 4', image: 'edit'},
+    {name: 'Function 5', description: 'description', function: 'execute 5', image: 'edit'},
+    {name: 'Function 6', description: 'description', function: 'execute 6', image: 'edit'},
+    {name: 'Function 7', description: 'description', function: 'execute 7', image: 'edit'},
+    {name: 'Function 8', description: 'description', function: 'execute 8', image: 'edit'},
+    {name: 'Function 9', description: 'description', function: 'execute 9', image: 'edit'}
   ];
+
+  // use [ngStyle]="newColour()" on an element
+  newColour() {
+    const myStyles = {
+      'background-color': '#' + Math.floor(Math.random() * 0x1000000).toString(16).padStart(6, '0')
+    };
+    return myStyles;
+  }
 }

@@ -1,9 +1,10 @@
-<h1 class="headline">Web based SQM parser test</h1>
+<h1 class="headline">Web Based SQM Parser Test</h1>
 <div style="margin: 10px;">
-  <mat-card *ngFor="let function of functions">
-    <mat-card-title>{{function.name}}</mat-card-title>
+  <mat-card *ngFor="let function of functions" [ngStyle]="newColour()">
+    <mat-card-title><b>{{function.name}}</b></mat-card-title>
     <mat-card-content>
       <p>{{function.description}}</p>
+      <mat-icon>{{function.image}}</mat-icon>
     </mat-card-content>
     <mat-card-actions>
       <button mat-raised-button>{{function.function}}</button>

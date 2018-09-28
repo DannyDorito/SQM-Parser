@@ -1,13 +1,14 @@
-mat-card {
-  max-width: 25%;
-  max-height: 25%;
-  display: inline-block;
-  margin: 10px;
+div {
+  display: flex;
 }
 
-div {
-  justify-content: center;
-  align-items: center;
+mat-card {
+  display: inline-block;
+  margin: 10px;
+  text-align: center;
+  width: 150px;
+  height: 160px;
+  flex: 1;
 }
 
 h1,
