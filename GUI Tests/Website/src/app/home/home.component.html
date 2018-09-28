@@ -1,0 +1,13 @@
+<h1 class="headline">Web based SQM parser test</h1>
+<div style="margin: 10px;">
+  <mat-card *ngFor="let function of functions">
+    <mat-card-title>{{function.name}}</mat-card-title>
+    <mat-card-content>
+      <p>{{function.description}}</p>
+    </mat-card-content>
+    <mat-card-actions>
+      <button mat-raised-button>{{function.function}}</button>
+    </mat-card-actions>
+  </mat-card>
+</div>
+<h3 class="subheading-2">Concept by John Allison</h3>

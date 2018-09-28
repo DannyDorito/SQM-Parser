@@ -1,0 +1,16 @@
+mat-card {
+  max-width: 25%;
+  max-height: 25%;
+  display: inline-block;
+  margin: 10px;
+}
+
+div {
+  justify-content: center;
+  align-items: center;
+}
+
+h1,
+h3 {
+  text-align: center;
+}
