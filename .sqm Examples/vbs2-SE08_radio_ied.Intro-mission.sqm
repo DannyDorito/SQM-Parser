@@ -1,0 +1,269 @@
+version=21;
+class Mission
+{
+	addOns[]=
+	{
+		"cacharacters",
+		"vbs2_people_us_usmc_eod8_bombsuit",
+		"vbs2_iq_civ",
+		"vbs2_animals_dog",
+		"vbs2_editor",
+		"vbs2_ieds"
+	};
+	addOnsAuto[]=
+	{
+		"cacharacters",
+		"vbs2_people_us_usmc_eod8_bombsuit",
+		"vbs2_iq_civ",
+		"vbs2_animals_dog",
+		"vbs2_editor",
+		"vbs2_ieds"
+	};
+	randomSeed=15467231;
+	class Intel
+	{
+		briefingName="SE08: Radio IED";
+		startWeather=0.1;
+		forecastWeather=0.30000001;
+		year=2007;
+		month=6;
+		day=7;
+		hour=8;
+		startFogDecay=0.0049999999;
+		forecastFogDecay=0.0049999999;
+		declination=14.29;
+	};
+	class Groups
+	{
+		items=4;
+		class Item0
+		{
+			side="GUER";
+			name="GUER 1-1-A-1";
+			class Vehicles
+			{
+				items=6;
+				class Item0
+				{
+					position[]={2911.0698,16.66876,2918.9688};
+					positionASL[]={2911.0698,16.66876,2918.9688};
+					special="CAN_COLLIDE";
+					id=0;
+					side="GUER";
+					vehicle="SquadLeaderG";
+					leader=1;
+					rankName="PRIVATE";
+					skill=0.60000002;
+					text="grp1";
+				};
+				class Item1
+				{
+					position[]={2913.9312,16.66608,2918.0938};
+					positionASL[]={2913.9312,16.66608,2918.0938};
+					special="CAN_COLLIDE";
+					id=1;
+					side="GUER";
+					vehicle="TeamLeaderG";
+					rankName="PRIVATE";
+					skill=0.60000002;
+					text="unit_309";
+				};
+				class Item2
+				{
+					position[]={2913.1877,16.61685,2920.4954};
+					positionASL[]={2913.1877,16.61685,2920.4954};
+					special="CAN_COLLIDE";
+					id=2;
+					side="GUER";
+					vehicle="SoldierGMG";
+					rankName="PRIVATE";
+					skill=0.60000002;
+					text="unit_310";
+				};
+				class Item3
+				{
+					position[]={2912.395,16.598379,2923.3406};
+					positionASL[]={2912.395,16.598379,2923.3406};
+					special="CAN_COLLIDE";
+					id=3;
+					side="GUER";
+					vehicle="SoldierGG";
+					rankName="PRIVATE";
+					skill=0.60000002;
+					text="unit_311";
+				};
+				class Item4
+				{
+					position[]={2909.5769,16.623739,2923.7634};
+					positionASL[]={2909.5769,16.623739,2923.7634};
+					special="CAN_COLLIDE";
+					id=4;
+					side="GUER";
+					vehicle="SoldierGAT";
+					rankName="PRIVATE";
+					skill=0.60000002;
+					text="unit_312";
+				};
+				class Item5
+				{
+					position[]={2910.0188,16.6415,2920.9258};
+					positionASL[]={2910.0188,16.6415,2920.9258};
+					special="CAN_COLLIDE";
+					id=5;
+					side="GUER";
+					vehicle="SoldierGMG";
+					rankName="PRIVATE";
+					skill=0.60000002;
+					text="unit_313";
+				};
+			};
+		};
+		class Item1
+		{
+			side="WEST";
+			name="1-1-A-2";
+			class Vehicles
+			{
+				items=1;
+				class Item0
+				{
+					position[]={2882.1887,17.16979,2878.8689};
+					positionASL[]={2882.1887,17.16979,2878.8689};
+					special="CAN_COLLIDE";
+					id=6;
+					side="WEST";
+					vehicle="VBS2_US_MC_EOD_D";
+					leader=1;
+					rankName="PRIVATE";
+					skill=0.60000002;
+					text="bombtech";
+				};
+			};
+		};
+		class Item2
+		{
+			side="CIV";
+			name="1-1-A-1";
+			class Vehicles
+			{
+				items=1;
+				class Item0
+				{
+					position[]={2898.2534,20.74217,2882.4812};
+					positionASL[]={2898.2534,20.74217,2882.4812};
+					special="CAN_COLLIDE";
+					id=7;
+					side="CIV";
+					vehicle="vbs2_iq_civ_man_04";
+					player="PLAYER COMMANDER";
+					leader=1;
+					rankName="PRIVATE";
+					skill=0.60000002;
+					text="unit_218";
+				};
+			};
+		};
+		class Item3
+		{
+			side="WEST";
+			name="1-1-A-1";
+			class Vehicles
+			{
+				items=1;
+				class Item0
+				{
+					position[]={2884.4973,17.20059,2876.5334};
+					positionASL[]={2884.4973,17.20059,2876.5334};
+					special="CAN_COLLIDE";
+					id=8;
+					side="WEST";
+					vehicle="vbs2_animal_germanshepherd_bomb_detection";
+					leader=1;
+					rankName="PRIVATE";
+					skill=0.60000002;
+					text="dog";
+				};
+			};
+		};
+	};
+	Biotope="<?xml version=""1.0"" encoding=""utf-8"" ?>" \n "<Plant root="""">" \n "    <Components />" \n "</Plant>" \n "";
+	BiotopeFile="";
+	class DeletedMapObjects
+	{
+		items=0;
+	};
+	TerrainModifs[]={0,0,0,0,0};
+	SnowModifs[]={0,0,0,0,0};
+};
+class Intro
+{
+	randomSeed=8201941;
+	class Intel
+	{
+		startWeather=0.1;
+		forecastWeather=0.30000001;
+		year=2007;
+		month=6;
+		day=7;
+		hour=8;
+		startFogDecay=0.0049999999;
+		forecastFogDecay=0.0049999999;
+		declination=14.29;
+	};
+	Biotope="<?xml version=""1.0"" encoding=""utf-8"" ?>" \n "<Plant root="""">" \n "    <Components />" \n "</Plant>" \n "";
+	BiotopeFile="";
+	class DeletedMapObjects
+	{
+		items=0;
+	};
+	TerrainModifs[]={0,0,0,0,0};
+	SnowModifs[]={0,0,0,0,0};
+};
+class OutroWin
+{
+	randomSeed=5943811;
+	class Intel
+	{
+		startWeather=0.1;
+		forecastWeather=0.30000001;
+		year=2007;
+		month=6;
+		day=7;
+		hour=8;
+		startFogDecay=0.0049999999;
+		forecastFogDecay=0.0049999999;
+		declination=14.29;
+	};
+	Biotope="<?xml version=""1.0"" encoding=""utf-8"" ?>" \n "<Plant root="""">" \n "    <Components />" \n "</Plant>" \n "";
+	BiotopeFile="";
+	class DeletedMapObjects
+	{
+		items=0;
+	};
+	TerrainModifs[]={0,0,0,0,0};
+	SnowModifs[]={0,0,0,0,0};
+};
+class OutroLoose
+{
+	randomSeed=11511532;
+	class Intel
+	{
+		startWeather=0.1;
+		forecastWeather=0.30000001;
+		year=2007;
+		month=6;
+		day=7;
+		hour=8;
+		startFogDecay=0.0049999999;
+		forecastFogDecay=0.0049999999;
+		declination=14.29;
+	};
+	Biotope="<?xml version=""1.0"" encoding=""utf-8"" ?>" \n "<Plant root="""">" \n "    <Components />" \n "</Plant>" \n "";
+	BiotopeFile="";
+	class DeletedMapObjects
+	{
+		items=0;
+	};
+	TerrainModifs[]={0,0,0,0,0};
+	SnowModifs[]={0,0,0,0,0};
+};
