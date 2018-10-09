@@ -1,3 +1,14 @@
+div {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+}
+
 h1 {
   text-align: center;
+}
+
+button {
+  align-self: center;
+  background-color: #78866B;
 }

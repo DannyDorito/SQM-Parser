@@ -1,11 +1,10 @@
-<div class="homeheader">
-  <h1 class="headline">SQM Parser</h1>
-</div>
 <div class="card">
   <mat-card *ngFor="let function of functions1">
-    <mat-card-title><b>{{function.name}}</b></mat-card-title>
+    <mat-card-title>
+      <b>{{function.name}}</b>
+    </mat-card-title>
     <mat-card-content>
-      <mat-icon>{{function.image}}</mat-icon>
+      <mat-icon class="unselectable">{{function.image}}</mat-icon>
     </mat-card-content>
     <mat-card-actions>
       <button mat-raised-button>{{function.function}}</button>
@@ -14,9 +13,11 @@
 </div>
 <div class="card">
   <mat-card *ngFor="let function of functions2">
-    <mat-card-title><b>{{function.name}}</b></mat-card-title>
+    <mat-card-title>
+      <b>{{function.name}}</b>
+    </mat-card-title>
     <mat-card-content>
-      <mat-icon>{{function.image}}</mat-icon>
+      <mat-icon class="unselectable">{{function.image}}</mat-icon>
     </mat-card-content>
     <mat-card-actions>
       <button mat-raised-button>{{function.function}}</button>
@@ -25,9 +26,11 @@
 </div>
 <div class="card">
   <mat-card *ngFor="let function of functions3">
-    <mat-card-title><b>{{function.name}}</b></mat-card-title>
+    <mat-card-title>
+      <b>{{function.name}}</b>
+    </mat-card-title>
     <mat-card-content>
-      <mat-icon>{{function.image}}</mat-icon>
+      <mat-icon class="unselectable">{{function.image}}</mat-icon>
     </mat-card-content>
     <mat-card-actions>
       <button mat-raised-button>{{function.function}}</button>

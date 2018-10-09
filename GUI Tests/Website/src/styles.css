@@ -5,3 +5,10 @@ body {
   font-family: 'Roboto', sans-serif;
   background-color: whitesmoke;
 }
+
+.unselectable {
+  user-select: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+}
