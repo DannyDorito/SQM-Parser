@@ -1,0 +1,26 @@
+.card {
+  display: flex;
+  justify-content: center;
+}
+
+mat-card {
+  margin: 20px;
+  text-align: center;
+  max-width: 20vh;
+  max-height: 20vh;
+  min-width: 100px;
+  min-height: 110px;
+  background-color: #78866B;
+}
+
+h1,
+h3 {
+  text-align: center;
+  margin: 0;
+  padding: 10px;
+}
+
+h1 {
+  font-size: 28px;
+  margin-bottom: 5vh;
+}
