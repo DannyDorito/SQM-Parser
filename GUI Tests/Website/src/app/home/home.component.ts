@@ -6,16 +6,22 @@ import { Component } from '@angular/core';
   styleUrls: ['./home.component.css']
 })
 export class HomeComponent {
-  functions = [
-    {name: 'Function 1', description: 'description', function: 'execute 1', image: 'edit'},
-    {name: 'Function 2', description: 'description', function: 'execute 2', image: 'edit'},
-    {name: 'Function 3', description: 'description', function: 'execute 3', image: 'edit'},
-    {name: 'Function 4', description: 'description', function: 'execute 4', image: 'edit'},
-    {name: 'Function 5', description: 'description', function: 'execute 5', image: 'edit'},
-    {name: 'Function 6', description: 'description', function: 'execute 6', image: 'edit'},
-    {name: 'Function 7', description: 'description', function: 'execute 7', image: 'edit'},
-    {name: 'Function 8', description: 'description', function: 'execute 8', image: 'edit'},
-    {name: 'Function 9', description: 'description', function: 'execute 9', image: 'edit'}
+  functions1 = [
+    {name: 'Function 1', function: 'Execute 1', image: 'edit'},
+    {name: 'Function 2', function: 'Execute 2', image: 'edit'},
+    {name: 'Function 3', function: 'Execute 3', image: 'edit'}
+  ];
+
+  functions2 = [
+    {name: 'Function 4', function: 'Execute 4', image: 'edit'},
+    {name: 'Function 5', function: 'Execute 5', image: 'edit'},
+    {name: 'Function 6', function: 'Execute 6', image: 'edit'}
+  ];
+
+  functions3 = [
+    {name: 'Function 7', function: 'Execute 7', image: 'edit'},
+    {name: 'Function 8', function: 'Execute 8', image: 'edit'},
+    {name: 'Function 9', function: 'Execute 9', image: 'edit'}
   ];
 
   // use [ngStyle]="newColour()" on an element

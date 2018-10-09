@@ -1,17 +1,29 @@
-div {
+.card {
   display: flex;
+  justify-content: space-evenly;
 }
 
 mat-card {
-  display: inline-block;
-  margin: 10px;
+  margin: 5px;
   text-align: center;
-  width: 150px;
-  height: 160px;
-  flex: 1;
+  max-width: 20vh;
+  max-height: 20vh;
+  min-width: 100px;
+  min-height: 110px;
+  background-color: #78866B;
 }
 
 h1,
 h3 {
   text-align: center;
+  margin: 0;
+  padding: 10px;
+}
+
+h1 {
+  font-size: 28px;
+}
+
+.homeheader {
+  background-color: #78866B
 }
