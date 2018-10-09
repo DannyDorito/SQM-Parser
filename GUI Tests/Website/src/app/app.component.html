@@ -1,1 +1,16 @@
-<router-outlet></router-outlet>
+<mat-drawer-container>
+  <mat-drawer mode="side" opened>
+    <div class="drawer-header">
+      Header
+    </div>
+    <div class="drawer-content">
+      Content
+    </div>
+    <div class="drawer-footer">
+      Footer
+    </div>
+  </mat-drawer>
+  <mat-drawer-content>
+    <router-outlet></router-outlet>
+  </mat-drawer-content>
+</mat-drawer-container>
