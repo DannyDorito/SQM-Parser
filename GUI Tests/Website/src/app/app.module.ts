@@ -5,20 +5,25 @@ import { AppRoutingModule } from './/app-routing.module';
 import { AppComponent } from './app.component';
 import { HomeComponent } from './home/home.component';
 import { NotfoundComponent } from './notfound/notfound.component';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { FunctionsComponent } from './functions/functions.component';
+import { OptionsComponent } from './options/options.component';
 
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatSidenavModule } from '@angular/material/sidenav';
-import { FunctionsComponent } from './functions/functions.component';
+import { MatDialogModule } from '@angular/material/dialog';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+
 
 @NgModule({
   declarations: [
     AppComponent,
     HomeComponent,
     NotfoundComponent,
-    FunctionsComponent
+    FunctionsComponent,
+    OptionsComponent
   ],
   imports: [
     BrowserModule,
@@ -27,7 +32,9 @@ import { FunctionsComponent } from './functions/functions.component';
     MatCardModule,
     MatButtonModule,
     MatIconModule,
-    MatSidenavModule
+    MatSidenavModule,
+    MatDialogModule,
+    MatSlideToggleModule
   ],
   providers: [],
   bootstrap: [AppComponent]
