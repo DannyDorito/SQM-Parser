@@ -7,10 +7,10 @@ import { Component, OnInit } from '@angular/core';
 })
 export class HomeComponent implements OnInit {
   selectedFile: any;
-  onFileChanged(event) {
+  onFileChanged(event: any) {
     const fileReader = new FileReader();
     fileReader.readAsText(event.target.files[0], 'UTF-8');
-    fileReader.onload = function(fileReaderEvent) {
+    fileReader.onload = function(fileReaderEvent: any) {
       localStorage.setItem('text', fileReaderEvent.target.result);
     };
     this.selectedFile = localStorage.getItem('text');
