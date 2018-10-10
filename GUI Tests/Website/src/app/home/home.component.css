@@ -1,4 +1,23 @@
+div {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 45vh;
+}
+
 input {
-  font-size: inherit;
-  font: inherit;
+  width: 0.1px;
+  height: 0.1px;
+  opacity: 0;
+  overflow: hidden;
+  position: absolute;
+  z-index: -1;
+}
+
+input,
+label {
+  font-size: 28px;
+  font-weight: 700;
+  background-color: #78866B;
+  padding: 5px;
 }

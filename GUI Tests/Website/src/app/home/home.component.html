@@ -1,2 +1,6 @@
-<input type="file" accept=".sqm" #fileInput (change)="onFileChanged($event)"> <!--https://www.academind.com/learn/angular/snippets/angular-image-upload-made-easy/-->
+<div>
+  <input type="file" accept=".sqm" id="fileSelect" (change)="onFileChanged($event)">
+  <!--https://www.academind.com/learn/angular/snippets/angular-image-upload-made-easy/-->
+  <label for="fileSelect">Select a file</label>
+</div>
 <h1 *ngIf="selectedFile">{{selectedFile.name}}</h1>
