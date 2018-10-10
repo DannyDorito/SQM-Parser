@@ -12,7 +12,9 @@
   </mat-drawer>
   <mat-drawer-content>
     <div class="homeheader">
-      <h1 class="headline unselectable">SQM Parser</h1>
+      <h1 class="headline unselectable">SQM Parser
+        <mat-icon class="unselectable" [routerLink]="['/options']">settings</mat-icon>
+      </h1>
     </div>
     <router-outlet></router-outlet>
   </mat-drawer-content>
