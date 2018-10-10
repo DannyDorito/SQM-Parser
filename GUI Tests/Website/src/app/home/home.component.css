@@ -3,6 +3,7 @@ div {
   justify-content: center;
   align-items: center;
   margin-top: 45vh;
+  flex-direction: column;
 }
 
 input {
@@ -20,4 +21,12 @@ label {
   font-weight: 700;
   background-color: #78866B;
   padding: 5px;
+}
+
+h1 {
+  text-align: center;
+}
+
+button {
+  margin-top: 5px;
 }
