@@ -3,12 +3,12 @@ import { RouterModule, Routes } from '@angular/router';
 import { NotFoundComponent } from './not-found/not-found.component';
 import { OptionsComponent } from './options/options.component';
 import { FunctionsComponent } from './functions/functions.component';
-import { AppComponent } from './app.component';
+import { HomeComponent } from './home/home.component';
 
 const routes: Routes = [
   { path: 'functions', component: FunctionsComponent, data: { title: 'Functions' } },
-  { path: 'options', component: OptionsComponent, data: { title: 'Functions' } },
-  { path: '', component: AppComponent, data: { title: 'Home' } },
+  { path: 'options', component: OptionsComponent, data: { title: 'Options' } },
+  { path: '', component: HomeComponent, data: { title: 'Home' } },
   { path: '**', component: NotFoundComponent, data: { title: 'Not Found' } }
 ];
 @NgModule({

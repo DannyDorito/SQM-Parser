@@ -1,8 +1,16 @@
-<div class="sidenav">
-  <div class="sidenav-header">Header</div>
-  <div class="sidenav-content">Content</div>
-  <div class="sidenav-footer">Footer</div>
-</div>
-<div>
-  <h1>SQM Parser</h1>
+<div class="parent">
+  <div class="sidenav">
+    <div class="sidenav-header">
+      <h1>SQM Parser</h1>
+    </div>
+    <div class="sidenav-content">
+      <app-functions></app-functions>
+    </div>
+    <div class="sidenav-footer">
+      Footer
+    </div>
+  </div>
+  <div class="content">
+    <router-outlet></router-outlet>
+  </div>
 </div>

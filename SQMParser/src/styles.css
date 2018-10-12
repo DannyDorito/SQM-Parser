@@ -2,17 +2,13 @@ body {
   margin: 0;
   font-family: 'Roboto', sans-serif;
   background-color: white;
-}
-
-div {
-  display: flex;
+  height: 100vh;
   text-align: center;
-  flex-direction: row;
-  justify-content: space-between;
 }
 
 h1 {
   text-align: center;
+  margin: 0;
 }
 
 .unselectable {

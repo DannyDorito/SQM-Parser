@@ -1,25 +1,34 @@
-div {
-  display: block;
+.parent {
+  display: flex;
   flex-direction: row;
-  width: 20vw;
+  height: 100%;
 }
 
-.sidenav-header {
-  background-color: #4c5940;
-  height: 30%;
-}
-
-.sidenav-content {
-  background-color: #78866B;
-  height: 60%;
-}
-
-.sidenav-footer {
-  background-color: #4c5940;
-  height: 10%;
+.content {
+  width: 80%;
 }
 
 .sidenav {
-  height: 100vh;
-  flex-direction: column;
+  width: 20%;
+  min-width: 120px;
+}
+
+.sidenav-header {
+  height: 15%;
+  background-color: #78866B;
+  text-align: center;
+}
+
+.sidenav-header h1 {
+  padding: 7.5%;
+}
+
+.sidenav-content {
+  height: 70%;
+  background-color: #4c5940;
+}
+
+.sidenav-footer {
+  height: 15%;
+  background-color: #78866B;
 }
