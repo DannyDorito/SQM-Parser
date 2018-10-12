@@ -1,0 +1,25 @@
+div {
+  display: block;
+  flex-direction: row;
+  width: 20vw;
+}
+
+.sidenav-header {
+  background-color: #4c5940;
+  height: 30%;
+}
+
+.sidenav-content {
+  background-color: #78866B;
+  height: 60%;
+}
+
+.sidenav-footer {
+  background-color: #4c5940;
+  height: 10%;
+}
+
+.sidenav {
+  height: 100vh;
+  flex-direction: column;
+}
