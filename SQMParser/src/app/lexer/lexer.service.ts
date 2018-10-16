@@ -23,6 +23,10 @@ const tokens = [
   providedIn: 'root'
 })
 export class LexerService {
+  /** Returns {type: x, value: y} found by the 'tokens' regex
+   * Based on:
+   * http://www.thinksincode.com/2016/10/30/create-a-basic-lexer.html Accessed 16th October 2018
+  */
   getTokens(input: string[]) {
     const foundTokens = [];
     input.forEach(inputElement => {
@@ -35,6 +39,10 @@ export class LexerService {
     return foundTokens;
   }
 
+  /** Outputs tokens found by the token regex to the console
+   * Based on:
+   * http://www.thinksincode.com/2016/10/30/create-a-basic-lexer.html Accessed 16th October 2018
+  */
   getTokensToConsole(input: string[]) {
     input.forEach(inputElement => {
       tokens.forEach(token => {
@@ -43,5 +51,10 @@ export class LexerService {
         }
       });
     });
+  }
+
+  /** Checks input to see if it matches version regex */
+  checkIfValidSQMFile(input: string[]) {
+    return /(version\s*=\s*)[0-99]/.test(input[0]);
   }
 }

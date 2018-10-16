@@ -12,21 +12,27 @@ export class HomeComponent implements OnInit {
 
   constructor(private lexer: LexerService) {}
 
-  // Based on: https://www.academind.com/learn/angular/snippets/angular-image-upload-made-easy/ Accessed 9th October 2018
+  /** Fired when a file has been selected by the user's $event
+   * Based on:
+   * https://www.academind.com/learn/angular/snippets/angular-image-upload-made-easy/ Accessed 9th October 2018
+   * https://stackoverflow.com/a/27439524 Accessed 16th October 2018
+   */
   onFileChanged(fileChangeEvent: any) {
     const fileReader = new FileReader();
-    // Based on: https://stackoverflow.com/a/27439524 Accessed 16th October 2018
     fileReader.onload = (function(f) {
       return function(readerEvent) {
         this.selectedFile = readerEvent.target.result;
       };
     })(fileChangeEvent.target.files[0]);
     fileReader.readAsText(fileChangeEvent.target.files[0], 'UTF-8');
-    const vars = [' ', '1.111', '5.0800736e-008', ',', ':', '[', 'version=53', '{'];
-    this.lexer.getTokensToConsole(vars);
+
+    const vars = ['version=53;'];
+    console.log(this.lexer.checkIfValidSQMFile(vars));
   }
 
   ngOnInit() {
+    const vars = [' ', '1.111', '5.0800736e-008', ',', ':', '[', 'version=53', '{'];
+    this.lexer.getTokensToConsole(vars);
   }
 
   loadFromLocalStorage() {
