@@ -2,10 +2,14 @@ import { Injectable } from '@angular/core';
 
 const tokens = [
   { regex: /^\s+/, tokenType: 'WHITESPACE' },
-  { regex: /^[{}]/, tokenType: 'BRACE' },
+  { regex: /[\r\n]+/, tokenType: 'EOL' },
+  { regex: /^[{]/, tokenType: 'START_BRACE' },
+  { regex: /^[}]/, tokenType: 'END_BRACE' },
   { regex: /^[\[\]]/, tokenType: 'BRACKET' },
-  { regex: /^:/, tokenType: 'COLON' },
+  { regex: /;$/, tokenType: 'SEMICOLON' },
+  { regex: /=/, tokenType: 'EQUALS' },
   { regex: /^,/, tokenType: 'COMMA' },
+  { regex: /,$/, tokenType: 'TRAILING_COMMA' },
   // { regex: /[0-9]/, tokenType: 'MISSION'},
   { regex: /(version\s*=\s*)[0-99]/, tokenType: 'VERSION'},
   // { regex: /[0-9]/, tokenType: 'VARIABLE'},
@@ -16,8 +20,8 @@ const tokens = [
   // { regex: /[0-9]/, tokenType: 'PRIMITIVE'},
   // { regex: /[0-9]/, tokenType: 'VARIABLE_NAME'},
   { regex: /[+\-]?(?:0|[1-9]\d*)(?:\.\d*)?(?:[eE][+\-]?\d+)?/, tokenType: 'NUMBER'},
-  // { regex: /[0-9]/, tokenType: 'BOOLEAN'},
-  // { regex: /[0-9]/, tokenType: 'STRING'}
+  { regex: /^true|false/, tokenType: 'BOOLEAN'},
+  { regex: /^"(?:\\.|[^"])*"/, tokenType: 'STRING'}
 ];
 @Injectable({
   providedIn: 'root'
@@ -47,7 +51,7 @@ export class LexerService {
     input.forEach(inputElement => {
       tokens.forEach(token => {
         if (token.regex.test(inputElement)) {
-          console.log('Found: "' + inputElement + '", Matching: ' + token.tokenType);
+          console.log('Found: ' + inputElement + ' Matching: ' + token.tokenType);
         }
       });
     });

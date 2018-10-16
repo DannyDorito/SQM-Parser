@@ -31,7 +31,7 @@ export class HomeComponent implements OnInit {
   }
 
   ngOnInit() {
-    const vars = [' ', '1.111', '5.0800736e-008', ',', ':', '[', 'version=53', '{'];
+    const vars = [' ', '5.0800736e-008', 'word,', ':', '[', 'version=53;', '{', 'false', '"string"'];
     this.lexer.getTokensToConsole(vars);
   }
 
