@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { isNullOrUndefined } from 'util';
 
 @Component({
   selector: 'app-home',
@@ -7,6 +8,7 @@ import { Component, OnInit } from '@angular/core';
 })
 export class HomeComponent implements OnInit {
   selectedFile: any;
+  localStorageFileName = 'text';
 
   onFileChanged(event: any) {
     // Based on: https://www.academind.com/learn/angular/snippets/angular-image-upload-made-easy/ Accessed 9th October 2018
@@ -15,10 +17,19 @@ export class HomeComponent implements OnInit {
     fileReader.onload = function(fileReaderEvent: any) {
       localStorage.setItem('text', fileReaderEvent.target.result);
     };
-    this.selectedFile = localStorage.getItem('text');
+    this.selectedFile = localStorage.getItem(this.localStorageFileName);
   }
 
   ngOnInit() {
-    this.selectedFile = localStorage.getItem('text');
+    this.loadFromLocalStorage();
+  }
+
+  loadFromLocalStorage() {
+    if (!isNullOrUndefined(this.selectedFile)) {
+      this.selectedFile = localStorage.getItem(this.localStorageFileName);
+      return true;
+    } else {
+      return false;
+    }
   }
 }
