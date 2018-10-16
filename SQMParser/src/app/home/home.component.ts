@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { LexerService } from '../lexer/lexer.service';
 
 @Component({
   selector: 'app-home',
@@ -8,6 +9,8 @@ import { Component, OnInit } from '@angular/core';
 export class HomeComponent implements OnInit {
   selectedFile: any;
   localStorageFileName = 'text';
+
+  constructor(private lexer: LexerService) {}
 
   // Based on: https://www.academind.com/learn/angular/snippets/angular-image-upload-made-easy/ Accessed 9th October 2018
   onFileChanged(fileChangeEvent: any) {
@@ -19,10 +22,11 @@ export class HomeComponent implements OnInit {
       };
     })(fileChangeEvent.target.files[0]);
     fileReader.readAsText(fileChangeEvent.target.files[0], 'UTF-8');
+    const vars = [' ', '1.111', '5.0800736e-008', ',', ':', '[', 'version=53', '{'];
+    this.lexer.getTokensToConsole(vars);
   }
 
   ngOnInit() {
-    // this.loadFromLocalStorage();
   }
 
   loadFromLocalStorage() {
@@ -35,6 +39,6 @@ export class HomeComponent implements OnInit {
   }
 
   saveLocalStorage(file: any) {
-    localStorage.setItem(this.localStorageFileName, file)
+    localStorage.setItem(this.localStorageFileName, file);
   }
 }
