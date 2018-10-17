@@ -17,29 +17,31 @@ export class HomeComponent implements OnInit {
     // this.lexer.getTokensToConsole(vars);
   }
 
-  /** Fired when a file has been selected by the user's $event
+  /**
+   * Fired when a file has been selected by the user's $event
    * Based on:
    * https://www.academind.com/learn/angular/snippets/angular-image-upload-made-easy/ Accessed 9th October 2018
    * https://stackoverflow.com/a/27439524 Accessed 16th October 2018
+   * https://www.typescriptlang.org/docs/handbook/declaration-files/do-s-and-don-ts.html Accessed 17th October 2018
    */
   onFileChanged(fileChangeEvent: any) {
     const fileReader = new FileReader();
-    fileReader.onload = (function(f: any) {
-      return function(readerEvent: any) {
-        this.selectedFile = readerEvent.target.result;
-      };
-    })(fileChangeEvent.target.files[0]);
-
+    fileReader.onload = () => {
+      this.selectedFile = fileReader.result;
+      this.parseFile(this.selectedFile);
+    };
     fileReader.readAsText(fileChangeEvent.target.files[0], 'UTF-8');
-
-    const vars = ['version=53;'];
     // console.log(this.lexer.hasVersion(this.selectedFile));
-    console.log(this.lexer.hasVersion(vars));
-
   }
 
-  parseFile(file: string) {
+  /**
+   * Asynchronously trims each element of array
+   */
+  async parseFile(file: string) {
     const split = file.split('\n');
+    split.forEach(element => {
+      element = element.trim();
+    });
     console.log(split);
   }
 

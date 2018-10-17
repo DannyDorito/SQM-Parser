@@ -27,7 +27,8 @@ const tokens = [
   providedIn: 'root'
 })
 export class LexerService {
-  /** Returns {type: x, value: y} found by the 'tokens' regex
+  /**
+   * Returns {type: x, value: y} found by the 'tokens' regex
    * Based on:
    * http://www.thinksincode.com/2016/10/30/create-a-basic-lexer.html Accessed 16th October 2018
   */
@@ -36,18 +37,19 @@ export class LexerService {
     input.forEach(inputElement => {
       tokens.forEach(token => {
         if (token.regex.test(inputElement)) {
-          foundTokens.push({ type: token.tokenType, value: inputElement});
+          foundTokens.push({ type: token.tokenType, value: inputElement });
         }
       });
     });
     return foundTokens;
   }
 
-  /** Outputs tokens found by the token regex to the console
+  /**
+   * Outputs tokens found by the token regex to the console
    * Based on:
    * http://www.thinksincode.com/2016/10/30/create-a-basic-lexer.html Accessed 16th October 2018
   */
-  getTokensToConsole(input: string[]) {
+  async getTokensToConsole(input: string[]) {
     input.forEach(inputElement => {
       tokens.forEach(token => {
         if (token.regex.test(inputElement)) {
@@ -57,8 +59,10 @@ export class LexerService {
     });
   }
 
-  /** Checks input to see if it matches version regex */
-  hasVersion(input: string[]) {
+  /**
+   * Checks input to see if it matches version regex
+   */
+  async hasVersion(input: string[]) {
     const regex = /(version\s*=\s*)[0-99]/;
     return regex.test(input[0]);
   }
