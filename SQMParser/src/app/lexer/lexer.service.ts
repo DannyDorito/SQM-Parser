@@ -45,7 +45,7 @@ export class LexerService {
   }
 
   /**
-   * Outputs tokens found by the token regex to the console
+   * Asynchronously outputs tokens found by the token regex to the console
    * Based on:
    * http://www.thinksincode.com/2016/10/30/create-a-basic-lexer.html Accessed 16th October 2018
   */

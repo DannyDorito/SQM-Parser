@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { LexerService } from '../lexer/lexer.service';
 
 @Component({
@@ -6,12 +6,8 @@ import { LexerService } from '../lexer/lexer.service';
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.css']
 })
-export class HomeComponent implements OnInit {
-  localStorageFileName = 'text';
-
+export class HomeComponent {
   constructor(private lexer: LexerService) {}
-
-  ngOnInit() {}
 
   /**
    * Fired when a file has been selected by the user's $event
