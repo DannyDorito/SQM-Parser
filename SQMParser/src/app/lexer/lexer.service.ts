@@ -61,8 +61,8 @@ export class LexerService {
   /**
    * Checks input to see if it matches version regex
    */
-  async hasVersion(input: string[]) {
-    const regex = /(version\s*=\s*)[0-99]/;
-    return regex.test(input[0]);
+  hasVersion(input: string) {
+    const regex = /(version\s*=\s*)(?:0|[1-9]\d*)/;
+    return regex.test(input);
   }
 }

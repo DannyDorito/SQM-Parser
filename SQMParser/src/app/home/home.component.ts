@@ -36,13 +36,16 @@ export class HomeComponent implements OnInit {
 
   /**
    * Asynchronously trims each element of array
+   * Based on:
+   * https://www.textfixer.com/tutorials/javascript-line-breaks.php Accessed 17th October 2018
    */
-  async parseFile(file: string) {
-    const split = file.split('\n');
-    split.forEach(element => {
-      element = element.trim();
+  async parseFile(fileString: string) {
+    const fileArray = fileString.split('\n');
+    fileArray.forEach(element => {
+      // element = element.trim();
+      element = element.replace(/(\r\n|\n|\r)/gm, ' ');
     });
-    console.log(split);
+    return fileArray;
   }
 
   loadFromLocalStorage() {
