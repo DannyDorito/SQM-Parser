@@ -4,5 +4,36 @@
 			"path": "."
 		}
 	],
-	"settings": {}
+	"settings": {
+		"cSpell.enabledLanguageIds": [
+			"asciidoc",
+			"bat",
+			"c",
+			"cpp",
+			"csharp",
+			"css",
+			"go",
+			"handlebars",
+			"html",
+			"jade",
+			"javascript",
+			"javascriptreact",
+			"json",
+			"jsonc",
+			"latex",
+			"less",
+			"markdown",
+			"php",
+			"properties",
+			"pub",
+			"python",
+			"restructuredtext",
+			"rust",
+			"scss",
+			"text",
+			"typescript",
+			"typescriptreact",
+			"yml"
+		]
+	}
 }
