@@ -17,3 +17,19 @@ h1 {
   -moz-user-select: none;
   -ms-user-select: none;
 }
+
+button {
+  background-color: #78866B;
+  border: 0;
+  font-size: 28px;
+  font-family: inherit;
+  max-width: 100px;
+}
+
+button:focus {
+  outline: none;
+}
+
+button:hover {
+  background-color: #4c5940;
+}
