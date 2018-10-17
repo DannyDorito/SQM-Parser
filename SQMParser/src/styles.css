@@ -33,3 +33,8 @@ button:focus {
 button:hover {
   background-color: #4c5940;
 }
+
+p {
+  margin: 0;
+  padding-bottom: 10px;
+}

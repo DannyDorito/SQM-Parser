@@ -4,10 +4,11 @@
       <h1>SQM Parser</h1>
     </div>
     <div class="sidenav-content">
-      <app-functions></app-functions>
+      <app-functions *ngIf="!isOptions"></app-functions>
+      <app-options *ngIf="isOptions"></app-options>
     </div>
     <div class="sidenav-footer">
-      Footer
+      <button (click)="changeOptions()">Options</button>
     </div>
   </div>
   <div class="content">
