@@ -7,7 +7,6 @@ import { LexerService } from '../lexer/lexer.service';
   styleUrls: ['./home.component.css']
 })
 export class HomeComponent implements OnInit {
-  selectedFile: any;
   localStorageFileName = 'text';
 
   constructor(private lexer: LexerService) {}
@@ -24,43 +23,28 @@ export class HomeComponent implements OnInit {
   onFileChanged(fileChangeEvent: any) {
     const fileReader = new FileReader();
     fileReader.onload = () => {
-      this.selectedFile = fileReader.result;
-      this.parseFile(this.selectedFile);
+      const parsedFile = this.parseFile(fileReader.result as string);
+      if (this.lexer.hasVersionRegex(parsedFile[0])) {
+        this.lexer.getTokensToConsoleRegex(parsedFile);
+      }
     };
-    fileReader.readAsText(fileChangeEvent.target.files[0], 'UTF-8');
-    // console.log(this.lexer.hasVersion(this.selectedFile));
+    fileReader.onerror = () => {
+      console.log('error loading');
+    };
+    fileReader.readAsText(fileChangeEvent.target.files[0]);
   }
 
   /**
-   * Asynchronously trims each element of array
+   * Trims each element of array
    * Based on:
    * https://www.textfixer.com/tutorials/javascript-line-breaks.php Accessed 17th October 2018
    */
-  async parseFile(fileString: string): Promise<string[]> {
+  parseFile(fileString: string) {
     const fileArray = fileString.split('\n');
     fileArray.forEach(element => {
-      // element = element.trim();
+      element = element.trim();
       element = element.replace(/(\r\n|\n|\r)/gm, ' ');
     });
     return fileArray;
-  }
-
-    /**
-   * Loads uploaded file from localStorage
-   */
-  loadFromLocalStorage(localStorageFileName: string) {
-    if (this.selectedFile !== null && this.selectedFile !== '') {
-      this.selectedFile = localStorage.getItem(localStorageFileName);
-      return true;
-    } else {
-      return false;
-    }
-  }
-
-  /**
-   * Saves uploaded file to localStorage
-   */
-  saveLocalStorage(file: any, localStorageFileName: string) {
-    localStorage.setItem(localStorageFileName, file);
   }
 }
