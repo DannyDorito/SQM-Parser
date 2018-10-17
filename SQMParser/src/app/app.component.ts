@@ -9,12 +9,12 @@ export class AppComponent implements OnInit {
   isOptions = false;
 
   ngOnInit() {
-    if (!this.hasLocalStorage('sqm_hasOptions')) {
-      localStorage.setItem('sqm_hasOptions', 'true');
+    if (!this.hasLocalStorage('SQM_hasOptions')) {
+      localStorage.setItem('SQM_hasOptions', 'y');
     }
   }
 
-  changeOptions() {
+  changeView() {
     if (this.isOptions) {
       this.isOptions = false;
     } else {
@@ -24,7 +24,8 @@ export class AppComponent implements OnInit {
 
   hasLocalStorage(accessor: string) {
     const storageItem = localStorage.getItem(accessor);
-    if (storageItem === '') {
+    console.log(localStorage.getItem(accessor));
+    if (storageItem === null) {
       return false;
     } else {
       return true;
