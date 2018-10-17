@@ -9,10 +9,10 @@
       "urls": [
         "https://dannydorito.github.io/SQM-Parser/favicon.ico",
         "https://dannydorito.github.io/SQM-Parser/index.html",
-        "https://dannydorito.github.io/SQM-Parser/main.4ad8d13fca510220dcd1.js",
+        "https://dannydorito.github.io/SQM-Parser/main.c1061db68b9175193cd9.js",
         "https://dannydorito.github.io/SQM-Parser/polyfills.f6ae3e8b63939c618130.js",
         "https://dannydorito.github.io/SQM-Parser/runtime.ec2944dd8b20ec099bf3.js",
-        "https://dannydorito.github.io/SQM-Parser/styles.c8506aeb0430a2cf83cd.css"
+        "https://dannydorito.github.io/SQM-Parser/styles.3c0fa10dd96b46416657.css"
       ],
       "patterns": []
     },
@@ -44,11 +44,11 @@
     "https://dannydorito.github.io/SQM-Parser/assets/icons/icon-72x72.png": "c457e56089a36952cd67156f9996bc4ce54a5ed9",
     "https://dannydorito.github.io/SQM-Parser/assets/icons/icon-96x96.png": "3914125a4b445bf111c5627875fc190f560daa41",
     "https://dannydorito.github.io/SQM-Parser/favicon.ico": "84161b857f5c547e3699ddfbffc6d8d737542e01",
-    "https://dannydorito.github.io/SQM-Parser/index.html": "1911a278ae5b0a53b047d6853bffdc99dc3910ea",
-    "https://dannydorito.github.io/SQM-Parser/main.4ad8d13fca510220dcd1.js": "cd1968a3a64e4e2f30eb0cd20089cb51960c958e",
+    "https://dannydorito.github.io/SQM-Parser/index.html": "3e2560fba7b6bc4f1a3b1310f7ec8770136de367",
+    "https://dannydorito.github.io/SQM-Parser/main.c1061db68b9175193cd9.js": "b74af3319db5376922b6f05dd22ddcff69253d9a",
     "https://dannydorito.github.io/SQM-Parser/polyfills.f6ae3e8b63939c618130.js": "ef2035f0504b4f77eac510c33595c81a5d09e33f",
     "https://dannydorito.github.io/SQM-Parser/runtime.ec2944dd8b20ec099bf3.js": "b62956c2192bfe5516d6374e753773901ed50ec5",
-    "https://dannydorito.github.io/SQM-Parser/styles.c8506aeb0430a2cf83cd.css": "26a04fdd2795bc80d4edc55741943526693b956b"
+    "https://dannydorito.github.io/SQM-Parser/styles.3c0fa10dd96b46416657.css": "a330f0d0425b296e9fe472c6226da8ae92f6afdb"
   },
   "navigationUrls": [
     {
