@@ -36,10 +36,9 @@ export class HomeComponent {
    * https://www.textfixer.com/tutorials/javascript-line-breaks.php Accessed 17th October 2018
    */
   parseFile(fileString: string) {
-    const fileArray = fileString.split('\n');
+    const fileArray = fileString.split('\r\n');
     fileArray.forEach(element => {
       element = element.trim();
-      element = element.replace(/(\r\n|\n|\r)/gm, ' ');
     });
     return fileArray;
   }
