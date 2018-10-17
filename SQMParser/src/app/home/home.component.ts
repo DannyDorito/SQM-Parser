@@ -12,6 +12,11 @@ export class HomeComponent implements OnInit {
 
   constructor(private lexer: LexerService) {}
 
+  ngOnInit() {
+    // const vars = [' ', '5.0800736e-008', 'word,', ':', '[', 'version=53;', '{', 'false', '"string"'];
+    // this.lexer.getTokensToConsole(vars);
+  }
+
   /** Fired when a file has been selected by the user's $event
    * Based on:
    * https://www.academind.com/learn/angular/snippets/angular-image-upload-made-easy/ Accessed 9th October 2018
@@ -19,20 +24,23 @@ export class HomeComponent implements OnInit {
    */
   onFileChanged(fileChangeEvent: any) {
     const fileReader = new FileReader();
-    fileReader.onload = (function(f) {
-      return function(readerEvent) {
+    fileReader.onload = (function(f: any) {
+      return function(readerEvent: any) {
         this.selectedFile = readerEvent.target.result;
       };
     })(fileChangeEvent.target.files[0]);
+
     fileReader.readAsText(fileChangeEvent.target.files[0], 'UTF-8');
 
     const vars = ['version=53;'];
-    console.log(this.lexer.checkIfValidSQMFile(vars));
+    // console.log(this.lexer.hasVersion(this.selectedFile));
+    console.log(this.lexer.hasVersion(vars));
+
   }
 
-  ngOnInit() {
-    const vars = [' ', '5.0800736e-008', 'word,', ':', '[', 'version=53;', '{', 'false', '"string"'];
-    this.lexer.getTokensToConsole(vars);
+  parseFile(file: string) {
+    const split = file.split('\n');
+    console.log(split);
   }
 
   loadFromLocalStorage() {

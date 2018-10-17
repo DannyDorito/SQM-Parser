@@ -58,7 +58,8 @@ export class LexerService {
   }
 
   /** Checks input to see if it matches version regex */
-  checkIfValidSQMFile(input: string[]) {
-    return /(version\s*=\s*)[0-99]/.test(input[0]);
+  hasVersion(input: string[]) {
+    const regex = /(version\s*=\s*)[0-99]/;
+    return regex.test(input[0]);
   }
 }
