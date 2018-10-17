@@ -31,7 +31,7 @@ export class LexerService {
    * Based on:
    * http://www.thinksincode.com/2016/10/30/create-a-basic-lexer.html Accessed 16th October 2018
   */
-  getTokens(input: string[]) {
+  getTokensRegex(input: string[]) {
     const foundTokens = [];
     input.forEach(inputElement => {
       tokens.forEach(token => {
@@ -48,7 +48,7 @@ export class LexerService {
    * Based on:
    * http://www.thinksincode.com/2016/10/30/create-a-basic-lexer.html Accessed 16th October 2018
   */
-  async getTokensToConsole(input: string[]) {
+  async getTokensToConsoleRegex(input: string[]): Promise<void> {
     input.forEach(inputElement => {
       tokens.forEach(token => {
         if (token.regex.test(inputElement)) {
@@ -61,7 +61,7 @@ export class LexerService {
   /**
    * Checks input to see if it matches version regex
    */
-  hasVersion(input: string) {
+  hasVersionRegex(input: string) {
     const regex = /(version\s*=\s*)(?:0|[1-9]\d*)/;
     return regex.test(input);
   }

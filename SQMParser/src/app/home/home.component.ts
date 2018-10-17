@@ -12,10 +12,7 @@ export class HomeComponent implements OnInit {
 
   constructor(private lexer: LexerService) {}
 
-  ngOnInit() {
-    // const vars = [' ', '5.0800736e-008', 'word,', ':', '[', 'version=53;', '{', 'false', '"string"'];
-    // this.lexer.getTokensToConsole(vars);
-  }
+  ngOnInit() {}
 
   /**
    * Fired when a file has been selected by the user's $event
@@ -39,7 +36,7 @@ export class HomeComponent implements OnInit {
    * Based on:
    * https://www.textfixer.com/tutorials/javascript-line-breaks.php Accessed 17th October 2018
    */
-  async parseFile(fileString: string) {
+  async parseFile(fileString: string): Promise<string[]> {
     const fileArray = fileString.split('\n');
     fileArray.forEach(element => {
       // element = element.trim();
@@ -48,16 +45,22 @@ export class HomeComponent implements OnInit {
     return fileArray;
   }
 
-  loadFromLocalStorage() {
+    /**
+   * Loads uploaded file from localStorage
+   */
+  loadFromLocalStorage(localStorageFileName: string) {
     if (this.selectedFile !== null && this.selectedFile !== '') {
-      this.selectedFile = localStorage.getItem(this.localStorageFileName);
+      this.selectedFile = localStorage.getItem(localStorageFileName);
       return true;
     } else {
       return false;
     }
   }
 
-  saveLocalStorage(file: any) {
-    localStorage.setItem(this.localStorageFileName, file);
+  /**
+   * Saves uploaded file to localStorage
+   */
+  saveLocalStorage(file: any, localStorageFileName: string) {
+    localStorage.setItem(localStorageFileName, file);
   }
 }
