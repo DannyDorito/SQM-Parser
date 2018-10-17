@@ -67,6 +67,42 @@ export class LexerService {
   }
 
   /**
+   * Returns {type: x, value: y} found by the 'primitives' regex
+   * Based on:
+   * http://www.thinksincode.com/2016/10/30/create-a-basic-lexer.html Accessed 16th October 2018
+  */
+  getPrimitivesRegex(input: string[]) {
+    const foundPrimitives = [];
+    input.forEach(inputElement => {
+      primitives.forEach(primitive => {
+        const regexResult = primitive.regex.exec(inputElement);
+        if (regexResult !== null) {
+          foundPrimitives.push({ type: primitive.tokenType, value: regexResult });
+        }
+      });
+    });
+    return foundPrimitives;
+  }
+
+  /**
+   * Asynchronously outputs primitives found by the primitives regex to the console
+   * Based on:
+   * http://www.thinksincode.com/2016/10/30/create-a-basic-lexer.html Accessed 16th October 2018
+  */
+  async getPrimitivesToConsoleRegex(input: string[]): Promise<void> {
+    input.forEach(inputElement => {
+      primitives.forEach(primitive => {
+        const regexResult = primitive.regex.exec(inputElement);
+        if (regexResult !== null) {
+          regexResult.forEach(result => {
+            console.log('Found: ' + primitive.tokenType + ' Matching: ' + result.toString());
+          });
+        }
+      });
+    });
+  }
+
+  /**
    * Checks input to see if it matches version regex
    */
   hasVersionRegex(input: string) {
