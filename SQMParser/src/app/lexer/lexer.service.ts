@@ -17,6 +17,7 @@ const tokens = [
   { regex: /(?:\\.|[^"])*(\s*)=(\s*)(true|false)/, tokenType: 'BOOLEAN'},
   { regex: /"(?:\\.|[^"])*"/, tokenType: 'PRIMITIVE_STRING'},
   { regex: /(?:\\.|[^"])*(\s*)=(\s*)"(?:\\.|[^"])*"/, tokenType: 'STRING'},
+  { regex: /class (?:\\.|[^"])*/, tokenType: 'CLASS'},
   { regex: /(version\s*=\s*)(?:0|[1-9]\d*)/, tokenType: 'VERSION'},
   { regex: /addOns\[\]\s*=\s*{[\r\n]*("(?:\\.|[^"])*",[\r\n]*|"(?:\\.|[^"])*")+([\r\n]*};)/, tokenType: 'ADDONS'},
   { regex: /addOnsAuto\[\]\s*=\s*{[\r\n]*("(?:\\.|[^"])*",[\r\n]*|"(?:\\.|[^"])*")+([\r\n]*};)/, tokenType: 'ADDONS_AUTO'},
