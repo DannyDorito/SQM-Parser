@@ -5,17 +5,17 @@
 }
 
 .content {
-  width: 80%;
+  width: 85%;
 }
 
 .sidenav {
-  width: 20%;
+  width: 15%;
   min-width: 120px;
 }
 
 .sidenav-header {
   height: 15%;
-  background-color: #78866B;
+  background-color: #4c5940;
   text-align: center;
 }
 
@@ -25,10 +25,19 @@
 
 .sidenav-content {
   height: 70%;
-  background-color: #4c5940;
+  background-color: #78866B;
 }
 
 .sidenav-footer {
   height: 15%;
+  background-color: #4c5940;
+}
+
+button {
+  margin-top: 10px;
+  background-color: #4c5940;
+}
+
+button:active {
   background-color: #78866B;
 }

@@ -7,6 +7,7 @@ import { Component, OnInit } from '@angular/core';
 })
 export class AppComponent implements OnInit {
   isOptions = false;
+  isOptionsText = 'Options';
 
   ngOnInit() {
     if (!this.hasLocalStorage('SQM_hasOptions')) {
@@ -17,8 +18,10 @@ export class AppComponent implements OnInit {
   changeView() {
     if (this.isOptions) {
       this.isOptions = false;
+      this.isOptionsText = 'Options';
     } else {
       this.isOptions = true;
+      this.isOptionsText = 'Functions';
     }
   }
 

@@ -23,7 +23,6 @@ button {
   border: 0;
   font-size: 28px;
   font-family: inherit;
-  max-width: 100px;
 }
 
 button:focus {
