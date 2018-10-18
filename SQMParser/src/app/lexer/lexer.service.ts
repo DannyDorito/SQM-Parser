@@ -37,13 +37,16 @@ export class LexerService {
   */
   getTokensRegex(input: string[]) {
     const foundTokens = [];
+    let index = 0;
     input.forEach(inputElement => {
       tokens.forEach(token => {
         const regexResult = token.regex.exec(inputElement);
         if (regexResult !== null) {
-          foundTokens.push({ type: token.tokenType, value: regexResult });
+          const newToken = new FoundToken(token.tokenType, regexResult, index);
+          foundTokens.push(newToken);
         }
       });
+      index++;
     });
     return foundTokens;
   }
@@ -54,15 +57,19 @@ export class LexerService {
    * http://www.thinksincode.com/2016/10/30/create-a-basic-lexer.html Accessed 16th October 2018
   */
   async getTokensToConsoleRegex(input: string[]): Promise<void> {
+    let index = 0;
     input.forEach(inputElement => {
       tokens.forEach(token => {
         const regexResult = token.regex.exec(inputElement);
         if (regexResult !== null) {
           regexResult.forEach(result => {
-            console.log('Found: ' + token.tokenType + ' Matching: ' + result.toString());
+            if (result !== '') {
+              console.log('Found: ' + token.tokenType + ' Matching: ' + result.toString() + ' Index: ' + index);
+            }
           });
         }
       });
+      index++;
     });
   }
 
@@ -73,13 +80,16 @@ export class LexerService {
   */
   getPrimitivesRegex(input: string[]) {
     const foundPrimitives = [];
+    let index = 0;
     input.forEach(inputElement => {
       primitives.forEach(primitive => {
         const regexResult = primitive.regex.exec(inputElement);
         if (regexResult !== null) {
-          foundPrimitives.push({ type: primitive.tokenType, value: regexResult });
+          const newToken = new FoundToken(primitive.tokenType, regexResult, index);
+          foundPrimitives.push(newToken);
         }
       });
+      index++;
     });
     return foundPrimitives;
   }
@@ -90,15 +100,19 @@ export class LexerService {
    * http://www.thinksincode.com/2016/10/30/create-a-basic-lexer.html Accessed 16th October 2018
   */
   async getPrimitivesToConsoleRegex(input: string[]): Promise<void> {
+    let index = 0;
     input.forEach(inputElement => {
       primitives.forEach(primitive => {
         const regexResult = primitive.regex.exec(inputElement);
         if (regexResult !== null) {
           regexResult.forEach(result => {
-            console.log('Found: ' + primitive.tokenType + ' Matching: ' + result.toString());
+            if (result !== '') {
+              console.log('Found: ' + primitive.tokenType + ' Matching: ' + result.toString() + ' Index: ' + index);
+            }
           });
         }
       });
+      index++;
     });
   }
 
@@ -108,5 +122,20 @@ export class LexerService {
   hasVersionRegex(input: string) {
     const regex = /(version\s*=\s*)(?:0|[1-9]\d*)/;
     return regex.test(input);
+  }
+}
+
+export class FoundToken {
+  type: string;
+  value: RegExpExecArray;
+  index: number;
+  constructor(
+    _type: string,
+    _value: RegExpExecArray,
+    _index: number
+  ) {
+    this.type = _type;
+    this.value = _value;
+    this.index = _index;
   }
 }
