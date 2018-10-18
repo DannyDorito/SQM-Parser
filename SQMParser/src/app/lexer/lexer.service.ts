@@ -123,6 +123,13 @@ export class LexerService {
     const regex = /(version\s*=\s*)(?:0|[1-9]\d*)/;
     return regex.test(input);
   }
+
+  /**
+   * Filters passed array based on a given string, returns FoundToken[]
+   */
+  findTokenType(passedTokens: FoundToken[], tokenToFind: string) {
+    return passedTokens.filter(passToken => passToken.type === tokenToFind);
+  }
 }
 
 export class FoundToken {
