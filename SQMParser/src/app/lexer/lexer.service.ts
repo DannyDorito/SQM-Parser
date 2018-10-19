@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 
-enum TOKENS {
+enum tokens {
   NUMBER,
   BOOLEAN,
   STRING,
@@ -24,31 +24,31 @@ enum TOKENS {
   PRIMITIVE_BOOLEAN,
   PRIMITIVE_STRING
 }
-const tokens = [
-  { regex: /(?:\\.|[^"])*(\s*)=(\s*)[+\-]?(?:0|[1-9]\d*)(?:\.\d*)?(?:[eE][+\-]?\d+)?/, tokenType: TOKENS.NUMBER },
-  { regex: /(?:\\.|[^"])*(\s*)=(\s*)(true|false);/, tokenType: TOKENS.BOOLEAN },
-  { regex: /(?:\\.|[^"])*(\s*)=(\s*)"(?:\\.|[^"])*";/, tokenType: TOKENS.STRING },
-  { regex: /(?:\\.|[^"])+\[\]\s*=\s*\{[\r\n]*("(?:\\.|[^"])*",[\r\n]*|"(?:\\.|[^"])*"|[+\-]?(?:0|[1-9]\d*)(?:\.\d*)?(?:[eE][+\-]?\d+)?,[\r\n]*|[+\-]?(?:0|[1-9]\d*)(?:\.\d*)?(?:[eE][+\-]?\d+)?|true,[\r\n]*|true|false,[\r\n]*|false)+([\r\n]*)(\})/, tokenType: TOKENS.ARRAY },
-  { regex: /class (?:\\.|[^"])*/, tokenType: TOKENS.CLASS },
+const tokensRegex = [
+  { regex: /(?:\\.|[^"])*(\s*)=(\s*)[+\-]?(?:0|[1-9]\d*)(?:\.\d*)?(?:[eE][+\-]?\d+)?/, tokenType: tokens.NUMBER },
+  { regex: /(?:\\.|[^"])*(\s*)=(\s*)(true|false);/, tokenType: tokens.BOOLEAN },
+  { regex: /(?:\\.|[^"])*(\s*)=(\s*)"(?:\\.|[^"])*";/, tokenType: tokens.STRING },
+  { regex: /(?:\\.|[^"])+\[\]\s*=\s*\{[\r\n]*("(?:\\.|[^"])*",[\r\n]*|"(?:\\.|[^"])*"|[+\-]?(?:0|[1-9]\d*)(?:\.\d*)?(?:[eE][+\-]?\d+)?,[\r\n]*|[+\-]?(?:0|[1-9]\d*)(?:\.\d*)?(?:[eE][+\-]?\d+)?|true,[\r\n]*|true|false,[\r\n]*|false)+([\r\n]*)(\})/, tokenType: tokens.ARRAY },
+  { regex: /class (?:\\.|[^"])*/, tokenType: tokens.CLASS },
   // { regex: /(version\s*=\s*)(?:0|[1-9]\d*);/, tokenType: tokensEnum.VERSION },
   // { regex: /addOns\[\]\s*=\s*{[\r\n]*("(?:\\.|[^"])*",[\r\n]*|"(?:\\.|[^"])*")+([\r\n]*};)/i, tokenType: tokensEnum.ADDONS },
   // { regex: /addOnsAuto\[\]\s*=\s*{[\r\n]*("(?:\\.|[^"])*",[\r\n]*|"(?:\\.|[^"])*")+([\r\n]*};)/i, tokenType: tokensEnum.ADDONS_AUTO },
-  { regex: /#include "(?:\\.|[^"])*"/, tokenType: TOKENS.INCLUDE }
+  { regex: /#include "(?:\\.|[^"])*"/, tokenType: tokens.INCLUDE }
 ];
-const primitives = [
-  { regex: /^\s+/, tokenType: TOKENS.WHITESPACE },
-  { regex: /[\r\n]+/, tokenType: TOKENS.EOL },
-  { regex: /^[{]/, tokenType: TOKENS.START_BRACE },
-  { regex: /^[}]/, tokenType: TOKENS.END_BRACE },
-  { regex: /^[};]/, tokenType: TOKENS.END_BRACE_SEMICOLON },
-  { regex: /^[\[\]]/, tokenType: TOKENS.SQUARE_BRACKET },
-  { regex: /;$/, tokenType: TOKENS.SEMICOLON },
-  { regex: /=/, tokenType: TOKENS.EQUALS },
-  { regex: /^,/, tokenType: TOKENS.COMMA },
-  { regex: /,$/, tokenType: TOKENS.TRAILING_COMMA },
-  { regex: /[+\-]?(?:0|[1-9]\d*)(?:\.\d*)?(?:[eE][+\-]?\d+)?/, tokenType: TOKENS.PRIMITIVE_NUMBER },
-  { regex: /true|false/, tokenType: TOKENS.PRIMITIVE_BOOLEAN },
-  { regex: /"(?:\\.|[^"])*"/, tokenType: TOKENS.PRIMITIVE_STRING },
+const primitivesRegex = [
+  { regex: /^\s+/, tokenType: tokens.WHITESPACE },
+  { regex: /[\r\n]+/, tokenType: tokens.EOL },
+  { regex: /^[{]/, tokenType: tokens.START_BRACE },
+  { regex: /^[}]/, tokenType: tokens.END_BRACE },
+  { regex: /^[};]/, tokenType: tokens.END_BRACE_SEMICOLON },
+  { regex: /^[\[\]]/, tokenType: tokens.SQUARE_BRACKET },
+  { regex: /;$/, tokenType: tokens.SEMICOLON },
+  { regex: /=/, tokenType: tokens.EQUALS },
+  { regex: /^,/, tokenType: tokens.COMMA },
+  { regex: /,$/, tokenType: tokens.TRAILING_COMMA },
+  { regex: /[+\-]?(?:0|[1-9]\d*)(?:\.\d*)?(?:[eE][+\-]?\d+)?/, tokenType: tokens.PRIMITIVE_NUMBER },
+  { regex: /true|false/, tokenType: tokens.PRIMITIVE_BOOLEAN },
+  { regex: /"(?:\\.|[^"])*"/, tokenType: tokens.PRIMITIVE_STRING },
 ];
 @Injectable({
   providedIn: 'root'
@@ -59,21 +59,20 @@ export class LexerService {
    * Based on:
    * http://www.thinksincode.com/2016/10/30/create-a-basic-lexer.html Accessed 16th October 2018
   */
-  getTokensRegex(input: string[]) {
-    const foundTokens = [];
+  getTokensRegex(inputFile: string[]) {
+    const lexemes = [];
     let index = 0;
-    input.forEach(inputElement => {
-      tokens.forEach(token => {
+    inputFile.forEach(inputElement => {
+      tokensRegex.forEach(token => {
         const regexResult = token.regex.exec(inputElement);
         if (regexResult !== null) {
-          const filteredRegex =  regexResult.filter(regRes => regRes !== '');
-          const newToken = new FoundToken(token.tokenType, filteredRegex[0], index);
-          foundTokens.push(newToken);
+          const newToken = new FoundToken(token.tokenType, regexResult[0], index);
+          lexemes.push(newToken);
         }
       });
       index++;
     });
-    return foundTokens;
+    return lexemes;
   }
 
   /**
@@ -81,17 +80,13 @@ export class LexerService {
    * Based on:
    * http://www.thinksincode.com/2016/10/30/create-a-basic-lexer.html Accessed 16th October 2018
   */
-  async getTokensToConsoleRegex(input: string[]): Promise<void> {
+  async getTokensToConsoleRegex(inputFile: string[]) {
     let index = 0;
-    input.forEach(inputElement => {
-      tokens.forEach(token => {
+    inputFile.forEach(inputElement => {
+      tokensRegex.forEach(token => {
         const regexResult = token.regex.exec(inputElement);
         if (regexResult !== null) {
-          regexResult.forEach(result => {
-            if (result !== '') {
-              console.log('Found: ' + token.tokenType + ' Matching: ' + result.toString() + ' Index: ' + index);
-            }
-          });
+          console.log('Found: ' + token.tokenType + ' Matching: ' + regexResult[0] + ' Index: ' + index);
         }
       });
       index++;
@@ -103,21 +98,20 @@ export class LexerService {
    * Based on:
    * http://www.thinksincode.com/2016/10/30/create-a-basic-lexer.html Accessed 16th October 2018
   */
-  getPrimitivesRegex(input: string[]) {
-    const foundPrimitives = [];
+  getPrimitivesRegex(inputFile: string[]) {
+    const lexemes = [];
     let index = 0;
-    input.forEach(inputElement => {
-      primitives.forEach(primitive => {
+    inputFile.forEach(inputElement => {
+      primitivesRegex.forEach(primitive => {
         const regexResult = primitive.regex.exec(inputElement);
         if (regexResult !== null) {
-          const filteredRegex =  regexResult.filter(regRes => regRes !== '');
-          const newToken = new FoundToken(primitive.tokenType, filteredRegex[0], index);
-          foundPrimitives.push(newToken);
+          const newToken = new FoundToken(primitive.tokenType, regexResult[0], index);
+          lexemes.push(newToken);
         }
       });
       index++;
     });
-    return foundPrimitives;
+    return lexemes;
   }
 
   /**
@@ -125,17 +119,13 @@ export class LexerService {
    * Based on:
    * http://www.thinksincode.com/2016/10/30/create-a-basic-lexer.html Accessed 16th October 2018
   */
-  async getPrimitivesToConsoleRegex(input: string[]): Promise<void> {
+  async getPrimitivesToConsoleRegex(input: string[]) {
     let index = 0;
     input.forEach(inputElement => {
-      primitives.forEach(primitive => {
+      primitivesRegex.forEach(primitive => {
         const regexResult = primitive.regex.exec(inputElement);
         if (regexResult !== null) {
-          regexResult.forEach(result => {
-            if (result !== '') {
-              console.log('Found: ' + primitive.tokenType + ' Matching: ' + result.toString() + ' Index: ' + index);
-            }
-          });
+          console.log('Found: ' + primitive.tokenType + ' Matching: ' + regexResult[0] + ' Index: ' + index);
         }
       });
       index++;
@@ -153,17 +143,17 @@ export class LexerService {
   /**
    * Filters passed array based on a given string, returns FoundToken[]
    */
-  findTokenType(passedTokens: FoundToken[], tokenToFind: TOKENS) {
+  findTokenType(passedTokens: FoundToken[], tokenToFind: tokens) {
     return passedTokens.filter(passToken => passToken.type === tokenToFind);
   }
 }
 
 export class FoundToken {
-  type: TOKENS;
+  type: tokens;
   value: string;
   index: number;
   constructor(
-    _type: TOKENS,
+    _type: tokens,
     _value: string,
     _index: number
   ) {
