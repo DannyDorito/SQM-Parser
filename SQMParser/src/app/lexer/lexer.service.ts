@@ -59,7 +59,7 @@ export class LexerService {
    * Based on:
    * http://www.thinksincode.com/2016/10/30/create-a-basic-lexer.html Accessed 16th October 2018
   */
-  getTokensRegex(inputFile: string[]) {
+  getTokens(inputFile: string[]) {
     const lexemes: FoundToken[] = [];
     let index = 0;
     inputFile.forEach(inputElement => {
@@ -83,27 +83,10 @@ export class LexerService {
         if (regexResult !== null) {
           const newToken = new FoundToken(tokensRegex[tokensIndex].tokenType, regexResult[0], inputIndex);
           lexemes.push(newToken);
+          break;
         }
       }
     }
-  }
-
-  /**
-   * Asynchronously outputs tokens found by the token regex to the console
-   * Based on:
-   * http://www.thinksincode.com/2016/10/30/create-a-basic-lexer.html Accessed 16th October 2018
-  */
-  async getTokensToConsoleRegex(inputFile: string[]) {
-    let index = 0;
-    inputFile.forEach(inputElement => {
-      tokensRegex.forEach(token => {
-        const regexResult = token.regex.exec(inputElement);
-        if (regexResult !== null) {
-          console.log('Found: ' + token.tokenType + ' Matching: ' + regexResult[0] + ' Index: ' + index);
-        }
-      });
-      index++;
-    });
   }
 
   /**
@@ -125,24 +108,6 @@ export class LexerService {
       index++;
     });
     return lexemes;
-  }
-
-  /**
-   * Asynchronously outputs primitives found by the primitives regex to the console
-   * Based on:
-   * http://www.thinksincode.com/2016/10/30/create-a-basic-lexer.html Accessed 16th October 2018
-  */
-  async getPrimitivesToConsoleRegex(input: string[]) {
-    let index = 0;
-    input.forEach(inputElement => {
-      primitivesRegex.forEach(primitive => {
-        const regexResult = primitive.regex.exec(inputElement);
-        if (regexResult !== null) {
-          console.log('Found: ' + primitive.tokenType + ' Matching: ' + regexResult[0] + ' Index: ' + index);
-        }
-      });
-      index++;
-    });
   }
 
   /**
