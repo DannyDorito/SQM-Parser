@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 
-enum tokens {
+export enum tokens {
   NUMBER,
   BOOLEAN,
   STRING,
@@ -141,10 +141,17 @@ export class LexerService {
   }
 
   /**
-   * Filters passed array based on a given string, returns FoundToken[]
+   * Finds enum tokens using array.filter, returns FoundToken[]
+   */
+  filterTokenType(passedTokens: FoundToken[], tokenToFind: tokens) {
+    return passedTokens.filter(passToken => passToken.type === tokenToFind);
+  }
+
+    /**
+   * Finds enum tokens using array.find, returns FoundToken[]
    */
   findTokenType(passedTokens: FoundToken[], tokenToFind: tokens) {
-    return passedTokens.filter(passToken => passToken.type === tokenToFind);
+    return passedTokens.find(passToken => passToken.type === tokenToFind);
   }
 }
 

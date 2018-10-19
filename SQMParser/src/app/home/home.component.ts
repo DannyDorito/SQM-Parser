@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { LexerService } from '../lexer/lexer.service';
+import { LexerService, tokens } from '../lexer/lexer.service';
 
 @Component({
   selector: 'app-home',
@@ -21,10 +21,7 @@ export class HomeComponent {
     fileReader.onload = () => {
       const parsedFile = this.parseFile(fileReader.result as string);
       if (this.lexer.hasVersionRegex(parsedFile[0])) {
-        const t1 = performance.now();
         this.lexer.getTokensRegex(parsedFile);
-        const t2 = performance.now();
-        console.log(t2 - t1);
       } else {
         console.log('not a sqm file');
       }
