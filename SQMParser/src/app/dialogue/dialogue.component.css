@@ -1,0 +1,15 @@
+div {
+  display: flex;
+  justify-content: center;
+  flex-direction: row;
+  position: absolute;
+  z-index: 1;
+}
+
+.text {
+  color: aqua;
+}
+
+.close {
+  color: blue;
+}

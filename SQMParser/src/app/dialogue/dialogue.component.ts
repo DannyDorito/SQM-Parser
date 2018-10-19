@@ -6,8 +6,9 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./dialogue.component.css']
 })
 export class DialogueComponent implements OnInit {
-
-  constructor() { }
+  text: string;
+  closeMessage: string;
+  constructor() {  }
 
   ngOnInit() {
   }

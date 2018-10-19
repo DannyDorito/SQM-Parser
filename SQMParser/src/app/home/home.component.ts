@@ -29,7 +29,11 @@ export class HomeComponent {
     fileReader.onerror = () => {
       console.log('error loading');
     };
-    fileReader.readAsText(fileChangeEvent.target.files[0]);
+    try {
+      fileReader.readAsText(fileChangeEvent.target.files[0]);
+    } catch (TypeError) {
+      console.log('error loading, type error');
+    }
   }
 
   /**
