@@ -9,6 +9,7 @@ import { FunctionsComponent } from './functions/functions.component';
 import { HomeComponent } from './home/home.component';
 import { ServiceWorkerModule } from '@angular/service-worker';
 import { environment } from '../environments/environment';
+import { DialogueComponent } from './dialogue/dialogue.component';
 
 @NgModule({
   declarations: [
@@ -16,7 +17,8 @@ import { environment } from '../environments/environment';
     NotFoundComponent,
     OptionsComponent,
     FunctionsComponent,
-    HomeComponent
+    HomeComponent,
+    DialogueComponent
   ],
   imports: [
     BrowserModule,
