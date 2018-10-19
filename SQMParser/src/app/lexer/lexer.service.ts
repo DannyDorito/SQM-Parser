@@ -60,7 +60,7 @@ export class LexerService {
    * http://www.thinksincode.com/2016/10/30/create-a-basic-lexer.html Accessed 16th October 2018
   */
   getTokensRegex(inputFile: string[]) {
-    const lexemes = [];
+    const lexemes: FoundToken[] = [];
     let index = 0;
     inputFile.forEach(inputElement => {
       tokensRegex.forEach(token => {
@@ -73,6 +73,19 @@ export class LexerService {
       index++;
     });
     return lexemes;
+  }
+
+  getTokensFor(inputFile: string[]) {
+    const lexemes: FoundToken[] = [];
+    for (let inputIndex = 0; inputIndex < inputFile.length; inputIndex++) {
+      for (let tokensIndex = 0; tokensIndex < tokensRegex.length; tokensIndex++) {
+        const regexResult = tokensRegex[tokensIndex].regex.exec(inputFile[inputIndex]);
+        if (regexResult !== null) {
+          const newToken = new FoundToken(tokensRegex[tokensIndex].tokenType, regexResult[0], inputIndex);
+          lexemes.push(newToken);
+        }
+      }
+    }
   }
 
   /**

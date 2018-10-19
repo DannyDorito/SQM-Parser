@@ -21,7 +21,10 @@ export class HomeComponent {
     fileReader.onload = () => {
       const parsedFile = this.parseFile(fileReader.result as string);
       if (this.lexer.hasVersionRegex(parsedFile[0])) {
-        this.lexer.getTokensRegex(parsedFile);
+        const t1 = performance.now();
+        this.lexer.getTokensFor(parsedFile);
+        const t2 = performance.now();
+        console.log(t2 - t1);
       } else {
         console.log('not a sqm file');
       }
