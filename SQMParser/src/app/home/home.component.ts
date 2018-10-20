@@ -54,21 +54,21 @@ export class HomeComponent {
 
   /**
    * Saves given file to passed fileName, appends .sqm if it does not have it
-   * Uses npm package FileSaver.js https://github.com/eligrey/FileSaver.js [Online] Accessed 19th October 2018
+   * Based on:
+   * https://github.com/eligrey/FileSaver.js [Online] Accessed 19th October 2018
+   * https://github.com/eligrey/FileSaver.js/issues/308#issuecomment-286127364  [Online] Accessed 20th October 2018
+   * https://github.com/eligrey/FileSaver.js/blob/master/README.md#supported-browsers [Online] Accessed 20th October 2018
    */
   saveFile(fileName: string) {
-    // Uses https://github.com/eligrey/FileSaver.js/blob/master/README.md#supported-browsers [Online] Accessed 20th October 2018
-    let isFileSaverSupported: boolean;
+    let isFileSaverSupported = false;
     try {
       isFileSaverSupported = !!new Blob;
+      if (!fileName.includes('.sqm')) {
+        fileName += '.sqm';
+      }
+      FileSaver.saveAs(new Blob(this.file, {type: 'text/plain;charset=utf-8'}), fileName);
     } catch (e) {
       console.log('blobs are not supported by your browser');
-    }
-    if (isFileSaverSupported) {
-      if (!fileName.includes('.sqm')) {
-      fileName += '.sqm';
-    }
-      FileSaver.saveAs(new Blob(this.file, {type: 'text/plain;charset=utf-8'}), fileName);
     }
   }
 }

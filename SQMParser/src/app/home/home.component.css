@@ -1,8 +1,9 @@
 div {
   margin-top: 35%;
   display: flex;
+  justify-content: center;
+  align-items: center;
   flex-direction: column;
-  justify-content: space-evenly;
 }
 
 input {
@@ -18,4 +19,5 @@ label {
   font-weight: 700;
   background-color: #78866B;
   padding: 5px;
+  margin-bottom: 10px;
 }

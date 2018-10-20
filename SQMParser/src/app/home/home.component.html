@@ -3,7 +3,5 @@
   <!-- Based on: https://www.academind.com/learn/angular/snippets/angular-image-upload-made-easy/ [Online] Accessed 9th October 2018-->
   <label for="fileSelect">Upload a file!</label>
   <!-- <p *ngIf="selectedFile">{{selectedFile}}</p> -->
-</div>
-<div>
-  <button (click)="saveFile('test.sqm')">SAVE</button>
+  <button (click)="saveFile('test.sqm')" *ngIf="file">SAVE</button>
 </div>
