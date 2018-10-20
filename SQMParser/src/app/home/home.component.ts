@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { LexerService } from '../lexer/lexer.service';
+import { saveAs } from 'file-saver';
 
 @Component({
   selector: 'app-home',
@@ -8,6 +9,7 @@ import { LexerService } from '../lexer/lexer.service';
 })
 export class HomeComponent {
   constructor(private lexer: LexerService) {}
+  file: string[];
 
   /**
    * Fired when a file has been selected by the user's $event
@@ -20,6 +22,7 @@ export class HomeComponent {
     const fileReader = new FileReader();
     fileReader.onload = () => {
       const parsedFile = this.parseFile(fileReader.result as string);
+      this.file = parsedFile;
       if (this.lexer.hasVersionRegex(parsedFile[0])) {
         console.log(this.lexer.getTokensFor(parsedFile));
       } else {
@@ -47,5 +50,10 @@ export class HomeComponent {
       element = element.trim();
     });
     return fileArray;
+  }
+
+  saveFile(fileName: string) {
+    const blob = new Blob(this.file, {type: 'text/plain;charset=utf-8'});
+    saveAs(blob, fileName);
   }
 }
