@@ -14,9 +14,9 @@ export class HomeComponent {
   /**
    * Fired when a file has been selected by the user's $event
    * Based on:
-   * https://www.academind.com/learn/angular/snippets/angular-image-upload-made-easy/ Accessed 9th October 2018
-   * https://stackoverflow.com/a/27439524 Accessed 16th October 2018
-   * https://www.typescriptlang.org/docs/handbook/declaration-files/do-s-and-don-ts.html Accessed 17th October 2018
+   * https://www.academind.com/learn/angular/snippets/angular-image-upload-made-easy/ [Online] Accessed 9th October 2018
+   * https://stackoverflow.com/a/27439524 [Online] Accessed 16th October 2018
+   * https://www.typescriptlang.org/docs/handbook/declaration-files/do-s-and-don-ts.html [Online] Accessed 17th October 2018
    */
   onFileChanged(fileChangeEvent: any) {
     const fileReader = new FileReader();
@@ -42,7 +42,7 @@ export class HomeComponent {
   /**
    * Trims each element of array
    * Based on:
-   * https://www.textfixer.com/tutorials/javascript-line-breaks.php Accessed 17th October 2018
+   * https://www.textfixer.com/tutorials/javascript-line-breaks.php [Online] Accessed 17th October 2018
    */
   parseFile(fileString: string) {
     const fileArray = fileString.split('\r\n');
@@ -54,13 +54,21 @@ export class HomeComponent {
 
   /**
    * Saves given file to passed fileName, appends .sqm if it does not have it
-   * Uses npm package FileSaver.js https://github.com/eligrey/FileSaver.js Accessed 19th October 2018
+   * Uses npm package FileSaver.js https://github.com/eligrey/FileSaver.js [Online] Accessed 19th October 2018
    */
   saveFile(fileName: string) {
-    if (!fileName.includes('.sqm')) {
+    // Uses https://github.com/eligrey/FileSaver.js/blob/master/README.md#supported-browsers [Online] Accessed 20th October 2018
+    let isFileSaverSupported: boolean;
+    try {
+      isFileSaverSupported = !!new Blob;
+    } catch (e) {
+      console.log('blobs are not supported by your browser');
+    }
+    if (isFileSaverSupported) {
+      if (!fileName.includes('.sqm')) {
       fileName += '.sqm';
     }
-    const blob = new Blob(this.file, {type: 'text/plain;charset=utf-8'});
-    FileSaver.saveAs(blob, fileName);
+      FileSaver.saveAs(new Blob(this.file, {type: 'text/plain;charset=utf-8'}), fileName);
+    }
   }
 }
