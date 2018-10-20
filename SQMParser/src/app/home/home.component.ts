@@ -60,9 +60,8 @@ export class HomeComponent {
    * https://github.com/eligrey/FileSaver.js/blob/master/README.md#supported-browsers [Online] Accessed 20th October 2018
    */
   saveFile(fileName: string) {
-    let isFileSaverSupported = false;
     try {
-      isFileSaverSupported = !!new Blob;
+      const isFileSaverSupported = !!new Blob;
       if (!fileName.includes('.sqm')) {
         fileName += '.sqm';
       }
