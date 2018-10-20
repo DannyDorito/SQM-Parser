@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { LexerService } from '../lexer/lexer.service';
-import { saveAs } from 'file-saver';
+import * as FileSaver from 'file-saver';
 
 @Component({
   selector: 'app-home',
@@ -52,8 +52,15 @@ export class HomeComponent {
     return fileArray;
   }
 
+  /**
+   * Saves given file to passed fileName, appends .sqm if it does not have it
+   * Uses npm package FileSaver.js https://github.com/eligrey/FileSaver.js Accessed 19th October 2018
+   */
   saveFile(fileName: string) {
+    if (!fileName.includes('.sqm')) {
+      fileName += '.sqm';
+    }
     const blob = new Blob(this.file, {type: 'text/plain;charset=utf-8'});
-    saveAs(blob, fileName);
+    FileSaver.saveAs(blob, fileName);
   }
 }
