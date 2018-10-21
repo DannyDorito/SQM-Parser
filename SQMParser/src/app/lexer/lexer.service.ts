@@ -33,7 +33,7 @@ const tokensRegex = [
   // { regex: /(version\s*=\s*)(?:0|[1-9]\d*);/, tokenType: tokensEnum.VERSION },
   // { regex: /addOns\[\]\s*=\s*{[\r\n]*("(?:\\.|[^"])*",[\r\n]*|"(?:\\.|[^"])*")+([\r\n]*};)/i, tokenType: tokensEnum.ADDONS },
   // { regex: /addOnsAuto\[\]\s*=\s*{[\r\n]*("(?:\\.|[^"])*",[\r\n]*|"(?:\\.|[^"])*")+([\r\n]*};)/i, tokenType: tokensEnum.ADDONS_AUTO },
-  { regex: /#include "(?:\\.|[^"])*"/, tokenType: tokens.INCLUDE }
+  // { regex: /#include "(?:\\.|[^"])*"/, tokenType: tokens.INCLUDE }
 ];
 const primitivesRegex = [
   { regex: /^\s+/, tokenType: tokens.WHITESPACE },
@@ -55,7 +55,7 @@ const primitivesRegex = [
 })
 export class LexerService {
   /**
-   * Returns {type: x, value: y} found by the 'tokens' regex
+   * Returns {type: x, value: y, index: z} found by the 'tokens' regex
    * Based on:
    * http://www.thinksincode.com/2016/10/30/create-a-basic-lexer.html Accessed 16th October 2018
   */
