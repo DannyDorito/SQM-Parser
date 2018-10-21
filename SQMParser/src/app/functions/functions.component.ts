@@ -1,11 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 
 @Component({
   selector: 'app-functions',
   templateUrl: './functions.component.html',
   styleUrls: ['./functions.component.css']
 })
-export class FunctionsComponent implements OnInit {
+export class FunctionsComponent {
   functions = [
     {name: 'Function 1', function: 'Execute 1', image: 'edit'},
     {name: 'Function 2', function: 'Execute 2', image: 'edit'},
@@ -17,9 +17,4 @@ export class FunctionsComponent implements OnInit {
     {name: 'Function 8', function: 'Execute 8', image: 'edit'},
     {name: 'Function 9', function: 'Execute 9', image: 'edit'}
   ];
-  constructor() { }
-
-  ngOnInit() {
-  }
-
 }

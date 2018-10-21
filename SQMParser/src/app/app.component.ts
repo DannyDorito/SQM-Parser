@@ -27,7 +27,6 @@ export class AppComponent implements OnInit {
 
   hasLocalStorage(accessor: string) {
     const storageItem = localStorage.getItem(accessor);
-    console.log(localStorage.getItem(accessor));
     if (storageItem === null) {
       return false;
     } else {
