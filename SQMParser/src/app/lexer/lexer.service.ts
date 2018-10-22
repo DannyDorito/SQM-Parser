@@ -1,54 +1,31 @@
 import { Injectable } from '@angular/core';
+import { Token, FoundToken } from '../tokens';
 
-export enum tokens {
-  NUMBER,
-  BOOLEAN,
-  STRING,
-  ARRAY,
-  // VERSION,
-  // ADDONS,
-  // ADDONS_AUTO,
-  CLASS,
-  INCLUDE,
-  WHITESPACE,
-  EOL,
-  START_BRACE,
-  END_BRACE,
-  END_BRACE_SEMICOLON,
-  SQUARE_BRACKET,
-  COMMA,
-  SEMICOLON,
-  EQUALS,
-  TRAILING_COMMA,
-  PRIMITIVE_NUMBER,
-  PRIMITIVE_BOOLEAN,
-  PRIMITIVE_STRING
-}
 const tokensRegex = [
-  { regex: /(?:\\.|[^"])*(\s*)=(\s*)[+\-]?(?:0|[1-9]\d*)(?:\.\d*)?(?:[eE][+\-]?\d+)?/, tokenType: tokens.NUMBER },
-  { regex: /(?:\\.|[^"])*(\s*)=(\s*)(true|false);/, tokenType: tokens.BOOLEAN },
-  { regex: /(?:\\.|[^"])*(\s*)=(\s*)"(?:\\.|[^"])*";/, tokenType: tokens.STRING },
-  { regex: /(?:\\.|[^"])+\[\]\s*=\s*\{[\r\n]*("(?:\\.|[^"])*",[\r\n]*|"(?:\\.|[^"])*"|[+\-]?(?:0|[1-9]\d*)(?:\.\d*)?(?:[eE][+\-]?\d+)?,[\r\n]*|[+\-]?(?:0|[1-9]\d*)(?:\.\d*)?(?:[eE][+\-]?\d+)?|true,[\r\n]*|true|false,[\r\n]*|false)+([\r\n]*)(\})/, tokenType: tokens.ARRAY },
-  { regex: /class (?:\\.|[^"])*/, tokenType: tokens.CLASS },
+  { regex: /(?:\\.|[^"])*(\s*)=(\s*)[+\-]?(?:0|[1-9]\d*)(?:\.\d*)?(?:[eE][+\-]?\d+)?/, tokenType: Token.NUMBER },
+  { regex: /(?:\\.|[^"])*(\s*)=(\s*)(true|false);/, tokenType: Token.BOOLEAN },
+  { regex: /(?:\\.|[^"])*(\s*)=(\s*)"(?:\\.|[^"])*";/, tokenType: Token.STRING },
+  { regex: /(?:\\.|[^"])+\[\]\s*=\s*\{[\r\n]*("(?:\\.|[^"])*",[\r\n]*|"(?:\\.|[^"])*"|[+\-]?(?:0|[1-9]\d*)(?:\.\d*)?(?:[eE][+\-]?\d+)?,[\r\n]*|[+\-]?(?:0|[1-9]\d*)(?:\.\d*)?(?:[eE][+\-]?\d+)?|true,[\r\n]*|true|false,[\r\n]*|false)+([\r\n]*)(\})/, tokenType: Token.ARRAY },
+  { regex: /class (?:\\.|[^"])*/, tokenType: Token.CLASS },
   // { regex: /(version\s*=\s*)(?:0|[1-9]\d*);/, tokenType: tokensEnum.VERSION },
   // { regex: /addOns\[\]\s*=\s*{[\r\n]*("(?:\\.|[^"])*",[\r\n]*|"(?:\\.|[^"])*")+([\r\n]*};)/i, tokenType: tokensEnum.ADDONS },
   // { regex: /addOnsAuto\[\]\s*=\s*{[\r\n]*("(?:\\.|[^"])*",[\r\n]*|"(?:\\.|[^"])*")+([\r\n]*};)/i, tokenType: tokensEnum.ADDONS_AUTO },
   // { regex: /#include "(?:\\.|[^"])*"/, tokenType: tokens.INCLUDE }
 ];
 const primitivesRegex = [
-  { regex: /^\s+/, tokenType: tokens.WHITESPACE },
-  { regex: /[\r\n]+/, tokenType: tokens.EOL },
-  { regex: /^[{]/, tokenType: tokens.START_BRACE },
-  { regex: /^[}]/, tokenType: tokens.END_BRACE },
-  { regex: /^[};]/, tokenType: tokens.END_BRACE_SEMICOLON },
-  { regex: /^[\[\]]/, tokenType: tokens.SQUARE_BRACKET },
-  { regex: /;$/, tokenType: tokens.SEMICOLON },
-  { regex: /=/, tokenType: tokens.EQUALS },
-  { regex: /^,/, tokenType: tokens.COMMA },
-  { regex: /,$/, tokenType: tokens.TRAILING_COMMA },
-  { regex: /[+\-]?(?:0|[1-9]\d*)(?:\.\d*)?(?:[eE][+\-]?\d+)?/, tokenType: tokens.PRIMITIVE_NUMBER },
-  { regex: /true|false/, tokenType: tokens.PRIMITIVE_BOOLEAN },
-  { regex: /"(?:\\.|[^"])*"/, tokenType: tokens.PRIMITIVE_STRING },
+  { regex: /^\s+/, tokenType: Token.WHITESPACE },
+  { regex: /[\r\n]+/, tokenType: Token.EOL },
+  { regex: /^[{]/, tokenType: Token.START_BRACE },
+  { regex: /^[}]/, tokenType: Token.END_BRACE },
+  { regex: /^[};]/, tokenType: Token.END_BRACE_SEMICOLON },
+  { regex: /^[\[\]]/, tokenType: Token.SQUARE_BRACKET },
+  { regex: /;$/, tokenType: Token.SEMICOLON },
+  { regex: /=/, tokenType: Token.EQUALS },
+  { regex: /^,/, tokenType: Token.COMMA },
+  { regex: /,$/, tokenType: Token.TRAILING_COMMA },
+  { regex: /[+\-]?(?:0|[1-9]\d*)(?:\.\d*)?(?:[eE][+\-]?\d+)?/, tokenType: Token.PRIMITIVE_NUMBER },
+  { regex: /true|false/, tokenType: Token.PRIMITIVE_BOOLEAN },
+  { regex: /"(?:\\.|[^"])*"/, tokenType: Token.PRIMITIVE_STRING },
 ];
 @Injectable({
   providedIn: 'root'
@@ -121,29 +98,14 @@ export class LexerService {
   /**
    * Finds enum tokens using array.filter, returns FoundToken[]
    */
-  filterTokenType(passedTokens: FoundToken[], tokenToFind: tokens) {
+  filterTokenType(passedTokens: FoundToken[], tokenToFind: Token) {
     return passedTokens.filter(passToken => passToken.type === tokenToFind);
   }
 
     /**
    * Finds enum tokens using array.find, returns FoundToken[]
    */
-  findTokenType(passedTokens: FoundToken[], tokenToFind: tokens) {
+  findTokenType(passedTokens: FoundToken[], tokenToFind: Token) {
     return passedTokens.find(passToken => passToken.type === tokenToFind);
-  }
-}
-
-export class FoundToken {
-  type: tokens;
-  value: string;
-  index: number;
-  constructor(
-    _type: tokens,
-    _value: string,
-    _index: number
-  ) {
-    this.type = _type;
-    this.value = _value;
-    this.index = _index;
   }
 }
