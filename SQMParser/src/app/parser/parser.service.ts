@@ -34,11 +34,11 @@ export class ParserService {
         }
         case Token.WHITESPACE : {
           console.log('Token.WHITESPACE');
-          break;
+          break; // do nothing
         }
         case Token.EOL : {
           console.log('Token.EOL');
-          break;
+          break; // do nothing
         }
         case Token.START_BRACE : {
           console.log('Token.START_BRACE');

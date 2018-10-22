@@ -2,23 +2,21 @@ import { Injectable } from '@angular/core';
 import { Token, FoundToken } from '../shared/tokens';
 
 const tokensRegex = [
-  { regex: /(?:\\.|[^"])*(\s*)=(\s*)[+\-]?(?:0|[1-9]\d*)(?:\.\d*)?(?:[eE][+\-]?\d+)?/, tokenType: Token.NUMBER },
-  { regex: /(?:\\.|[^"])*(\s*)=(\s*)(true|false);/, tokenType: Token.BOOLEAN },
-  { regex: /(?:\\.|[^"])*(\s*)=(\s*)"(?:\\.|[^"])*";/, tokenType: Token.STRING },
-  { regex: /(?:\\.|[^"])+\[\]\s*=\s*\{[\r\n]*("(?:\\.|[^"])*",[\r\n]*|"(?:\\.|[^"])*"|[+\-]?(?:0|[1-9]\d*)(?:\.\d*)?(?:[eE][+\-]?\d+)?,[\r\n]*|[+\-]?(?:0|[1-9]\d*)(?:\.\d*)?(?:[eE][+\-]?\d+)?|true,[\r\n]*|true|false,[\r\n]*|false)+([\r\n]*)(\})/, tokenType: Token.ARRAY },
-  { regex: /class (?:\\.|[^"])*/, tokenType: Token.CLASS },
+  // { regex: /(?:\\.|[^"])*(\s*)=(\s*)[+\-]?(?:0|[1-9]\d*)(?:\.\d*)?(?:[eE][+\-]?\d+)?/, tokenType: Token.NUMBER },
+  // { regex: /(?:\\.|[^"])*(\s*)=(\s*)(true|false);/, tokenType: Token.BOOLEAN },
+  // { regex: /(?:\\.|[^"])*(\s*)=(\s*)"(?:\\.|[^"])*";/, tokenType: Token.STRING },
+  // { regex: /(?:\\.|[^"])+\[\]\s*=\s*\{[\r\n]*("(?:\\.|[^"])*",[\r\n]*|"(?:\\.|[^"])*"|[+\-]?(?:0|[1-9]\d*)(?:\.\d*)?(?:[eE][+\-]?\d+)?,[\r\n]*|[+\-]?(?:0|[1-9]\d*)(?:\.\d*)?(?:[eE][+\-]?\d+)?|true,[\r\n]*|true|false,[\r\n]*|false)+([\r\n]*)(\})/, tokenType: Token.ARRAY },
+  // { regex: /class (?:\\.|[^"])*/, tokenType: Token.CLASS },
   // { regex: /(version\s*=\s*)(?:0|[1-9]\d*);/, tokenType: tokensEnum.VERSION },
   // { regex: /addOns\[\]\s*=\s*{[\r\n]*("(?:\\.|[^"])*",[\r\n]*|"(?:\\.|[^"])*")+([\r\n]*};)/i, tokenType: tokensEnum.ADDONS },
   // { regex: /addOnsAuto\[\]\s*=\s*{[\r\n]*("(?:\\.|[^"])*",[\r\n]*|"(?:\\.|[^"])*")+([\r\n]*};)/i, tokenType: tokensEnum.ADDONS_AUTO },
   // { regex: /#include "(?:\\.|[^"])*"/, tokenType: tokens.INCLUDE }
-];
-const primitivesRegex = [
-  { regex: /^\s+/, tokenType: Token.WHITESPACE },
+  { regex: /\s+/, tokenType: Token.WHITESPACE },
   { regex: /[\r\n]+/, tokenType: Token.EOL },
-  { regex: /^[{]/, tokenType: Token.START_BRACE },
-  { regex: /^[}]/, tokenType: Token.END_BRACE },
-  { regex: /^[};]/, tokenType: Token.END_BRACE_SEMICOLON },
-  { regex: /^[\[\]]/, tokenType: Token.SQUARE_BRACKET },
+  { regex: /^{/, tokenType: Token.START_BRACE },
+  { regex: /^}/, tokenType: Token.END_BRACE },
+  { regex: /^};/, tokenType: Token.END_BRACE_SEMICOLON },
+  { regex: /[|]/, tokenType: Token.SQUARE_BRACKET },
   { regex: /;$/, tokenType: Token.SEMICOLON },
   { regex: /=/, tokenType: Token.EQUALS },
   { regex: /^,/, tokenType: Token.COMMA },
@@ -64,27 +62,6 @@ export class LexerService {
         }
       }
     }
-    return lexemes;
-  }
-
-  /**
-   * Returns {type: x, value: y} found by the 'primitives' regex
-   * Based on:
-   * http://www.thinksincode.com/2016/10/30/create-a-basic-lexer.html Accessed 16th October 2018
-  */
-  getPrimitivesRegex(inputFile: string[]) {
-    const lexemes = [];
-    let index = 0;
-    inputFile.forEach(inputElement => {
-      primitivesRegex.forEach(primitive => {
-        const regexResult = primitive.regex.exec(inputElement);
-        if (regexResult !== null) {
-          const newToken = new FoundToken(primitive.tokenType, regexResult[0], index);
-          lexemes.push(newToken);
-        }
-      });
-      index++;
-    });
     return lexemes;
   }
 
