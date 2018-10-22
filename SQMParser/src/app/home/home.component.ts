@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { LexerService } from '../lexer/lexer.service';
 import * as FileSaver from 'file-saver';
+import { ParserService } from '../parser/parser.service';
 
 @Component({
   selector: 'app-home',
@@ -8,7 +9,9 @@ import * as FileSaver from 'file-saver';
   styleUrls: ['./home.component.css']
 })
 export class HomeComponent {
-  constructor(private lexer: LexerService) {}
+  constructor(
+    private lexer: LexerService,
+    private parser: ParserService) {}
   file: string[];
 
   /**
@@ -24,7 +27,8 @@ export class HomeComponent {
       const parsedFile = this.parseFile(fileReader.result as string);
       this.file = parsedFile;
       if (this.lexer.hasVersionRegex(parsedFile[0])) {
-        console.log(this.lexer.getTokensFor(parsedFile));
+        const tokens = this.lexer.getTokens(parsedFile);
+        this.parser.parseTokens(tokens);
       } else {
         console.log('not a sqm file');
       }
