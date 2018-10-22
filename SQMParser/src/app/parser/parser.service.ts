@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { FoundToken, Token } from '../tokens';
+import { FoundToken, Token } from '../shared/tokens';
 
 @Injectable({
   providedIn: 'root'

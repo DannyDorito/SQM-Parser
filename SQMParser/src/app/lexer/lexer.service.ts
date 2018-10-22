@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Token, FoundToken } from '../tokens';
+import { Token, FoundToken } from '../shared/tokens';
 
 const tokensRegex = [
   { regex: /(?:\\.|[^"])*(\s*)=(\s*)[+\-]?(?:0|[1-9]\d*)(?:\.\d*)?(?:[eE][+\-]?\d+)?/, tokenType: Token.NUMBER },
