@@ -50,21 +50,6 @@ export class LexerService {
     return lexemes;
   }
 
-  getTokensFor(inputFile: string[]) {
-    const lexemes: FoundToken[] = [];
-    for (let inputIndex = 0; inputIndex < inputFile.length; inputIndex++) {
-      for (let tokensIndex = 0; tokensIndex < tokensRegex.length; tokensIndex++) {
-        const regexResult = tokensRegex[tokensIndex].regex.exec(inputFile[inputIndex]);
-        if (regexResult !== null) {
-          const newToken = new FoundToken(tokensRegex[tokensIndex].tokenType, regexResult[0], inputIndex);
-          lexemes.push(newToken);
-          break;
-        }
-      }
-    }
-    return lexemes;
-  }
-
   /**
    * Checks input to see if it matches version regex
    */
