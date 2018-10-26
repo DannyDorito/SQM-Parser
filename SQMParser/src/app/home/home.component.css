@@ -1,9 +1,11 @@
 div {
-  margin-top: 35%;
   display: flex;
   justify-content: center;
   align-items: center;
   flex-direction: column;
+  position: fixed;
+  top: 50%;
+  left: 50%;
 }
 
 input {
