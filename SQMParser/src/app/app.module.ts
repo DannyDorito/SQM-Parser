@@ -10,6 +10,7 @@ import { HomeComponent } from './home/home.component';
 import { ServiceWorkerModule } from '@angular/service-worker';
 import { environment } from '../environments/environment';
 import { DialogueComponent } from './dialogue/dialogue.component';
+import { TestsComponent } from './tests/tests.component';
 
 @NgModule({
   declarations: [
@@ -18,7 +19,8 @@ import { DialogueComponent } from './dialogue/dialogue.component';
     OptionsComponent,
     FunctionsComponent,
     HomeComponent,
-    DialogueComponent
+    DialogueComponent,
+    TestsComponent
   ],
   imports: [
     BrowserModule,
