@@ -5,7 +5,32 @@ import { FoundToken, Token } from '../shared/tokens';
   providedIn: 'root'
 })
 export class ParserService {
-  parseTokens(foundTokens: FoundToken[]) {
+  getTokensOnLine(allTokens: FoundToken[], line: number) {
+    console.log((line + 'line'));
+    if (line <= 0 || allTokens.length > line) {
+      return null;
+    } else {
+      return allTokens.filter(tokens => tokens.index === allTokens[(allTokens.length - 1)].index);
+    }
+  }
+
+  parseTokens(foundTokens: FoundToken[], lines: number) {
+    const a = Token.NAME.toString() + Token.WHITESPACE.toString() + Token.EQUALS.toString() + Token.WHITESPACE.toString() + Token.PRIMITIVE_STRING.toString() + Token.SEMICOLON.toString();
+    console.log(a);
+    for (let lineIndex = 0; lineIndex < lines; lineIndex++) {
+      const tokensOnLine = this.getTokensOnLine(foundTokens, lineIndex);
+      console.log(tokensOnLine);
+      let b;
+      tokensOnLine.forEach(tokens => {
+        b += tokens.type.toString();
+      });
+      if (b === a) {
+        console.log('found string');
+      }
+    }
+  }
+
+  parseTokensSwitch(foundTokens: FoundToken[]) {
     foundTokens.forEach(foundToken => {
       switch (foundToken.type) {
         case Token.NUMBER : {
@@ -48,12 +73,12 @@ export class ParserService {
           console.log('Token.END_BRACE');
           break;
         }
-        case Token.END_BRACE_SEMICOLON : {
-          console.log('Token.END_BRACE_SEMICOLON');
+        case Token.START_SQUARE_BRACE : {
+          console.log('Token.START_SQUARE_BRACE');
           break;
         }
-        case Token.SQUARE_BRACKET : {
-          console.log('Token.SQUARE_BRACKET');
+        case Token.END_SQUARE_BRACE : {
+          console.log('Token.END_SQUARE_BRACE');
           break;
         }
         case Token.COMMA : {

@@ -11,19 +11,20 @@ const tokensRegex = [
   // { regex: /addOns\[\]\s*=\s*{[\r\n]*("(?:\\.|[^"])*",[\r\n]*|"(?:\\.|[^"])*")+([\r\n]*};)/i, tokenType: tokensEnum.ADDONS },
   // { regex: /addOnsAuto\[\]\s*=\s*{[\r\n]*("(?:\\.|[^"])*",[\r\n]*|"(?:\\.|[^"])*")+([\r\n]*};)/i, tokenType: tokensEnum.ADDONS_AUTO },
   // { regex: /#include "(?:\\.|[^"])*"/, tokenType: tokens.INCLUDE }
-  { regex: /\s+/, tokenType: Token.WHITESPACE },
+  { regex: /\s*| */, tokenType: Token.WHITESPACE },
   { regex: /[\r\n]+/, tokenType: Token.EOL },
-  { regex: /^{/, tokenType: Token.START_BRACE },
-  { regex: /^}/, tokenType: Token.END_BRACE },
-  { regex: /^};/, tokenType: Token.END_BRACE_SEMICOLON },
-  { regex: /[|]/, tokenType: Token.SQUARE_BRACKET },
-  { regex: /;$/, tokenType: Token.SEMICOLON },
+  { regex: /{/, tokenType: Token.START_BRACE },
+  { regex: /}/, tokenType: Token.END_BRACE },
+  { regex: /\[/, tokenType: Token.START_SQUARE_BRACE },
+  { regex: /]/, tokenType: Token.END_SQUARE_BRACE },
+  { regex: /;/, tokenType: Token.SEMICOLON },
   { regex: /=/, tokenType: Token.EQUALS },
   { regex: /^,/, tokenType: Token.COMMA },
   { regex: /,$/, tokenType: Token.TRAILING_COMMA },
   { regex: /[+\-]?(?:0|[1-9]\d*)(?:\.\d*)?(?:[eE][+\-]?\d+)?/, tokenType: Token.PRIMITIVE_NUMBER },
   { regex: /true|false/, tokenType: Token.PRIMITIVE_BOOLEAN },
   { regex: /"(?:\\.|[^"])*"/, tokenType: Token.PRIMITIVE_STRING },
+  { regex: /[a-zA-Z0-9]+/, tokenType: Token.NAME },
 ];
 @Injectable({
   providedIn: 'root'
