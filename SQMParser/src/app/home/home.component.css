@@ -10,11 +10,17 @@
 
 .file {
   text-align: left;
+  border: none;
+  width: 100%;
+}
+
+.file:focus {
+  background: #78866B;
 }
 
 .div-file {
   align-items: flex-start;
-  padding-left: 5px;
+  width: 99%;
 }
 
 p {
