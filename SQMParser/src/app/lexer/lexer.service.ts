@@ -51,14 +51,17 @@ export class LexerService {
     return lexemes;
   }
 
-  /**
-   * Checks input to see if it matches version regex
-   */
-  hasVersionRegex(input: string) {
-    const regex = /(version\s*=\s*)(?:0|[1-9]\d*)/;
-    return regex.test(input);
+  parseTokens(foundTokens: FoundToken[], lines: number) {
+    console.log('hit');
   }
 
+  getTokensOnLine(allTokens: FoundToken[], line: number) {
+    if (line <= 0 || allTokens.length > line) {
+      return null;
+    } else {
+      return allTokens.filter(tokens => tokens.index === allTokens[(allTokens.length - 1)].index);
+    }
+  }
   /**
    * Finds enum tokens using array.filter, returns FoundToken[]
    */

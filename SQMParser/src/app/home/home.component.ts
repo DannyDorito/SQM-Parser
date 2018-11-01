@@ -1,7 +1,6 @@
 import { Component } from '@angular/core';
 import { LexerService } from '../lexer/lexer.service';
 import * as FileSaver from 'file-saver';
-import { ParserService } from '../parser/parser.service';
 
 @Component({
   selector: 'app-home',
@@ -9,9 +8,7 @@ import { ParserService } from '../parser/parser.service';
   styleUrls: ['./home.component.css']
 })
 export class HomeComponent {
-  constructor(
-    private lexer: LexerService,
-    private parser: ParserService) {}
+  constructor(private lexer: LexerService) {}
   fileReaderString: string;
   file: string[];
   confirmed = false;
@@ -43,9 +40,8 @@ export class HomeComponent {
     const parsedFile = this.parseFile(this.fileReaderString);
     this.fileReaderString = undefined;
     this.file = parsedFile;
-    if (this.lexer.hasVersionRegex(parsedFile[0])) {
-      const tokens = this.lexer.getTokens(parsedFile);
-      this.parser.parseTokens(tokens, parsedFile.length);
+    if (this.hasVersionRegex(parsedFile[0])) {
+      this.lexer.parseTokens(this.lexer.getTokens(parsedFile), parsedFile.length);
     } else {
       console.log('not a sqm file');
     }
@@ -62,6 +58,14 @@ export class HomeComponent {
       element = element.trim();
     });
     return fileArray;
+  }
+
+  /**
+ * Checks input to see if it matches version regex
+ */
+  hasVersionRegex(input: string) {
+    const regex = /(version\s*=\s*)(?:0|[1-9]\d*)/;
+    return regex.test(input);
   }
 
   /**
