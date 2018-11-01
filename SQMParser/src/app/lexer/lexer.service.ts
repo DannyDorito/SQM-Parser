@@ -2,29 +2,18 @@ import { Injectable } from '@angular/core';
 import { Token, FoundToken } from '../shared/tokens';
 
 const tokensRegex = [
-  // { regex: /(?:\\.|[^"])*(\s*)=(\s*)[+\-]?(?:0|[1-9]\d*)(?:\.\d*)?(?:[eE][+\-]?\d+)?/, tokenType: Token.NUMBER },
-  // { regex: /(?:\\.|[^"])*(\s*)=(\s*)(true|false);/, tokenType: Token.BOOLEAN },
-  // { regex: /(?:\\.|[^"])*(\s*)=(\s*)"(?:\\.|[^"])*";/, tokenType: Token.STRING },
-  // { regex: /(?:\\.|[^"])+\[\]\s*=\s*\{[\r\n]*("(?:\\.|[^"])*",[\r\n]*|"(?:\\.|[^"])*"|[+\-]?(?:0|[1-9]\d*)(?:\.\d*)?(?:[eE][+\-]?\d+)?,[\r\n]*|[+\-]?(?:0|[1-9]\d*)(?:\.\d*)?(?:[eE][+\-]?\d+)?|true,[\r\n]*|true|false,[\r\n]*|false)+([\r\n]*)(\})/, tokenType: Token.ARRAY },
-  // { regex: /class (?:\\.|[^"])*/, tokenType: Token.CLASS },
-  // { regex: /(version\s*=\s*)(?:0|[1-9]\d*);/, tokenType: tokensEnum.VERSION },
-  // { regex: /addOns\[\]\s*=\s*{[\r\n]*("(?:\\.|[^"])*",[\r\n]*|"(?:\\.|[^"])*")+([\r\n]*};)/i, tokenType: tokensEnum.ADDONS },
-  // { regex: /addOnsAuto\[\]\s*=\s*{[\r\n]*("(?:\\.|[^"])*",[\r\n]*|"(?:\\.|[^"])*")+([\r\n]*};)/i, tokenType: tokensEnum.ADDONS_AUTO },
-  // { regex: /#include "(?:\\.|[^"])*"/, tokenType: tokens.INCLUDE }
-  { regex: /\s*| */, tokenType: Token.WHITESPACE },
-  { regex: /[\r\n]+/, tokenType: Token.EOL },
+  { regex: /[\s\t\n\r]+/, tokenType: Token.WHITESPACE },
   { regex: /{/, tokenType: Token.START_BRACE },
   { regex: /}/, tokenType: Token.END_BRACE },
   { regex: /\[/, tokenType: Token.START_SQUARE_BRACE },
-  { regex: /]/, tokenType: Token.END_SQUARE_BRACE },
+  { regex: /\]/, tokenType: Token.END_SQUARE_BRACE },
   { regex: /;/, tokenType: Token.SEMICOLON },
   { regex: /=/, tokenType: Token.EQUALS },
-  { regex: /^,/, tokenType: Token.COMMA },
-  { regex: /,$/, tokenType: Token.TRAILING_COMMA },
-  { regex: /[+\-]?(?:0|[1-9]\d*)(?:\.\d*)?(?:[eE][+\-]?\d+)?/, tokenType: Token.PRIMITIVE_NUMBER },
-  { regex: /true|false/, tokenType: Token.PRIMITIVE_BOOLEAN },
-  { regex: /"(?:\\.|[^"])*"/, tokenType: Token.PRIMITIVE_STRING },
-  { regex: /[a-zA-Z0-9]+/, tokenType: Token.NAME },
+  { regex: /,/, tokenType: Token.COMMA },
+  { regex: /"/, tokenType: Token.QUOTE },
+  { regex: /[+\-]?(?:0|[1-9]\d*)(?:\.\d*)?(?:[eE][+\-]?\d+)?/, tokenType: Token.NUMBER },
+  { regex: /true|false/, tokenType: Token.BOOLEAN },
+  { regex: /[a-zA-Z0-9]+/, tokenType: Token.STRING }
 ];
 @Injectable({
   providedIn: 'root'
