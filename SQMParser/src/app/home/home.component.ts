@@ -12,7 +12,9 @@ export class HomeComponent {
   constructor(
     private lexer: LexerService,
     private parser: ParserService) {}
+  fileReaderString: string;
   file: string[];
+  confirmed = false;
 
   /**
    * Fired when a file has been selected by the user's $event
@@ -24,14 +26,7 @@ export class HomeComponent {
   onFileChanged(fileChangeEvent: any) {
     const fileReader = new FileReader();
     fileReader.onload = () => {
-      const parsedFile = this.parseFile(fileReader.result as string);
-      this.file = parsedFile;
-      if (this.lexer.hasVersionRegex(parsedFile[0])) {
-        const tokens = this.lexer.getTokens(parsedFile);
-        this.parser.parseTokens(tokens, parsedFile.length);
-      } else {
-        console.log('not a sqm file');
-      }
+      this.fileReaderString = fileReader.result as string;
     };
     fileReader.onerror = () => {
       console.log('error loading');
@@ -40,6 +35,19 @@ export class HomeComponent {
       fileReader.readAsText(fileChangeEvent.target.files[0]);
     } catch (TypeError) {
       console.log('error loading, type error');
+    }
+  }
+
+  confirmSelection() {
+    this.confirmed = true;
+    const parsedFile = this.parseFile(this.fileReaderString);
+    this.fileReaderString = undefined;
+    this.file = parsedFile;
+    if (this.lexer.hasVersionRegex(parsedFile[0])) {
+      const tokens = this.lexer.getTokens(parsedFile);
+      this.parser.parseTokens(tokens, parsedFile.length);
+    } else {
+      console.log('not a sqm file');
     }
   }
 
