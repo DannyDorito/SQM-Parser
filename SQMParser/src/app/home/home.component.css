@@ -1,4 +1,4 @@
-div {
+.div-select {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -6,6 +6,26 @@ div {
   position: fixed;
   top: 50%;
   left: 50%;
+}
+
+.file {
+  text-align: left;
+}
+
+.div-file {
+  align-items: flex-start;
+  padding-left: 5px;
+}
+
+p {
+  padding-bottom: 0;
+}
+
+div {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
 }
 
 input {

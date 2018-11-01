@@ -28,10 +28,7 @@ export class HomeComponent {
       this.file = parsedFile;
       if (this.lexer.hasVersionRegex(parsedFile[0])) {
         const tokens = this.lexer.getTokens(parsedFile);
-        console.log('parsed length' + parsedFile.length);
         this.parser.parseTokens(tokens, parsedFile.length);
-        console.log('parsed length2' + parsedFile.length);
-
       } else {
         console.log('not a sqm file');
       }
