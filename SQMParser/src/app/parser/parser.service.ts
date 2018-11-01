@@ -1,5 +1,13 @@
 import { Injectable } from '@angular/core';
-import { FoundToken, Token } from '../shared/tokens';
+import { FoundToken, Token, Grammar } from '../shared/tokens';
+
+const grammarRules = [
+  { type: Grammar.STRING, definition: Token.PRIMITIVE_STRING + Token.EQUALS + Token.PRIMITIVE_NUMBER + Token.SEMICOLON },
+  { type: Grammar.BOOLEAN, definition: Token.PRIMITIVE_STRING + Token.EQUALS + Token.PRIMITIVE_BOOLEAN + Token.SEMICOLON },
+  { type: Grammar.NUMBER, definition: Token.PRIMITIVE_STRING + Token.EQUALS + Token.PRIMITIVE_NUMBER },
+  { type: Grammar.ARRAY, definition: ''},
+  { type: Grammar.CLASS, definition: ''}
+];
 
 @Injectable({
   providedIn: 'root'
