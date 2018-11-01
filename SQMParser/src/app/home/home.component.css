@@ -28,15 +28,14 @@ div {
   flex-direction: column;
 }
 
-input {
+.file-select-input {
   opacity: 0;
   overflow: hidden;
   position: absolute;
   z-index: -1;
 }
 
-input,
-label {
+.file-select {
   font-size: 28px;
   font-weight: 700;
   background-color: #78866B;

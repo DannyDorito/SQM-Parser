@@ -47,6 +47,10 @@ export class HomeComponent {
     }
   }
 
+  editItem(pos: number) {
+    console.log(pos);
+  }
+
   /**
    * Trims each element of array
    * Based on:
