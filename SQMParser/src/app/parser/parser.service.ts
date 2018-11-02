@@ -4,18 +4,18 @@ import { isNullOrUndefined } from 'util';
 import { AST } from '../shared/ast';
 
 const tokensRegex = [
+  { regex: /[a-zA-Z0-9]+/, tokenType: Token.STRING },
+  { regex: /true|false/, tokenType: Token.BOOLEAN },
   { regex: /[\s\t\n\r]+/, tokenType: Token.WHITESPACE },
   { regex: /{/, tokenType: Token.START_BRACE },
   { regex: /}/, tokenType: Token.END_BRACE },
   { regex: /\[/, tokenType: Token.START_SQUARE_BRACE },
   { regex: /\]/, tokenType: Token.END_SQUARE_BRACE },
-  { regex: /;/, tokenType: Token.SEMICOLON },
   { regex: /=/, tokenType: Token.EQUALS },
   { regex: /,/, tokenType: Token.COMMA },
   { regex: /"/, tokenType: Token.QUOTE },
   { regex: /[+\-]?(?:0|[1-9]\d*)(?:\.\d*)?(?:[eE][+\-]?\d+)?/, tokenType: Token.NUMBER },
-  { regex: /true|false/, tokenType: Token.BOOLEAN },
-  { regex: /[a-zA-Z0-9]+/, tokenType: Token.STRING }
+  { regex: /;/, tokenType: Token.SEMICOLON }
 ];
 @Injectable( {
   providedIn: 'root'
@@ -41,9 +41,7 @@ export class ParserService {
    * https://blog.mgechev.com/2017/09/16/developing-simple-interpreter-transpiler-compiler-tutorial/ , Accessed 2nd November 2018
    */
   async parseFile( inputString: string ) {
-    const lex = str => str.split( '\r\n' ).map( s => s.trim() ).filter( s => s.length );
-    const parsedFile: string[] = lex( inputString );
-    return parsedFile;
+    return inputString.split( '\r\n' );
   }
 
   /**
@@ -89,19 +87,17 @@ export class ParserService {
   async generateAST( foundTokens: FoundToken[] ) {
     const astArray: AST[] = [];
     for ( let tokenIndex = 0; tokenIndex < foundTokens[ foundTokens.length - 1 ].line; tokenIndex++ ) {
-      const tokensOnLine = foundTokens.filter( token => token.line === tokenIndex ).reverse();
+      const tokensOnLine = foundTokens.filter( token => token.line === tokenIndex );
       if ( !isNullOrUndefined( tokensOnLine ) ) {
         const ast = new AST( undefined, [] );
         let count = 0;
         tokensOnLine.forEach( token => {
-          if ( token.type !== Token.WHITESPACE ) {
-            if ( count === 0 ) {
-              ast.item = token;
-            } else {
-              ast.children.push( new AST( token, undefined ) );
-            }
-            count++;
+          if ( count === 0 ) {
+            ast.item = token;
+          } else {
+            ast.children.push( new AST( token, undefined ) );
           }
+          count++;
         } );
         astArray.push( ast );
       }

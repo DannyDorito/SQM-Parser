@@ -6,8 +6,4 @@
 <div class="div-select">
   <button *ngIf="!confirmed && fileReaderString" (click)="confirmSelection()">CONFIRM</button>
 </div>
-<div class="file" *ngFor="let item of ast">
-  {{item.item.value}}
-  <div class="file" *ngFor="let x of item.children">{{x.item.value}}</div>
-</div>
-<button (click)="saveFile('test.sqm')" *ngIf="file">SAVE</button>
+<button (click)="saveFile('test.sqm')" *ngIf="ast">SAVE</button>
