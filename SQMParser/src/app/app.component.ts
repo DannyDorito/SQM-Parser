@@ -1,22 +1,22 @@
 import { Component, OnInit } from '@angular/core';
 
-@Component({
+@Component( {
   selector: 'app-root',
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.css']
-})
+  styleUrls: [ './app.component.css' ]
+} )
 export class AppComponent implements OnInit {
   isOptions = false;
   isOptionsText = 'Options';
 
   ngOnInit() {
-    if (!this.hasLocalStorage('SQM_hasOptions')) {
-      localStorage.setItem('SQM_hasOptions', 'y');
+    if ( !this.hasLocalStorage( 'SQM_hasOptions' ) ) {
+      localStorage.setItem( 'SQM_hasOptions', 'y' );
     }
   }
 
   changeView() {
-    if (this.isOptions) {
+    if ( this.isOptions ) {
       this.isOptions = false;
       this.isOptionsText = 'Options';
     } else {
@@ -25,9 +25,9 @@ export class AppComponent implements OnInit {
     }
   }
 
-  hasLocalStorage(accessor: string) {
-    const storageItem = localStorage.getItem(accessor);
-    if (storageItem === null) {
+  hasLocalStorage( accessor: string ) {
+    const storageItem = localStorage.getItem( accessor );
+    if ( storageItem === null ) {
       return false;
     } else {
       return true;
