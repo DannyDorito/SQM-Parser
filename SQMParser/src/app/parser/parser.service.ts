@@ -16,23 +16,32 @@ const tokensRegex = [
   { regex: /true|false/, tokenType: Token.BOOLEAN },
   { regex: /[a-zA-Z0-9]+/, tokenType: Token.STRING }
 ];
-
 @Injectable( {
   providedIn: 'root'
 } )
 export class ParserService {
 
-  async executeLexer( inputString: string ) {
-    const parsedFile = this.parseFile( inputString );
-    const a = this.getTokens( parsedFile );
-    console.log( parsedFile );
+  async executeLexer(inputString: string) {
+    const parsedFile = <string[]> await this.parseFile(inputString);
+    const tokens = <FoundToken[]> await this.getTokens(parsedFile);
+    console.log(tokens);
   }
 
   /**
- * ASYNC
- * Based on:
- * http://www.thinksincode.com/2016/10/30/create-a-basic-lexer.html Accessed 16th October 2018
- */
+   * Based on:
+   * https://blog.mgechev.com/2017/09/16/developing-simple-interpreter-transpiler-compiler-tutorial/ , Accessed 2nd November 2018
+   */
+  async parseFile(inputString: string) {
+    const lex = str => str.split('\r\n').map(s => s.trim()).filter(s => s.length);
+    const parsedFile: string[] = lex(inputString);
+    return parsedFile;
+  }
+
+  /**
+   * ASYNC
+   * Based on:
+   * http://www.thinksincode.com/2016/10/30/create-a-basic-lexer.html Accessed 16th October 2018
+   */
   async getTokens( parsedFile: string[] ) {
     if ( !isNullOrUndefined( parsedFile ) ) {
       const lexemes: FoundToken[] = [];
@@ -41,7 +50,7 @@ export class ParserService {
         tokensRegex.forEach( token => {
           const regexResult = token.regex.exec( inputElement );
           if ( regexResult !== null ) {
-            lexemes.push( new FoundToken( token.tokenType, regexResult[ 0 ], line, regexResult.index  ) );
+            lexemes.push( new FoundToken( token.tokenType, regexResult[ 0 ], line, regexResult.index ) );
           }
         } );
         line++;
@@ -50,16 +59,6 @@ export class ParserService {
     } else {
       return undefined;
     }
-  }
-
-  /**
-   * Based on:
-   * https://blog.mgechev.com/2017/09/16/developing-simple-interpreter-transpiler-compiler-tutorial/ , Accessed 2nd November 2018
-   */
-  parseFile( inputString: string ) {
-    const lex = str => str.split( '\r\n' ).map( s => s.trim() ).filter( s => s.length );
-    const parsedFile: string[] = lex( inputString );
-    return parsedFile;
   }
 
   /**

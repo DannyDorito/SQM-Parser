@@ -21,18 +21,18 @@ export class HomeComponent {
    * https://stackoverflow.com/a/27439524 [Online] Accessed 16th October 2018
    * https://www.typescriptlang.org/docs/handbook/declaration-files/do-s-and-don-ts.html [Online] Accessed 17th October 2018
    */
-  onFileChanged( fileChangeEvent: any ) {
+  onFileChanged(fileChangeEvent: any) {
     const fileReader = new FileReader();
     fileReader.onload = () => {
       this.fileReaderString = fileReader.result as string;
     };
     fileReader.onerror = () => {
-      console.log( 'error loading' );
+      console.log('error loading');
     };
     try {
-      fileReader.readAsText( fileChangeEvent.target.files[ 0 ] );
-    } catch ( TypeError ) {
-      console.log( 'error loading, type error' );
+      fileReader.readAsText(fileChangeEvent.target.files[0]);
+    } catch (TypeError) {
+      console.log('error loading, type error');
     }
   }
 
@@ -41,16 +41,15 @@ export class HomeComponent {
    * Fired when the user clicks the confirm button, main method
    */
   async confirmSelection() {
-    if ( !isNullOrUndefined( this.fileReaderString ) ) {
+    if (!isNullOrUndefined(this.fileReaderString)) {
       this.confirmed = true;
-      // this.fileTree = < FileTree[] > await
-      this.parser.executeLexer( this.fileReaderString );
+      this.parser.executeLexer(this.fileReaderString);
       this.fileReaderString = undefined;
     }
   }
 
-  editItem( pos: number ) {
-    console.log( pos );
+  editItem(pos: number) {
+    console.log(pos);
   }
 
   /**
@@ -60,16 +59,14 @@ export class HomeComponent {
    * https://github.com/eligrey/FileSaver.js/issues/308#issuecomment-286127364  [Online] Accessed 20th October 2018
    * https://github.com/eligrey/FileSaver.js/blob/master/README.md#supported-browsers [Online] Accessed 20th October 2018
    */
-  saveFile( fileName: string ) {
+  saveFile(fileName: string) {
     try {
       const isFileSaverSupported = !!new Blob;
-      if ( !fileName.includes( '.sqm' ) ) {
+      if (!fileName.includes('.sqm')) {
         fileName += '.sqm';
       }
-      FileSaver.saveAs( new Blob( this.file, {
-        type: 'text/plain;charset=utf-8'
-      } ), fileName );
-    } catch ( e ) {
+      FileSaver.saveAs(new Blob(this.file, { type: 'text/plain;charset=utf-8' }), fileName);
+    } catch (e) {
       console.log( 'blobs are not supported by your browser' );
     }
   }
