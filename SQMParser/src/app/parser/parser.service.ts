@@ -87,17 +87,17 @@ export class ParserService {
    */
   async generateAST( foundTokens: FoundToken[] ) {
     const astArray: AST[] = [];
-    for ( let tokenIndex = 0; tokenIndex < foundTokens[ foundTokens.length - 1 ].posX; tokenIndex++ ) {
-      const tokensOnLine = foundTokens.filter( token => token.posX === tokenIndex ).reverse();
+    for ( let tokenIndex = 0; tokenIndex < foundTokens[ foundTokens.length - 1 ].line; tokenIndex++ ) {
+      const tokensOnLine = foundTokens.filter( token => token.line === tokenIndex ).reverse();
       if ( !isNullOrUndefined( tokensOnLine ) ) {
-        const ast = new AST( null, [] );
+        const ast = new AST( undefined, [] );
         let count = 0;
         tokensOnLine.forEach( token => {
           if ( token.type !== Token.WHITESPACE ) {
             if ( count === 0 ) {
               ast.item = token;
             } else {
-              ast.children.push( new AST( token, null ) );
+              ast.children.push( new AST( token, undefined ) );
             }
             count++;
           }

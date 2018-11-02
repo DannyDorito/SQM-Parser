@@ -16,8 +16,8 @@ export enum Token {
 export class FoundToken {
   type: Token;
   value: string;
-  posX: number;
-  posY: number;
+  line: number;
+  posOnLine: number;
   constructor(
     _type: Token,
     _value: string,
@@ -26,7 +26,7 @@ export class FoundToken {
   ) {
     this.type = _type;
     this.value = _value;
-    this.posX = _posX;
-    this.posY = _posY;
+    this.line = _posX;
+    this.posOnLine = _posY;
   }
 }
