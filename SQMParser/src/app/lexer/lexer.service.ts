@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Token, FoundToken } from '../shared/tokens';
+import { isNullOrUndefined } from 'util';
 
 const tokensRegex = [
   { regex: /[\s\t\n\r]+/, tokenType: Token.WHITESPACE },
@@ -20,30 +21,47 @@ const tokensRegex = [
 })
 export class LexerService {
   /**
+   * ASYNC
    * Returns {type: x, value: y, index: z} found by the 'tokens' regex
    * Based on:
    * http://www.thinksincode.com/2016/10/30/create-a-basic-lexer.html Accessed 16th October 2018
   */
-  getTokens(inputFile: string[]) {
-    const lexemes: FoundToken[] = [];
-    let index = 0;
-    inputFile.forEach(inputElement => {
-      tokensRegex.forEach(token => {
-        const regexResult = token.regex.exec(inputElement);
-        if (regexResult !== null) {
-          const newToken = new FoundToken(token.tokenType, regexResult[0], index);
-          lexemes.push(newToken);
-        }
+  async getTokens(inputFile: string[]) {
+    if (!isNullOrUndefined(inputFile)) {
+      const lexemes: FoundToken[] = [];
+      let index = 0;
+      inputFile.forEach(inputElement => {
+        tokensRegex.forEach(token => {
+          const regexResult = token.regex.exec(inputElement);
+          if (regexResult !== null) {
+            lexemes.push(new FoundToken(token.tokenType, regexResult[0], index));
+          }
+        });
+        index++;
       });
-      index++;
+      return lexemes;
+    } else {
+      return null;
+    }
+  }
+
+  /**
+ * ASYNC
+ * Trims each element of array
+ * Based on:
+ * https://www.textfixer.com/tutorials/javascript-line-breaks.php [Online] Accessed 17th October 2018
+ */
+  async parseFile(fileString: string) {
+    const fileArray = fileString.split('\r\n');
+    fileArray.forEach(element => {
+      element = element.trim();
     });
-    return lexemes;
+    return fileArray;
   }
 
-  parseTokens(foundTokens: FoundToken[], lines: number) {
-    console.log('hit');
-  }
-
+  /**
+ * Filters found tokens depending on the passed line number, for iterating
+ */
   getTokensOnLine(allTokens: FoundToken[], line: number) {
     if (line <= 0 || allTokens.length > line) {
       return null;
@@ -51,17 +69,18 @@ export class LexerService {
       return allTokens.filter(tokens => tokens.index === allTokens[(allTokens.length - 1)].index);
     }
   }
-  /**
-   * Finds enum tokens using array.filter, returns FoundToken[]
-   */
-  filterTokenType(passedTokens: FoundToken[], tokenToFind: Token) {
-    return passedTokens.filter(passToken => passToken.type === tokenToFind);
-  }
 
-    /**
-   * Finds enum tokens using array.find, returns FoundToken[]
-   */
-  findTokenType(passedTokens: FoundToken[], tokenToFind: Token) {
-    return passedTokens.find(passToken => passToken.type === tokenToFind);
+/**
+ * Finds enum tokens using array.filter, returns FoundToken[]
+ */
+  // filterTokenType(passedTokens: FoundToken[], tokenToFind: Token) {
+  //   return passedTokens.filter(passToken => passToken.type === tokenToFind);
+  // }
+
+/**
+ *
+ */
+  parseTokens(foundTokens: FoundToken[], lines: number) {
+    console.log('hit');
   }
 }

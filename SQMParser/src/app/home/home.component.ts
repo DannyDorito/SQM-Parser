@@ -1,6 +1,8 @@
 import { Component } from '@angular/core';
 import { LexerService } from '../lexer/lexer.service';
 import * as FileSaver from 'file-saver';
+import { FoundToken } from '../shared/tokens';
+import { isNullOrUndefined } from 'util';
 
 @Component({
   selector: 'app-home',
@@ -12,6 +14,7 @@ export class HomeComponent {
   fileReaderString: string;
   file: string[];
   confirmed = false;
+  lexemes: FoundToken[];
 
   /**
    * Fired when a file has been selected by the user's $event
@@ -35,33 +38,26 @@ export class HomeComponent {
     }
   }
 
-  confirmSelection() {
+  /**
+  * ASYNC
+  * Fired when the user clicks the confirm button, main method
+  */
+  async confirmSelection() {
     this.confirmed = true;
-    const parsedFile = this.parseFile(this.fileReaderString);
-    this.fileReaderString = undefined;
+    const parsedFile = <string[]> await this.lexer.parseFile(this.fileReaderString);
     this.file = parsedFile;
-    if (this.hasVersionRegex(parsedFile[0])) {
-      this.lexer.parseTokens(this.lexer.getTokens(parsedFile), parsedFile.length);
-    } else {
-      console.log('not a sqm file');
+    this.fileReaderString = undefined;
+    if (!isNullOrUndefined(parsedFile)) {
+      if (this.hasVersionRegex(parsedFile[0])) {
+      this.lexemes = <FoundToken[]> await this.lexer.getTokens(parsedFile);
+      } else {
+        console.log('not a sqm file');
+      }
     }
   }
 
   editItem(pos: number) {
     console.log(pos);
-  }
-
-  /**
-   * Trims each element of array
-   * Based on:
-   * https://www.textfixer.com/tutorials/javascript-line-breaks.php [Online] Accessed 17th October 2018
-   */
-  parseFile(fileString: string) {
-    const fileArray = fileString.split('\r\n');
-    fileArray.forEach(element => {
-      element = element.trim();
-    });
-    return fileArray;
   }
 
   /**
@@ -73,12 +69,12 @@ export class HomeComponent {
   }
 
   /**
-   * Saves given file to passed fileName, appends .sqm if it does not have it
-   * Based on:
-   * https://github.com/eligrey/FileSaver.js [Online] Accessed 19th October 2018
-   * https://github.com/eligrey/FileSaver.js/issues/308#issuecomment-286127364  [Online] Accessed 20th October 2018
-   * https://github.com/eligrey/FileSaver.js/blob/master/README.md#supported-browsers [Online] Accessed 20th October 2018
-   */
+ * Saves given file to passed fileName, appends .sqm if it does not have it
+ * Based on:
+ * https://github.com/eligrey/FileSaver.js [Online] Accessed 19th October 2018
+ * https://github.com/eligrey/FileSaver.js/issues/308#issuecomment-286127364  [Online] Accessed 20th October 2018
+ * https://github.com/eligrey/FileSaver.js/blob/master/README.md#supported-browsers [Online] Accessed 20th October 2018
+ */
   saveFile(fileName: string) {
     try {
       const isFileSaverSupported = !!new Blob;
