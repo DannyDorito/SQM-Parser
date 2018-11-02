@@ -1,10 +1,10 @@
 import { Component } from '@angular/core';
 
-@Component({
+@Component( {
   selector: 'app-functions',
   templateUrl: './functions.component.html',
   styleUrls: ['./functions.component.css']
-})
+} )
 export class FunctionsComponent {
   functions = [
     {name: 'Function 1', function: 'Execute 1', image: 'edit'},

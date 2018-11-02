@@ -23,7 +23,7 @@ export class FoundToken {
     _value: string,
     _posX: number,
     _posY: number
-    ) {
+  ) {
     this.type = _type;
     this.value = _value;
     this.posX = _posX;
