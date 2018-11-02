@@ -3,10 +3,13 @@
   <!-- Based on: https://www.academind.com/learn/angular/snippets/angular-image-upload-made-easy/ [Online] Accessed 9th October 2018-->
   <label class="file-select unselectable" for="fileSelect">Upload a file!</label>
 </div>
-<div class="div-file" *ngFor="let item of file">
-  <input type="text" class="file" (click)="editItem(0)" [(ngModel)]="item" readonly="true">
-</div>
 <div class="div-select">
   <button *ngIf="!confirmed && fileReaderString" (click)="confirmSelection()">CONFIRM</button>
 </div>
+
+<ul class="div-file">
+  <li *ngFor="let fileT of fileTree" class="file">
+    {{fileT.contents}}
+  </li>
+</ul>
 <button (click)="saveFile('test.sqm')" *ngIf="file">SAVE</button>
