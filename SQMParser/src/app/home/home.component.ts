@@ -1,9 +1,7 @@
 import { Component } from '@angular/core';
-import { LexerService } from '../lexer/lexer.service';
 import * as FileSaver from 'file-saver';
-import { FoundToken } from '../shared/tokens';
 import { isNullOrUndefined } from 'util';
-import { FileTree } from '../shared/file-tree';
+import { ParserService } from '../parser/parser.service';
 
 @Component( {
   selector: 'app-home',
@@ -11,12 +9,10 @@ import { FileTree } from '../shared/file-tree';
   styleUrls: [ './home.component.css' ]
 } )
 export class HomeComponent {
-  constructor( private lexer: LexerService ) {}
+  constructor( private parser: ParserService ) {}
   fileReaderString: string;
-  file: string[];
   confirmed = false;
-  lexemes: FoundToken[];
-  fileTree: FileTree[];
+  file: string[];
 
   /**
    * Fired when a file has been selected by the user's $event
@@ -47,7 +43,8 @@ export class HomeComponent {
   async confirmSelection() {
     if ( !isNullOrUndefined( this.fileReaderString ) ) {
       this.confirmed = true;
-      this.fileTree = < FileTree[] > await this.lexer.getTokens( this.fileReaderString );
+      // this.fileTree = < FileTree[] > await
+      this.parser.executeLexer( this.fileReaderString );
       this.fileReaderString = undefined;
     }
   }

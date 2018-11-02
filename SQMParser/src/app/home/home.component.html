@@ -6,10 +6,4 @@
 <div class="div-select">
   <button *ngIf="!confirmed && fileReaderString" (click)="confirmSelection()">CONFIRM</button>
 </div>
-
-<ul class="div-file">
-  <li *ngFor="let fileT of fileTree" class="file">
-    {{fileT.contents}}
-  </li>
-</ul>
 <button (click)="saveFile('test.sqm')" *ngIf="file">SAVE</button>
