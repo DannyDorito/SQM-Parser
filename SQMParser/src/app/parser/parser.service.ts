@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { FoundToken, Token } from '../shared/tokens';
 import { isNullOrUndefined } from 'util';
+import { AST } from '../shared/ast';
 
 const tokensRegex = [
   { regex: /[\s\t\n\r]+/, tokenType: Token.WHITESPACE },
@@ -21,19 +22,26 @@ const tokensRegex = [
 } )
 export class ParserService {
 
-  async executeLexer(inputString: string) {
-    const parsedFile = <string[]> await this.parseFile(inputString);
-    const tokens = <FoundToken[]> await this.getTokens(parsedFile);
-    console.log(tokens);
+  /**
+   * ASYNC
+   * Main method execution function for ParserService
+   */
+  async execute( inputString: string ) {
+    const parsedFile = < string[] > await this.parseFile( inputString );
+    const tokens = < FoundToken[] > await this.getTokens( parsedFile );
+    const ast = < AST[] > await this.generateAST( tokens );
+    console.log( ast );
   }
 
   /**
+   * ASYNC
+   * Fast string splitting
    * Based on:
    * https://blog.mgechev.com/2017/09/16/developing-simple-interpreter-transpiler-compiler-tutorial/ , Accessed 2nd November 2018
    */
-  async parseFile(inputString: string) {
-    const lex = str => str.split('\r\n').map(s => s.trim()).filter(s => s.length);
-    const parsedFile: string[] = lex(inputString);
+  async parseFile( inputString: string ) {
+    const lex = str => str.split( '\r\n' ).map( s => s.trim() ).filter( s => s.length );
+    const parsedFile: string[] = lex( inputString );
     return parsedFile;
   }
 
@@ -44,18 +52,22 @@ export class ParserService {
    */
   async getTokens( parsedFile: string[] ) {
     if ( !isNullOrUndefined( parsedFile ) ) {
-      const lexemes: FoundToken[] = [];
-      let line = 0;
-      parsedFile.forEach( inputElement => {
-        tokensRegex.forEach( token => {
-          const regexResult = token.regex.exec( inputElement );
-          if ( regexResult !== null ) {
-            lexemes.push( new FoundToken( token.tokenType, regexResult[ 0 ], line, regexResult.index ) );
-          }
+      if ( this.hasVersionRegex( parsedFile[ 0 ] ) ) {
+        const lexemes: FoundToken[] = [];
+        let line = 0;
+        parsedFile.forEach( inputElement => {
+          tokensRegex.forEach( token => {
+            const regexResult = token.regex.exec( inputElement );
+            if ( regexResult !== null ) {
+              lexemes.push( new FoundToken( token.tokenType, regexResult[ 0 ], line, regexResult.index ) );
+            }
+          } );
+          line++;
         } );
-        line++;
-      } );
-      return lexemes;
+        return lexemes;
+      } else {
+        return undefined;
+      }
     } else {
       return undefined;
     }
@@ -67,5 +79,32 @@ export class ParserService {
   hasVersionRegex( input: string ) {
     const regex = /(version\s*=\s*)(?:0|[1-9]\d*)/;
     return regex.test( input );
+  }
+
+  /**
+   * ASYNC
+   * Creates an abstract syntax tree base on the passed lexemes
+   */
+  async generateAST( foundTokens: FoundToken[] ) {
+    const astArray: AST[] = [];
+    for ( let tokenIndex = 0; tokenIndex < foundTokens[ foundTokens.length - 1 ].posX; tokenIndex++ ) {
+      const tokensOnLine = foundTokens.filter( token => token.posX === tokenIndex ).reverse();
+      if ( !isNullOrUndefined( tokensOnLine ) ) {
+        const ast = new AST( null, [] );
+        let count = 0;
+        tokensOnLine.forEach( token => {
+          if ( token.type !== Token.WHITESPACE ) {
+            if ( count === 0 ) {
+              ast.item = token;
+            } else {
+              ast.children.push( new AST( token, null ) );
+            }
+            count++;
+          }
+        } );
+        astArray.push( ast );
+      }
+    }
+    return astArray;
   }
 }
