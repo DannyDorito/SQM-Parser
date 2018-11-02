@@ -10,23 +10,33 @@ export enum Token {
   QUOTE = 'QUOTE',
   NUMBER = 'NUMBER',
   BOOLEAN = 'BOOLEAN',
-  STRING = 'STRING'
+  STRING = 'STRING',
+  ARRAY_CONTENTS = 'ARRAY_CONTENTS',
+  CLASS_CONTENTS = 'CLASS_CONTENTS'
+}
+
+export enum Grammar {
+  STRING = Token.STRING + Token.EQUALS + Token.QUOTE + Token.STRING + Token.QUOTE + Token.SEMICOLON,
+  BOOLEAN = Token.STRING + Token.EQUALS + Token.BOOLEAN + Token.SEMICOLON,
+  NUMBER = Token.STRING + Token.EQUALS + Token.NUMBER + Token.EQUALS + Token.SEMICOLON,
+  ARRAY = Token.STRING + Token.START_SQUARE_BRACE + Token.EQUALS + Token.START_BRACE + Token.ARRAY_CONTENTS + Token.END_BRACE + Token.SEMICOLON,
+  CLASS = Token.STRING + Token.EQUALS + Token.STRING + Token.START_BRACE + Token.CLASS_CONTENTS + Token.END_BRACE
 }
 
 export class FoundToken {
   type: Token;
   value: string;
   line: number;
-  posOnLine: number;
+  position: number;
   constructor(
     _type: Token,
     _value: string,
-    _posX: number,
-    _posY: number
+    _line: number,
+    _position: number
   ) {
     this.type = _type;
     this.value = _value;
-    this.line = _posX;
-    this.posOnLine = _posY;
+    this.line = _line;
+    this.position = _position;
   }
 }

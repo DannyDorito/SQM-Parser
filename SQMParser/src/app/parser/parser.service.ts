@@ -17,6 +17,7 @@ const tokensRegex = [
   { regex: /[+\-]?(?:0|[1-9]\d*)(?:\.\d*)?(?:[eE][+\-]?\d+)?/, tokenType: Token.NUMBER },
   { regex: /;/, tokenType: Token.SEMICOLON }
 ];
+
 @Injectable( {
   providedIn: 'root'
 } )
@@ -27,21 +28,10 @@ export class ParserService {
    * Main method execution function for ParserService
    */
   async execute( inputString: string ) {
-    const parsedFile = < string[] > await this.parseFile( inputString );
-    const tokens = < FoundToken[] > await this.getTokens( parsedFile );
-    const ast = < AST[] > await this.generateAST( tokens );
-    console.log( ast );
-    return ast;
-  }
-
-  /**
-   * ASYNC
-   * Fast string splitting
-   * Based on:
-   * https://blog.mgechev.com/2017/09/16/developing-simple-interpreter-transpiler-compiler-tutorial/ , Accessed 2nd November 2018
-   */
-  async parseFile( inputString: string ) {
-    return inputString.split( '\r\n' );
+    const foundTokens = < FoundToken[] > await this.getTokens( inputString.split( '\r\n' ) );
+    const tree = < AST[] > await this.generateAST( foundTokens );
+    console.log( tree );
+    return tree;
   }
 
   /**
@@ -49,35 +39,25 @@ export class ParserService {
    * Based on:
    * http://www.thinksincode.com/2016/10/30/create-a-basic-lexer.html Accessed 16th October 2018
    */
-  async getTokens( parsedFile: string[] ) {
-    if ( !isNullOrUndefined( parsedFile ) ) {
-      if ( this.hasVersionRegex( parsedFile[ 0 ] ) ) {
-        const lexemes: FoundToken[] = [];
-        let line = 0;
-        parsedFile.forEach( inputElement => {
-          tokensRegex.forEach( token => {
-            const regexResult = token.regex.exec( inputElement );
-            if ( regexResult !== null ) {
-              lexemes.push( new FoundToken( token.tokenType, regexResult[ 0 ], line, regexResult.index ) );
-            }
-          } );
-          line++;
-        } );
-        return lexemes;
-      } else {
-        return undefined;
-      }
-    } else {
+  async getTokens( fileArray: string[] ) {
+    if ( isNullOrUndefined( fileArray ) ) {
       return undefined;
     }
-  }
-
-  /**
-   * Checks input to see if it matches version regex
-   */
-  hasVersionRegex( input: string ) {
-    const regex = /(version\s*=\s*)(?:0|[1-9]\d*)/;
-    return regex.test( input );
+    if ( !/(version\s*=\s*)(?:0|[1-9]\d*)/.test(fileArray[0]) ) {
+      return undefined;
+    }
+    const lexemes: FoundToken[] = [];
+    let line = 0;
+    fileArray.forEach( fileElement => {
+      tokensRegex.forEach( token => {
+        const regexResult = token.regex.exec( fileElement );
+        if ( regexResult !== null ) {
+          lexemes.push( new FoundToken( token.tokenType, regexResult[ 0 ], line, regexResult.index ) );
+        }
+      } );
+      line++;
+    } );
+    return lexemes;
   }
 
   /**
@@ -85,23 +65,23 @@ export class ParserService {
    * Creates an abstract syntax tree base on the passed lexemes
    */
   async generateAST( foundTokens: FoundToken[] ) {
-    const astArray: AST[] = [];
+    const tree: AST[] = [];
     for ( let tokenIndex = 0; tokenIndex < foundTokens[ foundTokens.length - 1 ].line; tokenIndex++ ) {
       const tokensOnLine = foundTokens.filter( token => token.line === tokenIndex );
-      if ( !isNullOrUndefined( tokensOnLine ) ) {
-        const ast = new AST( undefined, [] );
-        let count = 0;
+      if ( !isNullOrUndefined( tokensOnLine )) {
+        const branch = new AST( undefined, [] );
         tokensOnLine.forEach( token => {
-          if ( count === 0 ) {
-            ast.item = token;
-          } else {
-            ast.children.push( new AST( token, undefined ) );
+          if (token.type !== Token.WHITESPACE) {
+            if (!isNullOrUndefined(branch.item)) {
+              branch.item = token;
+            } else {
+              branch.children.push( new AST( token, undefined ) );
+            }
           }
-          count++;
         } );
-        astArray.push( ast );
+        tree.push( branch );
       }
     }
-    return astArray;
+    return tree;
   }
 }

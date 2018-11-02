@@ -11,10 +11,10 @@ import { AST } from '../shared/ast';
 } )
 export class HomeComponent {
   constructor( private parser: ParserService ) {}
+
   fileReaderString: string;
   confirmed = false;
-  file: string[];
-  ast: AST[];
+  tree: AST[];
 
   /**
    * Fired when a file has been selected by the user's $event
@@ -45,7 +45,7 @@ export class HomeComponent {
   async confirmSelection() {
     if ( !isNullOrUndefined( this.fileReaderString ) ) {
       this.confirmed = true;
-      this.ast = <AST[]> await this.parser.execute( this.fileReaderString );
+      this.tree = <AST[]> await this.parser.execute( this.fileReaderString );
     }
   }
 
@@ -60,17 +60,17 @@ export class HomeComponent {
    * https://github.com/eligrey/FileSaver.js/issues/308#issuecomment-286127364  [Online] Accessed 20th October 2018
    * https://github.com/eligrey/FileSaver.js/blob/master/README.md#supported-browsers [Online] Accessed 20th October 2018
    */
-  saveFile( fileName: string ) {
-    try {
-      const isFileSaverSupported = !!new Blob;
-      if ( !fileName.includes( '.sqm' ) ) {
-        fileName += '.sqm';
-      }
-      FileSaver.saveAs( new Blob( this.file, {
-        type: 'text/plain;charset=utf-8'
-      } ), fileName );
-    } catch ( e ) {
-      console.log( 'blobs are not supported by your browser' );
-    }
-  }
+  // saveFile( fileName: string ) {
+  //   try {
+  //     const isFileSaverSupported = !!new Blob;
+  //     if ( !fileName.includes( '.sqm' ) ) {
+  //       fileName += '.sqm';
+  //     }
+  //     FileSaver.saveAs( new Blob( this.file, {
+  //       type: 'text/plain;charset=utf-8'
+  //     } ), fileName );
+  //   } catch ( exception ) {
+  //     console.log( exception );
+  //   }
+  // }
 }
