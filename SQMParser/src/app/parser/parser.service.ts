@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { FoundToken, Token } from '../shared/tokens';
+import { FoundToken, Token, Grammar } from '../shared/tokens';
 import { isNullOrUndefined } from 'util';
 import { AST } from '../shared/ast';
 
@@ -35,7 +35,7 @@ export class ParserService {
     if ( isNullOrUndefined( tree ) ) {
       return undefined;
     }
-    console.log( tree );
+    const a = < void > await this.findGrammars( tree );
     return tree;
   }
 
@@ -88,5 +88,45 @@ export class ParserService {
       }
     }
     return tree;
+  }
+
+  async findGrammars( tree: AST[] ) {
+    tree.forEach( branch => {
+      let a = '';
+      if ( !isNullOrUndefined( branch.item.value ) ) {
+        a += branch.item.value;
+        branch.children.forEach( child => {
+          if ( !isNullOrUndefined( child ) ) {
+            a += child.item;
+          }
+        } );
+      }
+
+      switch ( a ) {
+        case Grammar.STRING.toString():
+          console.log( 'found string' );
+          break;
+
+        case Grammar.BOOLEAN.toString():
+          console.log( 'found string' );
+          break;
+
+        case Grammar.NUMBER.toString():
+          console.log( 'found string' );
+          break;
+
+        case Grammar.ARRAY.toString():
+          console.log( 'found string' );
+          break;
+
+        case Grammar.CLASS.toString():
+          console.log( 'found string' );
+          break;
+
+        default:
+          console.log( 'cannot match: ' + a );
+          break;
+      }
+    } );
   }
 }
