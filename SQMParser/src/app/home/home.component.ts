@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import * as FileSaver from 'file-saver';
 import { isNullOrUndefined } from 'util';
 import { ParserService } from '../parser/parser.service';
+import { AST } from '../shared/ast';
 
 @Component( {
   selector: 'app-home',
@@ -13,6 +14,7 @@ export class HomeComponent {
   fileReaderString: string;
   confirmed = false;
   file: string[];
+  ast: AST[];
 
   /**
    * Fired when a file has been selected by the user's $event
@@ -43,8 +45,7 @@ export class HomeComponent {
   async confirmSelection() {
     if ( !isNullOrUndefined( this.fileReaderString ) ) {
       this.confirmed = true;
-      this.parser.execute( this.fileReaderString );
-      this.fileReaderString = undefined;
+      this.ast = <AST[]> await this.parser.execute( this.fileReaderString );
     }
   }
 

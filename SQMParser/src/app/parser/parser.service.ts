@@ -31,6 +31,7 @@ export class ParserService {
     const tokens = < FoundToken[] > await this.getTokens( parsedFile );
     const ast = < AST[] > await this.generateAST( tokens );
     console.log( ast );
+    return ast;
   }
 
   /**
