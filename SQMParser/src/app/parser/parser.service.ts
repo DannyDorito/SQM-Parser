@@ -17,7 +17,6 @@ const tokensRegex = [
   { regex: /[+\-]?(?:0|[1-9]\d*)(?:\.\d*)?(?:[eE][+\-]?\d+)?/, tokenType: Token.NUMBER },
   { regex: /;/, tokenType: Token.SEMICOLON }
 ];
-
 @Injectable( {
   providedIn: 'root'
 } )
@@ -29,7 +28,13 @@ export class ParserService {
    */
   async execute( inputString: string ) {
     const foundTokens = < FoundToken[] > await this.getTokens( inputString.split( '\r\n' ) );
+    if ( isNullOrUndefined( foundTokens ) ) {
+      return undefined;
+    }
     const tree = < AST[] > await this.generateAST( foundTokens );
+    if ( isNullOrUndefined( tree ) ) {
+      return undefined;
+    }
     console.log( tree );
     return tree;
   }
@@ -43,7 +48,7 @@ export class ParserService {
     if ( isNullOrUndefined( fileArray ) ) {
       return undefined;
     }
-    if ( !/(version\s*=\s*)(?:0|[1-9]\d*)/.test(fileArray[0]) ) {
+    if ( !/(version\s*=\s*)(?:0|[1-9]\d*)/.test( fileArray[ 0 ] ) ) {
       return undefined;
     }
     const lexemes: FoundToken[] = [];
@@ -68,11 +73,11 @@ export class ParserService {
     const tree: AST[] = [];
     for ( let tokenIndex = 0; tokenIndex < foundTokens[ foundTokens.length - 1 ].line; tokenIndex++ ) {
       const tokensOnLine = foundTokens.filter( token => token.line === tokenIndex );
-      if ( !isNullOrUndefined( tokensOnLine )) {
+      if ( !isNullOrUndefined( tokensOnLine ) ) {
         const branch = new AST( undefined, [] );
         tokensOnLine.forEach( token => {
-          if (token.type !== Token.WHITESPACE) {
-            if (!isNullOrUndefined(branch.item)) {
+          if ( token.type !== Token.WHITESPACE ) {
+            if ( !isNullOrUndefined( branch.item ) ) {
               branch.item = token;
             } else {
               branch.children.push( new AST( token, undefined ) );
