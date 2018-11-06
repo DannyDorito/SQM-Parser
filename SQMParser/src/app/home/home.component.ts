@@ -11,11 +11,16 @@ import { ViewTreeComponent } from '../view-tree/view-tree.component';
   styleUrls: [ './home.component.css' ]
 } )
 export class HomeComponent implements AfterViewInit {
-  @ViewChild(ViewTreeComponent) child;
+  /**
+   * Data sharing via ViewChild component
+   * Based on:
+   * https://angularfirebase.com/lessons/sharing-data-between-angular-components-four-methods/ [Online] Accessed 6th November 2018
+   */
+  @ViewChild( ViewTreeComponent ) viewTree;
+  tree: AST[];
 
   fileReaderString: string;
   confirmed = false;
-  tree: AST[];
 
   constructor( private parser: ParserService ) {}
 
@@ -48,14 +53,18 @@ export class HomeComponent implements AfterViewInit {
   async confirmSelection() {
     if ( !isNullOrUndefined( this.fileReaderString ) ) {
       this.confirmed = true;
-      this.tree = <AST[]> await this.parser.execute( this.fileReaderString );
+      this.tree = < AST[] > await this.parser.execute( this.fileReaderString );
       this.fileReaderString = undefined;
     }
   }
 
+  /**
+   * Data sharing via ViewChild component
+   * Based on:
+   * https://angularfirebase.com/lessons/sharing-data-between-angular-components-four-methods/ [Online] Accessed 6th November 2018
+   */
   ngAfterViewInit() {
-    this.child.tree = this.tree;
-    // this.tree = this.child.tree;
+    this.viewTree.tree = this.tree;
   }
 
   editItem( pos: number ) {
