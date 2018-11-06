@@ -64,7 +64,9 @@ export class HomeComponent implements AfterViewInit {
    * https://angularfirebase.com/lessons/sharing-data-between-angular-components-four-methods/ [Online] Accessed 6th November 2018
    */
   ngAfterViewInit() {
-    this.viewTree.tree = this.tree;
+    if (!isNullOrUndefined(this.tree)) {
+      this.viewTree.tree = this.tree;
+    }
   }
 
   editItem( pos: number ) {
