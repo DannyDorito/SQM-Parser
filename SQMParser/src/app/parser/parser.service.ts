@@ -27,15 +27,18 @@ export class ParserService {
    * Main method execution function for ParserService
    */
   async execute( inputString: string ) {
-    const foundTokens = < FoundToken[] > await this.getTokens( inputString.split( '\r\n' ) );
-    if ( isNullOrUndefined( foundTokens ) ) {
-      return undefined;
-    }
-    const tree = < AST[] > await this.generateAST( foundTokens );
-    if ( isNullOrUndefined( tree ) ) {
-      return undefined;
-    }
-    const a = < void > await this.findGrammars( tree );
+    // const foundTokens = < FoundToken[] > await this.getTokens( inputString.split( '\r\n' ) );
+    // if ( isNullOrUndefined( foundTokens ) ) {
+    //   return undefined;
+    // }
+    // const tree = < AST[] > await this.generateASTOld( foundTokens );
+    // if ( isNullOrUndefined( tree ) ) {
+    //   return undefined;
+    // }
+    // const a = < void > await this.findGrammars( tree );
+    // return tree;
+    const tree = < AST[] > await this.generateAST( inputString.split( '\r\n' ) );
+    console.log( tree );
     return tree;
   }
 
@@ -44,7 +47,7 @@ export class ParserService {
    * Based on:
    * http://www.thinksincode.com/2016/10/30/create-a-basic-lexer.html Accessed 16th October 2018
    */
-  async getTokens( fileArray: string[] ) {
+  getTokens( fileArray: string[] ) {
     if ( isNullOrUndefined( fileArray ) ) {
       return undefined;
     }
@@ -65,28 +68,63 @@ export class ParserService {
     return lexemes;
   }
 
+  getTokensLine( line: string, lineIndex: number ) {
+    if ( isNullOrUndefined( line ) ) {
+      return undefined;
+    }
+    const foundTokens: FoundToken[] = [];
+    tokensRegex.forEach( token => {
+      const regexResult = token.regex.exec( line );
+      if ( regexResult !== null ) {
+        foundTokens.push( new FoundToken( token.tokenType, regexResult[ 0 ], lineIndex, regexResult.index ) );
+      }
+    } );
+    return foundTokens;
+  }
+
   /**
    * ASYNC
    * Creates an abstract syntax tree base on the passed lexemes
    */
-  async generateAST( foundTokens: FoundToken[] ) {
+  // async generateASTOld( foundTokens: FoundToken[] ) {
+  //   const tree: AST[] = [];
+  //   for ( let tokenIndex = 0; tokenIndex < foundTokens[ foundTokens.length - 1 ].line; tokenIndex++ ) {
+  //     const tokensOnLine = foundTokens.filter( token => token.line === tokenIndex );
+  //     if ( !isNullOrUndefined( tokensOnLine ) ) {
+  //       const branch = new AST( undefined, [] );
+  //       tokensOnLine.forEach( token => {
+  //         if ( token.type !== Token.WHITESPACE ) {
+  //           if ( !isNullOrUndefined( branch.item ) ) {
+  //             branch.item = token;
+  //           } else {
+  //             branch.children.push( new AST( token, undefined ) );
+  //           }
+  //         }
+  //       } );
+  //       tree.push( branch );
+  //     }
+  //   }
+  //   return tree;
+  // }
+
+  async generateAST( fileArray: string[] ) {
+    let lineIndex = 0;
     const tree: AST[] = [];
-    for ( let tokenIndex = 0; tokenIndex < foundTokens[ foundTokens.length - 1 ].line; tokenIndex++ ) {
-      const tokensOnLine = foundTokens.filter( token => token.line === tokenIndex );
-      if ( !isNullOrUndefined( tokensOnLine ) ) {
-        const branch = new AST( undefined, [] );
-        tokensOnLine.forEach( token => {
-          if ( token.type !== Token.WHITESPACE ) {
-            if ( !isNullOrUndefined( branch.item ) ) {
-              branch.item = token;
-            } else {
-              branch.children.push( new AST( token, undefined ) );
-            }
+    fileArray.forEach( line => {
+      const foundTokens = this.getTokensLine( line, lineIndex );
+      const branch = new AST( undefined, [] );
+      for ( let tokenIndex = 0; tokenIndex < foundTokens.length; tokenIndex++ ) {
+        if ( foundTokens.length > 0 && !isNullOrUndefined( foundTokens ) ) {
+          if ( tokenIndex === 0 ) {
+            branch.item = foundTokens[ tokenIndex ];
+          } else {
+            branch.children.push( new AST( foundTokens[ tokenIndex ], undefined ) );
           }
-        } );
-        tree.push( branch );
+        }
       }
-    }
+      tree.push( branch );
+      lineIndex++;
+    } );
     return tree;
   }
 
