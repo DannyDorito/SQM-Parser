@@ -108,41 +108,35 @@ export class ParserService {
    * Find matching grammars in the passed AST tree
    */
   async findGrammars( tree: AST[] ) {
-    tree.forEach( branch => {
-      let a = '';
-      if ( !isNullOrUndefined( branch.item.value ) ) {
-        a += branch.item.value;
-        branch.children.forEach( child => {
-          if ( !isNullOrUndefined( child ) ) {
-            a += child.item;
-          }
-        } );
-      }
+    tree.forEach(branch => {
+      let grammarString = branch.item.type.toString();
+      branch.children.forEach(child => {
+        grammarString += child.item.type.toString();
+      });
 
-      console.log(a);
-      switch ( a ) {
+      switch ( grammarString ) {
         case Grammar.STRING.toString():
-          // console.log( 'found string' );
+          console.log( 'found STRING' );
           break;
 
         case Grammar.BOOLEAN.toString():
-          // console.log( 'found string' );
+          console.log( 'found BOOLEAN' );
           break;
 
         case Grammar.NUMBER.toString():
-          // console.log( 'found string' );
+          console.log( 'found NUMBER' );
           break;
 
         case Grammar.ARRAY.toString():
-          // console.log( 'found string' );
+          console.log( 'found ARRAY' );
           break;
 
         case Grammar.CLASS.toString():
-          // console.log( 'found string' );
+          console.log( 'found CLASS' );
           break;
 
         default:
-          console.log( 'cannot match: ' + a );
+          console.log( 'cannot match: ' + grammarString);
           break;
       }
     } );
