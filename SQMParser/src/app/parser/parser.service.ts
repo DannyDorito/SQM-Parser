@@ -27,16 +27,6 @@ export class ParserService {
    * Main method execution function for ParserService
    */
   async execute( inputString: string ) {
-    // const foundTokens = < FoundToken[] > await this.getTokens( inputString.split( '\r\n' ) );
-    // if ( isNullOrUndefined( foundTokens ) ) {
-    //   return undefined;
-    // }
-    // const tree = < AST[] > await this.generateASTOld( foundTokens );
-    // if ( isNullOrUndefined( tree ) ) {
-    //   return undefined;
-    // }
-    // const a = < void > await this.findGrammars( tree );
-    // return tree;
     const tree = < AST[] > await this.generateAST( inputString.split( '\r\n' ) );
     console.log( tree );
     return tree;
@@ -68,6 +58,11 @@ export class ParserService {
     return lexemes;
   }
 
+  /**
+   * ASYNC
+   * Based on:
+   * http://www.thinksincode.com/2016/10/30/create-a-basic-lexer.html Accessed 16th October 2018
+   */
   getTokensLine( line: string, lineIndex: number ) {
     if ( isNullOrUndefined( line ) ) {
       return undefined;
@@ -84,29 +79,8 @@ export class ParserService {
 
   /**
    * ASYNC
-   * Creates an abstract syntax tree base on the passed lexemes
+   * Creates an abstract syntax tree via token parsing
    */
-  // async generateASTOld( foundTokens: FoundToken[] ) {
-  //   const tree: AST[] = [];
-  //   for ( let tokenIndex = 0; tokenIndex < foundTokens[ foundTokens.length - 1 ].line; tokenIndex++ ) {
-  //     const tokensOnLine = foundTokens.filter( token => token.line === tokenIndex );
-  //     if ( !isNullOrUndefined( tokensOnLine ) ) {
-  //       const branch = new AST( undefined, [] );
-  //       tokensOnLine.forEach( token => {
-  //         if ( token.type !== Token.WHITESPACE ) {
-  //           if ( !isNullOrUndefined( branch.item ) ) {
-  //             branch.item = token;
-  //           } else {
-  //             branch.children.push( new AST( token, undefined ) );
-  //           }
-  //         }
-  //       } );
-  //       tree.push( branch );
-  //     }
-  //   }
-  //   return tree;
-  // }
-
   async generateAST( fileArray: string[] ) {
     let lineIndex = 0;
     const tree: AST[] = [];
@@ -122,7 +96,9 @@ export class ParserService {
           }
         }
       }
-      tree.push( branch );
+      if (branch.item !== undefined) {
+        tree.push( branch );
+      }
       lineIndex++;
     } );
     return tree;

@@ -1,20 +1,23 @@
-import { Component } from '@angular/core';
+import { Component, AfterViewInit, ViewChild } from '@angular/core';
 import * as FileSaver from 'file-saver';
 import { isNullOrUndefined } from 'util';
 import { ParserService } from '../parser/parser.service';
 import { AST } from '../shared/ast';
+import { ViewTreeComponent } from '../view-tree/view-tree.component';
 
 @Component( {
   selector: 'app-home',
   templateUrl: './home.component.html',
   styleUrls: [ './home.component.css' ]
 } )
-export class HomeComponent {
-  constructor( private parser: ParserService ) {}
+export class HomeComponent implements AfterViewInit {
+  @ViewChild(ViewTreeComponent) child;
 
   fileReaderString: string;
   confirmed = false;
   tree: AST[];
+
+  constructor( private parser: ParserService ) {}
 
   /**
    * Fired when a file has been selected by the user's $event
@@ -48,6 +51,11 @@ export class HomeComponent {
       this.tree = <AST[]> await this.parser.execute( this.fileReaderString );
       this.fileReaderString = undefined;
     }
+  }
+
+  ngAfterViewInit() {
+    this.child.tree = this.tree;
+    // this.tree = this.child.tree;
   }
 
   editItem( pos: number ) {
