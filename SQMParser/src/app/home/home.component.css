@@ -1,4 +1,4 @@
-.div-select {
+.select {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -8,25 +8,9 @@
   left: 50%;
 }
 
-.file {
-  justify-content: flex-start;
-  flex-direction: row;
-  text-align: left;
-  border: none;
-  width: auto;
-}
-
-.file:focus {
-  background: #78866B;
-}
-
 .div-file {
   align-items: flex-start;
-  width: 99%;
-}
-
-p {
-  padding-bottom: 0;
+  width: 100;
 }
 
 div {
@@ -36,14 +20,14 @@ div {
   flex-direction: column;
 }
 
-.file-select-input {
+input {
   opacity: 0;
   overflow: hidden;
   position: absolute;
   z-index: -1;
 }
 
-.file-select {
+.file {
   font-size: 28px;
   font-weight: 700;
   background-color: #78866B;
