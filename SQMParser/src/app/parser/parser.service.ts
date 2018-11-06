@@ -21,14 +21,13 @@ const tokensRegex = [
   providedIn: 'root'
 } )
 export class ParserService {
-
   /**
    * ASYNC
    * Main method execution function for ParserService
    */
   async execute( inputString: string ) {
     const tree = < AST[] > await this.generateAST( inputString.split( '\r\n' ) );
-    console.log( tree );
+    const grammars = this.findGrammars(tree);
     return tree;
   }
 
@@ -96,7 +95,7 @@ export class ParserService {
           }
         }
       }
-      if (branch.item !== undefined) {
+      if ( branch.item !== undefined ) {
         tree.push( branch );
       }
       lineIndex++;
@@ -104,6 +103,10 @@ export class ParserService {
     return tree;
   }
 
+  /**
+   * ASYNC
+   * Find matching grammars in the passed AST tree
+   */
   async findGrammars( tree: AST[] ) {
     tree.forEach( branch => {
       let a = '';
@@ -116,25 +119,26 @@ export class ParserService {
         } );
       }
 
+      console.log(a);
       switch ( a ) {
         case Grammar.STRING.toString():
-          console.log( 'found string' );
+          // console.log( 'found string' );
           break;
 
         case Grammar.BOOLEAN.toString():
-          console.log( 'found string' );
+          // console.log( 'found string' );
           break;
 
         case Grammar.NUMBER.toString():
-          console.log( 'found string' );
+          // console.log( 'found string' );
           break;
 
         case Grammar.ARRAY.toString():
-          console.log( 'found string' );
+          // console.log( 'found string' );
           break;
 
         case Grammar.CLASS.toString():
-          console.log( 'found string' );
+          // console.log( 'found string' );
           break;
 
         default:
