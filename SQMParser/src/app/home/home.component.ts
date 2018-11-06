@@ -46,6 +46,7 @@ export class HomeComponent {
     if ( !isNullOrUndefined( this.fileReaderString ) ) {
       this.confirmed = true;
       this.tree = <AST[]> await this.parser.execute( this.fileReaderString );
+      this.fileReaderString = undefined;
     }
   }
 
@@ -60,17 +61,17 @@ export class HomeComponent {
    * https://github.com/eligrey/FileSaver.js/issues/308#issuecomment-286127364  [Online] Accessed 20th October 2018
    * https://github.com/eligrey/FileSaver.js/blob/master/README.md#supported-browsers [Online] Accessed 20th October 2018
    */
-  // saveFile( fileName: string ) {
-  //   try {
-  //     const isFileSaverSupported = !!new Blob;
-  //     if ( !fileName.includes( '.sqm' ) ) {
-  //       fileName += '.sqm';
-  //     }
-  //     FileSaver.saveAs( new Blob( this.file, {
-  //       type: 'text/plain;charset=utf-8'
-  //     } ), fileName );
-  //   } catch ( exception ) {
-  //     console.log( exception );
-  //   }
-  // }
+  saveFile( fileName: string ) {
+    try {
+      const isFileSaverSupported = !!new Blob;
+      if ( !fileName.includes( '.sqm' ) ) {
+        fileName += '.sqm';
+      }
+      // FileSaver.saveAs( new Blob( this.file, {
+      //   type: 'text/plain;charset=utf-8'
+      // } ), fileName );
+    } catch ( exception ) {
+      console.log( exception );
+    }
+  }
 }

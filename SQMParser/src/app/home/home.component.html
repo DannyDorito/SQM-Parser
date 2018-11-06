@@ -3,7 +3,7 @@
   <!-- Based on: https://www.academind.com/learn/angular/snippets/angular-image-upload-made-easy/ [Online] Accessed 9th October 2018-->
   <label class="file-select unselectable" for="fileSelect">Upload a file!</label>
 </div>
-<div class="div-select">
-  <button *ngIf="!confirmed && fileReaderString" (click)="confirmSelection()">CONFIRM</button>
+<div class="div-select" *ngIf="!confirmed && fileReaderString">
+  <button (click)="confirmSelection()">CONFIRM</button>
 </div>
 <button (click)="saveFile('test.sqm')" *ngIf="tree">SAVE</button>
