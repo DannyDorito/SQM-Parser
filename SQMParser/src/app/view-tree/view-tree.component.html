@@ -1,9 +1,7 @@
 <div *ngFor="let branch of tree" (click)="editItem(branch.item.line)">
   {{branch.item.value}}
-  <div *ngIf="branch.children">
-    <div *ngFor="let a of branch.children">
-      {{a.item.value}}
-    </div>
+  <div *ngFor="let child of branch.children">
+    {{child.item.value}}
   </div>
 </div>
 <button (click)="saveFile('test.sqm')" *ngIf="tree">SAVE</button>

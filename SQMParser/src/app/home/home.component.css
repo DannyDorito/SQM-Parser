@@ -29,3 +29,7 @@ input {
   background-color: #78866B;
   padding: 5px;
 }
+
+.file:hover {
+  background-color: #4c5940;
+}
