@@ -70,7 +70,9 @@ export class ParserService {
     tokensRegex.forEach( token => {
       const regexResult = token.regex.exec( line );
       if ( regexResult !== null ) {
-        foundTokens.push( new FoundToken( token.tokenType, regexResult[ 0 ], lineIndex, regexResult.index ) );
+        if (token.tokenType !== Token.WHITESPACE) {
+          foundTokens.push( new FoundToken( token.tokenType, regexResult[ 0 ], lineIndex, regexResult.index ) );
+        }
       }
     } );
     return foundTokens;
@@ -116,23 +118,30 @@ export class ParserService {
 
       switch ( grammarString ) {
         case Grammar.STRING.toString():
-          console.log( 'found STRING' );
+          // console.log( 'found STRING' );
           break;
 
         case Grammar.BOOLEAN.toString():
-          console.log( 'found BOOLEAN' );
+          // console.log( 'found BOOLEAN' );
           break;
 
         case Grammar.NUMBER.toString():
-          console.log( 'found NUMBER' );
+          // console.log( 'found NUMBER' );
           break;
 
         case Grammar.ARRAY.toString():
-          console.log( 'found ARRAY' );
+          // console.log( 'found ARRAY' );
           break;
 
         case Grammar.CLASS.toString():
-          console.log( 'found CLASS' );
+          // console.log( 'found CLASS' );
+          break;
+
+        case Grammar.END.toString():
+          // console.log( 'found END' );
+          break;
+        case Grammar.START.toString():
+          // console.log( 'found START' );
           break;
 
         default:

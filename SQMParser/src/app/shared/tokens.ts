@@ -20,7 +20,9 @@ export enum Grammar {
   BOOLEAN = Token.STRING + Token.EQUALS + Token.BOOLEAN + Token.SEMICOLON,
   NUMBER = Token.STRING + Token.EQUALS + Token.NUMBER + Token.SEMICOLON,
   ARRAY = Token.STRING + Token.START_SQUARE_BRACE + Token.EQUALS + Token.START_BRACE + Token.ARRAY_CONTENTS + Token.END_BRACE + Token.SEMICOLON,
-  CLASS = Token.STRING + Token.EQUALS + Token.STRING + Token.START_BRACE + Token.CLASS_CONTENTS + Token.END_BRACE
+  CLASS = Token.STRING + Token.EQUALS + Token.STRING + Token.START_BRACE + Token.CLASS_CONTENTS + Token.END_BRACE,
+  END = Token.END_BRACE + Token.SEMICOLON,
+  START = Token.START_BRACE
 }
 
 export class FoundToken {
