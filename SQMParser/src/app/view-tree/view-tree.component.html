@@ -1,3 +1,4 @@
-<div *ngFor="let branch of tree">
+<div *ngFor="let branch of tree" (click)="editItem(branch.item.line)">
   {{branch.item.value}}
 </div>
+<button (click)="saveFile('test.sqm')" *ngIf="tree">SAVE</button>
