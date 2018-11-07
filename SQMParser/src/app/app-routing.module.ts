@@ -7,19 +7,16 @@ import { HomeComponent } from './home/home.component';
 import { TestsComponent } from './tests/tests.component';
 
 const routes: Routes = [
-  { path: 'functions', component: FunctionsComponent, data: { title: 'Functions' } },
-  { path: 'options', component: OptionsComponent, data: { title: 'Options' } },
-  { path: 'test', component: TestsComponent, data: { title: 'Test' } },
-  { path: '', component: HomeComponent, data: { title: 'Home' } },
-  { path: '**', component: NotFoundComponent, data: { title: 'Not Found' } }
+  { path: 'functions', component: FunctionsComponent },
+  { path: 'options', component: OptionsComponent },
+  { path: 'test', component: TestsComponent },
+  { path: '', component: HomeComponent },
+  { path: '**', component: NotFoundComponent }
 ];
 @NgModule( {
   imports: [
     RouterModule.forRoot(
-      routes, {
-        scrollPositionRestoration: 'top',
-        anchorScrolling: 'enabled'
-      }
+      routes
     )
   ],
   exports: [

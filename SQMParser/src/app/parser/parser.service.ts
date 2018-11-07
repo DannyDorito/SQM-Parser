@@ -27,7 +27,7 @@ export class ParserService {
    */
   async execute( inputString: string ) {
     const tree = < AST[] > await this.generateAST( inputString.split( '\r\n' ) );
-    const grammars = this.findGrammars(tree);
+    const grammars = this.findGrammars( tree );
     return tree;
   }
 
@@ -108,11 +108,11 @@ export class ParserService {
    * Find matching grammars in the passed AST tree
    */
   async findGrammars( tree: AST[] ) {
-    tree.forEach(branch => {
+    tree.forEach( branch => {
       let grammarString = branch.item.type.toString();
-      branch.children.forEach(child => {
+      branch.children.forEach( child => {
         grammarString += child.item.type.toString();
-      });
+      } );
 
       switch ( grammarString ) {
         case Grammar.STRING.toString():
@@ -136,7 +136,7 @@ export class ParserService {
           break;
 
         default:
-          console.log( 'cannot match: ' + grammarString);
+          console.log( 'cannot match: ' + grammarString );
           break;
       }
     } );
