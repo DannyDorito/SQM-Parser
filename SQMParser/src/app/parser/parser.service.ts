@@ -4,17 +4,16 @@ import { isNullOrUndefined } from 'util';
 import { AST } from '../shared/ast';
 
 const tokensRegex = [
-  { regex: /[a-zA-Z0-9]+/, tokenType: Token.STRING },
+  { regex: /[a-zA-Z]+([a-zA-Z0-9_:-])*/, tokenType: Token.STRING },
   { regex: /true|false/, tokenType: Token.BOOLEAN },
   { regex: /[\s\t\n\r]+/, tokenType: Token.WHITESPACE },
-  { regex: /{/, tokenType: Token.START_BRACE },
-  { regex: /}/, tokenType: Token.END_BRACE },
   { regex: /\[/, tokenType: Token.START_SQUARE_BRACE },
   { regex: /\]/, tokenType: Token.END_SQUARE_BRACE },
   { regex: /=/, tokenType: Token.EQUALS },
-  { regex: /,/, tokenType: Token.COMMA },
-  { regex: /"/, tokenType: Token.QUOTE },
+  { regex: /{/, tokenType: Token.START_BRACE },
   { regex: /[+\-]?(?:0|[1-9]\d*)(?:\.\d*)?(?:[eE][+\-]?\d+)?/, tokenType: Token.NUMBER },
+  { regex: /}/, tokenType: Token.END_BRACE },
+  { regex: /,/, tokenType: Token.COMMA },
   { regex: /;/, tokenType: Token.SEMICOLON }
 ];
 @Injectable( {
@@ -36,32 +35,6 @@ export class ParserService {
    * Based on:
    * http://www.thinksincode.com/2016/10/30/create-a-basic-lexer.html Accessed 16th October 2018
    */
-  getTokens( fileArray: string[] ) {
-    if ( isNullOrUndefined( fileArray ) ) {
-      return undefined;
-    }
-    if ( !/(version\s*=\s*)(?:0|[1-9]\d*)/.test( fileArray[ 0 ] ) ) {
-      return undefined;
-    }
-    const lexemes: FoundToken[] = [];
-    let line = 0;
-    fileArray.forEach( fileElement => {
-      tokensRegex.forEach( token => {
-        const regexResult = token.regex.exec( fileElement );
-        if ( regexResult !== null ) {
-          lexemes.push( new FoundToken( token.tokenType, regexResult[ 0 ], line, regexResult.index ) );
-        }
-      } );
-      line++;
-    } );
-    return lexemes;
-  }
-
-  /**
-   * ASYNC
-   * Based on:
-   * http://www.thinksincode.com/2016/10/30/create-a-basic-lexer.html Accessed 16th October 2018
-   */
   getTokensLine( line: string, lineIndex: number ) {
     if ( isNullOrUndefined( line ) ) {
       return undefined;
@@ -70,7 +43,8 @@ export class ParserService {
     tokensRegex.forEach( token => {
       const regexResult = token.regex.exec( line );
       if ( regexResult !== null ) {
-        if (token.tokenType !== Token.WHITESPACE) {
+        if ( token.tokenType !== Token.WHITESPACE) {
+          console.log( regexResult[ 0 ] );
           foundTokens.push( new FoundToken( token.tokenType, regexResult[ 0 ], lineIndex, regexResult.index ) );
         }
       }
