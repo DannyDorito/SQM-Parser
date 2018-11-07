@@ -9,6 +9,7 @@ const tokensRegex = [
   { regex: /[\s\t\n\r]+/, tokenType: Token.WHITESPACE },
   { regex: /\[/, tokenType: Token.START_SQUARE_BRACE },
   { regex: /\]/, tokenType: Token.END_SQUARE_BRACE },
+  { regex: /"/, tokenType: Token.QUOTE },
   { regex: /=/, tokenType: Token.EQUALS },
   { regex: /{/, tokenType: Token.START_BRACE },
   { regex: /[+\-]?(?:0|[1-9]\d*)(?:\.\d*)?(?:[eE][+\-]?\d+)?/, tokenType: Token.NUMBER },
@@ -44,7 +45,6 @@ export class ParserService {
       const regexResult = token.regex.exec( line );
       if ( regexResult !== null ) {
         if ( token.tokenType !== Token.WHITESPACE) {
-          console.log( regexResult[ 0 ] );
           foundTokens.push( new FoundToken( token.tokenType, regexResult[ 0 ], lineIndex, regexResult.index ) );
         }
       }
@@ -84,12 +84,12 @@ export class ParserService {
    * Find matching grammars in the passed AST tree
    */
   async findGrammars( tree: AST[] ) {
+    let line = 0;
     tree.forEach( branch => {
       let grammarString = branch.item.type.toString();
       branch.children.forEach( child => {
         grammarString += child.item.type.toString();
       } );
-
       switch ( grammarString ) {
         case Grammar.STRING.toString():
           // console.log( 'found STRING' );
@@ -119,9 +119,10 @@ export class ParserService {
           break;
 
         default:
-          console.log( 'cannot match: ' + grammarString );
+          console.log( 'cannot match: ' + grammarString + ' line:' + line );
           break;
       }
+      line++;
     } );
   }
 }
