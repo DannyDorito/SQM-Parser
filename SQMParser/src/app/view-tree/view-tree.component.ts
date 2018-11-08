@@ -1,17 +1,21 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, ViewChild, AfterViewInit } from '@angular/core';
 import * as FileSaver from 'file-saver';
 import { AST } from '../shared/ast';
 import { isNullOrUndefined } from 'util';
+import { OptionsComponent } from '../options/options.component';
 
 @Component( {
   selector: 'app-view-tree',
   templateUrl: './view-tree.component.html',
   styleUrls: [ './view-tree.component.css' ]
 } )
-export class ViewTreeComponent {
+export class ViewTreeComponent implements AfterViewInit {
   @Input() tree: AST[];
 
-    /**
+  @ViewChild( OptionsComponent ) options;
+  @Input() saveLocalStorage: boolean;
+
+  /**
    * Saves given file to passed fileName, appends .sqm if it does not have it
    * Based on:
    * https://github.com/eligrey/FileSaver.js [Online] Accessed 19th October 2018
@@ -24,7 +28,7 @@ export class ViewTreeComponent {
       if ( !fileName.includes( '.sqm' ) ) {
         fileName += '.sqm';
       }
-      FileSaver.saveAs( new Blob( this.astToStrArray(this.tree), {
+      FileSaver.saveAs( new Blob( this.astToStrArray( this.tree ), {
         type: 'text/plain;charset=utf-8'
       } ), fileName );
     } catch ( exception ) {
@@ -41,16 +45,40 @@ export class ViewTreeComponent {
    */
   astToStrArray( tree: AST[] ) {
     const stringTree: string[] = [];
-    tree.forEach(branch => {
+    tree.forEach( branch => {
       let stringConcat = branch.item.value;
-      branch.children.forEach(child => {
-        if (!isNullOrUndefined(child)) {
+      branch.children.forEach( child => {
+        if ( !isNullOrUndefined( child ) ) {
           stringConcat += child.item.value;
         }
-      });
+      } );
       stringConcat += '\r\n';
-      stringTree.push(stringConcat);
-    });
+      stringTree.push( stringConcat );
+    } );
     return stringTree;
+  }
+
+  /**
+   * Data sharing via ViewChild component
+   * Based on:
+   * https://angularfirebase.com/lessons/sharing-data-between-angular-components-four-methods/ [Online] Accessed 6th November 2018
+   */
+  ngAfterViewInit() {
+    if ( !isNullOrUndefined( this.options.saveLocalStorage ) ) {
+      this.saveLocalStorage = this.options.saveLocalStorage;
+      if ( this.saveLocalStorage ) {
+        this.saveToLocalStorage();
+      } else {
+        this.clearLocalStorage();
+      }
+    }
+  }
+
+  async saveToLocalStorage() {
+    localStorage.setItem( 'sqmSave', this.astToStrArray( this.tree ).join() );
+  }
+
+  async clearLocalStorage() {
+    localStorage.removeItem( 'sqmSave' );
   }
 }
