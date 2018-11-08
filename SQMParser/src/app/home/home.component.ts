@@ -56,7 +56,7 @@ export class HomeComponent implements AfterViewInit, OnInit {
   }
 
   /**
-   * Start AST tree cr
+   * Start AST tree creation
    */
   async startTreeCreation() {
     this.tree = < AST[] > await this.parser.execute( this.fileReaderString );
