@@ -7,15 +7,4 @@ import { Component } from '@angular/core';
 } )
 export class AppComponent {
   isOptions = false;
-  isOptionsText = 'Options';
-
-  changeView() {
-    if ( this.isOptions ) {
-      this.isOptions = false;
-      this.isOptionsText = 'Options';
-    } else {
-      this.isOptions = true;
-      this.isOptionsText = 'Functions';
-    }
-  }
 }

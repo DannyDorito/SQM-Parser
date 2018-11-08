@@ -8,7 +8,7 @@
       <app-options *ngIf="isOptions"></app-options>
     </div>
     <div class="sidenav-footer">
-      <button (click)="changeView()">{{isOptionsText}}</button>
+      <button (click)="isOptions = !isOptions">{{isOptions ? 'Options' : 'Functions'}}</button>
     </div>
   </div>
   <div class="content">
