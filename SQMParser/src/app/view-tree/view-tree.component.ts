@@ -89,6 +89,11 @@ export class ViewTreeComponent implements AfterViewInit {
     }
   }
 
+  /**
+   * Saves AST tree at a given interval
+   * Based on:
+   * https://rxjs-dev.firebaseapp.com/api/index/function/timer [Online] Accessed 8th November 2018
+   */
   autoSave() {
     const saveTimer = timer(1000);
     const saveTimerSubscribe = saveTimer.subscribe(time => {
