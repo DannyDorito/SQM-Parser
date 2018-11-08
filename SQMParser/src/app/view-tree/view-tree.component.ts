@@ -3,6 +3,7 @@ import * as FileSaver from 'file-saver';
 import { AST } from '../shared/ast';
 import { isNullOrUndefined } from 'util';
 import { OptionsComponent } from '../options/options.component';
+import { timer } from 'rxjs';
 
 @Component( {
   selector: 'app-view-tree',
@@ -71,7 +72,7 @@ export class ViewTreeComponent implements AfterViewInit {
     if ( !isNullOrUndefined( localStorage.getItem( 'sqmSaveLocalStorage' ) ) ) {
       this.saveLocalStorage = Boolean( localStorage.getItem( 'sqmSaveLocalStorage' ) );
       if ( this.saveLocalStorage ) {
-        this.saveSQM();
+        this.autoSave();
       } else {
         this.clearSQM();
       }
@@ -86,6 +87,14 @@ export class ViewTreeComponent implements AfterViewInit {
     if ( !isNullOrUndefined( this.tree ) ) {
       localStorage.setItem( 'sqmSave', this.astToStrArray( this.tree ).join() );
     }
+  }
+
+  autoSave() {
+    const saveTimer = timer(1000);
+    const saveTimerSubscribe = saveTimer.subscribe(time => {
+      console.log(time);
+    });
+    this.saveSQM();
   }
 
   /**
