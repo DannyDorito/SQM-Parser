@@ -51,11 +51,14 @@ export class HomeComponent implements AfterViewInit, OnInit {
   confirmSelection() {
     if ( !isNullOrUndefined( this.fileReaderString ) ) {
       this.confirmed = true;
-      this.callTreeGeneration();
+      this.startTreeCreation();
     }
   }
 
-  async callTreeGeneration() {
+  /**
+   * Start AST tree cr
+   */
+  async startTreeCreation() {
     this.tree = < AST[] > await this.parser.execute( this.fileReaderString );
     this.fileReaderString = undefined;
   }
@@ -71,12 +74,15 @@ export class HomeComponent implements AfterViewInit, OnInit {
     }
   }
 
+  /**
+   * Load from sqmSave local storage, confirm and then start tree generation
+   */
   ngOnInit() {
     const sqmLocalStorage = localStorage.getItem( 'sqmSave' );
     if ( !isNullOrUndefined( sqmLocalStorage ) && sqmLocalStorage !== '' ) {
       this.fileReaderString = sqmLocalStorage;
       this.confirmed = true;
-      this.callTreeGeneration();
+      this.startTreeCreation();
     }
   }
 }
