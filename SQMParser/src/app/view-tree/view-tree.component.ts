@@ -74,10 +74,16 @@ export class ViewTreeComponent implements AfterViewInit {
     }
   }
 
+  /**
+   * Saves AST tree contents to local storage using astToString then calling join()
+   */
   async saveToLocalStorage() {
     localStorage.setItem( 'sqmSave', this.astToStrArray( this.tree ).join() );
   }
 
+  /**
+   * Clears the local storage of AST tree
+   */
   async clearLocalStorage() {
     localStorage.removeItem( 'sqmSave' );
   }
