@@ -1,19 +1,13 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 
 @Component( {
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: [ './app.component.css' ]
 } )
-export class AppComponent implements OnInit {
+export class AppComponent {
   isOptions = false;
   isOptionsText = 'Options';
-
-  ngOnInit() {
-    if ( !this.hasLocalStorage( 'SQM_hasOptions' ) ) {
-      localStorage.setItem( 'SQM_hasOptions', 'y' );
-    }
-  }
 
   changeView() {
     if ( this.isOptions ) {
@@ -22,15 +16,6 @@ export class AppComponent implements OnInit {
     } else {
       this.isOptions = true;
       this.isOptionsText = 'Functions';
-    }
-  }
-
-  hasLocalStorage( accessor: string ) {
-    const storageItem = localStorage.getItem( accessor );
-    if ( storageItem === null ) {
-      return false;
-    } else {
-      return true;
     }
   }
 }
