@@ -1,4 +1,4 @@
-import { Component, AfterViewInit, ViewChild } from '@angular/core';
+import { Component, AfterViewInit, ViewChild, OnInit } from '@angular/core';
 import { isNullOrUndefined } from 'util';
 import { ParserService } from '../parser/parser.service';
 import { AST } from '../shared/ast';
@@ -9,7 +9,7 @@ import { ViewTreeComponent } from '../view-tree/view-tree.component';
   templateUrl: './home.component.html',
   styleUrls: [ './home.component.css' ]
 } )
-export class HomeComponent implements AfterViewInit {
+export class HomeComponent implements AfterViewInit, OnInit {
   /**
    * Data sharing via ViewChild component
    * Based on:
@@ -46,15 +46,18 @@ export class HomeComponent implements AfterViewInit {
   }
 
   /**
-   * ASYNC
    * Fired when the user clicks the confirm button, main method
    */
-  async confirmSelection() {
+  confirmSelection() {
     if ( !isNullOrUndefined( this.fileReaderString ) ) {
       this.confirmed = true;
-      this.tree = < AST[] > await this.parser.execute( this.fileReaderString );
-      this.fileReaderString = undefined;
+      this.callTreeGeneration();
     }
+  }
+
+  async callTreeGeneration() {
+    this.tree = < AST[] > await this.parser.execute( this.fileReaderString );
+    this.fileReaderString = undefined;
   }
 
   /**
@@ -65,6 +68,15 @@ export class HomeComponent implements AfterViewInit {
   ngAfterViewInit() {
     if ( !isNullOrUndefined( this.tree ) ) {
       this.viewTree.tree = this.tree;
+    }
+  }
+
+  ngOnInit() {
+    const sqmLocalStorage = localStorage.getItem( 'sqmSave' );
+    if ( !isNullOrUndefined( sqmLocalStorage ) && sqmLocalStorage !== '' ) {
+      this.fileReaderString = sqmLocalStorage;
+      this.confirmed = true;
+      this.callTreeGeneration();
     }
   }
 }
