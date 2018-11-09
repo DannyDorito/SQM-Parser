@@ -6,7 +6,7 @@ import { MissionAST, Version } from '../shared/ast';
 const tokensRegex = [
   { regex: /[a-zA-Z]+([a-zA-Z0-9_:-])*/, tokenType: Token.STRING },
   { regex: /true|false/, tokenType: Token.BOOLEAN },
-  { regex: /[\s\t\n\r]+/, tokenType: Token.WHITESPACE },
+  // { regex: /[\s\t\n\r]+/, tokenType: Token.WHITESPACE },
   { regex: /\[/, tokenType: Token.START_SQUARE_BRACE },
   { regex: /\]/, tokenType: Token.END_SQUARE_BRACE },
   { regex: /"/, tokenType: Token.QUOTE },
@@ -62,10 +62,17 @@ export class ParserService {
         if (/version( )*=[1-9]+;/.test(fileArray[0])) {
           const regexResult = /[1-9]+/.exec(fileArray[0]); // TODO: should be tokenRegex.number or [1-9]+
           ast.version = new Version(Number(regexResult[0]));
-          console.log(ast);
         }
-      }  else {
-
+      } else {
+        const splitLine = fileArray[a].split(' ');
+        splitLine.forEach(_splitLine => {
+          tokensRegex.forEach(tokenRegex => {
+            const regexResult = tokenRegex.regex.exec(_splitLine);
+            if (regexResult !== null) {
+              console.log(regexResult[0]);
+            }
+          });
+        });
       }
     }
   }
