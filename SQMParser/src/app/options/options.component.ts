@@ -8,7 +8,7 @@ import { Component, ViewChild, OnInit } from '@angular/core';
 export class OptionsComponent implements OnInit {
   @ViewChild( OptionsComponent ) options;
 
-  saveLocalStorage = true;
+  saveLocalStorage: boolean;
 
   toggleLocalStorage() {
     this.saveLocalStorage = !this.saveLocalStorage;
