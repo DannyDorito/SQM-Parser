@@ -1,7 +1,7 @@
 mission = version [{data_type}];
 version = "version", "=", int, ";";
 variable = variable_name, "=", primitive;
-class = "class", "=", variable_name "{" [{data_type}], "}";
+class = "class", [variable_name] "{" [{data_type}], "}";
 array = variable_name, "[]", "=", "{", [{primitive}], "}", ";";
 data_type = variable|class|array;
 primitive = string|array|number|boolean;
