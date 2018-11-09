@@ -109,4 +109,8 @@ export class ViewTreeComponent implements AfterViewInit {
   clearSQM() {
     localStorage.removeItem( 'sqmSave' );
   }
+
+  modelChange(value: Event, line: number) {
+    console.log(value);
+  }
 }
