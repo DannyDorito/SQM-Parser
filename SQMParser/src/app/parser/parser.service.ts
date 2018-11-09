@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
-import { FoundToken, Token, Grammar } from '../shared/tokens';
+import { FoundToken, Token } from '../shared/tokens';
 import { isNullOrUndefined } from 'util';
-import { AST } from '../shared/ast';
 
 const tokensRegex = [
   { regex: /[a-zA-Z]+([a-zA-Z0-9_:-])*/, tokenType: Token.STRING },
@@ -26,9 +25,9 @@ export class ParserService {
    * Main method execution function for ParserService
    */
   async execute( inputString: string ) {
-    const tree = < AST[] > await this.generateAST( inputString.split( '\r\n' ) );
-    const grammars = this.findGrammars( tree );
-    return tree;
+    // const tree = < AST[] > await this.generateAST( inputString.split( '\r\n' ) );
+    // const grammars = this.findGrammars( tree );
+    // return tree;
   }
 
   /**
@@ -50,79 +49,5 @@ export class ParserService {
       }
     } );
     return foundTokens;
-  }
-
-  /**
-   * ASYNC
-   * Creates an abstract syntax tree via token parsing
-   */
-  async generateAST( fileArray: string[] ) {
-    let lineIndex = 0;
-    const tree: AST[] = [];
-    fileArray.forEach( line => {
-      const foundTokens = this.getTokensLine( line, lineIndex );
-      const branch = new AST( undefined, [], line );
-      for ( let tokenIndex = 0; tokenIndex < foundTokens.length; tokenIndex++ ) {
-        if ( foundTokens.length > 0 && !isNullOrUndefined( foundTokens ) ) {
-          if ( tokenIndex === 0 ) {
-            branch.item = foundTokens[ tokenIndex ];
-          } else {
-            branch.children.push( new AST( foundTokens[ tokenIndex ], undefined, undefined ) );
-          }
-        }
-      }
-      if ( branch.item !== undefined ) {
-        tree.push( branch );
-      }
-      lineIndex++;
-    } );
-    return tree;
-  }
-
-  /**
-   * ASYNC
-   * Find matching grammars in the passed AST tree
-   */
-  async findGrammars( tree: AST[] ) {
-    let line = 0;
-    tree.forEach( branch => {
-      let grammarString = branch.item.type.toString();
-      branch.children.forEach( child => {
-        grammarString += child.item.type.toString();
-      } );
-      switch ( grammarString ) {
-        case Grammar.STRING.toString():
-          // console.log( 'found STRING' );
-          break;
-
-        case Grammar.BOOLEAN.toString():
-          // console.log( 'found BOOLEAN' );
-          break;
-
-        case Grammar.NUMBER.toString():
-          // console.log( 'found NUMBER' );
-          break;
-
-        case Grammar.ARRAY.toString():
-          // console.log( 'found ARRAY' );
-          break;
-
-        case Grammar.CLASS.toString():
-          // console.log( 'found CLASS' );
-          break;
-
-        case Grammar.END.toString():
-          // console.log( 'found END' );
-          break;
-        case Grammar.START.toString():
-          // console.log( 'found START' );
-          break;
-
-        default:
-          console.log( 'cannot match: ' + grammarString + ' line:' + line );
-          break;
-      }
-      line++;
-    } );
   }
 }

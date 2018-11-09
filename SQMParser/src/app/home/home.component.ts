@@ -1,7 +1,6 @@
 import { Component, AfterViewInit, ViewChild, OnInit } from '@angular/core';
 import { isNullOrUndefined } from 'util';
 import { ParserService } from '../parser/parser.service';
-import { AST } from '../shared/ast';
 import { ViewTreeComponent } from '../view-tree/view-tree.component';
 
 @Component( {
@@ -16,7 +15,6 @@ export class HomeComponent implements AfterViewInit, OnInit {
    * https://angularfirebase.com/lessons/sharing-data-between-angular-components-four-methods/ [Online] Accessed 6th November 2018
    */
   @ViewChild( ViewTreeComponent ) viewTree;
-  tree: AST[];
 
   fileReaderString: string;
   confirmed = false;
@@ -59,7 +57,7 @@ export class HomeComponent implements AfterViewInit, OnInit {
    * Start AST tree creation
    */
   async startTreeCreation() {
-    this.tree = < AST[] > await this.parser.execute( this.fileReaderString );
+    // this.tree = < AST[] > await this.parser.execute( this.fileReaderString );
     this.fileReaderString = undefined;
   }
 
@@ -69,9 +67,9 @@ export class HomeComponent implements AfterViewInit, OnInit {
    * https://angularfirebase.com/lessons/sharing-data-between-angular-components-four-methods/ [Online] Accessed 6th November 2018
    */
   ngAfterViewInit() {
-    if ( !isNullOrUndefined( this.tree ) ) {
-      this.viewTree.tree = this.tree;
-    }
+    // if ( !isNullOrUndefined( this.tree ) ) {
+    //   this.viewTree.tree = this.tree;
+    // }
   }
 
   /**

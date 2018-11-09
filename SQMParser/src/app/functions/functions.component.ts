@@ -15,6 +15,6 @@ export class FunctionsComponent {
   }
 
   saveFile() {
-    this.viewTreeComponent.saveFile( 'test.sqm' );
+    // this.viewTreeComponent.saveFile( 'test.sqm' );
   }
 }

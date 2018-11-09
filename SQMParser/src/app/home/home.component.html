@@ -6,4 +6,5 @@
 <div class="select" *ngIf="!confirmed && fileReaderString">
   <button (click)="confirmSelection()">CONFIRM</button>
 </div>
-<app-view-tree [tree]="tree" *ngIf="confirmed"></app-view-tree>
+<app-view-tree *ngIf="confirmed"></app-view-tree>
+<!-- <app-view-tree [tree]="tree" *ngIf="confirmed"></app-view-tree> -->
