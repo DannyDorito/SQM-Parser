@@ -34,7 +34,7 @@ export class ViewTreeComponent implements AfterViewInit {
         type: 'text/plain;charset=utf-8'
       } ), fileName );
     } catch ( exception ) {
-      console.log( exception );
+      console.log( 'Cannot save SQM!' );
     }
   }
 
@@ -86,6 +86,8 @@ export class ViewTreeComponent implements AfterViewInit {
   async saveSQM() {
     if ( !isNullOrUndefined( this.tree ) ) {
       localStorage.setItem( 'sqmSave', this.astToStrArray( this.tree ).join() );
+    } else {
+      console.log( 'Tree Undefined!' );
     }
   }
 
@@ -95,10 +97,10 @@ export class ViewTreeComponent implements AfterViewInit {
    * https://rxjs-dev.firebaseapp.com/api/index/function/timer [Online] Accessed 8th November 2018
    */
   autoSave() {
-    const saveTimer = timer(1000);
-    const saveTimerSubscribe = saveTimer.subscribe(time => {
-      console.log(time);
-    });
+    const saveTimer = timer( 1000 );
+    const saveTimerSubscribe = saveTimer.subscribe( time => {
+      console.log( time );
+    } );
     this.saveSQM();
   }
 
@@ -110,7 +112,7 @@ export class ViewTreeComponent implements AfterViewInit {
     localStorage.removeItem( 'sqmSave' );
   }
 
-  modelChange(value: Event, line: number) {
-    console.log(value);
+  modelChange( value: Event, line: number ) {
+    console.log( value );
   }
 }

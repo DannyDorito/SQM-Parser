@@ -33,7 +33,7 @@ import { ViewTreeComponent } from './view-tree/view-tree.component';
       enabled: environment.production
     } )
   ],
-  providers: [],
+  providers: [ ViewTreeComponent ],
   bootstrap: [ AppComponent ]
 } )
 export class AppModule {}

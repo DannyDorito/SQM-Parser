@@ -1,20 +1,20 @@
 import { Component } from '@angular/core';
+import { ViewTreeComponent } from '../view-tree/view-tree.component';
 
 @Component( {
   selector: 'app-functions',
   templateUrl: './functions.component.html',
-  styleUrls: ['./functions.component.css']
+  styleUrls: [ './functions.component.css' ]
 } )
 export class FunctionsComponent {
-  functions = [
-    {name: 'Function 1', function: 'Execute 1', image: 'edit'},
-    {name: 'Function 2', function: 'Execute 2', image: 'edit'},
-    {name: 'Function 3', function: 'Execute 3', image: 'edit'},
-    {name: 'Function 4', function: 'Execute 4', image: 'edit'},
-    {name: 'Function 5', function: 'Execute 5', image: 'edit'},
-    {name: 'Function 6', function: 'Execute 6', image: 'edit'},
-    {name: 'Function 7', function: 'Execute 7', image: 'edit'},
-    {name: 'Function 8', function: 'Execute 8', image: 'edit'},
-    {name: 'Function 9', function: 'Execute 9', image: 'edit'}
-  ];
+
+  constructor( private viewTreeComponent: ViewTreeComponent ) {}
+
+  saveSQM() {
+    this.viewTreeComponent.saveSQM();
+  }
+
+  saveFile() {
+    this.viewTreeComponent.saveFile( 'test.sqm' );
+  }
 }
