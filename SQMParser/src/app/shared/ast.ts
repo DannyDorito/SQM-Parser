@@ -1,4 +1,4 @@
-export class AST {
+export class MissionAST {
   version: Version;
   dataTypes: DataType[];
   constructor(
