@@ -61,13 +61,13 @@ export class ParserService {
     const tree: AST[] = [];
     fileArray.forEach( line => {
       const foundTokens = this.getTokensLine( line, lineIndex );
-      const branch = new AST( undefined, [] );
+      const branch = new AST( undefined, [], line );
       for ( let tokenIndex = 0; tokenIndex < foundTokens.length; tokenIndex++ ) {
         if ( foundTokens.length > 0 && !isNullOrUndefined( foundTokens ) ) {
           if ( tokenIndex === 0 ) {
             branch.item = foundTokens[ tokenIndex ];
           } else {
-            branch.children.push( new AST( foundTokens[ tokenIndex ], undefined ) );
+            branch.children.push( new AST( foundTokens[ tokenIndex ], undefined, undefined ) );
           }
         }
       }
