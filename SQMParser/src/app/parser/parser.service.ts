@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
-import { FoundToken, Token } from '../shared/tokens';
+import { Token } from '../shared/tokens';
 import { isNullOrUndefined } from 'util';
+import { MissionAST, Version } from '../shared/ast';
 
 const tokensRegex = [
   { regex: /[a-zA-Z]+([a-zA-Z0-9_:-])*/, tokenType: Token.STRING },
@@ -25,7 +26,7 @@ export class ParserService {
    * Main method execution function for ParserService
    */
   async execute( inputString: string ) {
-    // const tree = < AST[] > await this.generateAST( inputString.split( '\r\n' ) );
+    const tree = < MissionAST[] > await this.generateAST( inputString.split( '\r\n' ) );
     // const grammars = this.findGrammars( tree );
     // return tree;
   }
@@ -35,19 +36,37 @@ export class ParserService {
    * Based on:
    * http://www.thinksincode.com/2016/10/30/create-a-basic-lexer.html Accessed 16th October 2018
    */
-  getTokensLine( line: string, lineIndex: number ) {
-    if ( isNullOrUndefined( line ) ) {
+  // getTokensLine( line: string, lineIndex: number ) {
+  //   if ( isNullOrUndefined( line ) ) {
+  //     return undefined;
+  //   }
+  //   const foundTokens: FoundToken[] = [];
+  //   tokensRegex.forEach( token => {
+  //     const regexResult = token.regex.exec( line );
+  //     if ( regexResult !== null ) {
+  //       if ( token.tokenType !== Token.WHITESPACE) {
+  //         foundTokens.push( new FoundToken( token.tokenType, regexResult[ 0 ], lineIndex, regexResult.index ) );
+  //       }
+  //     }
+  //   } );
+  //   return foundTokens;
+  // }
+
+  async generateAST( fileArray: string[] ) {
+    if (isNullOrUndefined(fileArray)) {
       return undefined;
     }
-    const foundTokens: FoundToken[] = [];
-    tokensRegex.forEach( token => {
-      const regexResult = token.regex.exec( line );
-      if ( regexResult !== null ) {
-        if ( token.tokenType !== Token.WHITESPACE) {
-          foundTokens.push( new FoundToken( token.tokenType, regexResult[ 0 ], lineIndex, regexResult.index ) );
+    const ast = new MissionAST(undefined, undefined);
+    for (let a = 0; a < fileArray.length; a++) {
+      if (a === 0) {
+        if (/version( )*=[1-9]+;/.test(fileArray[0])) {
+          const regexResult = /[1-9]+/.exec(fileArray[0]); // TODO: should be tokenRegex.number or [1-9]+
+          ast.version = new Version(Number(regexResult[0]));
+          console.log(ast);
         }
+      }  else {
+
       }
-    } );
-    return foundTokens;
+    }
   }
 }
