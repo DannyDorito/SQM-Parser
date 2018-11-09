@@ -51,16 +51,19 @@ export class ViewTreeComponent implements AfterViewInit {
     }
     const stringTree: string[] = [];
     tree.forEach( branch => {
-      let stringConcat = branch.item.value;
-      branch.children.forEach( child => {
-        if ( !isNullOrUndefined( child ) ) {
-          stringConcat += child.item.value;
-        }
-      } );
+      let stringConcat = branch.lineContents;
       stringConcat += '\r\n';
       stringTree.push( stringConcat );
     } );
     return stringTree;
+  }
+
+  astToString( tree: AST[] ) {
+    if ( isNullOrUndefined( tree ) ) {
+      return undefined;
+    }
+    const a = tree.map(branch => branch.lineContents).join();
+    console.log(a);
   }
 
   /**
@@ -72,37 +75,38 @@ export class ViewTreeComponent implements AfterViewInit {
     if ( !isNullOrUndefined( localStorage.getItem( 'sqmSaveLocalStorage' ) ) ) {
       this.saveLocalStorage = Boolean( localStorage.getItem( 'sqmSaveLocalStorage' ) );
       if ( this.saveLocalStorage ) {
-        this.autoSave();
+        // this.autoSave();
       } else {
         this.clearSQM();
       }
     }
   }
 
-  /**
-   * ASYNC
-   * Saves AST tree contents to local storage using astToString then calling join()
-   */
-  async saveSQM() {
-    if ( !isNullOrUndefined( this.tree ) ) {
-      localStorage.setItem( 'sqmSave', this.astToStrArray( this.tree ).join() );
-    } else {
-      console.log( 'Tree Undefined!' );
-    }
-  }
+  // /**
+  //  * ASYNC
+  //  * Saves AST tree contents to local storage using astToString then calling join()
+  //  */
+  // async saveSQM() {
+  //   if ( !isNullOrUndefined( this.tree ) ) {
+  //     this.astToString(this.tree);
+  //     // localStorage.setItem( 'sqmSave', this.astToStrArray( this.tree ).join() );
+  //   } else {
+  //     console.log( 'Tree Undefined!' );
+  //   }
+  // }
 
-  /**
-   * Saves AST tree at a given interval
-   * Based on:
-   * https://rxjs-dev.firebaseapp.com/api/index/function/timer [Online] Accessed 8th November 2018
-   */
-  autoSave() {
-    const saveTimer = timer( 1000 );
-    const saveTimerSubscribe = saveTimer.subscribe( time => {
-      console.log( time );
-    } );
-    this.saveSQM();
-  }
+  // /**
+  //  * Saves AST tree at a given interval
+  //  * Based on:
+  //  * https://rxjs-dev.firebaseapp.com/api/index/function/timer [Online] Accessed 8th November 2018
+  //  */
+  // autoSave() {
+  //   const saveTimer = timer( 1000 );
+  //   const saveTimerSubscribe = saveTimer.subscribe( time => {
+  //     console.log( time );
+  //   } );
+  //   this.saveSQM();
+  // }
 
   /**
    * ASYNC

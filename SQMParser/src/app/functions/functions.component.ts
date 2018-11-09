@@ -11,7 +11,7 @@ export class FunctionsComponent {
   constructor( private viewTreeComponent: ViewTreeComponent ) {}
 
   saveSQM() {
-    this.viewTreeComponent.saveSQM();
+    // this.viewTreeComponent.saveSQM();
   }
 
   saveFile() {
