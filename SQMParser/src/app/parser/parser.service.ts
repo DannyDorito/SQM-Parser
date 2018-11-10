@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
-import { Token } from '../shared/tokens';
+import { Token, Grammar } from '../shared/tokens';
 import { isNullOrUndefined } from 'util';
-import { MissionAST, Version } from '../shared/ast';
+import { MissionAST, Version, DataType, Variable, Primitive } from '../shared/ast';
 
 const tokensRegex = [
   { regex: /true|false/, tokenType: Token.BOOLEAN },
@@ -42,24 +42,71 @@ export class ParserService {
           const regexResult = /[1-9]+/.exec( inputArray[ 0 ] ); // TODO: should be tokenRegex.number or [1-9]+
           ast.version = new Version( Number( regexResult[ 0 ] ) );
         } else {
+          console.log( inputArray[ 0 ] );
           return undefined; // TODO: Return something meaningful
         }
       } else {
+        const tokensOnLine: Token[] = [];
+        const tokenContens: string[] = [];
         const inputStringArray = inputArray[ inputIndex ].split( ' ' );
         inputStringArray.forEach( inputStr => {
-          const tokensOnLine: Token[] = [];
           for ( const tokenRegex of tokensRegex ) {
             const regexResult = tokenRegex.regex.exec( inputStr );
             if ( !isNullOrUndefined( regexResult ) ) {
               if ( tokenRegex.tokenType !== Token.WHITESPACE ) {
                 tokensOnLine.push( tokenRegex.tokenType );
-              } else if ( regexResult[ 0 ] === 'class' ) {
-                // special case for classes
+                tokenContens.push( regexResult[ 0 ] );
               }
-              break; // Break if found regex match
             }
           }
         } );
+        const joinedTokens = tokensOnLine.join('');
+        console.log(joinedTokens + ' ' + (inputIndex + 1));
+        switch ( joinedTokens ) {
+          case Grammar.STRING.toString():
+            console.log( 'STRING' );
+            ast.dataTypes.push( new DataType( new Variable( tokenContens[ 0 ], new Primitive( tokenContens[ 3 ] ) ) ) );
+            break;
+
+          case Grammar.BOOLEAN.toString():
+            console.log( 'BOOLEAN' );
+            ast.dataTypes.push( new DataType( new Variable( tokenContens[ 0 ], new Primitive( tokenContens[ 2 ] ) ) ) );
+            break;
+
+          case Grammar.NUMBER.toString():
+            console.log( 'NUMBER' );
+            ast.dataTypes.push( new DataType( new Variable( tokenContens[ 0 ], new Primitive( tokenContens[ 2 ] ) ) ) );
+            break;
+
+          // case Grammar.START.toString():
+          //   console.log( 'START' );
+
+          //   break;
+
+          // case Grammar.END.toString():
+          //   console.log( 'END' );
+
+          //  break;
+
+          default:
+            // Grammar.ARRAY
+            const joinedTokensArray = tokensOnLine.slice( 0, 3 ).join('') + tokensOnLine.slice( ( tokensOnLine.length - 2 ), ( tokensOnLine.length - 1 ) ).join('');
+            // Grammar.CLASS
+            const joinedTokensClass = tokensOnLine.slice( 0, 1 ).join('') + tokensOnLine.slice( ( tokensOnLine.length - 2 ), ( tokensOnLine.length - 1 ) ).join('');
+            // Grammar.CLASS_WITH_NAME
+            const joinedTokensClassName = tokensOnLine.slice( 0, 2 ).join('') + tokensOnLine.slice( ( tokensOnLine.length - 2 ), ( tokensOnLine.length - 1 ) ).join('');
+
+            if ( joinedTokensArray === Grammar.ARRAY.toString() ) {
+              console.log( 'ARRAY' );
+            } else if ( joinedTokensClass === Grammar.CLASS.toString() ) {
+              console.log( 'CLASS' );
+            } else if ( joinedTokensClassName === Grammar.CLASS_WITH_NAME.toString() ) {
+              console.log( 'CLASS_WITH_NAME' );
+            } else {
+              // console.log( 'NOT FOUND: ' + joinedTokens + ' LINE: ' + (inputIndex + 1) );
+            }
+            break;
+        }
       }
     }
     return ast;
