@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Token, Grammar } from '../shared/tokens';
 import { isNullOrUndefined } from 'util';
-import { MissionAST, Version, DataType, Variable, Primitive } from '../shared/ast';
+import { MissionAST, Version, DataType, Variable } from '../shared/ast';
 
 const tokensRegex = [
   { regex: /true|false/, tokenType: Token.BOOLEAN },
@@ -65,17 +65,17 @@ export class ParserService {
         switch ( joinedTokens ) {
           case Grammar.STRING.toString():
             console.log( 'STRING' );
-            ast.dataTypes.push( new DataType( new Variable( tokenContens[ 0 ], new Primitive( tokenContens[ 3 ] ) ) ) );
+            ast.dataTypes.push( new DataType( new Variable( tokenContens[ 0 ], tokenContens[ 3 ]  ) ) );
             break;
 
           case Grammar.BOOLEAN.toString():
             console.log( 'BOOLEAN' );
-            ast.dataTypes.push( new DataType( new Variable( tokenContens[ 0 ], new Primitive( tokenContens[ 2 ] ) ) ) );
+            ast.dataTypes.push( new DataType( new Variable( tokenContens[ 0 ], tokenContens[ 2 ] ) ) );
             break;
 
           case Grammar.NUMBER.toString():
             console.log( 'NUMBER' );
-            ast.dataTypes.push( new DataType( new Variable( tokenContens[ 0 ], new Primitive( tokenContens[ 2 ] ) ) ) );
+            ast.dataTypes.push( new DataType( new Variable( tokenContens[ 0 ], tokenContens[ 2 ] ) ) );
             break;
 
           // case Grammar.START.toString():

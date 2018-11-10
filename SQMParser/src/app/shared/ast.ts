@@ -30,34 +30,25 @@ export class Version {
 
 export class Variable {
   variableName: string;
-  primitive: Primitive;
+  data: string;
   constructor(
     _variableName: string,
-    _primitive: Primitive
+    _data: string
   ) {
     this.variableName = _variableName;
-    this.primitive = _primitive;
-  }
-}
-
-export class Primitive {
-  data: string | Array | number | boolean;
-  constructor(
-    _data: string | Array | number | boolean
-  ) {
     this.data = _data;
   }
 }
 
 export class Array {
   variableName: string;
-  primitives: Primitive[];
+  data: string[];
   constructor(
     _variableName: string,
-    _primitives: Primitive[]
+    _data: string[]
   ) {
     this.variableName = _variableName;
-    this.primitives = _primitives;
+    this.data = _data;
   }
 }
 
