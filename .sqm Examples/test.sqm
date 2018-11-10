@@ -1,0 +1,7 @@
+version = 52;
+asd = "string";
+class EditorData
+{
+	moveGridStep = 1.0;
+};
+addons[] = {"exile_client","A3_Ui_F"};
