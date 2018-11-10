@@ -8,6 +8,10 @@ export class MissionAST {
     this.version = _version;
     this.dataTypes = _dataTypes;
   }
+
+  toString() {
+    return this.version.toString() + this.dataTypes.toString();
+  }
 }
 
 export class DataType {
@@ -17,6 +21,10 @@ export class DataType {
   ) {
     this.data = _data;
   }
+
+  toString() {
+    return this.data + '\r\n';
+  }
 }
 
 export class Version {
@@ -25,6 +33,10 @@ export class Version {
     _versionNumber: number
   ) {
     this.versionNumber = _versionNumber;
+  }
+
+  toString() {
+    return 'version=' + this.versionNumber;
   }
 }
 
@@ -38,6 +50,10 @@ export class Variable {
     this.variableName = _variableName;
     this.data = _data;
   }
+
+  toString() {
+    return this.variableName + '=' + this.data + ';\r\n';
+  }
 }
 
 export class Array {
@@ -50,6 +66,10 @@ export class Array {
     this.variableName = _variableName;
     this.data = _data;
   }
+
+  toString() {
+    return this.variableName + '[]={' + this.data.join() + '};\r\n';
+  }
 }
 
 export class Class {
@@ -61,5 +81,13 @@ export class Class {
   ) {
     this.variableName = _variableName;
     this.dataTypes = _dataTypes;
+  }
+
+  toString() {
+    if ( this.variableName !== '' ) {
+      return 'class ' + this.variableName + '\r\n{\r\n' + this.dataTypes.toString() + '\r\n};\r\n';
+    } else {
+      return 'class\r\n{\r\n' + this.dataTypes.toString() + '\r\n};\r\n';
+    }
   }
 }
