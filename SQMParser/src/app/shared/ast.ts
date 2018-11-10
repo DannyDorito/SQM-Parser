@@ -28,15 +28,15 @@ export class DataType {
 }
 
 export class Version {
-  versionNumber: number;
+  versionNumber: string;
   constructor(
-    _versionNumber: number
+    _versionNumber: string
   ) {
     this.versionNumber = _versionNumber;
   }
 
   toString() {
-    return 'version=' + this.versionNumber;
+    return 'version=' + this.versionNumber + ';';
   }
 }
 
