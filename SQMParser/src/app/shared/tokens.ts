@@ -10,11 +10,12 @@ export enum Token { // TODO: Remove these strings when stopped debugging
   QUOTE = 'QUOTE',
   NUMBER = 'NUMBER',
   BOOLEAN = 'BOOLEAN',
-  STRING = 'STRING'
+  STRING = 'STRING',
+  CLASS = 'CLASS'
 }
 
 export enum Grammar {
-  STRING = Token.STRING + Token.EQUALS + Token.QUOTE + Token.STRING + Token.QUOTE + Token.SEMICOLON,
+  STRING = Token.STRING + Token.EQUALS + Token.QUOTE + Token.STRING + Token.SEMICOLON,
   BOOLEAN = Token.STRING + Token.EQUALS + Token.BOOLEAN + Token.SEMICOLON,
   NUMBER = Token.STRING + Token.EQUALS + Token.NUMBER + Token.SEMICOLON,
   ARRAY = Token.STRING + Token.START_SQUARE_BRACE + Token.END_SQUARE_BRACE + Token.EQUALS + Token.START_BRACE + Token.END_BRACE + Token.SEMICOLON,
