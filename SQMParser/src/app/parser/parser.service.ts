@@ -31,26 +31,6 @@ export class ParserService {
     // return tree;
   }
 
-  /**
-   * ASYNC
-   * Based on:
-   * http://www.thinksincode.com/2016/10/30/create-a-basic-lexer.html Accessed 16th October 2018
-   */
-  // getTokensLine( line: string, lineIndex: number ) {
-  //   if ( isNullOrUndefined( line ) ) {
-  //     return undefined;
-  //   }
-  //   const foundTokens: FoundToken[] = [];
-  //   tokensRegex.forEach( token => {
-  //     const regexResult = token.regex.exec( line );
-  //     if ( regexResult !== null ) {
-  //       if ( token.tokenType !== Token.WHITESPACE) {
-  //         foundTokens.push( new FoundToken( token.tokenType, regexResult[ 0 ], lineIndex, regexResult.index ) );
-  //       }
-  //     }
-  //   } );
-  //   return foundTokens;
-  // }
 
   async generateAST( fileArray: string[] ) {
     if (isNullOrUndefined(fileArray)) {
