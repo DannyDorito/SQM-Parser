@@ -9,13 +9,13 @@ const tokensRegex = [
   // { regex: /[\s\t\n\r]+/, tokenType: Token.WHITESPACE },
   { regex: /\[/, tokenType: Token.START_SQUARE_BRACE },
   { regex: /\]/, tokenType: Token.END_SQUARE_BRACE },
-  { regex: /"/, tokenType: Token.QUOTE },
-  { regex: /=/, tokenType: Token.EQUALS },
-  { regex: /{/, tokenType: Token.START_BRACE },
+  { regex: /\"/, tokenType: Token.QUOTE },
+  { regex: /\=/, tokenType: Token.EQUALS },
+  { regex: /\{/, tokenType: Token.START_BRACE },
   { regex: /[+\-]?(?:0|[1-9]\d*)(?:\.\d*)?(?:[eE][+\-]?\d+)?/, tokenType: Token.NUMBER },
-  { regex: /}/, tokenType: Token.END_BRACE },
-  { regex: /,/, tokenType: Token.COMMA },
-  { regex: /;/, tokenType: Token.SEMICOLON }
+  { regex: /\}/, tokenType: Token.END_BRACE },
+  { regex: /\,/, tokenType: Token.COMMA },
+  { regex: /\;/, tokenType: Token.SEMICOLON }
 ];
 @Injectable( {
   providedIn: 'root'
