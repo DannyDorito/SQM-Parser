@@ -22,7 +22,8 @@
               "src/favicon.ico",
               "src/assets",
               "src/manifest.json",
-              "src/CNAME"
+              "src/CNAME",
+              "src/robots.txt"
             ],
             "styles": [
               "src/styles.css"
