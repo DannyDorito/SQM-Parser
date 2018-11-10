@@ -27,7 +27,6 @@ export class ParserService {
    */
   async execute( inputString: string ) {
     const tree = < MissionAST > await this.generateAST( inputString.split( '\r\n' ) );
-    // const grammars = this.findGrammars( tree );
     // return tree;
   }
 
@@ -42,7 +41,6 @@ export class ParserService {
           const regexResult = /[1-9]+/.exec( inputArray[ 0 ] ); // TODO: should be tokenRegex.number or [1-9]+
           ast.version = new Version( Number( regexResult[ 0 ] ) );
         } else {
-          console.log( inputArray[ 0 ] );
           return undefined; // TODO: Return something meaningful
         }
       } else {
@@ -60,12 +58,11 @@ export class ParserService {
             }
           }
         } );
-        const joinedTokens = tokensOnLine.join('');
-        console.log(joinedTokens + ' ' + (inputIndex + 1));
+        const joinedTokens = tokensOnLine.join( '' );
         switch ( joinedTokens ) {
           case Grammar.STRING.toString():
             console.log( 'STRING' );
-            ast.dataTypes.push( new DataType( new Variable( tokenContens[ 0 ], tokenContens[ 3 ]  ) ) );
+            ast.dataTypes.push( new DataType( new Variable( tokenContens[ 0 ], tokenContens[ 3 ] ) ) );
             break;
 
           case Grammar.BOOLEAN.toString():
@@ -78,23 +75,23 @@ export class ParserService {
             ast.dataTypes.push( new DataType( new Variable( tokenContens[ 0 ], tokenContens[ 2 ] ) ) );
             break;
 
-          // case Grammar.START.toString():
-          //   console.log( 'START' );
+            // case Grammar.START.toString():
+            //   console.log( 'START' );
 
-          //   break;
+            //   break;
 
-          // case Grammar.END.toString():
-          //   console.log( 'END' );
+            // case Grammar.END.toString():
+            //   console.log( 'END' );
 
-          //  break;
+            //  break;
 
           default:
             // Grammar.ARRAY
-            const joinedTokensArray = tokensOnLine.slice( 0, 3 ).join('') + tokensOnLine.slice( ( tokensOnLine.length - 2 ), ( tokensOnLine.length - 1 ) ).join('');
+            const joinedTokensArray = tokensOnLine.slice( 0, 3 ).join( '' ) + tokensOnLine.slice( ( tokensOnLine.length - 2 ), ( tokensOnLine.length - 1 ) ).join( '' );
             // Grammar.CLASS
-            const joinedTokensClass = tokensOnLine.slice( 0, 1 ).join('') + tokensOnLine.slice( ( tokensOnLine.length - 2 ), ( tokensOnLine.length - 1 ) ).join('');
+            const joinedTokensClass = tokensOnLine.slice( 0, 1 ).join( '' ) + tokensOnLine.slice( ( tokensOnLine.length - 2 ), ( tokensOnLine.length - 1 ) ).join( '' );
             // Grammar.CLASS_WITH_NAME
-            const joinedTokensClassName = tokensOnLine.slice( 0, 2 ).join('') + tokensOnLine.slice( ( tokensOnLine.length - 2 ), ( tokensOnLine.length - 1 ) ).join('');
+            const joinedTokensClassName = tokensOnLine.slice( 0, 2 ).join( '' ) + tokensOnLine.slice( ( tokensOnLine.length - 2 ), ( tokensOnLine.length - 1 ) ).join( '' );
 
             if ( joinedTokensArray === Grammar.ARRAY.toString() ) {
               console.log( 'ARRAY' );

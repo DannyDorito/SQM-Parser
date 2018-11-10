@@ -5,11 +5,3 @@ div {
   position: absolute;
   z-index: 1;
 }
-
-.text {
-  color: aqua;
-}
-
-.close {
-  color: blue;
-}
