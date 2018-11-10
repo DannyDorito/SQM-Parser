@@ -1,7 +1,11 @@
 version = 52;
-asd = "string";
+asd = "asd";
 class EditorData
 {
 	moveGridStep = 1.0;
+};
+class
+{
+	asd[] = {1,2,3};
 };
 addons[] = {"exile_client","A3_Ui_F"};
