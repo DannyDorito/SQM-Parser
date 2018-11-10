@@ -26,34 +26,49 @@ export class ParserService {
    * Main method execution function for ParserService
    */
   async execute( inputString: string ) {
-    const tree = < MissionAST[] > await this.generateAST( inputString.split( '\r\n' ) );
+    const tree = < MissionAST > await this.generateAST( inputString.split( '\r\n' ) );
     // const grammars = this.findGrammars( tree );
     // return tree;
   }
 
-
-  async generateAST( fileArray: string[] ) {
-    if (isNullOrUndefined(fileArray)) {
-      return undefined;
+  async generateAST( inputArray: string[] ) {
+    if ( isNullOrUndefined( inputArray ) ) {
+      return undefined; // TODO: Return something meaningful
     }
-    const ast = new MissionAST(undefined, undefined);
-    for (let a = 0; a < fileArray.length; a++) {
-      if (a === 0) {
-        if (/version( )*=[1-9]+;/.test(fileArray[0])) {
-          const regexResult = /[1-9]+/.exec(fileArray[0]); // TODO: should be tokenRegex.number or [1-9]+
-          ast.version = new Version(Number(regexResult[0]));
+    const ast = new MissionAST( undefined, [] );
+    for ( let inputIndex = 0; inputIndex < inputArray.length; inputIndex++ ) {
+      if ( inputIndex === 0 ) {
+        if ( this.evalVersion( inputArray[ 0 ] ) ) {
+          const regexResult = /[1-9]+/.exec( inputArray[ 0 ] ); // TODO: should be tokenRegex.number or [1-9]+
+          ast.version = new Version( Number( regexResult[ 0 ] ) );
+        } else {
+          return undefined; // TODO: Return something meaningful
         }
       } else {
-        const splitLine = fileArray[a].split(' ');
-        splitLine.forEach(_splitLine => {
-          tokensRegex.forEach(tokenRegex => {
-            const regexResult = tokenRegex.regex.exec(_splitLine);
-            if (regexResult !== null) {
-              console.log(regexResult[0]);
+        const inputStringArray = inputArray[ inputIndex ].split( ' ' );
+        inputStringArray.forEach( inputStr => {
+          const tokensOnLine: Token[] = [];
+          for ( const tokenRegex of tokensRegex ) {
+            const regexResult = tokenRegex.regex.exec( inputStr );
+            if ( !isNullOrUndefined( regexResult ) ) {
+              if ( tokenRegex.tokenType !== Token.WHITESPACE ) {
+                tokensOnLine.push( tokenRegex.tokenType );
+              } else if ( regexResult[ 0 ] === 'class' ) {
+                // special case for classes
+              }
+              break; // Break if found regex match
             }
-          });
-        });
+          }
+        } );
       }
     }
+    return ast;
+  }
+
+  /**
+   * Determins if the passed string matches the "version", "=", int, ";"; regex
+   */
+  evalVersion( line: string ) {
+    return /version( )*=[1-9]+;/.test( line );
   }
 }
