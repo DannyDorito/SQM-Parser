@@ -12,9 +12,10 @@ const tokensRegex = [
   { regex: /=/, tokenType: Token.EQUALS },
   { regex: /{/, tokenType: Token.START_BRACE },
   { regex: /[+\-]?(?:0|[1-9]\d*)(?:\.\d*)?(?:[eE][+\-]?\d+)?/, tokenType: Token.NUMBER },
-  { regex: /[a-zA-Z]+([a-zA-Z])*/, tokenType: Token.STRING },
   { regex: /}/, tokenType: Token.END_BRACE },
   { regex: /,/, tokenType: Token.COMMA },
+  { regex: /^(?!class)([a-zA-Z]+)/, tokenType: Token.STRING },
+  { regex: /class/, tokenType: Token.CLASS },
   { regex: /;/, tokenType: Token.SEMICOLON }
 ];
 @Injectable( {
