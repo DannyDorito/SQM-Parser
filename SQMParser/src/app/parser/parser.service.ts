@@ -6,7 +6,7 @@ import { MissionAST, Version } from '../shared/ast';
 const tokensRegex = [
   { regex: /[a-zA-Z]+([a-zA-Z0-9_:-])*/, tokenType: Token.STRING },
   { regex: /true|false/, tokenType: Token.BOOLEAN },
-  // { regex: /[\s\t\n\r]+/, tokenType: Token.WHITESPACE },
+  { regex: /[\s\t\n\r]+/, tokenType: Token.WHITESPACE },
   { regex: /\[/, tokenType: Token.START_SQUARE_BRACE },
   { regex: /\]/, tokenType: Token.END_SQUARE_BRACE },
   { regex: /\"/, tokenType: Token.QUOTE },
