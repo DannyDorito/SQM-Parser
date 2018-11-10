@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Token, Grammar } from '../shared/tokens';
 import { isNullOrUndefined } from 'util';
-import { MissionAST, Version, DataType, Variable } from '../shared/ast';
+import { MissionAST, Version, DataType, Variable, Class } from '../shared/ast';
 
 const tokensRegex = [
   { regex: /true|false/, tokenType: Token.BOOLEAN },
@@ -27,83 +27,59 @@ export class ParserService {
    * Main method execution function for ParserService
    */
   async execute( inputString: string ) {
-    const tree = < MissionAST > await this.generateAST( inputString.split( '\r\n' ) );
-    // return tree;
+    return this.generateAST( inputString.split( '\r\n' ) );
   }
 
   async generateAST( inputArray: string[] ) {
     if ( isNullOrUndefined( inputArray ) ) {
-      return undefined; // TODO: Return something meaningful
+      return new Error( 'ERROR: File is empty!' );
     }
     const ast = new MissionAST( undefined, [] );
     for ( let inputIndex = 0; inputIndex < inputArray.length; inputIndex++ ) {
       if ( inputIndex === 0 ) {
         if ( this.evalVersion( inputArray[ 0 ] ) ) {
-          const regexResult = /[1-9]+/.exec( inputArray[ 0 ] ); // TODO: should be tokenRegex.number or [1-9]+
-          ast.version = new Version( Number( regexResult[ 0 ] ) );
+          ast.version = new Version( /[1-9]+/.exec( inputArray[ 0 ] )[ 0 ] );
         } else {
-          return undefined; // TODO: Return something meaningful
+          return new Error( 'ERROR: Cannot find version number on first line of file!' ); // TODO: Return something meaningful
         }
       } else {
-        const tokensOnLine: Token[] = [];
-        const tokenContens: string[] = [];
+        let tokensOnLine = '';
         const inputStringArray = inputArray[ inputIndex ].split( ' ' );
-        inputStringArray.forEach( inputStr => {
+        for ( let i = 0; i < inputStringArray.length; i++ ) {
           for ( const tokenRegex of tokensRegex ) {
-            const regexResult = tokenRegex.regex.exec( inputStr );
+            const regexResult = tokenRegex.regex.exec( inputStringArray[ i ] );
             if ( !isNullOrUndefined( regexResult ) ) {
               if ( tokenRegex.tokenType !== Token.WHITESPACE ) {
-                tokensOnLine.push( tokenRegex.tokenType );
-                tokenContens.push( regexResult[ 0 ] );
+                tokensOnLine += tokenRegex.tokenType.toString();
               }
             }
           }
-        } );
-        const joinedTokens = tokensOnLine.join( '' );
-        switch ( joinedTokens ) {
-          case Grammar.STRING.toString():
-            console.log( 'STRING' );
-            ast.dataTypes.push( new DataType( new Variable( tokenContens[ 0 ], tokenContens[ 3 ] ) ) );
-            break;
+        }
 
-          case Grammar.BOOLEAN.toString():
-            console.log( 'BOOLEAN' );
-            ast.dataTypes.push( new DataType( new Variable( tokenContens[ 0 ], tokenContens[ 2 ] ) ) );
-            break;
+        if ( tokensOnLine === Grammar.STRING.toString() ) {
+          console.log( 'FOUND: STRING' );
+          ast.dataTypes.push( new DataType( new Variable( inputStringArray[ 0 ], inputStringArray[ 3 ] ) ) );
 
-          case Grammar.NUMBER.toString():
-            console.log( 'NUMBER' );
-            ast.dataTypes.push( new DataType( new Variable( tokenContens[ 0 ], tokenContens[ 2 ] ) ) );
-            break;
+        } else if ( tokensOnLine === Grammar.BOOLEAN.toString() ) {
+          console.log( 'FOUND: BOOLEAN' );
+          ast.dataTypes.push( new DataType( new Variable( inputStringArray[ 0 ], inputStringArray[ 2 ] ) ) );
 
-            // case Grammar.START.toString():
-            //   console.log( 'START' );
+        } else if ( tokensOnLine === Grammar.NUMBER.toString() ) {
+          console.log( 'FOUND: NUMBER' );
+          ast.dataTypes.push( new DataType( new Variable( inputStringArray[ 0 ], inputStringArray[ 2 ] ) ) );
 
-            //   break;
+        } else if ( tokensOnLine === Grammar.ARRAY.toString() ) {
+          console.log( 'FOUND: ARRAY' );
 
-            // case Grammar.END.toString():
-            //   console.log( 'END' );
+        } else if ( tokensOnLine === Grammar.CLASS.toString() ) {
+          console.log( 'FOUND: CLASS' );
 
-            //  break;
+        } else if ( tokensOnLine === Grammar.CLASS_WITH_NAME.toString() ) {
+          console.log( 'FOUND: CLASS_WITH_NAME' );
 
-          default:
-            // Grammar.ARRAY
-            const joinedTokensArray = tokensOnLine.slice( 0, 3 ).join( '' ) + tokensOnLine.slice( ( tokensOnLine.length - 2 ), ( tokensOnLine.length - 1 ) ).join( '' );
-            // Grammar.CLASS
-            const joinedTokensClass = tokensOnLine.slice( 0, 1 ).join( '' ) + tokensOnLine.slice( ( tokensOnLine.length - 2 ), ( tokensOnLine.length - 1 ) ).join( '' );
-            // Grammar.CLASS_WITH_NAME
-            const joinedTokensClassName = tokensOnLine.slice( 0, 2 ).join( '' ) + tokensOnLine.slice( ( tokensOnLine.length - 2 ), ( tokensOnLine.length - 1 ) ).join( '' );
+        } else {
+          console.log( 'ERROR: FOUND ' + tokensOnLine + ' ' + ( inputIndex + 1 ) );
 
-            if ( joinedTokensArray === Grammar.ARRAY.toString() ) {
-              console.log( 'ARRAY' );
-            } else if ( joinedTokensClass === Grammar.CLASS.toString() ) {
-              console.log( 'CLASS' );
-            } else if ( joinedTokensClassName === Grammar.CLASS_WITH_NAME.toString() ) {
-              console.log( 'CLASS_WITH_NAME' );
-            } else {
-              // console.log( 'NOT FOUND: ' + joinedTokens + ' LINE: ' + (inputIndex + 1) );
-            }
-            break;
         }
       }
     }
