@@ -1,22 +1,21 @@
-export class MissionAST {
+export class ASTMission {
   version: ASTVersion;
-  variables: ASTVariable[];
-  arrays: ASTArray[];
-  classes: ASTClass[];
+  data: ASTData[];
   constructor(
     _version: ASTVersion,
-    _variables: ASTVariable[],
-    _arrays: ASTArray[],
-    _classes: ASTClass[]
+    _data: ASTData[],
   ) {
     this.version = _version;
-    this.variables = _variables;
-    this.arrays = _arrays;
-    this.classes = _classes;
+    this.data = _data;
   }
+}
 
-  toString() {
-    // return this.version.toString() + this.dataTypes.toString();
+export class ASTData {
+  data: ASTVariable | ASTArray | ASTClass;
+  constructor (
+    _data: ASTVariable | ASTArray | ASTClass
+  ) {
+    this.data = _data;
   }
 }
 
@@ -26,10 +25,6 @@ export class ASTVersion {
     _versionNumber: string
   ) {
     this.versionNumber = _versionNumber;
-  }
-
-  toString() {
-    return 'version=' + this.versionNumber + ';';
   }
 }
 
@@ -43,54 +38,28 @@ export class ASTVariable {
     this.variableName = _variableName;
     this.data = _data;
   }
-
-  toString() {
-    if (typeof String === this.data) {
-      return this.variableName + '="' + this.data + '";\r\n';
-    } else {
-      return this.variableName + '=' + this.data + ';\r\n';
-    }
-  }
 }
 
 export class ASTArray {
   variableName: string;
-  data: string[] | number[] | boolean[] | ASTArray[];
+  data: ASTVariable | ASTArray;
   constructor(
     _variableName: string,
-    _data: string[] | number[] | boolean[] | ASTArray[]
+    _data: ASTVariable | ASTArray
   ) {
     this.variableName = _variableName;
     this.data = _data;
-  }
-
-  toString() {
-    return this.variableName + '[]={' + this.data.join() + '};\r\n';
   }
 }
 
 export class ASTClass {
   variableName: string;
-  variables: ASTVariable[];
-  arrays: ASTArray[];
-  classes: ASTClass[];
-  constructor(
+  data: ASTVariable | ASTArray | ASTClass;
+  constructor (
     _variableName: string,
-    _variables: ASTVariable[],
-    _arrays: ASTArray[],
-    _classes: ASTClass[]
+    _data: ASTVariable | ASTArray | ASTClass
   ) {
     this.variableName = _variableName;
-    this.variables = _variables;
-    this.arrays = _arrays;
-    this.classes = _classes;
-  }
-
-  toString() {
-    if ( this.variableName !== '' ) {
-      // return 'class ' + this.variableName + '\r\n{\r\n' + this.dataTypes.toString() + '\r\n};\r\n';
-    } else {
-      // return 'class\r\n{\r\n' + this.dataTypes.toString() + '\r\n};\r\n';
-    }
+    this.data = _data;
   }
 }

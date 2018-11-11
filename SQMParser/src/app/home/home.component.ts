@@ -2,7 +2,7 @@ import { Component, AfterViewInit, ViewChild, OnInit } from '@angular/core';
 import { isNullOrUndefined } from 'util';
 import { ParserService } from '../parser/parser.service';
 import { ViewTreeComponent } from '../view-tree/view-tree.component';
-import { MissionAST } from '../shared/ast';
+import { ASTMission } from '../shared/ast';
 
 @Component( {
   selector: 'app-home',
@@ -17,7 +17,7 @@ export class HomeComponent implements AfterViewInit, OnInit {
    */
   @ViewChild( ViewTreeComponent ) viewTree;
 
-  missionAST: MissionAST;
+  missionAST: ASTMission;
 
   fileReaderString: string;
   confirmed = false;
