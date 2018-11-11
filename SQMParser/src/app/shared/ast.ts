@@ -1,13 +1,13 @@
 export class MissionAST {
-  version: Version;
-  variables: Variable[];
-  arrays: Array[];
-  classes: Class[];
+  version: ASTVersion;
+  variables: ASTVariable[];
+  arrays: ASTArray[];
+  classes: ASTClass[];
   constructor(
-    _version: Version,
-    _variables: Variable[],
-    _arrays: Array[],
-    _classes: Class[]
+    _version: ASTVersion,
+    _variables: ASTVariable[],
+    _arrays: ASTArray[],
+    _classes: ASTClass[]
   ) {
     this.version = _version;
     this.variables = _variables;
@@ -20,7 +20,7 @@ export class MissionAST {
   }
 }
 
-export class Version {
+export class ASTVersion {
   versionNumber: string;
   constructor(
     _versionNumber: string
@@ -33,7 +33,7 @@ export class Version {
   }
 }
 
-export class Variable {
+export class ASTVariable {
   variableName: string;
   data: string | number | boolean;
   constructor(
@@ -53,12 +53,12 @@ export class Variable {
   }
 }
 
-export class Array {
+export class ASTArray {
   variableName: string;
-  data: string[] | number[] | boolean[] | Array[];
+  data: string[] | number[] | boolean[] | ASTArray[];
   constructor(
     _variableName: string,
-    _data: string[] | number[] | boolean[] | Array[]
+    _data: string[] | number[] | boolean[] | ASTArray[]
   ) {
     this.variableName = _variableName;
     this.data = _data;
@@ -69,16 +69,16 @@ export class Array {
   }
 }
 
-export class Class {
+export class ASTClass {
   variableName: string;
-  variables: Variable[];
-  arrays: Array[];
-  classes: Class[];
+  variables: ASTVariable[];
+  arrays: ASTArray[];
+  classes: ASTClass[];
   constructor(
     _variableName: string,
-    _variables: Variable[],
-    _arrays: Array[],
-    _classes: Class[]
+    _variables: ASTVariable[],
+    _arrays: ASTArray[],
+    _classes: ASTClass[]
   ) {
     this.variableName = _variableName;
     this.variables = _variables;

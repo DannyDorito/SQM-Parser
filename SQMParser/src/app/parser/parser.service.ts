@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Token, Grammar } from '../shared/tokens';
 import { isNullOrUndefined } from 'util';
-import { MissionAST, Version, Variable, Array, Class } from '../shared/ast';
+import { MissionAST, ASTVersion, ASTVariable, ASTArray, ASTClass } from '../shared/ast';
 
 const tokensRegex = [
   { regex: /true|false/, tokenType: Token.BOOLEAN },
@@ -38,7 +38,7 @@ export class ParserService {
     for ( let inputIndex = 0; inputIndex < inputArray.length; inputIndex++ ) {
       if ( inputIndex === 0 ) {
         if ( this.evalVersion( inputArray[ 0 ] ) ) {
-          ast.version = new Version( /[1-9]+/.exec( inputArray[ 0 ] )[ 0 ] );
+          ast.version = new ASTVersion( /[1-9]+/.exec( inputArray[ 0 ] )[ 0 ] );
         } else {
           return new Error( 'ERROR: Cannot find version number on first line of file!' ); // TODO: Return something meaningful
         }
@@ -58,27 +58,27 @@ export class ParserService {
 
         if ( tokensOnLine === String(Grammar.STRING) ) {
           // console.log( 'FOUND: STRING' );
-          ast.variables.push( new Variable( inputStringArray[ 0 ], inputStringArray[ 3 ] ) );
+          ast.variables.push( new ASTVariable( inputStringArray[ 0 ], inputStringArray[ 3 ] ) );
 
         } else if ( tokensOnLine === String(Grammar.BOOLEAN) ) {
           // console.log( 'FOUND: BOOLEAN' );
-          ast.variables.push( new Variable( inputStringArray[ 0 ], Boolean( inputStringArray[ 2 ] ) ) );
+          ast.variables.push( new ASTVariable( inputStringArray[ 0 ], Boolean( inputStringArray[ 2 ] ) ) );
 
         } else if ( tokensOnLine === String(Grammar.NUMBER) ) {
           // console.log( 'FOUND: NUMBER' );
-          ast.variables.push( new Variable( inputStringArray[ 0 ], Number( inputStringArray[ 2 ] ) ) );
+          ast.variables.push( new ASTVariable( inputStringArray[ 0 ], Number( inputStringArray[ 2 ] ) ) );
 
         } else if ( tokensOnLine === String(Grammar.ARRAY) ) {
           // console.log( 'FOUND: ARRAY' );
-          ast.arrays.push( new Array( inputStringArray[ 0 ], [] ) );
+          ast.arrays.push( new ASTArray( inputStringArray[ 0 ], [] ) );
 
         } else if ( tokensOnLine === String(Grammar.CLASS) ) {
           // console.log( 'FOUND: CLASS' );
-          ast.classes.push( new Class( undefined, [], [], [] ) );
+          ast.classes.push( new ASTClass( undefined, [], [], [] ) );
 
         } else if ( tokensOnLine === String(Grammar.CLASS_WITH_NAME) ) {
           // console.log( 'FOUND: CLASS_WITH_NAME' );
-          ast.classes.push( new Class( inputStringArray[ 1 ], [], [], [] ) );
+          ast.classes.push( new ASTClass( inputStringArray[ 1 ], [], [], [] ) );
 
         } else if ( tokensOnLine === String(Grammar.START) ) {
 
