@@ -50,39 +50,39 @@ export class ParserService {
             const regexResult = tokenRegex.regex.exec( inputStringArray[ i ] );
             if ( !isNullOrUndefined( regexResult ) ) {
               if ( tokenRegex.tokenType !== Token.WHITESPACE ) {
-                tokensOnLine += tokenRegex.tokenType.toString();
+                tokensOnLine += String(tokenRegex.tokenType);
               }
             }
           }
         }
 
-        if ( tokensOnLine === Grammar.STRING.toString() ) {
+        if ( tokensOnLine === String(Grammar.STRING) ) {
           // console.log( 'FOUND: STRING' );
           ast.variables.push( new Variable( inputStringArray[ 0 ], inputStringArray[ 3 ] ) );
 
-        } else if ( tokensOnLine === Grammar.BOOLEAN.toString() ) {
+        } else if ( tokensOnLine === String(Grammar.BOOLEAN) ) {
           // console.log( 'FOUND: BOOLEAN' );
           ast.variables.push( new Variable( inputStringArray[ 0 ], Boolean( inputStringArray[ 2 ] ) ) );
 
-        } else if ( tokensOnLine === Grammar.NUMBER.toString() ) {
+        } else if ( tokensOnLine === String(Grammar.NUMBER) ) {
           // console.log( 'FOUND: NUMBER' );
           ast.variables.push( new Variable( inputStringArray[ 0 ], Number( inputStringArray[ 2 ] ) ) );
 
-        } else if ( tokensOnLine === Grammar.ARRAY.toString() ) {
+        } else if ( tokensOnLine === String(Grammar.ARRAY) ) {
           // console.log( 'FOUND: ARRAY' );
           ast.arrays.push( new Array( inputStringArray[ 0 ], [] ) );
 
-        } else if ( tokensOnLine === Grammar.CLASS.toString() ) {
+        } else if ( tokensOnLine === String(Grammar.CLASS) ) {
           // console.log( 'FOUND: CLASS' );
           ast.classes.push( new Class( undefined, [], [], [] ) );
 
-        } else if ( tokensOnLine === Grammar.CLASS_WITH_NAME.toString() ) {
+        } else if ( tokensOnLine === String(Grammar.CLASS_WITH_NAME) ) {
           // console.log( 'FOUND: CLASS_WITH_NAME' );
           ast.classes.push( new Class( inputStringArray[ 1 ], [], [], [] ) );
 
-        } else if ( tokensOnLine === Grammar.START.toString() ) {
+        } else if ( tokensOnLine === String(Grammar.START) ) {
 
-        } else if ( tokensOnLine === Grammar.END.toString() ) {
+        } else if ( tokensOnLine === String(Grammar.END) ) {
 
         } else {
           console.log( 'ERROR: FOUND ' + tokensOnLine + ' ' + ( inputIndex + 1 ) );
