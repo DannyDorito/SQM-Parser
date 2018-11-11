@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Token, Grammar } from '../shared/tokens';
 import { isNullOrUndefined } from 'util';
-import { MissionAST, Version, DataType, Variable, Class } from '../shared/ast';
+import { MissionAST, Version, Variable, Array, Class } from '../shared/ast';
 
 const tokensRegex = [
   { regex: /true|false/, tokenType: Token.BOOLEAN },
@@ -34,7 +34,7 @@ export class ParserService {
     if ( isNullOrUndefined( inputArray ) ) {
       return new Error( 'ERROR: File is empty!' );
     }
-    const ast = new MissionAST( undefined, [] );
+    const ast = new MissionAST( undefined, [], [], [] );
     for ( let inputIndex = 0; inputIndex < inputArray.length; inputIndex++ ) {
       if ( inputIndex === 0 ) {
         if ( this.evalVersion( inputArray[ 0 ] ) ) {
@@ -57,25 +57,32 @@ export class ParserService {
         }
 
         if ( tokensOnLine === Grammar.STRING.toString() ) {
-          console.log( 'FOUND: STRING' );
-          ast.dataTypes.push( new DataType( new Variable( inputStringArray[ 0 ], inputStringArray[ 3 ] ) ) );
+          // console.log( 'FOUND: STRING' );
+          ast.variables.push( new Variable( inputStringArray[ 0 ], inputStringArray[ 3 ] ) );
 
         } else if ( tokensOnLine === Grammar.BOOLEAN.toString() ) {
-          console.log( 'FOUND: BOOLEAN' );
-          ast.dataTypes.push( new DataType( new Variable( inputStringArray[ 0 ], inputStringArray[ 2 ] ) ) );
+          // console.log( 'FOUND: BOOLEAN' );
+          ast.variables.push( new Variable( inputStringArray[ 0 ], Boolean( inputStringArray[ 2 ] ) ) );
 
         } else if ( tokensOnLine === Grammar.NUMBER.toString() ) {
-          console.log( 'FOUND: NUMBER' );
-          ast.dataTypes.push( new DataType( new Variable( inputStringArray[ 0 ], inputStringArray[ 2 ] ) ) );
+          // console.log( 'FOUND: NUMBER' );
+          ast.variables.push( new Variable( inputStringArray[ 0 ], Number( inputStringArray[ 2 ] ) ) );
 
         } else if ( tokensOnLine === Grammar.ARRAY.toString() ) {
-          console.log( 'FOUND: ARRAY' );
+          // console.log( 'FOUND: ARRAY' );
+          ast.arrays.push( new Array( inputStringArray[ 0 ], [] ) );
 
         } else if ( tokensOnLine === Grammar.CLASS.toString() ) {
-          console.log( 'FOUND: CLASS' );
+          // console.log( 'FOUND: CLASS' );
+          ast.classes.push( new Class( undefined, [], [], [] ) );
 
         } else if ( tokensOnLine === Grammar.CLASS_WITH_NAME.toString() ) {
-          console.log( 'FOUND: CLASS_WITH_NAME' );
+          // console.log( 'FOUND: CLASS_WITH_NAME' );
+          ast.classes.push( new Class( inputStringArray[ 1 ], [], [], [] ) );
+
+        } else if ( tokensOnLine === Grammar.START.toString() ) {
+
+        } else if ( tokensOnLine === Grammar.END.toString() ) {
 
         } else {
           console.log( 'ERROR: FOUND ' + tokensOnLine + ' ' + ( inputIndex + 1 ) );
