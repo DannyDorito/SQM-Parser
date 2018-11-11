@@ -1,8 +1,8 @@
 {
   "name": "SQMParser",
   "short_name": "SQMParser",
-  "theme_color": "#1976d2",
-  "background_color": "#fafafa",
+  "theme_color": "#78866B",
+  "background_color": "#ffffff",
   "display": "standalone",
   "scope": "/",
   "start_url": "/",
