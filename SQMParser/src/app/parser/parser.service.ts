@@ -79,6 +79,8 @@ export class ParserService {
         } else if (tokensOnLine === Grammar.ARRAY.toString()) {
           // console.log( 'FOUND: ARRAY' );
           ast.append(new ASTArray(inputSplit[0], new ASTVariable(undefined, undefined)), depth); // TODO: contents of array
+          depth++;
+
         } else if (tokensOnLine === Grammar.CLASS.toString()) {
           // console.log( 'FOUND: CLASS' );
           ast.append(new ASTClass(undefined, undefined), depth);
