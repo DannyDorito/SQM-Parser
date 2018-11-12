@@ -21,6 +21,7 @@ export class HomeComponent implements AfterViewInit, OnInit {
 
   fileReaderString: string;
   confirmed = false;
+  loading = false;
 
   constructor( private parser: ParserService ) {}
 
@@ -38,6 +39,15 @@ export class HomeComponent implements AfterViewInit, OnInit {
     };
     fileReader.onerror = () => {
       fileReader.abort();
+    };
+    fileReader.onprogress = () => {
+      this.loading = true;
+    };
+    fileReader.onloadend = (data) => {
+      if (data.lengthComputable) {
+        console.log(data.loaded);
+        this.loading = false;
+      }
     };
     try {
       fileReader.readAsText( fileChangeEvent.target.files[ 0 ] );
