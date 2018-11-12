@@ -1,4 +1,4 @@
-import { Component, AfterViewInit, ViewChild, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { isNullOrUndefined } from 'util';
 import { ParserService } from '../parser/parser.service';
 import { ASTMission } from '../shared/ast';
@@ -8,7 +8,7 @@ import { ASTMission } from '../shared/ast';
   templateUrl: './home.component.html',
   styleUrls: [ './home.component.css' ]
 } )
-export class HomeComponent implements AfterViewInit, OnInit {
+export class HomeComponent {
   missionAST: ASTMission;
 
   fileReaderString: string;
@@ -65,28 +65,5 @@ export class HomeComponent implements AfterViewInit, OnInit {
     this.missionAST = this.parser.generateAST( this.fileReaderString.split( '\r\n') );
     console.log(this.missionAST);
     this.fileReaderString = undefined;
-  }
-
-  /**
-   * Data sharing via ViewChild component
-   * Based on:
-   * https://angularfirebase.com/lessons/sharing-data-between-angular-components-four-methods/ [Online] Accessed 6th November 2018
-   */
-  ngAfterViewInit() {
-    // if ( !isNullOrUndefined( this.tree ) ) {
-    //   this.viewTree.tree = this.tree;
-    // }
-  }
-
-  /**
-   * Load from sqmSave local storage, confirm and then start tree generation
-   */
-  ngOnInit() {
-    const sqmLocalStorage = localStorage.getItem( 'sqmSave' );
-    if ( !isNullOrUndefined( sqmLocalStorage ) && sqmLocalStorage !== '' ) {
-      this.fileReaderString = sqmLocalStorage;
-      this.confirmed = true;
-      this.startTreeCreation();
-    }
   }
 }
