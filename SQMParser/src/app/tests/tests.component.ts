@@ -1,9 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 
 @Component( {
-  selector: 'app-tests',
-  templateUrl: './tests.component.html',
-  styleUrls: []
+  template: ''
 } )
 export class TestsComponent implements OnInit {
   ngOnInit() {
