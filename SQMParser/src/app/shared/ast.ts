@@ -26,7 +26,11 @@ export class ASTMission {
   }
 
   toString() {
-    return this.version.toString() + this.data.join( '' );
+    if (!isNullOrUndefined(this.version) && !isNullOrUndefined(this.data)) {
+      return this.version.toString() + this.data.join( '' );
+    } else {
+      return '';
+    }
   }
 }
 
@@ -39,7 +43,11 @@ export class ASTData {
   }
 
   toString() {
-    return this.data.toString();
+    if (!isNullOrUndefined(this.data)) {
+      return this.data.toString();
+    } else {
+      return '';
+    }
   }
 }
 
@@ -52,7 +60,11 @@ export class ASTVersion {
   }
 
   toString() {
-    return 'version=' + this.versionNumber + ';\r\n';
+    if (!isNullOrUndefined(this.versionNumber)) {
+      return 'version=' + this.versionNumber + ';\r\n';
+    } else {
+      return '';
+    }
   }
 }
 
@@ -68,10 +80,14 @@ export class ASTVariable {
   }
 
   toString() {
-    if ( this.data === typeof String ) {
-      return this.variableName + '="' + this.data.toString() + '"';
+    if (!isNullOrUndefined(this.data) && !isNullOrUndefined(this.variableName)) {
+      if ( this.data === typeof String ) {
+        return this.variableName + '="' + this.data.toString() + '"';
+      } else {
+        return this.variableName + '=' + this.data.toString();
+      }
     } else {
-      return this.variableName + '=' + this.data.toString();
+      return '';
     }
   }
 }
@@ -88,7 +104,11 @@ export class ASTArray {
   }
 
   toString() {
-    return this.variableName + '[]={' + this.data.toString() + '};\r\n';
+    if (!isNullOrUndefined(this.data) && !isNullOrUndefined(this.variableName)) {
+      return this.variableName + '[]={' + this.data.toString() + '};\r\n';
+    } else {
+      return '';
+    }
   }
 }
 
@@ -105,9 +125,17 @@ export class ASTClass {
 
   toString() {
     if ( isNullOrUndefined( this.variableName ) || this.variableName === '' ) {
-      return 'class\r\n{\r\n' + this.data.toString() + '\r\n};\r\n';
+      if (!isNullOrUndefined(this.data)) {
+        return 'class\r\n{\r\n' + this.data.toString() + '\r\n};\r\n';
+      } else {
+        return '';
+      }
     } else {
-      return 'class ' + this.variableName + '\r\n{\r\n' + this.data.toString() + '\r\n};\r\n';
+      if (!isNullOrUndefined(this.data)) {
+        return 'class ' + this.variableName + '\r\n{\r\n' + this.data.toString() + '\r\n};\r\n';
+      } else {
+        return '';
+      }
     }
   }
 }
