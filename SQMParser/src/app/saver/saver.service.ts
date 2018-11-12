@@ -25,18 +25,31 @@ export class SaverService {
     FileSaver.saveAs(new Blob(missionAST.toString().split('\r\n'), { type: 'text/plain;charset=utf-8' }), fileName);
   }
 
+  /**
+   * Loads saved sqm from localStorage
+   */
   loadSQM() {
     return localStorage.getItem(environment.sqmLocalStorageName);
   }
 
+  /**
+   * ASYNC
+   * Saves ASTMission to localStorage
+   */
   async saveSQM(missionAST: ASTMission) {
     localStorage.setItem(environment.sqmLocalStorageName, missionAST.toString());
   }
 
+  /**
+   * Enables autosave, adds to localStorage
+   */
   enableAutoSave() {
     localStorage.setItem(environment.sqmAutoSaveName, 'true');
   }
 
+  /**
+   * Disables autosave, removes from localstorage
+   */
   disableAutoSave() {
     localStorage.removeItem(environment.sqmAutoSaveName);
   }

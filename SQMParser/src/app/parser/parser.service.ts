@@ -96,11 +96,9 @@ export class ParserService {
           if (depth !== 0) {
             depth--;
           }
+        } else {
+          console.log( 'ERROR: FOUND ' + tokensOnLine + ' ' + ( inputIndex + 1 ) );
         }
-        // else {
-        //   console.log( 'ERROR: FOUND ' + tokensOnLine + ' ' + ( inputIndex + 1 ) );
-
-        // }
       }
     }
     return ast;
