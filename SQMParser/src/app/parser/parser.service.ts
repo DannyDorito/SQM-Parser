@@ -57,34 +57,29 @@ export class ParserService {
             }
           }
         }
-        console.log(tokensOnLine);
         if ( tokensOnLine === Grammar.STRING.toString() ) {
-          // ast.variables.push( new ASTVariable( inputStringArray[ 0 ], inputStringArray[ 3 ] ) );
-          console.log(ast);
-          console.log('');
-          ast.data = this.addToEndData(ast.data, depth, new ASTVariable( inputSplit[ 0 ], inputSplit[ 3 ] ) );
-          console.log(ast);
+          // console.log( 'FOUND: STRING' );
+          ast.append( new ASTVariable( inputSplit[ 0 ], inputSplit[ 3 ] ), depth );
 
         } else if ( tokensOnLine === Grammar.BOOLEAN.toString() ) {
           // console.log( 'FOUND: BOOLEAN' );
-          // ast.variables.push( new ASTVariable( inputStringArray[ 0 ], Boolean( inputStringArray[ 2 ] ) ) );
+          ast.append( new ASTVariable( inputSplit[ 0 ], Boolean( inputSplit[ 2 ] ) ), depth );
 
-        } else if ( tokensOnLine ===  Grammar.NUMBER.toString() ) {
+        } else if ( tokensOnLine === Grammar.NUMBER.toString() ) {
           // console.log( 'FOUND: NUMBER' );
-          // ast.variables.push( new ASTVariable( inputStringArray[ 0 ], Number( inputStringArray[ 2 ] ) ) );
+          ast.append( new ASTVariable( inputSplit[ 0 ], Number( inputSplit[ 2 ] ) ), depth );
 
         } else if ( tokensOnLine === Grammar.ARRAY.toString() ) {
           // console.log( 'FOUND: ARRAY' );
-          // ast.arrays.push( new ASTArray( inputStringArray[ 0 ], [] ) );
-
-        } else if ( tokensOnLine ===  Grammar.CLASS.toString() ) {
+          ast.append( new ASTArray( inputSplit[ 0 ], new ASTVariable( undefined, undefined ) ), depth ); // TODO: contents of array
+        } else if ( tokensOnLine === Grammar.CLASS.toString() ) {
           // console.log( 'FOUND: CLASS' );
-          // ast.classes.push( new ASTClass( undefined, [], [], [] ) );
+          ast.append( new ASTClass( undefined, undefined ), depth );
           depth++;
 
         } else if ( tokensOnLine === Grammar.CLASS_WITH_NAME.toString() ) {
           // console.log( 'FOUND: CLASS_WITH_NAME' );
-          // ast.classes.push( new ASTClass( inputStringArray[ 1 ], [], [], [] ) );
+          ast.append( new ASTClass( inputSplit[ 1 ], undefined ), depth );
 
         } else if ( tokensOnLine === Grammar.START.toString() ) {
 
@@ -107,37 +102,5 @@ export class ParserService {
    */
   evalVersion( line: string ) {
     return /(version\s*=\s*)[0-99]+;/.test( line );
-  }
-
-  /**
-   * Add to the nth iteration of MissionData
-   */
-  addToData( data: ASTData[], depth: number, placeArray: number[], itemToAdd: ASTVariable | ASTArray | ASTClass ) {
-    let result;
-    for ( let dataIndex = 0; dataIndex < depth; dataIndex++ ) {
-      if ( dataIndex === 0 ) {
-        result = data[ placeArray[ dataIndex ] ];
-      } else {
-        result = result.data[ placeArray[ dataIndex ] ];
-      }
-    }
-    result.push( itemToAdd );
-    return result;
-  }
-
-  /**
-   * Add to the last iteration of MissionData
-   */
-  addToEndData( data: ASTData[], depth: number, itemToAdd: ASTVariable | ASTArray | ASTClass ) {
-    let result;
-    for ( let dataIndex = 0; dataIndex < depth; dataIndex++ ) {
-      if ( dataIndex === 0 ) {
-        result = data[ ( data.length - 1 ) ];
-      } else {
-        result = result.data[ ( data.length - 1 ) ];
-      }
-    }
-    result.push( itemToAdd );
-    return result;
   }
 }

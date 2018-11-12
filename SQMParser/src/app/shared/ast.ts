@@ -8,11 +8,25 @@ export class ASTMission {
     this.version = _version;
     this.data = _data;
   }
+
+  /**
+   * Append object to end of ASTMission.data
+   * Based on:
+   * https://stackoverflow.com/a/1693066 [Online] Accessed 12th November 2018
+   */
+  append( itemToAppend: ASTVariable | ASTArray | ASTClass, depth: number ) {
+    if ( depth > 0 ) {
+      this[ this.data.length - 1 ].append( itemToAppend, ( depth - 1 ) );
+    } else {
+      this.data.push( new ASTData( itemToAppend ) );
+    }
+    return this;
+  }
 }
 
 export class ASTData {
   data: ASTVariable | ASTArray | ASTClass;
-  constructor (
+  constructor(
     _data: ASTVariable | ASTArray | ASTClass
   ) {
     this.data = _data;
@@ -55,7 +69,7 @@ export class ASTArray {
 export class ASTClass {
   variableName: string;
   data: ASTVariable | ASTArray | ASTClass;
-  constructor (
+  constructor(
     _variableName: string,
     _data: ASTVariable | ASTArray | ASTClass
   ) {
