@@ -44,6 +44,7 @@ export class ParserService {
         }
       } else {
         let tokensOnLine = '';
+        // const inputSplit = inputArray[ inputIndex ];
         const inputSplit = inputArray[ inputIndex ].split( ' ' );
         for ( let inputSplitIndex = 0; inputSplitIndex < inputSplit.length; inputSplitIndex++ ) {
           for ( const tokenRegex of tokensRegex ) {
@@ -56,6 +57,17 @@ export class ParserService {
             }
           }
         }
+        // while ( inputArray[ inputIndex ] !== '') {
+        //   console.log( inputArray[ inputIndex ] );
+        //   for ( const tokenRegex of tokensRegex ) {
+        //     const regexResult = tokenRegex.regex.exec( inputArray[ inputIndex ]);
+        //     if ( regexResult !== null) {
+        //       tokensOnLine += tokenRegex.tokenType.toString();
+        //       inputArray[ inputIndex ] = this.removeOccurrence(inputArray[ inputIndex ], regexResult[0]);
+        //       break;
+        //     }
+        //   }
+        // }
         if ( tokensOnLine === Grammar.STRING.toString() ) {
           // console.log( 'FOUND: STRING' );
           ast.append( new ASTVariable( inputSplit[ 0 ], inputSplit[ 3 ] ), depth );
@@ -100,6 +112,20 @@ export class ParserService {
    * Determins if the passed string matches the "version", "=", int, ";"; regex
    */
   evalVersion( line: string ) {
-    return /(version\s*=\s*)[0-99]+;/.test( line );
+    return /(version\s*=\s*)[0-99]+\s;/.test( line );
+  }
+
+  /**
+   * Removes first occurrence of a string from a given string
+   * Based on:
+   * https://www.w3resource.com/javascript-exercises/javascript-string-exercise-26.php [Online] Accessed 12th November 2018
+   */
+  removeOccurrence( str: string, stringToFind: string ) {
+    const strIndex = str.indexOf( stringToFind );
+    // if there is no occurrences
+    if (strIndex === -1) {
+      return str;
+    }
+    return str.slice(0, strIndex) + str.slice(strIndex + stringToFind.length);
   }
 }

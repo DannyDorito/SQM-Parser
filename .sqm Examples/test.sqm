@@ -1,11 +1,11 @@
-version = 52;
-asd = "asd";
+version = 52 ;
+asd = " asd " ;
 class EditorData
 {
-	moveGridStep = 1.0;
+	moveGridStep = 1.0 ;
 };
 class
 {
-	asd[] = {1,2,3};
+	asd[] = { 1 , 2 , 3 };
 };
-addons[] = {"exile_client","A3_Ui_F"};
+addons[] = { "exile_client" , "A3_Ui_F" };
