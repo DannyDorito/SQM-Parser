@@ -61,8 +61,7 @@ export class HomeComponent implements AfterViewInit, OnInit {
    */
   async startTreeCreation() {
     // this.missionAST = < MissionAST > await this.parser.execute( this.fileReaderString );
-    this.parser.execute( this.fileReaderString );
-
+    this.missionAST = this.parser.execute( this.fileReaderString );
     this.fileReaderString = undefined;
   }
 

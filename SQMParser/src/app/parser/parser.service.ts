@@ -23,16 +23,15 @@ const tokensRegex = [
 } )
 export class ParserService {
   /**
-   * ASYNC
    * Main method execution function for ParserService
    */
-  async execute( inputString: string ) {
+  execute( inputString: string ) {
     return this.generateAST( inputString.split( '\r\n' ) );
   }
 
-  async generateAST( inputArray: string[] ) {
+  generateAST( inputArray: string[] ) {
     if ( isNullOrUndefined( inputArray ) ) {
-      return new Error( 'ERROR: File is empty!' );
+      throw new Error( 'ERROR: File is empty!' );
     }
     const ast = new ASTMission( undefined, [] );
     let depth = 0;
@@ -41,7 +40,7 @@ export class ParserService {
         if ( this.evalVersion( inputArray[ 0 ] ) ) {
           ast.version = new ASTVersion( /[1-9]+/.exec( inputArray[ 0 ] )[ 0 ] );
         } else {
-          return new Error( 'ERROR: Cannot find version number on first line of file!' ); // TODO: Return something meaningful
+          throw new Error( 'ERROR: Cannot find version number on first line of file!' );
         }
       } else {
         let tokensOnLine = '';
