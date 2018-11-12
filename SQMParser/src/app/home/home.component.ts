@@ -1,7 +1,6 @@
 import { Component, AfterViewInit, ViewChild, OnInit } from '@angular/core';
 import { isNullOrUndefined } from 'util';
 import { ParserService } from '../parser/parser.service';
-import { ViewTreeComponent } from '../view-tree/view-tree.component';
 import { ASTMission } from '../shared/ast';
 
 @Component( {
@@ -10,13 +9,6 @@ import { ASTMission } from '../shared/ast';
   styleUrls: [ './home.component.css' ]
 } )
 export class HomeComponent implements AfterViewInit, OnInit {
-  /**
-   * Data sharing via ViewChild component
-   * Based on:
-   * https://angularfirebase.com/lessons/sharing-data-between-angular-components-four-methods/ [Online] Accessed 6th November 2018
-   */
-  @ViewChild( ViewTreeComponent ) viewTree;
-
   missionAST: ASTMission;
 
   fileReaderString: string;

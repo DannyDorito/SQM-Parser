@@ -12,7 +12,6 @@ import { ServiceWorkerModule } from '@angular/service-worker';
 import { environment } from '../environments/environment';
 import { DialogueComponent } from './dialogue/dialogue.component';
 import { TestsComponent } from './tests/tests.component';
-import { ViewTreeComponent } from './view-tree/view-tree.component';
 
 @NgModule( {
   declarations: [
@@ -22,8 +21,7 @@ import { ViewTreeComponent } from './view-tree/view-tree.component';
     FunctionsComponent,
     HomeComponent,
     DialogueComponent,
-    TestsComponent,
-    ViewTreeComponent
+    TestsComponent
   ],
   imports: [
     BrowserModule,
@@ -33,7 +31,7 @@ import { ViewTreeComponent } from './view-tree/view-tree.component';
       enabled: environment.production
     } )
   ],
-  providers: [ ViewTreeComponent ],
+  providers: [ ],
   bootstrap: [ AppComponent ]
 } )
 export class AppModule {}
