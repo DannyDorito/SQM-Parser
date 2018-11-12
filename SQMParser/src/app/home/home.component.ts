@@ -37,7 +37,7 @@ export class HomeComponent implements AfterViewInit, OnInit {
       this.fileReaderString = fileReader.result as string;
     };
     fileReader.onerror = () => {
-      console.log( 'error loading' );
+      fileReader.abort();
     };
     try {
       fileReader.readAsText( fileChangeEvent.target.files[ 0 ] );
