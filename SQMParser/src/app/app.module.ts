@@ -13,7 +13,7 @@ import { environment } from '../environments/environment';
 import { DialogueComponent } from './dialogue/dialogue.component';
 import { TestsComponent } from './tests/tests.component';
 
-@NgModule( {
+@NgModule({
   declarations: [
     AppComponent,
     NotFoundComponent,
@@ -27,11 +27,11 @@ import { TestsComponent } from './tests/tests.component';
     BrowserModule,
     AppRoutingModule,
     FormsModule,
-    ServiceWorkerModule.register( 'ngsw-worker.js', {
+    ServiceWorkerModule.register('ngsw-worker.js', {
       enabled: environment.production
-    } )
+    })
   ],
-  providers: [ ],
-  bootstrap: [ AppComponent ]
-} )
+  providers: [],
+  bootstrap: [AppComponent]
+})
 export class AppModule {}
