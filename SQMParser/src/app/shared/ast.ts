@@ -1,3 +1,5 @@
+import { isNullOrUndefined } from 'util';
+
 export class ASTMission {
   version: ASTVersion;
   data: ASTData[];
@@ -22,6 +24,10 @@ export class ASTMission {
     }
     return this;
   }
+
+  toString() {
+    return this.version.toString() + this.data.join( '' );
+  }
 }
 
 export class ASTData {
@@ -31,6 +37,10 @@ export class ASTData {
   ) {
     this.data = _data;
   }
+
+  toString() {
+    return this.data.toString();
+  }
 }
 
 export class ASTVersion {
@@ -39,6 +49,10 @@ export class ASTVersion {
     _versionNumber: string
   ) {
     this.versionNumber = _versionNumber;
+  }
+
+  toString() {
+    return 'version=' + this.versionNumber + ';\r\n';
   }
 }
 
@@ -52,6 +66,14 @@ export class ASTVariable {
     this.variableName = _variableName;
     this.data = _data;
   }
+
+  toString() {
+    if ( this.data === typeof String ) {
+      return this.variableName + '="' + this.data.toString() + '"';
+    } else {
+      return this.variableName + '=' + this.data.toString();
+    }
+  }
 }
 
 export class ASTArray {
@@ -64,6 +86,10 @@ export class ASTArray {
     this.variableName = _variableName;
     this.data = _data;
   }
+
+  toString() {
+    return this.variableName + '[]={' + this.data.toString() + '};\r\n';
+  }
 }
 
 export class ASTClass {
@@ -75,5 +101,13 @@ export class ASTClass {
   ) {
     this.variableName = _variableName;
     this.data = _data;
+  }
+
+  toString() {
+    if ( isNullOrUndefined( this.variableName ) || this.variableName === '' ) {
+      return 'class\r\n{\r\n' + this.data.toString() + '\r\n};\r\n';
+    } else {
+      return 'class ' + this.variableName + '\r\n{\r\n' + this.data.toString() + '\r\n};\r\n';
+    }
   }
 }
