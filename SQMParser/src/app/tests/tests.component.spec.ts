@@ -4,13 +4,13 @@ import { TestsComponent } from './tests.component';
 
 describe('TestsComponent', () => {
   let component: TestsComponent;
-  let fixture: ComponentFixture < TestsComponent > ;
+  let fixture: ComponentFixture<TestsComponent>;
 
-  beforeEach(async (() => {
+  beforeEach(async(() => {
     TestBed.configureTestingModule({
-        declarations: [TestsComponent]
-      })
-      .compileComponents();
+      declarations: [ TestsComponent ]
+    })
+    .compileComponents();
   }));
 
   beforeEach(() => {

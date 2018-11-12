@@ -1,8 +1,8 @@
 import { Component } from '@angular/core';
 
-@Component({
+@Component( {
   selector: 'app-options',
   templateUrl: './options.component.html',
-  styleUrls: ['./options.component.css']
-})
-export class OptionsComponent {}
+  styleUrls: [ './options.component.css' ]
+} )
+export class OptionsComponent { }

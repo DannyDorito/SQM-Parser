@@ -4,13 +4,13 @@ import { DialogueComponent } from './dialogue.component';
 
 describe('DialogueComponent', () => {
   let component: DialogueComponent;
-  let fixture: ComponentFixture < DialogueComponent > ;
+  let fixture: ComponentFixture<DialogueComponent>;
 
-  beforeEach(async (() => {
+  beforeEach(async(() => {
     TestBed.configureTestingModule({
-        declarations: [DialogueComponent]
-      })
-      .compileComponents();
+      declarations: [ DialogueComponent ]
+    })
+    .compileComponents();
   }));
 
   beforeEach(() => {

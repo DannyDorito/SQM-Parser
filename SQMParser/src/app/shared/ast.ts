@@ -16,18 +16,18 @@ export class ASTMission {
    * Based on:
    * https://stackoverflow.com/a/1693066 [Online] Accessed 12th November 2018
    */
-  append(itemToAppend: ASTVariable | ASTArray | ASTClass, depth: number) {
-    if (depth > 0) {
-      this[this.data.length - 1].append(itemToAppend, (depth - 1));
+  append( itemToAppend: ASTVariable | ASTArray | ASTClass, depth: number ) {
+    if ( depth > 0 ) {
+      this[ this.data.length - 1 ].append( itemToAppend, ( depth - 1 ) );
     } else {
-      this.data.push(new ASTData(itemToAppend));
+      this.data.push( new ASTData( itemToAppend ) );
     }
     return this;
   }
 
   toString() {
     if (!isNullOrUndefined(this.version) && !isNullOrUndefined(this.data)) {
-      return this.version.toString() + this.data.join('');
+      return this.version.toString() + this.data.join( '' );
     } else {
       return '';
     }
@@ -81,7 +81,7 @@ export class ASTVariable {
 
   toString() {
     if (!isNullOrUndefined(this.data) && !isNullOrUndefined(this.variableName)) {
-      if (this.data === typeof String) {
+      if ( this.data === typeof String ) {
         return this.variableName + '="' + this.data.toString() + '"';
       } else {
         return this.variableName + '=' + this.data.toString();
@@ -124,7 +124,7 @@ export class ASTClass {
   }
 
   toString() {
-    if (isNullOrUndefined(this.variableName) || this.variableName === '') {
+    if ( isNullOrUndefined( this.variableName ) || this.variableName === '' ) {
       if (!isNullOrUndefined(this.data)) {
         return 'class\r\n{\r\n' + this.data.toString() + '\r\n};\r\n';
       } else {

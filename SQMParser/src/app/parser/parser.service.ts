@@ -18,35 +18,35 @@ const tokensRegex = [
   { regex: /class/, tokenType: Token.CLASS },
   { regex: /;/, tokenType: Token.SEMICOLON }
 ];
-@Injectable({
+@Injectable( {
   providedIn: 'root'
-})
+} )
 export class ParserService {
   /**
    * Main method execution function for ParserService
    */
-  generateAST(inputArray: string[]) {
-    if (isNullOrUndefined(inputArray)) {
-      throw new Error('ERROR: File is empty!');
+  generateAST( inputArray: string[] ) {
+    if ( isNullOrUndefined( inputArray ) ) {
+      throw new Error( 'ERROR: File is empty!' );
     }
-    const ast = new ASTMission(undefined, []);
+    const ast = new ASTMission( undefined, [] );
     let depth = 0;
-    for (let inputIndex = 0; inputIndex < inputArray.length; inputIndex++) {
-      if (inputIndex === 0) {
-        if (this.evalVersion(inputArray[0])) {
-          ast.version = new ASTVersion(/[1-9]+/.exec(inputArray[0])[0]);
+    for ( let inputIndex = 0; inputIndex < inputArray.length; inputIndex++ ) {
+      if ( inputIndex === 0 ) {
+        if ( this.evalVersion( inputArray[ 0 ] ) ) {
+          ast.version = new ASTVersion( /[1-9]+/.exec( inputArray[ 0 ] )[ 0 ] );
         } else {
-          throw new Error('ERROR: Cannot find version number on first line of file!');
+          throw new Error( 'ERROR: Cannot find version number on first line of file!' );
         }
       } else {
         let tokensOnLine = '';
         // const inputSplit = inputArray[ inputIndex ];
-        const inputSplit = inputArray[inputIndex].split(' ');
-        for (let inputSplitIndex = 0; inputSplitIndex < inputSplit.length; inputSplitIndex++) {
-          for (const tokenRegex of tokensRegex) {
-            const regexResult = tokenRegex.regex.exec(inputSplit[inputSplitIndex]);
-            if (!isNullOrUndefined(regexResult)) {
-              if (tokenRegex.tokenType !== Token.WHITESPACE) {
+        const inputSplit = inputArray[ inputIndex ].split( ' ' );
+        for ( let inputSplitIndex = 0; inputSplitIndex < inputSplit.length; inputSplitIndex++ ) {
+          for ( const tokenRegex of tokensRegex ) {
+            const regexResult = tokenRegex.regex.exec( inputSplit[ inputSplitIndex ] );
+            if ( !isNullOrUndefined( regexResult ) ) {
+              if ( tokenRegex.tokenType !== Token.WHITESPACE ) {
                 tokensOnLine += tokenRegex.tokenType.toString();
                 break;
               }
@@ -64,34 +64,34 @@ export class ParserService {
         //     }
         //   }
         // }
-        if (tokensOnLine === Grammar.STRING.toString()) {
+        if ( tokensOnLine === Grammar.STRING.toString() ) {
           // console.log( 'FOUND: STRING' );
-          ast.append(new ASTVariable(inputSplit[0], inputSplit[3]), depth);
+          ast.append( new ASTVariable( inputSplit[ 0 ], inputSplit[ 3 ] ), depth );
 
-        } else if (tokensOnLine === Grammar.BOOLEAN.toString()) {
+        } else if ( tokensOnLine === Grammar.BOOLEAN.toString() ) {
           // console.log( 'FOUND: BOOLEAN' );
-          ast.append(new ASTVariable(inputSplit[0], Boolean(inputSplit[2])), depth);
+          ast.append( new ASTVariable( inputSplit[ 0 ], Boolean( inputSplit[ 2 ] ) ), depth );
 
-        } else if (tokensOnLine === Grammar.NUMBER.toString()) {
+        } else if ( tokensOnLine === Grammar.NUMBER.toString() ) {
           // console.log( 'FOUND: NUMBER' );
-          ast.append(new ASTVariable(inputSplit[0], Number(inputSplit[2])), depth);
+          ast.append( new ASTVariable( inputSplit[ 0 ], Number( inputSplit[ 2 ] ) ), depth );
 
-        } else if (tokensOnLine === Grammar.ARRAY.toString()) {
+        } else if ( tokensOnLine === Grammar.ARRAY.toString() ) {
           // console.log( 'FOUND: ARRAY' );
-          ast.append(new ASTArray(inputSplit[0], new ASTVariable(undefined, undefined)), depth); // TODO: contents of array
-        } else if (tokensOnLine === Grammar.CLASS.toString()) {
+          ast.append( new ASTArray( inputSplit[ 0 ], new ASTVariable( undefined, undefined ) ), depth ); // TODO: contents of array
+        } else if ( tokensOnLine === Grammar.CLASS.toString() ) {
           // console.log( 'FOUND: CLASS' );
-          ast.append(new ASTClass(undefined, undefined), depth);
+          ast.append( new ASTClass( undefined, undefined ), depth );
           depth++;
 
-        } else if (tokensOnLine === Grammar.CLASS_WITH_NAME.toString()) {
+        } else if ( tokensOnLine === Grammar.CLASS_WITH_NAME.toString() ) {
           // console.log( 'FOUND: CLASS_WITH_NAME' );
-          ast.append(new ASTClass(inputSplit[1], undefined), depth);
+          ast.append( new ASTClass( inputSplit[ 1 ], undefined ), depth );
 
-        } else if (tokensOnLine === Grammar.START.toString()) {
+        } else if ( tokensOnLine === Grammar.START.toString() ) {
 
-        } else if (tokensOnLine === Grammar.END.toString()) {
-          if (depth !== 0) {
+        } else if ( tokensOnLine === Grammar.END.toString() ) {
+          if ( depth !== 0 ) {
             depth--;
           }
         }
@@ -107,8 +107,8 @@ export class ParserService {
   /**
    * Determins if the passed string matches the "version", "=", int, ";"; regex
    */
-  evalVersion(line: string) {
-    return /(version\s*=\s*)[0-99]+\s*;/.test(line);
+  evalVersion( line: string ) {
+    return /(version\s*=\s*)[0-99]+\s*;/.test( line );
   }
 
   /**
@@ -116,8 +116,8 @@ export class ParserService {
    * Based on:
    * https://www.w3resource.com/javascript-exercises/javascript-string-exercise-26.php [Online] Accessed 12th November 2018
    */
-  removeOccurrence(str: string, stringToFind: string) {
-    const strIndex = str.indexOf(stringToFind);
+  removeOccurrence( str: string, stringToFind: string ) {
+    const strIndex = str.indexOf( stringToFind );
     // if there is no occurrences
     if (strIndex === -1) {
       return str;
