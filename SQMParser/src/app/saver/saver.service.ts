@@ -1,14 +1,12 @@
 import { Injectable } from '@angular/core';
 import * as FileSaver from 'file-saver';
 import { ASTMission } from '../shared/ast';
+import { environment } from 'src/environments/environment.prod';
 
 @Injectable({
   providedIn: 'root'
 })
 export class SaverService {
-
-  constructor() {}
-
   /**
    * Saves given file to passed fileName, appends .sqm if it does not have it
    * Based on:
@@ -17,35 +15,29 @@ export class SaverService {
    * https://github.com/eligrey/FileSaver.js/blob/master/README.md#supported-browsers [Online] Accessed 20th October 2018
    */
   exportSQM(fileName: string, missionAST: ASTMission) {
-    try {
-      const isFileSaverSupported = !!new Blob;
-      if (!fileName.includes('.sqm')) {
-        fileName += '.sqm';
-      }
-      FileSaver.saveAs(new Blob(missionAST.toString().split('\r\n'), {
-        type: 'text/plain;charset=utf-8'
-      }), fileName);
-    } catch (exception) {
-      console.log('Cannot save SQM!');
+    const isFileSaverSupported = !!new Blob;
+    if (isFileSaverSupported === false) {
+      throw new Error('Error: File saving is not supported on this browser!\r\nPlease use a browser that supports Blobs');
     }
+    if (!fileName.includes('.sqm')) {
+      fileName += '.sqm';
+    }
+    FileSaver.saveAs(new Blob(missionAST.toString().split('\r\n'), { type: 'text/plain;charset=utf-8' }), fileName);
   }
 
-  loadSQM(fileReaderString: string) {
-    const sqmAutoSave = localStorage.getItem('sqmAST');
-    if (sqmAutoSave !== '') {
-      fileReaderString = sqmAutoSave;
-    }
+  loadSQM() {
+    return localStorage.getItem(environment.sqmLocalStorageName);
   }
 
   async saveSQM(missionAST: ASTMission) {
-    localStorage.setItem('sqmAST', missionAST.toString());
+    localStorage.setItem(environment.sqmLocalStorageName, missionAST.toString());
   }
 
   enableAutoSave() {
-    localStorage.setItem('sqmAutoSave', 'true');
+    localStorage.setItem(environment.sqmAutoSaveName, 'true');
   }
 
   disableAutoSave() {
-    localStorage.removeItem('sqmAutoSave');
+    localStorage.removeItem(environment.sqmAutoSaveName);
   }
 }
