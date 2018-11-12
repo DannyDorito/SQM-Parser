@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import * as FileSaver from 'file-saver';
 import { isNullOrUndefined } from 'util';
 import { ParserService } from '../parser/parser.service';
 import { ASTMission } from '../shared/ast';
