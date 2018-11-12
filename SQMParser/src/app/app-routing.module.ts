@@ -13,7 +13,7 @@ const routes: Routes = [
   { path: '', component: HomeComponent },
   { path: '**', component: NotFoundComponent }
 ];
-@NgModule( {
+@NgModule({
   imports: [
     RouterModule.forRoot(
       routes
@@ -22,5 +22,5 @@ const routes: Routes = [
   exports: [
     RouterModule
   ]
-} )
+})
 export class AppRoutingModule {}

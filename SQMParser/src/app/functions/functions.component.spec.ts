@@ -4,13 +4,13 @@ import { FunctionsComponent } from './functions.component';
 
 describe('FunctionsComponent', () => {
   let component: FunctionsComponent;
-  let fixture: ComponentFixture<FunctionsComponent>;
+  let fixture: ComponentFixture < FunctionsComponent > ;
 
-  beforeEach(async(() => {
+  beforeEach(async (() => {
     TestBed.configureTestingModule({
-      declarations: [ FunctionsComponent ]
-    })
-    .compileComponents();
+        declarations: [FunctionsComponent]
+      })
+      .compileComponents();
   }));
 
   beforeEach(() => {

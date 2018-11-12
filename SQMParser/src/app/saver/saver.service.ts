@@ -7,9 +7,9 @@ import { ASTMission } from '../shared/ast';
 })
 export class SaverService {
 
-  constructor() { }
+  constructor() {}
 
-    /**
+  /**
    * Saves given file to passed fileName, appends .sqm if it does not have it
    * Based on:
    * https://github.com/eligrey/FileSaver.js [Online] Accessed 19th October 2018
@@ -30,7 +30,7 @@ export class SaverService {
     }
   }
 
-  loadSQM( fileReaderString: string) {
+  loadSQM(fileReaderString: string) {
     const sqmAutoSave = localStorage.getItem('sqmAST');
     if (sqmAutoSave !== '') {
       fileReaderString = sqmAutoSave;
