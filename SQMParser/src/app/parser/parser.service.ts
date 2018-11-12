@@ -25,10 +25,6 @@ export class ParserService {
   /**
    * Main method execution function for ParserService
    */
-  execute( inputString: string ) {
-    return this.generateAST( inputString.split( '\r\n' ) );
-  }
-
   generateAST( inputArray: string[] ) {
     if ( isNullOrUndefined( inputArray ) ) {
       throw new Error( 'ERROR: File is empty!' );
