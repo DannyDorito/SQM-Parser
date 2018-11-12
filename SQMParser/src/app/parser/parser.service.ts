@@ -45,46 +45,50 @@ export class ParserService {
         }
       } else {
         let tokensOnLine = '';
-        const inputStringArray = inputArray[ inputIndex ].split( ' ' );
-        for ( let i = 0; i < inputStringArray.length; i++ ) {
+        const inputSplit = inputArray[ inputIndex ].split( ' ' );
+        for ( let inputSplitIndex = 0; inputSplitIndex < inputSplit.length; inputSplitIndex++ ) {
           for ( const tokenRegex of tokensRegex ) {
-            const regexResult = tokenRegex.regex.exec( inputStringArray[ i ] );
+            const regexResult = tokenRegex.regex.exec( inputSplit[ inputSplitIndex ] );
             if ( !isNullOrUndefined( regexResult ) ) {
               if ( tokenRegex.tokenType !== Token.WHITESPACE ) {
-                tokensOnLine += String( tokenRegex.tokenType );
+                tokensOnLine += tokenRegex.tokenType.toString();
+                break;
               }
             }
           }
         }
-
-        if ( tokensOnLine === String( Grammar.STRING ) ) {
-          // console.log( 'FOUND: STRING' );
+        console.log(tokensOnLine);
+        if ( tokensOnLine === Grammar.STRING.toString() ) {
           // ast.variables.push( new ASTVariable( inputStringArray[ 0 ], inputStringArray[ 3 ] ) );
+          console.log(ast);
+          console.log('');
+          ast.data = this.addToEndData(ast.data, depth, new ASTVariable( inputSplit[ 0 ], inputSplit[ 3 ] ) );
+          console.log(ast);
 
-        } else if ( tokensOnLine === String( Grammar.BOOLEAN ) ) {
+        } else if ( tokensOnLine === Grammar.BOOLEAN.toString() ) {
           // console.log( 'FOUND: BOOLEAN' );
           // ast.variables.push( new ASTVariable( inputStringArray[ 0 ], Boolean( inputStringArray[ 2 ] ) ) );
 
-        } else if ( tokensOnLine === String( Grammar.NUMBER ) ) {
+        } else if ( tokensOnLine ===  Grammar.NUMBER.toString() ) {
           // console.log( 'FOUND: NUMBER' );
           // ast.variables.push( new ASTVariable( inputStringArray[ 0 ], Number( inputStringArray[ 2 ] ) ) );
 
-        } else if ( tokensOnLine === String( Grammar.ARRAY ) ) {
+        } else if ( tokensOnLine === Grammar.ARRAY.toString() ) {
           // console.log( 'FOUND: ARRAY' );
           // ast.arrays.push( new ASTArray( inputStringArray[ 0 ], [] ) );
 
-        } else if ( tokensOnLine === String( Grammar.CLASS ) ) {
+        } else if ( tokensOnLine ===  Grammar.CLASS.toString() ) {
           // console.log( 'FOUND: CLASS' );
           // ast.classes.push( new ASTClass( undefined, [], [], [] ) );
           depth++;
 
-        } else if ( tokensOnLine === String( Grammar.CLASS_WITH_NAME ) ) {
+        } else if ( tokensOnLine === Grammar.CLASS_WITH_NAME.toString() ) {
           // console.log( 'FOUND: CLASS_WITH_NAME' );
           // ast.classes.push( new ASTClass( inputStringArray[ 1 ], [], [], [] ) );
 
-        } else if ( tokensOnLine === String( Grammar.START ) ) {
+        } else if ( tokensOnLine === Grammar.START.toString() ) {
 
-        } else if ( tokensOnLine === String( Grammar.END ) ) {
+        } else if ( tokensOnLine === Grammar.END.toString() ) {
           if ( depth !== 0 ) {
             depth--;
           }
