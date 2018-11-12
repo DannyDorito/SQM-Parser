@@ -108,7 +108,7 @@ export class ParserService {
    * Determins if the passed string matches the "version", "=", int, ";"; regex
    */
   evalVersion( line: string ) {
-    return /(version\s*=\s*)[0-99]+\s;/.test( line );
+    return /(version\s*=\s*)[0-99]+\s*;/.test( line );
   }
 
   /**
