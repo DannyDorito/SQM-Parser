@@ -27,7 +27,7 @@ export class ParserService {
    */
   generateAST(inputArray: string[]) {
     if (isNullOrUndefined(inputArray)) {
-      throw new Error('ERROR: File is empty!');
+      throw new Error('Error: File is empty!');
     }
     const ast = new ASTMission(undefined, []);
     let depth = 0;
@@ -36,7 +36,7 @@ export class ParserService {
         if (this.evalVersion(inputArray[0])) {
           ast.version = new ASTVersion(/[1-9]+/.exec(inputArray[0])[0]);
         } else {
-          throw new Error('ERROR: Cannot find version number on first line of file!');
+          throw new Error('Error: Cannot find version number on first line of file!');
         }
       } else {
         let tokensOnLine = '';
@@ -97,7 +97,7 @@ export class ParserService {
             depth--;
           }
         } else {
-          console.log( 'ERROR: FOUND ' + tokensOnLine + ' ' + ( inputIndex + 1 ) );
+          console.log('ERROR: FOUND ' + tokensOnLine + ' ' + (inputIndex + 1));
         }
       }
     }

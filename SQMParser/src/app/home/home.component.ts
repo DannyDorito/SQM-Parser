@@ -3,6 +3,7 @@ import * as FileSaver from 'file-saver';
 import { isNullOrUndefined } from 'util';
 import { ParserService } from '../parser/parser.service';
 import { ASTMission } from '../shared/ast';
+import { SaverService } from '../saver/saver.service';
 
 @Component({
   selector: 'app-home',
@@ -15,8 +16,11 @@ export class HomeComponent {
   fileReaderString: string;
   confirmed = false;
   loading = false;
+  fileName: string;
 
-  constructor(private parser: ParserService) {}
+  constructor(
+    private parser: ParserService,
+    private saver: SaverService) {}
 
   /**
    * Fired when a file has been selected by the user's $event
@@ -26,6 +30,10 @@ export class HomeComponent {
    * https://www.typescriptlang.org/docs/handbook/declaration-files/do-s-and-don-ts.html [Online] Accessed 17th October 2018
    */
   onFileChanged(fileChangeEvent: any) {
+    this.fileName = fileChangeEvent.target.files[0].name;
+    if (!this.saver.validName(this.fileName)) {
+      throw new Error('Error: ' + this.fileName + ' is invalid.');
+    }
     const fileReader = new FileReader();
     fileReader.onload = () => {
       this.fileReaderString = fileReader.result as string;
@@ -42,11 +50,7 @@ export class HomeComponent {
         this.loading = false;
       }
     };
-    try {
-      fileReader.readAsText(fileChangeEvent.target.files[0]);
-    } catch (TypeError) {
-      console.log('error loading, type error');
-    }
+    fileReader.readAsText(fileChangeEvent.target.files[0]);
   }
 
   /**

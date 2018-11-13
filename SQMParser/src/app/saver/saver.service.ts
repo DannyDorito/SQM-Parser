@@ -15,14 +15,20 @@ export class SaverService {
    * https://github.com/eligrey/FileSaver.js/blob/master/README.md#supported-browsers [Online] Accessed 20th October 2018
    */
   exportSQM(fileName: string, missionAST: ASTMission) {
-    const isFileSaverSupported = !!new Blob;
-    if (isFileSaverSupported === false) {
-      throw new Error('Error: File saving is not supported on this browser!\r\nPlease use a browser that supports Blobs');
+    if (!this.validName(fileName)) {
+      throw new Error('Error: ' + fileName + ' is invalid!');
+    } else if (!!new Blob === false) {
+      throw new Error('Error: File saving is not supported on this browser, please use a browser that supports Blobs!');
+    } else {
+      FileSaver.saveAs(new Blob(missionAST.toString().split('\r\n'), { type: 'text/plain;charset=utf-8' }), fileName);
     }
-    if (!fileName.includes('.sqm')) {
-      fileName += '.sqm';
-    }
-    FileSaver.saveAs(new Blob(missionAST.toString().split('\r\n'), { type: 'text/plain;charset=utf-8' }), fileName);
+  }
+
+  /**
+   * Checks file name is a valid, eg. mission.sqm
+   */
+  validName(fileName: string) {
+    return /^[\w\-. ]+\.sqm/.test(fileName);
   }
 
   /**
