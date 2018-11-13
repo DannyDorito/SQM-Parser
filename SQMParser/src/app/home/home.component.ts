@@ -36,9 +36,11 @@ export class HomeComponent {
     }
     const fileReader = new FileReader();
     fileReader.onload = () => {
+      this.loading = true;
       this.fileReaderString = fileReader.result as string;
     };
     fileReader.onerror = () => {
+      this.loading = false;
       fileReader.abort();
     };
     fileReader.onprogress = () => {
