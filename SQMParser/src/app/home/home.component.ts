@@ -17,6 +17,7 @@ export class HomeComponent {
   isConfirmed = false;
   isLoading = false;
   fileName: string;
+  isComplete = false;
 
   constructor(private parser: ParserService, private saver: SaverService) {}
 
@@ -70,6 +71,7 @@ export class HomeComponent {
     this.missionAST = this.parser.generateAST(this.fileReaderString.split('\r\n'));
     console.log(this.missionAST);
     this.fileReaderString = undefined;
+    this.isComplete = true;
   }
 
   /**
