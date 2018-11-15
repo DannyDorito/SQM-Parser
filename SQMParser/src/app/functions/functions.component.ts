@@ -24,4 +24,11 @@ export class FunctionsComponent {
   async saveSQM() {
     this.homeComponent.saveSQM();
   }
+
+  /**
+   * Calls clearSQM from HomeComponent
+   */
+  clearSQM() {
+    this.homeComponent.clearSQM();
+  }
 }

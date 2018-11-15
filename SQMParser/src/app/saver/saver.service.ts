@@ -55,6 +55,17 @@ export class SaverService {
   }
 
   /**
+   * Clears ASTMission from localStorage
+   */
+  clearSQM() {
+    if (window.localStorage) {
+      localStorage.removeItem(environment.sqmLocalStorageName);
+    } else {
+      throw new Error('Error: This browser does not support LocalStorage, cannot clear SQM!');
+    }
+  }
+
+  /**
    * Enables autosave, adds to localStorage
    */
   enableAutoSave() {

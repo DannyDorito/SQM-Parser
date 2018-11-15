@@ -81,6 +81,9 @@ export class HomeComponent implements OnInit {
     console.log(this.missionAST);
     this.fileReaderString = undefined;
     this.isComplete = true;
+    if (this.saver.getAutoSave()) {
+      this.saver.saveSQM(this.missionAST);
+    }
   }
 
   /**
@@ -97,5 +100,13 @@ export class HomeComponent implements OnInit {
    */
   async saveSQM() {
     this.saver.saveSQM(this.missionAST);
+  }
+
+  /**
+   * ASYNC
+   * Calls clearSQM from saver service
+   */
+  async clearSQM() {
+    this.saver.clearSQM();
   }
 }
