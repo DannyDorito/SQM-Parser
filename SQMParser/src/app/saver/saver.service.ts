@@ -79,4 +79,15 @@ export class SaverService {
       throw new Error('Error: This browser does not support localStorage, cannot disable AutoSave!');
     }
   }
+
+  /**
+   * Gets autosave value from localStorage
+   */
+  getAutoSave() {
+    if (window.localStorage) {
+      return Boolean(localStorage.getItem(environment.sqmAutoSaveName));
+    } else {
+      throw new Error('Error: This browser does not support localStorage, cannot get AutoSave!');
+    }
+  }
 }

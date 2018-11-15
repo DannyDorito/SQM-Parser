@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import * as FileSaver from 'file-saver';
 import { isNullOrUndefined } from 'util';
 import { ParserService } from '../parser/parser.service';
@@ -10,7 +10,7 @@ import { SaverService } from '../saver/saver.service';
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.css']
 })
-export class HomeComponent {
+export class HomeComponent implements OnInit {
   missionAST = new ASTMission(undefined, undefined);
 
   fileReaderString: string;
@@ -20,6 +20,15 @@ export class HomeComponent {
   isComplete = false;
 
   constructor(private parser: ParserService, private saver: SaverService) {}
+
+  ngOnInit() {
+    const contents = this.saver.loadSQM();
+    const autosave = this.saver.getAutoSave();
+    if (contents !== null && autosave) {
+      this.fileReaderString = contents;
+      this.confirmSelection();
+    }
+  }
 
   /**
    * Fired when a file has been selected by the user's $event
