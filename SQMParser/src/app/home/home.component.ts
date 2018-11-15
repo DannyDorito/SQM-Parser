@@ -11,16 +11,14 @@ import { SaverService } from '../saver/saver.service';
   styleUrls: ['./home.component.css']
 })
 export class HomeComponent {
-  missionAST: ASTMission;
+  missionAST = new ASTMission(undefined, undefined);
 
   fileReaderString: string;
-  confirmed = false;
-  loading = false;
+  isConfirmed = false;
+  isLoading = false;
   fileName: string;
 
-  constructor(
-    private parser: ParserService,
-    private saver: SaverService) {}
+  constructor(private parser: ParserService, private saver: SaverService) {}
 
   /**
    * Fired when a file has been selected by the user's $event
@@ -36,20 +34,20 @@ export class HomeComponent {
     }
     const fileReader = new FileReader();
     fileReader.onload = () => {
-      this.loading = true;
+      this.isLoading = true;
       this.fileReaderString = fileReader.result as string;
     };
     fileReader.onerror = () => {
-      this.loading = false;
+      this.isLoading = false;
       fileReader.abort();
     };
     fileReader.onprogress = () => {
-      this.loading = true;
+      this.isLoading = true;
     };
     fileReader.onloadend = (data) => {
       if (data.lengthComputable) {
         console.log(data.loaded);
-        this.loading = false;
+        this.isLoading = false;
       }
     };
     fileReader.readAsText(fileChangeEvent.target.files[0]);
@@ -60,7 +58,7 @@ export class HomeComponent {
    */
   confirmSelection() {
     if (!isNullOrUndefined(this.fileReaderString)) {
-      this.confirmed = true;
+      this.isConfirmed = true;
       this.startTreeCreation();
     }
   }
@@ -72,5 +70,21 @@ export class HomeComponent {
     this.missionAST = this.parser.generateAST(this.fileReaderString.split('\r\n'));
     console.log(this.missionAST);
     this.fileReaderString = undefined;
+  }
+
+  /**
+   * ASYNC
+   * Calls exportSQM from saver service
+   */
+  async exportSQM() {
+    this.saver.exportSQM(this.fileName, this.missionAST);
+  }
+
+  /**
+   * ASYNC
+   * Calls saveSQM from saver service
+   */
+  async saveSQM() {
+    this.saver.saveSQM(this.missionAST);
   }
 }

@@ -35,7 +35,11 @@ export class SaverService {
    * Loads saved sqm from localStorage
    */
   loadSQM() {
-    return localStorage.getItem(environment.sqmLocalStorageName);
+    if (window.localStorage) {
+      return localStorage.getItem(environment.sqmLocalStorageName);
+    } else {
+      throw new Error('Error: This browser does not support LocalStorage, cannot load SQM!');
+    }
   }
 
   /**
@@ -43,20 +47,36 @@ export class SaverService {
    * Saves ASTMission to localStorage
    */
   async saveSQM(missionAST: ASTMission) {
-    localStorage.setItem(environment.sqmLocalStorageName, missionAST.toString());
+    if (window.localStorage) {
+      localStorage.setItem(environment.sqmLocalStorageName, missionAST.toString());
+    } else {
+      throw new Error('Error: This browser does not support LocalStorage, cannot save SQM!');
+    }
   }
 
   /**
    * Enables autosave, adds to localStorage
    */
   enableAutoSave() {
-    localStorage.setItem(environment.sqmAutoSaveName, 'true');
+    if (window.localStorage) {
+      try {
+        localStorage.setItem(environment.sqmAutoSaveName, 'true');
+      } catch (error) {
+        throw new Error('Error: LocalStorage is either full or cannot access it!');
+      }
+    } else {
+      throw new Error('Error: This browser does not support LocalStorage, disabling AutoSave!');
+    }
   }
 
   /**
    * Disables autosave, removes from localstorage
    */
   disableAutoSave() {
-    localStorage.removeItem(environment.sqmAutoSaveName);
+    if (window.localStorage) {
+      localStorage.removeItem(environment.sqmAutoSaveName);
+    } else {
+      throw new Error('Error: This browser does not support localStorage, cannot disable AutoSave!');
+    }
   }
 }
