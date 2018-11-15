@@ -31,7 +31,7 @@ import { TestsComponent } from './tests/tests.component';
       enabled: environment.production
     })
   ],
-  providers: [],
+  providers: [HomeComponent],
   bootstrap: [AppComponent]
 })
 export class AppModule {}
