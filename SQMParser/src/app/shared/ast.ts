@@ -81,7 +81,7 @@ export class ASTVariable {
 
   toString() {
     if (!isNullOrUndefined(this.data) && !isNullOrUndefined(this.variableName)) {
-      if (this.data === typeof String) {
+      if (typeof this.data === 'string') {
         return this.variableName + '="' + this.data.toString() + '";';
       } else {
         return this.variableName + '=' + this.data.toString() + ';';

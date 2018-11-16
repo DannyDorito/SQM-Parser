@@ -6,5 +6,5 @@
 <div class="select" *ngIf="!confirmed && !isComplete && fileReaderString">
   <button (click)="confirmSelection()">CONFIRM</button>
 </div>
-<p *ngIf="missionAST">{{missionAST.version}}</p>
+<p class="version" *ngIf="missionAST">{{missionAST.version}}</p>
 <p *ngFor="let data of missionAST.data">{{data.data}}</p>
