@@ -5,7 +5,8 @@
 export const environment = {
   production: false,
   sqmLocalStorageName: 'sqmAST',
-  sqmAutoSaveName: 'sqmAutoSave'
+  sqmAutoSaveName: 'sqmAutoSave',
+  sqmSavePeriodMins: 10
 };
 
 /*

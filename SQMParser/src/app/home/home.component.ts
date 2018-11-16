@@ -1,16 +1,18 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import * as FileSaver from 'file-saver';
 import { isNullOrUndefined } from 'util';
 import { ParserService } from '../parser/parser.service';
 import { ASTMission } from '../shared/ast';
 import { SaverService } from '../saver/saver.service';
+import { timer, Subscription, Observable } from 'rxjs';
+import { environment } from 'src/environments/environment.prod';
 
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.css']
 })
-export class HomeComponent implements OnInit {
+export class HomeComponent implements OnInit, OnDestroy {
   missionAST = new ASTMission(undefined, undefined);
 
   fileReaderString: string;
@@ -18,6 +20,7 @@ export class HomeComponent implements OnInit {
   isLoading = false;
   fileName: string;
   isComplete = false;
+  timerSubscribe: Subscription;
 
   constructor(private parser: ParserService, private saver: SaverService) {}
 
@@ -28,6 +31,14 @@ export class HomeComponent implements OnInit {
       this.fileReaderString = contents;
       this.confirmSelection();
     }
+    const timerSource = timer((environment.sqmSavePeriodMins * 60) * 10000);
+    this.timerSubscribe = timerSource.subscribe(event => {
+      this.saveSQM();
+    });
+  }
+
+  ngOnDestroy() {
+    this.timerSubscribe.unsubscribe();
   }
 
   /**

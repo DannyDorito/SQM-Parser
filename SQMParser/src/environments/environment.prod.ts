@@ -1,5 +1,6 @@
 export const environment = {
   production: true,
   sqmLocalStorageName: 'sqmAST',
-  sqmAutoSaveName: 'sqmAutoSave'
+  sqmAutoSaveName: 'sqmAutoSave',
+  sqmSavePeriodMins: 10
 };
