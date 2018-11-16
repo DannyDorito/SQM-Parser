@@ -15,7 +15,7 @@ export enum Token { // TODO: Remove these strings when stopped debugging
 }
 
 export enum Grammar {
-  STRING = Token.STRING + Token.EQUALS + Token.QUOTE + Token.STRING + Token.SEMICOLON,
+  STRING = Token.STRING + Token.EQUALS + Token.QUOTE + Token.STRING + Token.QUOTE + Token.SEMICOLON,
     BOOLEAN = Token.STRING + Token.EQUALS + Token.BOOLEAN + Token.SEMICOLON,
     NUMBER = Token.STRING + Token.EQUALS + Token.NUMBER + Token.SEMICOLON,
     ARRAY = Token.STRING + Token.START_SQUARE_BRACE + Token.END_SQUARE_BRACE + Token.EQUALS,
