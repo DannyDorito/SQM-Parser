@@ -53,51 +53,40 @@ export class ParserService {
             }
           }
         }
-        // while ( inputArray[ inputIndex ] !== '') {
-        //   console.log( inputArray[ inputIndex ] );
-        //   for ( const tokenRegex of tokensRegex ) {
-        //     const regexResult = tokenRegex.regex.exec( inputArray[ inputIndex ]);
-        //     if ( regexResult !== null) {
-        //       tokensOnLine += tokenRegex.tokenType.toString();
-        //       inputArray[ inputIndex ] = this.removeOccurrence(inputArray[ inputIndex ], regexResult[0]);
-        //       break;
-        //     }
-        //   }
-        // }
-        if (tokensOnLine === Grammar.STRING.toString()) {
-          // console.log( 'FOUND: STRING' );
-          ast.append(new ASTVariable(inputSplit[0], inputSplit[3]), depth);
 
-        } else if (tokensOnLine === Grammar.BOOLEAN.toString()) {
-          // console.log( 'FOUND: BOOLEAN' );
-          ast.append(new ASTVariable(inputSplit[0], Boolean(inputSplit[2])), depth);
+        switch (tokensOnLine) {
+          case Grammar.STRING.toString():
+            ast.append(new ASTVariable(inputSplit[0], inputSplit[3]), depth);
+            break;
+          case Grammar.BOOLEAN.toString():
+            ast.append(new ASTVariable(inputSplit[0], Boolean(inputSplit[2])), depth);
+            break;
+          case Grammar.NUMBER.toString():
+            ast.append(new ASTVariable(inputSplit[0], Number(inputSplit[2])), depth);
+            break;
+          case Grammar.ARRAY.toString():
+            ast.append(new ASTArray(inputSplit[0], new ASTVariable(undefined, undefined)), depth);
+            depth++;
+            break;
+          case Grammar.CLASS.toString():
+            ast.append(new ASTClass(undefined, undefined), depth);
+            depth++;
+            break;
+          case Grammar.CLASS_WITH_NAME.toString():
+            ast.append(new ASTClass(inputSplit[1], undefined), depth);
+            depth++;
+            break;
+          case Grammar.START.toString():
 
-        } else if (tokensOnLine === Grammar.NUMBER.toString()) {
-          // console.log( 'FOUND: NUMBER' );
-          ast.append(new ASTVariable(inputSplit[0], Number(inputSplit[2])), depth);
-
-        } else if (tokensOnLine === Grammar.ARRAY.toString()) {
-          // console.log( 'FOUND: ARRAY' );
-          ast.append(new ASTArray(inputSplit[0], new ASTVariable(undefined, undefined)), depth); // TODO: contents of array
-          depth++;
-
-        } else if (tokensOnLine === Grammar.CLASS.toString()) {
-          // console.log( 'FOUND: CLASS' );
-          ast.append(new ASTClass(undefined, undefined), depth);
-          depth++;
-
-        } else if (tokensOnLine === Grammar.CLASS_WITH_NAME.toString()) {
-          // console.log( 'FOUND: CLASS_WITH_NAME' );
-          ast.append(new ASTClass(inputSplit[1], undefined), depth);
-
-        } else if (tokensOnLine === Grammar.START.toString()) {
-
-        } else if (tokensOnLine === Grammar.END.toString()) {
+          break;
+          case Grammar.END.toString():
           if (depth !== 0) {
             depth--;
           }
-        } else {
+          break;
+          default:
           console.log('ERROR: FOUND ' + tokensOnLine + ' ' + (inputIndex + 1));
+            break;
         }
       }
     }
