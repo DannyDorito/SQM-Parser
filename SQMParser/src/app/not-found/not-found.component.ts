@@ -8,6 +8,6 @@ import { Component } from '@angular/core';
     <button [routerLink]="['']">Home</button>
   </div>
   `,
-  styleUrls: ['./not-found.component.css']
+  styles: ['div { display: flex;flex-direction: column;height: 100%; justify-content: center;} button { margin-top: 10px; margin-left: auto;} ']
 })
 export class NotFoundComponent {}
