@@ -1,10 +1,10 @@
-<div class="select" *ngIf="!isConfirmed && !fileReaderString && !isComplete">
-  <input class="file" type="file" accept=".sqm" id="SQMselect" (change)="onFileChanged($event)">
+<div class="middle" *ngIf="!isConfirmed && !fileReaderString && !isComplete">
+  <input type="file" accept=".sqm" id="SQMselect" (change)="onFileChanged($event)">
   <!-- Based on: https://www.academind.com/learn/angular/snippets/angular-image-upload-made-easy/ [Online] Accessed 9th October 2018-->
   <label class="file unselectable" for="SQMselect">Upload a file!</label>
 </div>
-<div class="select" *ngIf="!isConfirmed && !isComplete && fileReaderString">
-  <button (click)="confirmSelection()">CONFIRM</button>
+<div class="middle" *ngIf="!isConfirmed && !isComplete && fileReaderString">
+  <button class="file" (click)="confirmSelection()">Confirm</button>
 </div>
-<p class="version" *ngIf="missionAST">{{missionAST.version}}</p>
+<p *ngIf="missionAST">{{missionAST.version}}</p>
 <p *ngFor="let data of missionAST.data">{{data.data}}</p>
