@@ -18,7 +18,11 @@ export class ASTMission {
    */
   append(itemToAppend: ASTVariable | ASTArray | ASTClass, depth: number) {
     if (depth > 0) {
-      this[this.data.length - 1].append(itemToAppend, (depth - 1));
+      if (this.data.length === 0) {
+        this[0].append(itemToAppend, 0);
+      } else {
+        this[this.data.length - 1].append(itemToAppend, (depth - 1));
+      }
     } else {
       this.data.push(new ASTData(itemToAppend));
     }

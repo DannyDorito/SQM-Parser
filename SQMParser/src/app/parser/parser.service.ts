@@ -80,10 +80,10 @@ export class ParserService {
 
           break;
           case Grammar.END.toString():
-          if (depth !== 0) {
-            depth--;
-          }
-          break;
+            if (depth !== 0) {
+              depth--;
+            }
+            break;
           default:
           console.log('ERROR: FOUND ' + tokensOnLine + ' ' + (inputIndex + 1));
             break;
