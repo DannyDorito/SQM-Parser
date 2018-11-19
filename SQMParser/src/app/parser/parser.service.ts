@@ -65,7 +65,7 @@ export class ParserService {
             ast.append(new ASTVariable(inputSplit[0], Number(inputSplit[2])), depth);
             break;
           case Grammar.ARRAY.toString():
-            ast.append(new ASTArray(inputSplit[0], new ASTVariable(undefined, undefined)), depth);
+            ast.append(new ASTArray(inputSplit[0], undefined), depth);
             depth++;
             break;
           case Grammar.CLASS.toString():

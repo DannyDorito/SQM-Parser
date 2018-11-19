@@ -14,7 +14,7 @@ import { DialogueComponent } from '../dialogue/dialogue.component';
   styleUrls: ['./home.component.css']
 })
 export class HomeComponent implements OnInit, OnDestroy {
-  missionAST = new ASTMission(undefined, undefined);
+  missionAST = new ASTMission(undefined, []);
 
   fileReaderString: string;
   fileName: string;
