@@ -1,11 +1,12 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
 import * as FileSaver from 'file-saver';
 import { isNullOrUndefined } from 'util';
 import { ParserService } from '../parser/parser.service';
 import { ASTMission } from '../shared/ast';
 import { SaverService } from '../saver/saver.service';
-import { timer, Subscription, Observable } from 'rxjs';
+import { timer, Subscription } from 'rxjs';
 import { environment } from 'src/environments/environment.prod';
+import { DialogueComponent } from '../dialogue/dialogue.component';
 
 @Component({
   selector: 'app-home',
@@ -16,29 +17,47 @@ export class HomeComponent implements OnInit, OnDestroy {
   missionAST = new ASTMission(undefined, undefined);
 
   fileReaderString: string;
+  fileName: string;
   isConfirmed = false;
   isLoading = false;
-  fileName: string;
   isComplete = false;
+
   timerSubscribe: Subscription;
+
+  @ViewChild(DialogueComponent) dialogueError: string;
 
   constructor(private parser: ParserService, private saver: SaverService) {}
 
   ngOnInit() {
-    const contents = this.saver.loadSQM();
-    const autosave = this.saver.getAutoSave();
-    if (contents !== null && autosave) {
-      this.fileReaderString = contents;
-      this.confirmSelection();
-    }
+    this.dialogueError = '';
+
+    this.loadAutoSave();
+
     const timerSource = timer((environment.sqmSavePeriodMins * 60) * 10000);
     this.timerSubscribe = timerSource.subscribe(event => {
       this.saveSQM();
     });
   }
 
+  /**
+   * Before the component is destroyed, unsubscribe from the timer subscription
+   */
   ngOnDestroy() {
-    this.timerSubscribe.unsubscribe();
+    if (!isNullOrUndefined(this.timerSubscribe)) {
+      this.timerSubscribe.unsubscribe();
+    }
+  }
+
+  /**
+   * Before the component is destroyed, unsubscribe from the timer subscription
+   */
+  loadAutoSave() {
+    const contents = this.saver.loadSQM();
+    const autosave = this.saver.getAutoSave();
+    if (contents !== null && autosave) {
+      this.fileReaderString = contents;
+      this.confirmSelection();
+    }
   }
 
   /**
@@ -51,7 +70,7 @@ export class HomeComponent implements OnInit, OnDestroy {
   onFileChanged(fileChangeEvent: any) {
     this.fileName = fileChangeEvent.target.files[0].name;
     if (!this.saver.validName(this.fileName)) {
-      throw new Error('Error: ' + this.fileName + ' is invalid.');
+      this.dialogueError = 'Error: ' + this.fileName + ' is invalid.';
     }
     const fileReader = new FileReader();
     fileReader.onload = () => {
@@ -67,7 +86,6 @@ export class HomeComponent implements OnInit, OnDestroy {
     };
     fileReader.onloadend = (data) => {
       if (data.lengthComputable) {
-        console.log(data.loaded);
         this.isLoading = false;
       }
     };
@@ -85,11 +103,11 @@ export class HomeComponent implements OnInit, OnDestroy {
   }
 
   /**
+   * ASYNC
    * Start AST tree creation
    */
   async startTreeCreation() {
     this.missionAST = this.parser.generateAST(this.fileReaderString.split('\r\n'));
-    console.log(this.missionAST);
     this.fileReaderString = undefined;
     this.isComplete = true;
     if (this.saver.getAutoSave()) {

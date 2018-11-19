@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 
 @Component({
   selector: 'app-dialogue',
@@ -6,6 +6,9 @@ import { Component } from '@angular/core';
   styleUrls: ['./dialogue.component.css']
 })
 export class DialogueComponent {
-  text: string;
-  closeMessage: string;
+  @Input() dialogueText: string;
+
+  close() {
+    this.dialogueText = '';
+  }
 }

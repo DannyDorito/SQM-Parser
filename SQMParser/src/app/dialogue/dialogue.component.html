@@ -1,4 +1,6 @@
-<div>
-  <p>{{text}}</p>
-  <p>{{closeMessage}}</p>
+<div class="background" *ngIf="dialogueText !== ''">
+  <div class="dialogue">
+    <p>{{dialogueText}}</p>
+    <button (click)="close()">Close</button>
+  </div>
 </div>
