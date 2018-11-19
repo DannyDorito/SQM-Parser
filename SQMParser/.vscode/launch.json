@@ -7,7 +7,7 @@
     {
       "type": "chrome",
       "request": "launch",
-      "name": "Debuh SQMParser",
+      "name": "Debug SQMParser",
       "url": "http://localhost:4200",
       "webRoot": "${workspaceFolder}"
     }
