@@ -1,12 +1,12 @@
-import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import * as FileSaver from 'file-saver';
-import { isNullOrUndefined } from 'util';
-import { ParserService } from '../parser/parser.service';
-import { ASTMission } from '../shared/ast';
-import { SaverService } from '../saver/saver.service';
-import { timer, Subscription } from 'rxjs';
+import { Subscription, timer } from 'rxjs';
 import { environment } from 'src/environments/environment.prod';
+import { isNullOrUndefined } from 'util';
 import { DialogueComponent } from '../dialogue/dialogue.component';
+import { ParserService } from '../parser/parser.service';
+import { SaverService } from '../saver/saver.service';
+import { ASTMission } from '../shared/ast';
 
 @Component({
   selector: 'app-home',

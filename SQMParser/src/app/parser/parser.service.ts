@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
-import { Token, Grammar } from '../shared/tokens';
 import { isNullOrUndefined } from 'util';
-import { ASTMission, ASTVersion, ASTVariable, ASTArray, ASTClass, ASTData } from '../shared/ast';
+import { ASTArray, ASTClass, ASTMission, ASTVariable, ASTVersion } from '../shared/ast';
+import { Grammar, Token } from '../shared/tokens';
 
 const tokensRegex = [
   { regex: /true|false/, tokenType: Token.BOOLEAN },
