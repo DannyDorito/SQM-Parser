@@ -6,7 +6,6 @@ import { isNullOrUndefined } from 'util';
 import { DialogueComponent } from '../dialogue/dialogue.component';
 import { ParserService } from '../parser/parser.service';
 import { SaverService } from '../saver/saver.service';
-import { ASTMission } from '../shared/ast';
 
 @Component({
   selector: 'app-home',
@@ -14,7 +13,7 @@ import { ASTMission } from '../shared/ast';
   styleUrls: ['./home.component.css']
 })
 export class HomeComponent implements OnInit, OnDestroy {
-  missionAST = new ASTMission(undefined, []);
+  missionAST: any[];
 
   fileReaderString: string;
   fileName: string;
@@ -107,12 +106,15 @@ export class HomeComponent implements OnInit, OnDestroy {
    * Start AST tree creation
    */
   async startTreeCreation() {
-    this.missionAST = this.parser.generateAST(this.fileReaderString.split('\r\n'));
+    const t0 = performance.now();
+    this.parser.generateAST(this.fileReaderString.split('\r\n'));
     this.fileReaderString = undefined;
     this.isComplete = true;
     if (this.saver.getAutoSave()) {
       this.saver.saveSQM(this.missionAST);
     }
+    const t1 = performance.now();
+    console.log(t1 - t0);
   }
 
   /**

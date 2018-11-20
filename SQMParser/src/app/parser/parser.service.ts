@@ -1,23 +1,6 @@
 import { Injectable } from '@angular/core';
 import { isNullOrUndefined } from 'util';
-import { ASTArray, ASTClass, ASTMission, ASTVariable, ASTVersion } from '../shared/ast';
-import { Grammar, Token } from '../shared/tokens';
 
-const tokensRegex = [
-  { regex: /true|false/, tokenType: Token.BOOLEAN },
-  { regex: /[ \s\t\n\r]+/, tokenType: Token.WHITESPACE },
-  { regex: /\[/, tokenType: Token.START_SQUARE_BRACE },
-  { regex: /]/, tokenType: Token.END_SQUARE_BRACE },
-  { regex: /"/, tokenType: Token.QUOTE },
-  { regex: /=/, tokenType: Token.EQUALS },
-  { regex: /{/, tokenType: Token.START_BRACE },
-  { regex: /[+\-]?(?:0|[1-9]\d*)(?:\.\d*)?(?:[eE][+\-]?\d+)?/, tokenType: Token.NUMBER },
-  { regex: /}/, tokenType: Token.END_BRACE },
-  { regex: /,/, tokenType: Token.COMMA },
-  { regex: /^(?!class)([a-zA-Z]+)/, tokenType: Token.STRING },
-  { regex: /class/, tokenType: Token.CLASS },
-  { regex: /;/, tokenType: Token.SEMICOLON }
-];
 @Injectable({
   providedIn: 'root'
 })
@@ -25,79 +8,49 @@ export class ParserService {
   /**
    * Main method execution function for ParserService
    */
-  generateAST(inputArray: string[]) {
-    if (isNullOrUndefined(inputArray)) {
-      throw new Error('Error: File is empty!');
-    }
-    const ast = new ASTMission(undefined, []);
-    let depth = 0;
-    for (let inputIndex = 0; inputIndex < inputArray.length; inputIndex++) {
-      if (inputIndex === 0) {
-        if (this.evalVersion(inputArray[0])) {
-          ast.version = new ASTVersion(/[1-9]+/.exec(inputArray[0])[0]);
-        } else {
-          throw new Error('Error: Cannot find version number on first line of file!');
-        }
-      } else {
-        let tokensOnLine = '';
-        // const inputSplit = inputArray[ inputIndex ];
-        const inputSplit = inputArray[inputIndex].split(' ');
-        for (let inputSplitIndex = 0; inputSplitIndex < inputSplit.length; inputSplitIndex++) {
-          for (const tokenRegex of tokensRegex) {
-            const regexResult = tokenRegex.regex.exec(inputSplit[inputSplitIndex]);
-            if (!isNullOrUndefined(regexResult)) {
-              if (tokenRegex.tokenType !== Token.WHITESPACE) {
-                tokensOnLine += tokenRegex.tokenType.toString();
-                break;
-              }
-            }
-          }
-        }
-
-        switch (tokensOnLine) {
-          case Grammar.STRING.toString():
-            ast.append(new ASTVariable(inputSplit[0], inputSplit[3]), depth);
-            break;
-          case Grammar.BOOLEAN.toString():
-            ast.append(new ASTVariable(inputSplit[0], Boolean(inputSplit[2])), depth);
-            break;
-          case Grammar.NUMBER.toString():
-            ast.append(new ASTVariable(inputSplit[0], Number(inputSplit[2])), depth);
-            break;
-          case Grammar.ARRAY.toString():
-            ast.append(new ASTArray(inputSplit[0], undefined), depth);
-            depth++;
-            break;
-          case Grammar.CLASS.toString():
-            ast.append(new ASTClass(undefined, undefined), depth);
-            depth++;
-            break;
-          case Grammar.CLASS_WITH_NAME.toString():
-            ast.append(new ASTClass(inputSplit[1], undefined), depth);
-            depth++;
-            break;
-          case Grammar.START.toString():
-
-          break;
-          case Grammar.END.toString():
-            if (depth !== 0) {
-              depth--;
-            }
-            break;
-          default:
-          console.log('ERROR: FOUND ' + tokensOnLine + ' ' + (inputIndex + 1));
-            break;
-        }
+  generateAST(inputFile: string[]) {
+    const ast = [];
+    for (const inputString of inputFile) {
+      const grammar = this.parser(inputString);
+      if (!isNullOrUndefined(grammar.val)) {
+        ast.push(grammar);
       }
     }
     return ast;
   }
 
-  /**
-   * Determins if the passed string matches the "version", "=", int, ";"; regex
-   */
-  evalVersion(line: string) {
-    return /(version\s*=\s*)[0-99]+\s*;/.test(line);
+  parser(inputString: string) {
+    const lexemes = this.lexer(inputString);
+    const DataType = Symbol('datatype');
+    const Number = Symbol('number');
+
+    let c = 0;
+
+    const peek = () => lexemes[c];
+    const consume = () => lexemes[c++];
+    const parseNum = () => ({
+      val: String(consume()),
+      type: Number
+    });
+
+    const parseType = () => {
+      const node = {
+        val: consume(),
+        type: DataType,
+        data: []
+      };
+      while (peek()) {
+        node.data.push(parseExpr());
+      }
+      return node;
+    };
+
+    const parseExpr = () => /\d/.test(peek()) ? parseNum() : parseType();
+    return parseExpr();
+  }
+
+  lexer(inputString: string) {
+    return inputString.split(' ').map(str => str.trim()).filter(str => str.length);
   }
 
   /**

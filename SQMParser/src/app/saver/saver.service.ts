@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import * as FileSaver from 'file-saver';
 import { environment } from 'src/environments/environment.prod';
-import { ASTMission } from '../shared/ast';
 
 @Injectable({
   providedIn: 'root'
@@ -14,7 +13,7 @@ export class SaverService {
    * https://github.com/eligrey/FileSaver.js/issues/308#issuecomment-286127364  [Online] Accessed 20th October 2018
    * https://github.com/eligrey/FileSaver.js/blob/master/README.md#supported-browsers [Online] Accessed 20th October 2018
    */
-  exportSQM(fileName: string, missionAST: ASTMission) {
+  exportSQM(fileName: string, missionAST: any[]) {
     if (!this.validName(fileName)) {
       throw new Error('Error: ' + fileName + ' is invalid!');
     } else if (!!new Blob === false) {
@@ -46,7 +45,7 @@ export class SaverService {
    * ASYNC
    * Saves ASTMission to localStorage
    */
-  async saveSQM(missionAST: ASTMission) {
+  async saveSQM(missionAST: any) {
     if (window.localStorage) {
       localStorage.setItem(environment.sqmLocalStorageName, missionAST.toString());
     } else {
