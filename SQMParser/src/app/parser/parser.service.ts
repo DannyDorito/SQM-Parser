@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { isNullOrUndefined } from 'util';
+import { ASTNumber, ASTNode } from '../shared/ast';
 
 @Injectable({
   providedIn: 'root'
@@ -12,7 +13,7 @@ export class ParserService {
     const ast = [];
     for (const inputString of inputFile) {
       const grammar = this.parser(inputString);
-      if (!isNullOrUndefined(grammar.val)) {
+      if (!isNullOrUndefined(grammar.value)) {
         ast.push(grammar);
       }
     }
@@ -20,7 +21,7 @@ export class ParserService {
   }
 
   parser(inputString: string) {
-    const lexemes = this.lexer(inputString);
+    const lexemes = this.splitString(inputString);
     const DataType = Symbol('datatype');
     const Number = Symbol('number');
 
@@ -28,28 +29,23 @@ export class ParserService {
 
     const peek = () => lexemes[c];
     const consume = () => lexemes[c++];
-    const parseNum = () => ({
-      val: String(consume()),
-      type: Number
-    });
-
+    const parseNumber = () => new ASTNumber(consume(), Number);
     const parseType = () => {
-      const node = {
-        val: consume(),
-        type: DataType,
-        data: []
-      };
+      const node = new ASTNode(consume(), DataType, []);
       while (peek()) {
         node.data.push(parseExpr());
       }
       return node;
     };
 
-    const parseExpr = () => /\d/.test(peek()) ? parseNum() : parseType();
+    const parseExpr = () => /\d/.test(peek()) ? parseNumber() : parseType();
     return parseExpr();
   }
 
-  lexer(inputString: string) {
+  /**
+   * Split inputString and trim each item
+   */
+  splitString(inputString: string) {
     return inputString.split(' ').map(str => str.trim()).filter(str => str.length);
   }
 

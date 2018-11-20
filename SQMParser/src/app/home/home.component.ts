@@ -102,19 +102,19 @@ export class HomeComponent implements OnInit, OnDestroy {
   }
 
   /**
-   * ASYNC
    * Start AST tree creation
    */
-  async startTreeCreation() {
+  startTreeCreation() {
     const t0 = performance.now();
-    this.parser.generateAST(this.fileReaderString.split('\r\n'));
+    this.missionAST = this.parser.generateAST(this.fileReaderString.split('\r\n'));
+    const t1 = performance.now();
+    console.log(t1 - t0);
+    console.log(this.missionAST);
     this.fileReaderString = undefined;
     this.isComplete = true;
     if (this.saver.getAutoSave()) {
       this.saver.saveSQM(this.missionAST);
     }
-    const t1 = performance.now();
-    console.log(t1 - t0);
   }
 
   /**
