@@ -103,11 +103,12 @@ export class HomeComponent implements OnInit, OnDestroy {
   }
 
   /**
+   * ASYNC
    * Start AST tree creation
    */
-  startTreeCreation() {
+  async startTreeCreation() {
     const t0 = performance.now();
-    this.missionAST = this.parser.generateAST(this.fileReaderString.split('\r\n'));
+    this.missionAST = <ASTNode[]> await this.parser.generateAST(this.fileReaderString.split('\r\n'));
     const t1 = performance.now();
     console.log((t1 - t0) + 'ms');
     console.log(this.missionAST);

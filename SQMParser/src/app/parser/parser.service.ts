@@ -22,12 +22,13 @@ const tokensRegex = [
 })
 export class ParserService {
   /**
+   * ASYNC
    * Main method execution function for ParserService
    */
-  generateAST(inputFile: string[]) {
+  async generateAST(inputFile: string[]) {
     const ast = [];
     for (const inputString of inputFile) {
-      const grammar = this.parser(inputString);
+      const grammar = <ASTNode> await this.parser(inputString);
       if (!isNullOrUndefined(grammar.value)) {
         ast.push(grammar);
       }
@@ -35,13 +36,21 @@ export class ParserService {
     return ast;
   }
 
-  parser(inputString: string) {
+  /**
+   * ASYNC
+   * Splits the input string into an array, tests Lexeme regex against it
+   * if successful, set the type
+   * Based on:
+   * Compilers: Principles, Techniques, and Tools (2nd Edition) pp.79-80. Accessed 21st November 2018
+   * https://blog.mgechev.com/2017/09/16/developing-simple-interpreter-transpiler-compiler-tutorial/ [Online] Accessed 11th November 2018
+   */
+  async parser(inputString: string) {
     const lexemes = this.splitString(inputString);
     let index = 0;
     const parseType = () => {
       const node = new ASTNode(lexemes[index], Lexeme.DEFAULT, []);
       for (const tokenRegex of tokensRegex) {
-        if (tokenRegex.regex.exec(lexemes[index])) {
+        if (tokenRegex.regex.test(lexemes[index])) {
           node.type = tokenRegex.tokenType;
         }
       }
@@ -57,6 +66,8 @@ export class ParserService {
 
   /**
    * Split inputString and trim each item
+   * Based on:
+   * https://blog.mgechev.com/2017/09/16/developing-simple-interpreter-transpiler-compiler-tutorial/ [Online] Accessed 11th November 2018
    */
   splitString(inputString: string) {
     return inputString.split(' ').map(str => str.trim()).filter(str => str.length);
