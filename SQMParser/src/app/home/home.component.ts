@@ -6,6 +6,7 @@ import { isNullOrUndefined } from 'util';
 import { DialogueComponent } from '../dialogue/dialogue.component';
 import { ParserService } from '../parser/parser.service';
 import { SaverService } from '../saver/saver.service';
+import { ASTNode } from '../shared/ast';
 
 @Component({
   selector: 'app-home',
@@ -13,7 +14,7 @@ import { SaverService } from '../saver/saver.service';
   styleUrls: ['./home.component.css']
 })
 export class HomeComponent implements OnInit, OnDestroy {
-  missionAST: any[];
+  missionAST: ASTNode[];
 
   fileReaderString: string;
   fileName: string;
@@ -108,7 +109,7 @@ export class HomeComponent implements OnInit, OnDestroy {
     const t0 = performance.now();
     this.missionAST = this.parser.generateAST(this.fileReaderString.split('\r\n'));
     const t1 = performance.now();
-    console.log(t1 - t0);
+    console.log((t1 - t0) + 'ms');
     console.log(this.missionAST);
     this.fileReaderString = undefined;
     this.isComplete = true;

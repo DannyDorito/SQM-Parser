@@ -1,7 +1,22 @@
 import { Injectable } from '@angular/core';
 import { isNullOrUndefined } from 'util';
-import { ASTNumber, ASTNode } from '../shared/ast';
+import { ASTNode, Lexeme, LexemeRegex } from '../shared/ast';
 
+const tokensRegex = [
+  { regex: /true|false/, tokenType: Lexeme.BOOLEAN },
+  { regex: /[ \s\t\n\r]+/, tokenType: Lexeme.WHITESPACE },
+  { regex: /\[/, tokenType: Lexeme.START_SQUARE_BRACE },
+  { regex: /]/, tokenType: Lexeme.END_SQUARE_BRACE },
+  { regex: /"/, tokenType: Lexeme.QUOTE },
+  { regex: /=/, tokenType: Lexeme.EQUALS },
+  { regex: /{/, tokenType: Lexeme.START_BRACE },
+  { regex: /[+\-]?(?:0|[1-9]\d*)(?:\.\d*)?(?:[eE][+\-]?\d+)?/, tokenType: Lexeme.NUMBER },
+  { regex: /}/, tokenType: Lexeme.END_BRACE },
+  { regex: /,/, tokenType: Lexeme.COMMA },
+  { regex: /^(?!class)([a-zA-Z]+)/, tokenType: Lexeme.STRING },
+  { regex: /class/, tokenType: Lexeme.CLASS },
+  { regex: /;/, tokenType: Lexeme.SEMICOLON }
+];
 @Injectable({
   providedIn: 'root'
 })
@@ -22,24 +37,22 @@ export class ParserService {
 
   parser(inputString: string) {
     const lexemes = this.splitString(inputString);
-    const DataType = Symbol('datatype');
-    const Number = Symbol('number');
-
-    let c = 0;
-
-    const peek = () => lexemes[c];
-    const consume = () => lexemes[c++];
-    const parseNumber = () => new ASTNumber(consume(), Number);
+    let index = 0;
     const parseType = () => {
-      const node = new ASTNode(consume(), DataType, []);
-      while (peek()) {
-        node.data.push(parseExpr());
+      const node = new ASTNode(lexemes[index], Lexeme.DEFAULT, []);
+      for (const tokenRegex of tokensRegex) {
+        if (tokenRegex.regex.exec(lexemes[index])) {
+          node.type = tokenRegex.tokenType;
+        }
+      }
+      index++;
+      while (lexemes[index]) {
+        node.data.push(parseType());
       }
       return node;
     };
 
-    const parseExpr = () => /\d/.test(peek()) ? parseNumber() : parseType();
-    return parseExpr();
+    return parseType();
   }
 
   /**
