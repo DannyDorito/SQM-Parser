@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { HomeComponent } from '../home/home.component';
+import { SaverService } from '../saver/saver.service';
 
 @Component({
   selector: 'app-functions',
@@ -7,14 +7,14 @@ import { HomeComponent } from '../home/home.component';
   styleUrls: ['./functions.component.css']
 })
 export class FunctionsComponent {
-  constructor(private homeComponent: HomeComponent) {}
+  constructor(private saver: SaverService) {}
 
   /**
    * ASYNC
    * Calls exportSQM from HomeComponent
    */
   async exportSQM() {
-    this.homeComponent.exportSQM();
+    // TODO: Export
   }
 
   /**
@@ -22,13 +22,13 @@ export class FunctionsComponent {
    * Calls saveSQM from HomeComponent
    */
   async saveSQM() {
-    this.homeComponent.saveSQM();
+    // TODO: save
   }
 
   /**
    * Calls clearSQM from HomeComponent
    */
   clearSQM() {
-    this.homeComponent.clearSQM();
+    this.saver.clearSQM();
   }
 }

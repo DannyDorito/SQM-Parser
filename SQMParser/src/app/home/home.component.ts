@@ -120,26 +120,24 @@ export class HomeComponent implements OnInit, OnDestroy {
   }
 
   /**
-   * ASYNC
    * Calls exportSQM from saver service
+   * TODO: fix test.sqm
    */
-  async exportSQM() {
-    this.saver.exportSQM(this.fileName, this.missionAST);
+  exportSQM() {
+    this.saver.exportSQM('test.sqm', this.missionAST);
   }
 
   /**
-   * ASYNC
    * Calls saveSQM from saver service
    */
-  async saveSQM() {
+  saveSQM() {
     this.saver.saveSQM(this.missionAST);
   }
 
   /**
-   * ASYNC
    * Calls clearSQM from saver service
    */
-  async clearSQM() {
+  clearSQM() {
     this.saver.clearSQM();
   }
 }

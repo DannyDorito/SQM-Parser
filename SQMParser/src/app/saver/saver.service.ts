@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import * as FileSaver from 'file-saver';
 import { environment } from 'src/environments/environment.prod';
+import { ASTNode } from '../shared/ast';
 
 @Injectable({
   providedIn: 'root'
@@ -13,14 +14,31 @@ export class SaverService {
    * https://github.com/eligrey/FileSaver.js/issues/308#issuecomment-286127364  [Online] Accessed 20th October 2018
    * https://github.com/eligrey/FileSaver.js/blob/master/README.md#supported-browsers [Online] Accessed 20th October 2018
    */
-  exportSQM(fileName: string, missionAST: any[]) {
+  exportSQM(fileName: string, missionAST: ASTNode[]) {
     if (!this.validName(fileName)) {
       throw new Error('Error: ' + fileName + ' is invalid!');
     } else if (!!new Blob === false) {
       throw new Error('Error: File saving is not supported on this browser, please use a browser that supports Blobs!');
     } else {
-      FileSaver.saveAs(new Blob(missionAST.toString().split('\r\n'), { type: 'text/plain;charset=utf-8' }), fileName);
+      FileSaver.saveAs(new Blob(this.astToStringArray(missionAST), { type: 'text/plain;charset=utf-8' }), fileName);
     }
+  }
+
+  astToStringArray( missionAST: ASTNode[] ) {
+    const strArray: string[] = [];
+    for (const branch of missionAST) {
+      let str = '';
+      const traverse = (node: ASTNode) => {
+        if (node) {
+          str += node.value;
+          traverse(node.data[0]);
+        }
+      };
+      traverse(branch);
+      str += '\r\n';
+      strArray.push(str);
+    }
+    return strArray;
   }
 
   /**
@@ -45,9 +63,9 @@ export class SaverService {
    * ASYNC
    * Saves ASTMission to localStorage
    */
-  async saveSQM(missionAST: any) {
+  async saveSQM(missionAST: ASTNode[]) {
     if (window.localStorage) {
-      localStorage.setItem(environment.sqmLocalStorageName, missionAST.toString());
+      localStorage.setItem(environment.sqmLocalStorageName, this.astToStringArray(missionAST).join(''));
     } else {
       throw new Error('Error: This browser does not support LocalStorage, cannot save SQM!');
     }

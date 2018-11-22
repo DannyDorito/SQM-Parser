@@ -17,6 +17,20 @@ const tokensRegex = [
   { regex: /class/, tokenType: Lexeme.CLASS },
   { regex: /;/, tokenType: Lexeme.SEMICOLON }
 ];
+const symbolTable = [
+  { token: Lexeme.STRING, possibleNodes: [Lexeme.EQUALS, Lexeme.START_SQUARE_BRACE, Lexeme.QUOTE]},
+  { token: Lexeme.EQUALS, possibleNodes: [Lexeme.STRING, Lexeme.START_BRACE, Lexeme.QUOTE, Lexeme.NUMBER, Lexeme.BOOLEAN]},
+  { token: Lexeme.START_BRACE, possibleNodes: [Lexeme.STRING, Lexeme.END_BRACE, Lexeme.QUOTE, Lexeme.NUMBER, Lexeme.BOOLEAN, Lexeme.CLASS]},
+  { token: Lexeme.END_BRACE, possibleNodes: [Lexeme.SEMICOLON]},
+  { token: Lexeme.START_SQUARE_BRACE, possibleNodes: [Lexeme.END_SQUARE_BRACE]},
+  { token: Lexeme.END_SQUARE_BRACE, possibleNodes: [Lexeme.EQUALS]},
+  { token: Lexeme.SEMICOLON, possibleNodes: [Lexeme.STRING, Lexeme.END_BRACE]},
+  { token: Lexeme.COMMA, possibleNodes: [Lexeme.QUOTE, Lexeme.NUMBER, Lexeme.BOOLEAN]},
+  { token: Lexeme.QUOTE, possibleNodes: [Lexeme.STRING, Lexeme.END_BRACE, Lexeme.SEMICOLON, Lexeme.COMMA, Lexeme.QUOTE]},
+  { token: Lexeme.NUMBER, possibleNodes: [Lexeme.COMMA]},
+  { token: Lexeme.BOOLEAN, possibleNodes: [Lexeme.SEMICOLON, Lexeme.COMMA]},
+  { token: Lexeme.CLASS, possibleNodes: [Lexeme.STRING, Lexeme.START_BRACE]}
+];
 @Injectable({
   providedIn: 'root'
 })
@@ -33,6 +47,7 @@ export class ParserService {
         ast.push(grammar);
       }
     }
+    this.traverseError(ast);
     return ast;
   }
 
@@ -83,6 +98,21 @@ export class ParserService {
     traverse(nodeToTraverse);
 
     return str;
+  }
+
+  traverseError(missionAST: ASTNode[]) {
+    const getData = (node: ASTNode) => {
+      if (node) {
+        const filteredSymbolTable = symbolTable.filter(symTab => symTab.token === node.data[0].type).map(x => x.possibleNodes);
+        if (filteredSymbolTable[0].includes(node.data[0].type)) {
+          console.log('Got');
+        } else {
+          console.log('Found: ' + node.data[0].type.toString() + ' wanted ' + filteredSymbolTable[0].join());
+        }
+        getData(node);
+      }
+    };
+    getData(missionAST[0]);
   }
 
   /**
