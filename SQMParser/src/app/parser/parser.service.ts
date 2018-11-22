@@ -26,7 +26,7 @@ export class ParserService {
    * Main method execution function for ParserService
    */
   async generateAST(inputFile: string[]) {
-    const ast = [];
+    const ast: ASTNode[] = [];
     for (const inputString of inputFile) {
       const grammar = <ASTNode> await this.parser(inputString);
       if (!isNullOrUndefined(grammar.value)) {
@@ -62,6 +62,19 @@ export class ParserService {
     };
 
     return parseType();
+  }
+
+  traverseNodeValue( nodeToTraverse: ASTNode) {
+    let str = '';
+    const traverse = (node: ASTNode) => {
+      if (node) {
+        str += node.value;
+        traverse(node.data[0]);
+      }
+    };
+    traverse(nodeToTraverse);
+
+    return str;
   }
 
   /**

@@ -26,7 +26,7 @@ export class HomeComponent implements OnInit, OnDestroy {
 
   @ViewChild(DialogueComponent) dialogueError: string;
 
-  constructor(private parser: ParserService, private saver: SaverService) {}
+  constructor(public parser: ParserService, private saver: SaverService) {}
 
   ngOnInit() {
     this.dialogueError = '';
@@ -117,6 +117,8 @@ export class HomeComponent implements OnInit, OnDestroy {
     if (this.saver.getAutoSave()) {
       this.saver.saveSQM(this.missionAST);
     }
+
+    console.log(this.parser.traverseNodeValue(this.missionAST[0]));
   }
 
   /**

@@ -7,7 +7,4 @@
   <button class="file" (click)="confirmSelection()">Confirm</button>
 </div>
 <app-dialogue [dialogueText]="dialogueError"></app-dialogue>
-<div *ngFor="let item of missionAST">
-  {{item.value}}
-  <div *ngFor="let x of item.data">{{x}}</div>
-</div>
+<p *ngFor="let branch of missionAST">{{parser.traverseNodeValue(branch)}}</p>

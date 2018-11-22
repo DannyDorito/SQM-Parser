@@ -30,19 +30,3 @@ export enum Lexeme {
   STRING = 'STRING',
   CLASS = 'CLASS'
 }
-
-export enum LexemeRegex {
-  BOOLEAN = 'true|false',
-  WHITESPACE = '[ \s\t\n\r]+',
-  START_SQUARE_BRACKET = '\[',
-  END_SQUARE_BRACKET = ']',
-  QUOTE = '"',
-  EQUALS = '=',
-  START_BRACE = '{',
-  NUMBER = '[+\-]?(?:0|[1-9]\d*)(?:\.\d*)?(?:[eE][+\-]?\d+)?',
-  END_BRACE = '}',
-  COMMA = ',',
-  STRING = '^(?!class)([a-zA-Z]+)',
-  CLASS = 'class',
-  SEMICOLON = ';'
-}
