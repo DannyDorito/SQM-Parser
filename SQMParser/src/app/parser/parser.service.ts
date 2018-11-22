@@ -47,7 +47,7 @@ export class ParserService {
         ast.push(grammar);
       }
     }
-    this.traverseError(ast);
+    this.getErrors(ast[0]);
     return ast;
   }
 
@@ -100,19 +100,25 @@ export class ParserService {
     return str;
   }
 
-  traverseError(missionAST: ASTNode[]) {
-    const getData = (node: ASTNode) => {
+  getErrors(nodeToTraverse: ASTNode) {
+    let depth = 0;
+    const errors = [];
+    const traverse = (node: ASTNode) => {
       if (node) {
-        const filteredSymbolTable = symbolTable.filter(symTab => symTab.token === node.data[0].type).map(x => x.possibleNodes);
-        if (filteredSymbolTable[0].includes(node.data[0].type)) {
-          console.log('Got');
+        const filtered = symbolTable.filter(symTab => symTab.token === node.type).map(symTab => symTab.possibleNodes);
+        if (filtered[0].includes(node.type)) {
+          console.log('got');
         } else {
-          console.log('Found: ' + node.data[0].type.toString() + ' wanted ' + filteredSymbolTable[0].join());
+          errors.push({depth: depth, expected: filtered[0]});
+          console.log('Found: ' + node.type.toString() + ' wanted: ' + filtered[0].join());
         }
-        getData(node);
+        depth++;
+        traverse(node.data[0]);
+      } else {
+        console.log('undef node');
       }
+      traverse(nodeToTraverse);
     };
-    getData(missionAST[0]);
   }
 
   /**
