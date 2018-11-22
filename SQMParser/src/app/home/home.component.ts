@@ -117,8 +117,6 @@ export class HomeComponent implements OnInit, OnDestroy {
     if (this.saver.getAutoSave()) {
       this.saver.saveSQM(this.missionAST);
     }
-
-    console.log(this.parser.traverseNodeValue(this.missionAST[0]));
   }
 
   /**
