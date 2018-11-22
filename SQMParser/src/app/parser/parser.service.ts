@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { isNullOrUndefined } from 'util';
-import { ASTNode, Lexeme, LexemeRegex } from '../shared/ast';
+import { ASTNode, Lexeme } from '../shared/ast';
 
 const tokensRegex = [
   { regex: /true|false/, tokenType: Lexeme.BOOLEAN },
@@ -28,7 +28,7 @@ export class ParserService {
   async generateAST(inputFile: string[]) {
     const ast: ASTNode[] = [];
     for (const inputString of inputFile) {
-      const grammar = <ASTNode> await this.parser(inputString);
+      const grammar = < ASTNode > await this.parser(inputString);
       if (!isNullOrUndefined(grammar.value)) {
         ast.push(grammar);
       }
@@ -64,7 +64,15 @@ export class ParserService {
     return parseType();
   }
 
-  traverseNodeValue( nodeToTraverse: ASTNode) {
+  /**
+   * Traverse a passed ASTNode, return a string of the value of each node traversed
+   * Based on:
+   * Compilers: Principles, Techniques, and Tools (2nd Edition) pp.56-68. Accessed 21st November 2018
+   */
+  traverseNodeValue(nodeToTraverse: ASTNode) {
+    if (isNullOrUndefined(nodeToTraverse)) {
+      return '';
+    }
     let str = '';
     const traverse = (node: ASTNode) => {
       if (node) {

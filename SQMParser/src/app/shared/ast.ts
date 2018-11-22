@@ -1,12 +1,12 @@
 export class ASTNode {
   value: string;
   type: Lexeme;
-  data: any[];
+  data: ASTNode[];
 
   constructor(
     _value: string,
     _type: Lexeme,
-    _data: any[]
+    _data: ASTNode[]
   ) {
     this.value = _value;
     this.type = _type;
