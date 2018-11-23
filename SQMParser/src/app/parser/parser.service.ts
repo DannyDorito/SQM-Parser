@@ -102,30 +102,6 @@ export class ParserService {
     return str;
   }
 
-  // getErrors(nodeToTraverse: ASTNode) {
-  //   let depth = 0;
-  //   const errors = [];
-  //   const traverse = (node: ASTNode) => {
-  //     if (node) {
-  //       const filtered = symbolTable.filter(symTab => symTab.token === node.type).map(symTab => symTab.possibleNodes);
-  //       if (filtered[0].includes(node.type)) {
-  //         console.log('got');
-  //       } else {
-  //         errors.push({
-  //           depth: depth,
-  //           expected: filtered[0]
-  //         });
-  //         console.log('Found: ' + node.type.toString() + ' wanted: ' + filtered[0].join());
-  //       }
-  //       depth++;
-  //       traverse(node.data[0]);
-  //     } else {
-  //       console.log('undef node');
-  //     }
-  //     traverse(nodeToTraverse);
-  //   };
-  // }
-
   findErrors(missionAST: ASTNode[]) {
     for (const astNode of missionAST) {
       for (const type of astNode.containingTypes) {
