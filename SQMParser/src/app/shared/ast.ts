@@ -3,6 +3,7 @@ export class ASTNode {
   type: Lexeme;
   data: ASTNode[];
   hasError: boolean;
+  containingTypes: Lexeme[];
 
   constructor(
     _value: string,

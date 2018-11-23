@@ -47,7 +47,7 @@ export class ParserService {
         ast.push(grammar);
       }
     }
-    this.getErrors(ast[0]);
+    this.findErrors(ast);
     return ast;
   }
 
@@ -62,21 +62,25 @@ export class ParserService {
   async parser(inputString: string) {
     const lexemes = this.splitString(inputString);
     let index = 0;
+    const containingTypes: Lexeme[] = [];
     const parseType = () => {
-      const node = new ASTNode(lexemes[index], Lexeme.DEFAULT, []);
+      const newNode = new ASTNode(lexemes[index], Lexeme.DEFAULT, []);
       for (const tokenRegex of tokensRegex) {
         if (tokenRegex.regex.test(lexemes[index])) {
-          node.type = tokenRegex.tokenType;
+          newNode.type = tokenRegex.tokenType;
+          containingTypes.push(tokenRegex.tokenType);
+          break;
         }
       }
       index++;
       while (lexemes[index]) {
-        node.data.push(parseType());
+        newNode.data.push(parseType());
       }
-      return node;
+      return newNode;
     };
-
-    return parseType();
+    const node = parseType();
+    node.containingTypes = containingTypes;
+    return node;
   }
 
   /**
@@ -96,29 +100,46 @@ export class ParserService {
       }
     };
     traverse(nodeToTraverse);
-
     return str;
   }
 
-  getErrors(nodeToTraverse: ASTNode) {
-    let depth = 0;
-    const errors = [];
-    const traverse = (node: ASTNode) => {
-      if (node) {
-        const filtered = symbolTable.filter(symTab => symTab.token === node.type).map(symTab => symTab.possibleNodes);
-        if (filtered[0].includes(node.type)) {
-          console.log('got');
+  // getErrors(nodeToTraverse: ASTNode) {
+  //   let depth = 0;
+  //   const errors = [];
+  //   const traverse = (node: ASTNode) => {
+  //     if (node) {
+  //       const filtered = symbolTable.filter(symTab => symTab.token === node.type).map(symTab => symTab.possibleNodes);
+  //       if (filtered[0].includes(node.type)) {
+  //         console.log('got');
+  //       } else {
+  //         errors.push({
+  //           depth: depth,
+  //           expected: filtered[0]
+  //         });
+  //         console.log('Found: ' + node.type.toString() + ' wanted: ' + filtered[0].join());
+  //       }
+  //       depth++;
+  //       traverse(node.data[0]);
+  //     } else {
+  //       console.log('undef node');
+  //     }
+  //     traverse(nodeToTraverse);
+  //   };
+  // }
+
+  findErrors(missionAST: ASTNode[]) {
+    for (const astNode of missionAST) {
+      for (const type of astNode.containingTypes) {
+        const filtered = symbolTable.filter(symTab => symTab.token === type);
+        const a = filtered.map(x => x.possibleNodes);
+        if (a[0].includes(type)) {
+          console.log('found');
+          break;
         } else {
-          errors.push({depth: depth, expected: filtered[0]});
-          console.log('Found: ' + node.type.toString() + ' wanted: ' + filtered[0].join());
+          console.log('not found');
         }
-        depth++;
-        traverse(node.data[0]);
-      } else {
-        console.log('undef node');
       }
-      traverse(nodeToTraverse);
-    };
+    }
   }
 
   /**
