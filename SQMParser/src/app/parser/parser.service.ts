@@ -104,14 +104,16 @@ export class ParserService {
 
   findErrors(missionAST: ASTNode[]) {
     for (const astNode of missionAST) {
+      let filtered;
+      let possibleNodes;
       for (const type of astNode.containingTypes) {
-        const filtered = symbolTable.filter(symTab => symTab.token === type);
-        const a = filtered.map(x => x.possibleNodes);
-        if (a[0].includes(type)) {
-          console.log('found');
+        filtered = symbolTable.filter(symTab => symTab.token === type);
+        possibleNodes = filtered.map(x => x.possibleNodes);
+        if (possibleNodes[0].includes(type)) {
+          // console.log('Found: ' + type.toString());
           break;
         } else {
-          console.log('not found');
+          console.log('Found: ' + type.toString() + ' Wanted: ' + possibleNodes[0].join());
         }
       }
     }
