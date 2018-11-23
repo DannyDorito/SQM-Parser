@@ -47,7 +47,6 @@ export class ParserService {
         ast.push(grammar);
       }
     }
-    this.findErrors(ast);
     return ast;
   }
 

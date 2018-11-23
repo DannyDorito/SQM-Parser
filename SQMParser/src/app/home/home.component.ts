@@ -117,6 +117,17 @@ export class HomeComponent implements OnInit, OnDestroy {
     if (this.saver.getAutoSave()) {
       this.saver.saveSQM(this.missionAST);
     }
+
+    if (!environment.production) {
+      const t2 = performance.now();
+      this.startErrorFinding();
+      const t3 = performance.now();
+      console.log((t3 - t2) + 'ms');
+    }
+  }
+
+  async startErrorFinding() {
+    this.parser.findErrors(this.missionAST);
   }
 
   /**
