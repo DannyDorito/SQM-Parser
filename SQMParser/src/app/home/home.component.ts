@@ -1,5 +1,4 @@
 import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
-import * as FileSaver from 'file-saver';
 import { Subscription, timer } from 'rxjs';
 import { environment } from 'src/environments/environment.prod';
 import { isNullOrUndefined } from 'util';

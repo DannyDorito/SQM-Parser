@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
-import { SaverService } from '../saver/saver.service';
 import { ParserSharedService } from '../parser/parsershared.service';
+import { SaverService } from '../saver/saver.service';
 import { ASTNode } from '../shared/ast';
 
 @Component({

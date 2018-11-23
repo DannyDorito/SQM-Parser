@@ -12,7 +12,6 @@ import { NotFoundComponent } from './not-found/not-found.component';
 import { OptionsComponent } from './options/options.component';
 import { TestsComponent } from './tests/tests.component';
 
-
 @NgModule({
   declarations: [
     AppComponent,
