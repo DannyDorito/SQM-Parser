@@ -1,5 +1,7 @@
 import { Component } from '@angular/core';
 import { SaverService } from '../saver/saver.service';
+import { ParserSharedService } from '../parser/parsershared.service';
+import { ASTNode } from '../shared/ast';
 
 @Component({
   selector: 'app-functions',
@@ -7,28 +9,41 @@ import { SaverService } from '../saver/saver.service';
   styleUrls: ['./functions.component.css']
 })
 export class FunctionsComponent {
-  constructor(private saver: SaverService) {}
+  constructor(private saver: SaverService, private parserShared: ParserSharedService) {}
 
   /**
    * ASYNC
-   * Calls exportSQM from HomeComponent
+   * Gets fileName and missionAST from ParserSharedService then exports it with SaverService
    */
   async exportSQM() {
-    // TODO: Export
+    let fileName;
+    this.parserShared.getFileName().subscribe(name => {
+      fileName = name as string;
+    });
+    let missionAST;
+    this.parserShared.getMissionAST().subscribe(ast => {
+      missionAST = ast as ASTNode[];
+    });
+    this.saver.exportSQM(fileName, missionAST);
   }
 
   /**
    * ASYNC
-   * Calls saveSQM from HomeComponent
+   * Gets missionAST from ParserSharedService then exports it with SaverService
    */
   async saveSQM() {
-    // TODO: save
+    let missionAST;
+    this.parserShared.getMissionAST().subscribe(ast => {
+      missionAST = ast as ASTNode[];
+    });
+    this.saver.saveSQM(missionAST);
   }
 
   /**
+   * ASYNC
    * Calls clearSQM from HomeComponent
    */
-  clearSQM() {
+  async clearSQM() {
     this.saver.clearSQM();
   }
 }
