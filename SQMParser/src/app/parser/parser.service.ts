@@ -142,12 +142,16 @@ export class ParserService {
   }
 
   /**
-   * Split inputString and trim each item
+   * Produces tokens to lexically analyse
+   * Split the input string on terminals [ \s\t\n\r\[\]"={},;] globally with a positive lookahead
+   * then map the results by trimming and filterting by length.
    * Based on:
-   * https://blog.mgechev.com/2017/09/16/developing-simple-interpreter-transpiler-compiler-tutorial/ [Online] Accessed 11th November 2018
+   * https://blog.mgechev.com/2017/09/16/developing-simple-interpreter-transpiler-compiler-tutorial/ [Online] Accessed 11th October 2018
+   * https://stackoverflow.com/a/650037 [Online] Accessed 23rd November 2018
+   * https://stackoverflow.com/a/12001989 [Online] Accessed 23rd November 2018
    */
   splitString(inputString: string) {
-    return inputString.split(' ').map(str => str.trim()).filter(str => str.length);
+    return inputString.split(/(?=[ \s\t\n\r\[\]"={},;]+)/g).map(str => str.trim()).filter(str => str.length);
   }
 
   /**
