@@ -10,7 +10,7 @@ const tokensRegex = [
   { regex: /"/, tokenType: Lexeme.QUOTE },
   { regex: /=/, tokenType: Lexeme.EQUALS },
   { regex: /{/, tokenType: Lexeme.START_BRACE },
-  { regex: /[+\-]?(?:0|[1-9]\d*)(?:\.\d*)?(?:[eE][+\-]?\d+)?/, tokenType: Lexeme.NUMBER },
+  { regex: /[\+-]?(?:0|[1-9]\d*)(?:\.\d*)?(?:[eE][+\-]?\d+)?/, tokenType: Lexeme.NUMBER },
   { regex: /}/, tokenType: Lexeme.END_BRACE },
   { regex: /,/, tokenType: Lexeme.COMMA },
   { regex: /^(?!class)([a-zA-Z]+)/, tokenType: Lexeme.STRING },
