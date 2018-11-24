@@ -26,9 +26,7 @@ import { TestsComponent } from './tests/tests.component';
     BrowserModule,
     AppRoutingModule,
     FormsModule,
-    ServiceWorkerModule.register('ngsw-worker.js', {
-      enabled: environment.production
-    })
+    ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production })
   ],
   providers: [HomeComponent],
   bootstrap: [AppComponent]
