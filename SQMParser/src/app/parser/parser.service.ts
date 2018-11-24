@@ -1,35 +1,35 @@
 import { Injectable } from '@angular/core';
 import { isNullOrUndefined } from 'util';
-import { ASTNode, Lexeme } from '../shared/ast';
+import { ASTNode, Token } from '../shared/ast';
 
 const tokensRegex = [
-  { regex: /true|false/, tokenType: Lexeme.BOOLEAN },
-  { regex: /[ \s\t\n\r]+/, tokenType: Lexeme.WHITESPACE },
-  { regex: /\[/, tokenType: Lexeme.START_SQUARE_BRACE },
-  { regex: /]/, tokenType: Lexeme.END_SQUARE_BRACE },
-  { regex: /"/, tokenType: Lexeme.QUOTE },
-  { regex: /=/, tokenType: Lexeme.EQUALS },
-  { regex: /{/, tokenType: Lexeme.START_BRACE },
-  { regex: /[\+-]?(?:0|[1-9]\d*)(?:\.\d*)?(?:[eE][+\-]?\d+)?/, tokenType: Lexeme.NUMBER },
-  { regex: /}/, tokenType: Lexeme.END_BRACE },
-  { regex: /,/, tokenType: Lexeme.COMMA },
-  { regex: /^(?!class)([a-zA-Z]+)/, tokenType: Lexeme.STRING },
-  { regex: /class/, tokenType: Lexeme.CLASS },
-  { regex: /;/, tokenType: Lexeme.SEMICOLON }
+  { regex: /true|false/, tokenType: Token.BOOLEAN },
+  { regex: /[ \s\t\n\r]+/, tokenType: Token.WHITESPACE },
+  { regex: /\[/, tokenType: Token.START_SQUARE_BRACE },
+  { regex: /]/, tokenType: Token.END_SQUARE_BRACE },
+  { regex: /"/, tokenType: Token.QUOTE },
+  { regex: /=/, tokenType: Token.EQUALS },
+  { regex: /{/, tokenType: Token.START_BRACE },
+  { regex: /[\+-]?(?:0|[1-9]\d*)(?:\.\d*)?(?:[eE][+\-]?\d+)?/, tokenType: Token.NUMBER },
+  { regex: /}/, tokenType: Token.END_BRACE },
+  { regex: /,/, tokenType: Token.COMMA },
+  { regex: /^(?!class)([a-zA-Z]+)/, tokenType: Token.STRING },
+  { regex: /class/, tokenType: Token.CLASS },
+  { regex: /;/, tokenType: Token.SEMICOLON }
 ];
 const symbolTable = [
-  { token: Lexeme.STRING, possibleNodes: [Lexeme.EQUALS, Lexeme.START_SQUARE_BRACE, Lexeme.QUOTE]},
-  { token: Lexeme.EQUALS, possibleNodes: [Lexeme.STRING, Lexeme.START_BRACE, Lexeme.QUOTE, Lexeme.NUMBER, Lexeme.BOOLEAN]},
-  { token: Lexeme.START_BRACE, possibleNodes: [Lexeme.STRING, Lexeme.END_BRACE, Lexeme.QUOTE, Lexeme.NUMBER, Lexeme.BOOLEAN, Lexeme.CLASS]},
-  { token: Lexeme.END_BRACE, possibleNodes: [Lexeme.SEMICOLON]},
-  { token: Lexeme.START_SQUARE_BRACE, possibleNodes: [Lexeme.END_SQUARE_BRACE]},
-  { token: Lexeme.END_SQUARE_BRACE, possibleNodes: [Lexeme.EQUALS]},
-  { token: Lexeme.SEMICOLON, possibleNodes: [Lexeme.STRING, Lexeme.END_BRACE]},
-  { token: Lexeme.COMMA, possibleNodes: [Lexeme.QUOTE, Lexeme.NUMBER, Lexeme.BOOLEAN]},
-  { token: Lexeme.QUOTE, possibleNodes: [Lexeme.STRING, Lexeme.END_BRACE, Lexeme.SEMICOLON, Lexeme.COMMA, Lexeme.QUOTE]},
-  { token: Lexeme.NUMBER, possibleNodes: [Lexeme.COMMA]},
-  { token: Lexeme.BOOLEAN, possibleNodes: [Lexeme.SEMICOLON, Lexeme.COMMA]},
-  { token: Lexeme.CLASS, possibleNodes: [Lexeme.STRING, Lexeme.START_BRACE]}
+  { token: Token.STRING, possibleNodes: [Token.EQUALS, Token.START_SQUARE_BRACE, Token.QUOTE]},
+  { token: Token.EQUALS, possibleNodes: [Token.STRING, Token.START_BRACE, Token.QUOTE, Token.NUMBER, Token.BOOLEAN]},
+  { token: Token.START_BRACE, possibleNodes: [Token.STRING, Token.END_BRACE, Token.QUOTE, Token.NUMBER, Token.BOOLEAN, Token.CLASS]},
+  { token: Token.END_BRACE, possibleNodes: [Token.SEMICOLON]},
+  { token: Token.START_SQUARE_BRACE, possibleNodes: [Token.END_SQUARE_BRACE]},
+  { token: Token.END_SQUARE_BRACE, possibleNodes: [Token.EQUALS]},
+  { token: Token.SEMICOLON, possibleNodes: [Token.STRING, Token.CLASS]},
+  { token: Token.COMMA, possibleNodes: [Token.QUOTE, Token.NUMBER, Token.BOOLEAN]},
+  { token: Token.QUOTE, possibleNodes: [Token.STRING, Token.END_BRACE, Token.SEMICOLON, Token.COMMA, Token.QUOTE]},
+  { token: Token.NUMBER, possibleNodes: [Token.COMMA, Token.SEMICOLON, Token.END_BRACE]},
+  { token: Token.BOOLEAN, possibleNodes: [Token.SEMICOLON, Token.COMMA]},
+  { token: Token.CLASS, possibleNodes: [Token.STRING, Token.START_BRACE]}
 ];
 @Injectable({
   providedIn: 'root'
@@ -40,13 +40,14 @@ export class ParserService {
    * Main method execution function for ParserService
    */
   async generateAST(inputFile: string[]) {
-    const ast: ASTNode[] = [];
+    let ast: ASTNode[] = [];
     for (const inputString of inputFile) {
       const grammar = < ASTNode > await this.parser(inputString);
       if (!isNullOrUndefined(grammar.value)) {
         ast.push(grammar);
       }
     }
+    ast = this.findErrors(ast);
     return ast;
   }
 
@@ -61,9 +62,9 @@ export class ParserService {
   async parser(inputString: string) {
     const lexemes = this.splitString(inputString);
     let index = 0;
-    const containingTypes: Lexeme[] = [];
+    const containingTypes: Token[] = [];
     const parseType = () => {
-      const newNode = new ASTNode(lexemes[index], Lexeme.DEFAULT, []);
+      const newNode = new ASTNode(lexemes[index], Token.DEFAULT, []);
       for (const tokenRegex of tokensRegex) {
         if (tokenRegex.regex.test(lexemes[index])) {
           newNode.type = tokenRegex.tokenType;
@@ -104,19 +105,31 @@ export class ParserService {
 
   findErrors(missionAST: ASTNode[]) {
     for (const astNode of missionAST) {
-      let filtered;
-      let possibleNodes;
-      for (const type of astNode.containingTypes) {
-        filtered = symbolTable.filter(symTab => symTab.token === type);
-        possibleNodes = filtered.map(x => x.possibleNodes);
-        if (possibleNodes[0].includes(type)) {
-          // console.log('Found: ' + type.toString());
-          break;
-        } else {
-          console.log('Found: ' + type.toString() + ' Wanted: ' + possibleNodes[0].join());
+      for (let index = 0; index < astNode.containingTypes.length; index++) {
+        const next = () => astNode.containingTypes[(index + 1)];
+        const current = () => astNode.containingTypes[index];
+        const possibleTypes = this.getPossibleTokens(current());
+        if (!isNullOrUndefined(possibleTypes) && !isNullOrUndefined(next())) {
+          if (!possibleTypes.includes(next())) {
+            console.log('current: ' + current().toString());
+            console.log('next: ' + next().toString());
+            console.log('Wanted: ' + possibleTypes.join());
+            console.log(' ');
+            astNode.hasError = true;
+          }
         }
       }
     }
+    return missionAST;
+  }
+
+  getPossibleTokens(type: Token) {
+    for (const symbol of symbolTable) {
+      if (symbol.token === type) {
+        return symbol.possibleNodes;
+      }
+    }
+    return undefined;
   }
 
   /**

@@ -130,7 +130,6 @@ export class HomeComponent implements OnInit, OnDestroy {
     this.parserShared.getMissionAST().subscribe(ast => {
       missionAST = ast as ASTNode[];
     });
-    this.parser.findErrors(missionAST);
   }
 
   /**

@@ -1,13 +1,13 @@
 export class ASTNode {
   value: string;
-  type: Lexeme;
+  type: Token;
   data: ASTNode[];
   hasError: boolean;
-  containingTypes: Lexeme[];
+  containingTypes: Token[];
 
   constructor(
     _value: string,
-    _type: Lexeme,
+    _type: Token,
     _data: ASTNode[]
   ) {
     this.value = _value;
@@ -16,7 +16,7 @@ export class ASTNode {
   }
 }
 
-export enum Lexeme {
+export enum Token {
   DEFAULT = 'DEFAULT',
   WHITESPACE = 'WHITESPACE',
   START_BRACE = 'START_BRACE',

@@ -7,4 +7,4 @@
   <button class="file" (click)="confirmSelection()">Confirm</button>
 </div>
 <app-dialogue [dialogueText]="dialogueError"></app-dialogue>
-<p *ngFor="let branch of getMissionAST()">{{parser.traverseNodeValue(branch)}}</p>
+<p *ngFor="let branch of getMissionAST()" [ngStyle]="{'background-color':branch.hasError ? 'red' : 'transparent' }">{{parser.traverseNodeValue(branch)}}</p>
