@@ -110,7 +110,7 @@ export class HomeComponent implements OnInit, OnDestroy {
     missionAST = await this.parser.generateAST(this.fileReaderString.split('\r\n'));
     this.parserShared.setMissionAST(missionAST);
     const t1 = performance.now();
-    console.log((t1 - t0) + 'ms');
+    console.log('Tree generated in: ' + (t1 - t0) + 'ms');
 
     this.fileReaderString = undefined;
     this.isComplete = true;
@@ -122,7 +122,7 @@ export class HomeComponent implements OnInit, OnDestroy {
     const t2 = performance.now();
     this.startErrorFinding();
     const t3 = performance.now();
-    console.log((t3 - t2) + 'ms');
+    console.log('Errors generated in: ' + (t3 - t2) + 'ms');
   }
 
   async startErrorFinding() {
@@ -130,6 +130,7 @@ export class HomeComponent implements OnInit, OnDestroy {
     this.parserShared.getMissionAST().subscribe(ast => {
       missionAST = ast as ASTNode[];
     });
+    this.parser.findErrors(missionAST);
   }
 
   /**

@@ -10,26 +10,12 @@ const tokensRegex = [
   { regex: /"/, tokenType: Token.QUOTE },
   { regex: /=/, tokenType: Token.EQUALS },
   { regex: /{/, tokenType: Token.START_BRACE },
-  { regex: /[\+-]?(?:0|[1-9]\d*)(?:\.\d*)?(?:[eE][+\-]?\d+)?/, tokenType: Token.NUMBER },
+  { regex: /[\+\-]?(?:0|[1-9]\d*)(?:\.\d*)?(?:[eE][\+\-]?\d+)?/, tokenType: Token.NUMBER },
   { regex: /}/, tokenType: Token.END_BRACE },
   { regex: /,/, tokenType: Token.COMMA },
   { regex: /^(?!class)([a-zA-Z]+)/, tokenType: Token.STRING },
   { regex: /class/, tokenType: Token.CLASS },
   { regex: /;/, tokenType: Token.SEMICOLON }
-];
-const symbolTable = [
-  { token: Token.STRING, possibleNodes: [Token.EQUALS, Token.START_SQUARE_BRACE, Token.QUOTE]},
-  { token: Token.EQUALS, possibleNodes: [Token.STRING, Token.START_BRACE, Token.QUOTE, Token.NUMBER, Token.BOOLEAN]},
-  { token: Token.START_BRACE, possibleNodes: [Token.STRING, Token.END_BRACE, Token.QUOTE, Token.NUMBER, Token.BOOLEAN, Token.CLASS]},
-  { token: Token.END_BRACE, possibleNodes: [Token.SEMICOLON]},
-  { token: Token.START_SQUARE_BRACE, possibleNodes: [Token.END_SQUARE_BRACE]},
-  { token: Token.END_SQUARE_BRACE, possibleNodes: [Token.EQUALS]},
-  { token: Token.SEMICOLON, possibleNodes: [Token.STRING, Token.CLASS]},
-  { token: Token.COMMA, possibleNodes: [Token.QUOTE, Token.NUMBER, Token.BOOLEAN]},
-  { token: Token.QUOTE, possibleNodes: [Token.STRING, Token.END_BRACE, Token.SEMICOLON, Token.COMMA, Token.QUOTE]},
-  { token: Token.NUMBER, possibleNodes: [Token.COMMA, Token.SEMICOLON, Token.END_BRACE]},
-  { token: Token.BOOLEAN, possibleNodes: [Token.SEMICOLON, Token.COMMA]},
-  { token: Token.CLASS, possibleNodes: [Token.STRING, Token.START_BRACE]}
 ];
 @Injectable({
   providedIn: 'root'
@@ -40,14 +26,13 @@ export class ParserService {
    * Main method execution function for ParserService
    */
   async generateAST(inputFile: string[]) {
-    let ast: ASTNode[] = [];
+    const ast: ASTNode[] = [];
     for (const inputString of inputFile) {
       const grammar = < ASTNode > await this.parser(inputString);
       if (!isNullOrUndefined(grammar.value)) {
         ast.push(grammar);
       }
     }
-    ast = this.findErrors(ast);
     return ast;
   }
 
@@ -104,32 +89,18 @@ export class ParserService {
   }
 
   findErrors(missionAST: ASTNode[]) {
-    for (const astNode of missionAST) {
-      for (let index = 0; index < astNode.containingTypes.length; index++) {
-        const next = () => astNode.containingTypes[(index + 1)];
-        const current = () => astNode.containingTypes[index];
-        const possibleTypes = this.getPossibleTokens(current());
-        if (!isNullOrUndefined(possibleTypes) && !isNullOrUndefined(next())) {
-          if (!possibleTypes.includes(next())) {
-            console.log('current: ' + current().toString());
-            console.log('next: ' + next().toString());
-            console.log('Wanted: ' + possibleTypes.join());
-            console.log(' ');
-            astNode.hasError = true;
+    for (const node of missionAST) {
+      const first = node.containingTypes[0];
+      const last = node.containingTypes[(node.containingTypes.length - 1)];
+      if (first !== Token.CLASS) {
+        if (last !== Token.START_BRACE) {
+          if (last !== Token.SEMICOLON) {
+            node.hasError = true;
           }
         }
       }
     }
     return missionAST;
-  }
-
-  getPossibleTokens(type: Token) {
-    for (const symbol of symbolTable) {
-      if (symbol.token === type) {
-        return symbol.possibleNodes;
-      }
-    }
-    return undefined;
   }
 
   /**
@@ -142,7 +113,7 @@ export class ParserService {
    * https://stackoverflow.com/a/12001989 [Online] Accessed 23rd November 2018
    */
   splitString(inputString: string) {
-    return inputString.split(/(?=[ \s\t\n\r\[\]"={},;]+)/g).map(str => str.trim()).filter(str => str.length);
+    return inputString.split(/(?=[ \s\t\n\r\[\]\"\=\{\}\,\;]+)/g).map(str => str.trim()).filter(str => str.length);
   }
 
   /**
