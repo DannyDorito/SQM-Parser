@@ -21,11 +21,19 @@ export class FunctionsComponent {
     this.parserShared.getFileName().subscribe(name => {
       fileName = name as string;
     });
-    let missionAST;
-    this.parserShared.getMissionAST().subscribe(ast => {
-      missionAST = ast as ASTNode[];
-    });
-    this.saver.exportSQM(fileName, missionAST);
+    if (fileName !== '') {
+      let missionAST;
+      this.parserShared.getMissionAST().subscribe(ast => {
+        missionAST = ast as ASTNode[];
+      });
+      if (missionAST.length > 0) {
+        this.saver.exportSQM(fileName, missionAST);
+      } else {
+        // TODO: Error
+      }
+    } else {
+      // TODO: Error
+    }
   }
 
   /**
@@ -37,7 +45,11 @@ export class FunctionsComponent {
     this.parserShared.getMissionAST().subscribe(ast => {
       missionAST = ast as ASTNode[];
     });
-    this.saver.saveSQM(missionAST);
+    if (missionAST.length > 0) {
+      this.saver.saveSQM(missionAST);
+    } else {
+      // TODO: Error
+    }
   }
 
   /**
@@ -56,15 +68,23 @@ export class FunctionsComponent {
     this.parserShared.getMissionAST().subscribe(ast => {
       missionAST = ast as ASTNode[];
     });
-    const addOns = this.getIndex('addOns', missionAST, 0);
-    if (!isNullOrUndefined(addOns)) {
-      missionAST.splice(addOns, this.getIndex('}', missionAST, addOns));
+    if (missionAST.length > 0) {
+      const addOns = this.getIndex('addOns', missionAST, 0);
+      if (!isNullOrUndefined(addOns)) {
+        missionAST.splice(addOns, this.getIndex('}', missionAST, addOns));
+      } else {
+        // TODO: Error
+      }
+      const addOnsAutoIndex = this.getIndex('addOnsAuto', missionAST, 0);
+      if (!isNullOrUndefined(addOnsAutoIndex)) {
+        missionAST.splice(addOnsAutoIndex, this.getIndex('}', missionAST, addOnsAutoIndex));
+      } else {
+        // TODO: Error
+      }
+      this.parserShared.setMissionAST(missionAST);
+    } else {
+      // TODO: Error
     }
-    const addOnsAutoIndex = this.getIndex('addOnsAuto', missionAST, 0);
-    if (!isNullOrUndefined(addOnsAutoIndex)) {
-      missionAST.splice(addOnsAutoIndex, this.getIndex('}', missionAST, addOnsAutoIndex));
-    }
-    this.parserShared.setMissionAST(missionAST);
   }
 
   /**
