@@ -14,6 +14,20 @@ export class ASTNode {
     this.type = _type;
     this.data = _data;
   }
+
+  /**
+   * Append object to end of ASTMission.data
+   * Based on:
+   * https://stackoverflow.com/a/1693066 [Online] Accessed 12th November 2018
+   */
+  append(nodeToAppend, depth: number) {
+    if (depth > 0) {
+      this.append(nodeToAppend, (depth - 1));
+    } else {
+      this.data.push(nodeToAppend);
+    }
+    return this;
+  }
 }
 
 export enum Token {
