@@ -4,7 +4,6 @@ import { ASTNode, Token } from '../shared/ast';
 
 const tokensRegex = [
   { regex: /true|false/, tokenType: Token.BOOLEAN },
-  { regex: /[ \s\t\n\r]+/, tokenType: Token.WHITESPACE },
   { regex: /\[/, tokenType: Token.START_SQUARE_BRACE },
   { regex: /]/, tokenType: Token.END_SQUARE_BRACE },
   { regex: /"/, tokenType: Token.QUOTE },
