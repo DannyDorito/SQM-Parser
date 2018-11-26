@@ -97,7 +97,7 @@ export class ParserService {
       if (first !== Token.CLASS) {
         if (last !== Token.START_BRACE && last !== Token.COMMA) {
           if (last !== Token.SEMICOLON && missionAST[nodeIndex].containingTypes[1] !== Token.START_SQUARE_BRACE) {
-            missionAST[nodeIndex].error = 'Missing: ' + Token.SEMICOLON + ': ' + nodeIndex + ',' + missionAST[nodeIndex].containingTypes.length + '!'
+            missionAST[nodeIndex].error = 'Missing: ' + Token.SEMICOLON + ': ' + nodeIndex + ',' + missionAST[nodeIndex].containingTypes.length + '!';
           }
         }
       } else {
