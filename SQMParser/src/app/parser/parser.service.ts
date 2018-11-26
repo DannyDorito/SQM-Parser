@@ -95,9 +95,9 @@ export class ParserService {
       const first = missionAST[nodeIndex].containingTypes[0];
       const last = missionAST[nodeIndex].containingTypes[(missionAST[nodeIndex].containingTypes.length - 1)];
       if (first !== Token.CLASS) {
-        if (last !== Token.START_BRACE) {
-          if (last !== Token.SEMICOLON) {
-            missionAST[nodeIndex].error = 'Missing: ' + Token.SEMICOLON + ': ' + nodeIndex + ',' + missionAST[nodeIndex].containingTypes.length + '!';
+        if (last !== Token.START_BRACE && last !== Token.COMMA) {
+          if (last !== Token.SEMICOLON && missionAST[nodeIndex].containingTypes[1] !== Token.START_SQUARE_BRACE) {
+            missionAST[nodeIndex].error = 'Missing: ' + Token.SEMICOLON + ': ' + nodeIndex + ',' + missionAST[nodeIndex].containingTypes.length + '!'
           }
         }
       } else {
@@ -106,6 +106,10 @@ export class ParserService {
             missionAST[nodeIndex].error = 'Missing: ' + Token.START_BRACE + ' on line ' + (nodeIndex + 1) + '!';
           }
         }
+      }
+
+      if (missionAST[nodeIndex].containingTypes.includes(Token.DEFAULT)) {
+        missionAST[nodeIndex].error = 'Unrecognised Token';
       }
     }
     return missionAST;
