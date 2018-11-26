@@ -28,12 +28,12 @@ ul {
   padding-left: 2px;
 }
 
-li {
+.tooltip {
   position: relative;
   display: inline-block;
 }
 
-li, span {
+.tooltip .tooltiptext {
   width: 200px;
   visibility: hidden;
   background-color: #78866B;
@@ -45,7 +45,7 @@ li, span {
   transition: opacity 0.3s;
 }
 
-li, span::after {
+.tooltip .tooltiptext::after {
   content: "";
   position: absolute;
   bottom: 100%;
@@ -53,7 +53,7 @@ li, span::after {
   margin-left: -5px;
 }
 
-li:hover span {
+.tooltip:hover .tooltiptext {
   visibility: visible;
   opacity: 1;
 }
