@@ -8,4 +8,6 @@
 </div>
 <app-dialogue [dialogueText]="dialogueError"></app-dialogue>
 <!-- Based on: https://angular.io/api/common/NgStyle [Online] Accessed 24th November 2018 -->
-<p *ngFor="let node of getMissionAST()" [ngStyle]="{ 'background-color' : node.hasError ? 'red' : 'transparent'}">{{parser.traverseNodeValue(node)}}</p>
+<ul *ngFor="let node of getMissionAST()">
+  <li [ngStyle]="{ 'background-color' : node.hasError ? 'red' : 'transparent'}">{{parser.traverseNodeValue(node)}}</li>
+</ul>
