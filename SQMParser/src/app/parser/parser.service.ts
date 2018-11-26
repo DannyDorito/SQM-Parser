@@ -1,9 +1,10 @@
 import { Injectable } from '@angular/core';
 import { isNullOrUndefined } from 'util';
-import { ASTNode, Token, TerminalNode } from '../shared/ast';
+import { ASTNode, Token } from '../shared/ast';
 
 const tokensRegex = [
   { regex: /true|false/, tokenType: Token.BOOLEAN },
+  { regex: /[ \s\t\n\r]+/, tokenType: Token.WHITESPACE },
   { regex: /\[/, tokenType: Token.START_SQUARE_BRACE },
   { regex: /]/, tokenType: Token.END_SQUARE_BRACE },
   { regex: /"/, tokenType: Token.QUOTE },
@@ -65,23 +66,6 @@ export class ParserService {
     const node = parseType();
     node.containingTypes = containingTypes;
     return node;
-  }
-
-  newParser(inputString: string) {
-    const tokens = this.splitString(inputString);
-    const lexemes: TerminalNode[] = [];
-    for (const token of tokens) {
-      lexemes.push(new TerminalNode(token, this.getLexemes(token)));
-    }
-  }
-
-  getLexemes(str: string) {
-    for (const tokenRegex of tokensRegex) {
-      if (tokenRegex.regex.test(str)) {
-        return tokenRegex.tokenType;
-      }
-    }
-    return undefined;
   }
 
   /**
