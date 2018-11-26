@@ -1,18 +1,18 @@
 export class ASTNode {
   value: string;
-  type: Token;
-  data: ASTNode;
+  nodeType: Token;
+  innerNode: ASTNode;
   hasError: boolean;
   containingTypes: Token[];
 
   constructor(
     _value: string,
-    _type: Token,
-    _data: ASTNode
+    _nodeType: Token,
+    _innerNode: ASTNode
   ) {
     this.value = _value;
-    this.type = _type;
-    this.data = _data;
+    this.nodeType = _nodeType;
+    this.innerNode = _innerNode;
   }
 
   /**
@@ -24,7 +24,7 @@ export class ASTNode {
     if (depth > 0) {
       this.append(nodeToAppend, (depth - 1));
     } else {
-      this.data = nodeToAppend;
+      this.innerNode = nodeToAppend;
     }
     return this;
   }

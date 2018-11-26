@@ -52,14 +52,14 @@ export class ParserService {
       const newNode = new ASTNode(lexemes[index], Token.DEFAULT, undefined);
       for (const tokenRegex of tokensRegex) {
         if (tokenRegex.regex.test(lexemes[index])) {
-          newNode.type = tokenRegex.tokenType;
+          newNode.nodeType = tokenRegex.tokenType;
           containingTypes.push(tokenRegex.tokenType);
           break;
         }
       }
       index++;
       while (lexemes[index]) {
-        newNode.data = parseType();
+        newNode.innerNode = parseType();
       }
       return newNode;
     };
@@ -81,7 +81,7 @@ export class ParserService {
     const traverse = (node: ASTNode) => {
       if (node) {
         str += node.value;
-        traverse(node.data);
+        traverse(node.innerNode);
       }
     };
     traverse(nodeToTraverse);

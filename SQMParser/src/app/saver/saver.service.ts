@@ -31,7 +31,7 @@ export class SaverService {
       const traverse = (node: ASTNode) => {
         if (node) {
           str += node.value;
-          traverse(node.data[0]);
+          traverse(node.innerNode[0]);
         }
       };
       traverse(branch);
