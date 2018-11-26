@@ -2,8 +2,8 @@ export class ASTNode {
   value: string;
   nodeType: Token;
   innerNode: ASTNode;
-  hasError: boolean;
   containingTypes: Token[];
+  error: string;
 
   constructor(
     _value: string,

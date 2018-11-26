@@ -89,13 +89,19 @@ export class ParserService {
   }
 
   findErrors(missionAST: ASTNode[]) {
-    for (const node of missionAST) {
-      const first = node.containingTypes[0];
-      const last = node.containingTypes[(node.containingTypes.length - 1)];
+    for (let nodeIndex = 0; nodeIndex < missionAST.length; nodeIndex++) {
+      const first = missionAST[nodeIndex].containingTypes[0];
+      const last = missionAST[nodeIndex].containingTypes[(missionAST[nodeIndex].containingTypes.length - 1)];
       if (first !== Token.CLASS) {
         if (last !== Token.START_BRACE) {
           if (last !== Token.SEMICOLON) {
-            node.hasError = true;
+            missionAST[nodeIndex].error = 'Missing: ' + Token.SEMICOLON + ' ,' + nodeIndex + ',' + missionAST[nodeIndex].containingTypes.length + '!';
+          }
+        }
+      } else {
+        if (!isNullOrUndefined(missionAST[(nodeIndex + 1)])) {
+          if (missionAST[(nodeIndex + 1)].containingTypes[0] !== Token.START_BRACE) {
+            missionAST[nodeIndex].error = 'Missing: ' + Token.START_BRACE + ' on line ' + (nodeIndex + 1) + '!';
           }
         }
       }
