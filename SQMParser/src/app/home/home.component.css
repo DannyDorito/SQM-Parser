@@ -20,6 +20,7 @@ button {
   background-color: #4c5940;
 }
 
+/* Based on: https://www.w3schools.com/howto/howto_css_tooltip.asp [Online] Accessed 26th November 2018*/
 ul {
   list-style-type: none;
   margin: 0;
