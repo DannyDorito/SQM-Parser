@@ -167,7 +167,6 @@ export class HomeComponent implements OnInit, OnDestroy {
   }
 
   /**
-   * TODO: Find less of a hacky way of doing this
    * Method that allows the ui to get the missionAST from the parserShared data service
    */
   getMissionAST() {

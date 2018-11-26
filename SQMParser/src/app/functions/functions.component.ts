@@ -17,15 +17,9 @@ export class FunctionsComponent {
    * Gets fileName and missionAST from ParserSharedService then exports it with SaverService
    */
   async exportSQM() {
-    let fileName;
-    this.parserShared.getFileName().subscribe(name => {
-      fileName = name as string;
-    });
+    const fileName = this.getFileName();
     if (fileName !== '') {
-      let missionAST;
-      this.parserShared.getMissionAST().subscribe(ast => {
-        missionAST = ast as ASTNode[];
-      });
+      const missionAST = this.getMissionAST();
       if (missionAST.length > 0) {
         this.saver.exportSQM(fileName, missionAST);
       } else {
@@ -41,10 +35,7 @@ export class FunctionsComponent {
    * Gets missionAST from ParserSharedService then exports it with SaverService
    */
   async saveSQM() {
-    let missionAST;
-    this.parserShared.getMissionAST().subscribe(ast => {
-      missionAST = ast as ASTNode[];
-    });
+    const missionAST = this.getMissionAST();
     if (missionAST.length > 0) {
       this.saver.saveSQM(missionAST);
     } else {
@@ -64,10 +55,7 @@ export class FunctionsComponent {
    * Removes addOns and addOnsAuto dependencies from mission ast
    */
   removeDependencies() {
-    let missionAST: ASTNode[];
-    this.parserShared.getMissionAST().subscribe(ast => {
-      missionAST = ast as ASTNode[];
-    });
+    const missionAST = this.getMissionAST();
     if (missionAST.length > 0) {
       const addOns = this.getIndex('addOns', missionAST, 0);
       if (!isNullOrUndefined(addOns)) {
@@ -97,5 +85,27 @@ export class FunctionsComponent {
       }
     }
     return undefined;
+  }
+
+  /**
+   * Get the missionAST from the parserShared data service
+   */
+  getMissionAST() {
+    let missionAST;
+    this.parserShared.getMissionAST().subscribe(ast => {
+      missionAST = ast as ASTNode[];
+    });
+    return missionAST;
+  }
+
+  /**
+   * Get the fileName from the parserShared data service
+   */
+  getFileName() {
+    let fileName;
+    this.parserShared.getFileName().subscribe(name => {
+      fileName = name as string;
+    });
+    return fileName;
   }
 }

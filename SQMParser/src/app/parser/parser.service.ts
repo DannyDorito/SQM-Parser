@@ -88,6 +88,9 @@ export class ParserService {
     return str;
   }
 
+  /**
+   * Find missing semicolons and braces in a given missionAST
+   */
   findErrors(missionAST: ASTNode[]) {
     for (let nodeIndex = 0; nodeIndex < missionAST.length; nodeIndex++) {
       const first = missionAST[nodeIndex].containingTypes[0];
