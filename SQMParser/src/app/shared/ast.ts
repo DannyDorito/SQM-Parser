@@ -30,9 +30,41 @@ export class ASTNode {
   }
 }
 
+export class ASTTree {
+  nodes: any[];
+  constructor(
+    _nodes: any
+  ) {
+    this.nodes = _nodes;
+  }
+}
+
+export class NonTerminalNode {
+  nodeType: Grammar;
+  innerNodes: any[];
+  constructor (
+    _nodeType: Grammar,
+    _innerNodes: any[]
+  ) {
+    this.nodeType = _nodeType;
+    this.innerNodes = _innerNodes;
+  }
+}
+
+export class TerminalNode {
+  value: string;
+  nodeType: Token;
+  constructor(
+    _value: string,
+    _nodeType: Token
+  ) {
+    this.value = _value;
+    this.nodeType = _nodeType;
+  }
+}
+
 export enum Token {
   DEFAULT = 'DEFAULT',
-  WHITESPACE = 'WHITESPACE',
   START_BRACE = 'START_BRACE',
   END_BRACE = 'END_BRACE',
   START_SQUARE_BRACE = 'START_SQUARE_BRACE',
@@ -45,4 +77,17 @@ export enum Token {
   BOOLEAN = 'BOOLEAN',
   STRING = 'STRING',
   CLASS = 'CLASS'
+}
+
+export enum Grammar {
+  DEFAULT = 'DEFAULT',
+  STRING = 'STRING_VAR',
+  NUMBER = 'NUMBER_VAR',
+  BOOLEAN = 'BOOLEAN_VAR',
+  ARRAY = 'ARRAY',
+  CLASS = 'CLASS'
+}
+
+export enum GrammarRules {
+  STRING = Token.STRING + Token.EQUALS + Token.QUOTE + Token.STRING + Token.QUOTE + Token.SEMICOLON
 }
