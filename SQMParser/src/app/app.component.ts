@@ -2,11 +2,10 @@ import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { Subscription, timer } from 'rxjs';
 import { environment } from 'src/environments/environment.prod';
 import { isNullOrUndefined } from 'util';
-import { DialogueComponent } from './dialogue/dialogue.component';
+import { FunctionsComponent } from './functions/functions.component';
 import { ParserService } from './parser/parser.service';
 import { SaverService } from './saver/saver.service';
 import { ASTNode } from './shared/ast';
-import { ParserSharedService } from './parser/parsershared.service';
 
 @Component({
   selector: 'app-root',
@@ -15,7 +14,6 @@ import { ParserSharedService } from './parser/parsershared.service';
 })
 export class AppComponent implements OnInit, OnDestroy {
   fileReaderString: string;
-  fileName: string;
   isConfirmed = false;
   isLoading = false;
   isComplete = false;
@@ -25,9 +23,14 @@ export class AppComponent implements OnInit, OnDestroy {
   // TODO: Error dialogue
   // @ViewChild(DialogueComponent) dialogueError: string;
 
-  constructor(public parser: ParserService, private saver: SaverService, public parserShared: ParserSharedService) {}
+  @ViewChild(FunctionsComponent) missionAST: ASTNode[];
+  @ViewChild(FunctionsComponent) fileName: string;
+
+  constructor(public parser: ParserService, private saver: SaverService) {}
 
   ngOnInit() {
+    this.missionAST = [];
+
     // TODO: Error dialogue
     // this.dialogueError = '';
 
@@ -110,9 +113,7 @@ export class AppComponent implements OnInit, OnDestroy {
    */
   async startTreeCreation() {
     const t0 = performance.now();
-    let missionAST;
-    missionAST = await this.parser.generateAST(this.fileReaderString.split('\r\n'));
-    this.parserShared.setMissionAST(missionAST);
+    this.missionAST = await this.parser.generateAST(this.fileReaderString.split('\r\n'));
     const t1 = performance.now();
     console.log('Tree generated in: ' + (t1 - t0) + 'ms');
 
@@ -120,7 +121,7 @@ export class AppComponent implements OnInit, OnDestroy {
     this.isComplete = true;
 
     if (this.saver.getAutoSave()) {
-      this.saver.saveSQM(missionAST);
+      this.saver.saveSQM(this.missionAST);
     }
 
     const t2 = performance.now();
@@ -130,37 +131,21 @@ export class AppComponent implements OnInit, OnDestroy {
   }
 
   async startErrorFinding() {
-    let missionAST;
-    this.parserShared.getMissionAST().subscribe(ast => {
-      missionAST = ast as ASTNode[];
-    });
-    this.parser.findErrors(missionAST);
+    this.parser.findErrors(this.missionAST);
   }
 
   /**
    * Gets fileName and missionAST from ParserSharedService then exports it with SaverService
    */
   exportSQM() {
-    let fileName;
-    this.parserShared.getFileName().subscribe(name => {
-      fileName = name as string;
-    });
-    let missionAST;
-    this.parserShared.getMissionAST().subscribe(ast => {
-      missionAST = ast as ASTNode[];
-    });
-    this.saver.exportSQM(fileName, missionAST);
+    this.saver.exportSQM(this.fileName, this.missionAST);
   }
 
   /**
    * Gets missionAST from ParserSharedService then exports it with SaverService
    */
   saveSQM() {
-    let missionAST;
-    this.parserShared.getMissionAST().subscribe(ast => {
-      missionAST = ast as ASTNode[];
-    });
-    this.saver.saveSQM(missionAST);
+    this.saver.saveSQM(this.missionAST);
   }
 
   /**
@@ -168,16 +153,5 @@ export class AppComponent implements OnInit, OnDestroy {
    */
   clearSQM() {
     this.saver.clearSQM();
-  }
-
-  /**
-   * Method that allows the ui to get the missionAST from the parserShared data service
-   */
-  getMissionAST() {
-    let missionAST;
-    this.parserShared.getMissionAST().subscribe(ast => {
-      missionAST = ast as ASTNode[];
-    });
-    return missionAST;
   }
 }
