@@ -1,3 +1,13 @@
+button {
+  font-size: 28px;
+  margin-top: 10px;
+  background-color: #4c5940;
+}
+
+button:active {
+  background-color: #78866B;
+}
+
 .parent {
   display: flex;
   flex-direction: row;
@@ -5,11 +15,11 @@
 }
 
 .content {
-  width: 85%;
+  width: 90%;
 }
 
 .sidenav {
-  width: 15%;
+  width: 10%;
   min-width: 150px;
 }
 
@@ -33,11 +43,52 @@
   background-color: #4c5940;
 }
 
-button {
-  margin-top: 10px;
+.file {
+  font-size: 28px;
+  font-weight: 700;
+  background-color: #78866B;
+  padding: 5px;
+}
+
+.file:hover {
   background-color: #4c5940;
 }
 
-button:active {
+/* Based on: https://www.w3schools.com/howto/howto_css_tooltip.asp [Online] Accessed 26th November 2018*/
+ul {
+  list-style-type: none;
+  margin: 0;
+  padding-bottom: 2px;
+  text-align: left;
+  padding-left: 2px;
+}
+
+.tooltip {
+  position: relative;
+  display: inline-block;
+}
+
+.tooltip .tooltiptext {
+  width: 200px;
+  visibility: hidden;
   background-color: #78866B;
+  color: black;
+  text-align: center;
+  position: absolute;
+  z-index: 1;
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+
+.tooltip .tooltiptext::after {
+  content: "";
+  position: absolute;
+  bottom: 100%;
+  left: 50%;
+  margin-left: -5px;
+}
+
+.tooltip:hover .tooltiptext {
+  visibility: visible;
+  opacity: 1;
 }

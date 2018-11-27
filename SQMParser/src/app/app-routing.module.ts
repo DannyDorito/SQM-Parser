@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { AppComponent } from './app.component';
 import { FunctionsComponent } from './functions/functions.component';
-import { HomeComponent } from './home/home.component';
 import { NotFoundComponent } from './not-found/not-found.component';
 import { OptionsComponent } from './options/options.component';
 import { TestsComponent } from './tests/tests.component';
@@ -10,7 +10,7 @@ const routes: Routes = [
   { path: 'functions', component: FunctionsComponent },
   { path: 'options', component: OptionsComponent },
   { path: 'test', component: TestsComponent },
-  { path: '', component: HomeComponent },
+  { path: '', component: AppComponent },
   { path: '**', component: NotFoundComponent }
 ];
 @NgModule({
