@@ -14,7 +14,6 @@ import { ParserSharedService } from './parser/parsershared.service';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent implements OnInit, OnDestroy {
-  isOptions = false;
   fileReaderString: string;
   fileName: string;
   isConfirmed = false;

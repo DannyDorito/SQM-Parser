@@ -3,10 +3,8 @@
     <h1 class="unselectable sidenav-header">SQM Parser</h1>
     <div class="sidenav-content">
       <app-functions *ngIf="!isOptions"></app-functions>
-      <app-options *ngIf="isOptions"></app-options>
     </div>
     <div class="sidenav-footer">
-      <button (click)="isOptions = !isOptions">{{isOptions ? 'Functions' : 'Options'}}</button>
     </div>
   </div>
   <div class="content">
@@ -18,7 +16,7 @@
     <div class="middle" *ngIf="!isConfirmed && !isComplete && fileReaderString">
       <button class="file" (click)="confirmSelection()">Confirm</button>
     </div>
-    <app-dialogue [dialogueText]="dialogueError"></app-dialogue>
+    <!-- <app-dialogue [dialogueText]="dialogueError"></app-dialogue> -->
     <!-- Based on: https://angular.io/api/common/NgStyle [Online] Accessed 24th November 2018 -->
     <ul *ngFor="let node of getMissionAST()">
       <li class="tooltip" [ngStyle]="{ 'background' : node.error ? 'linear-gradient(to bottom, transparent 0, transparent 90%, #ff5572 80%, #ff5572 80%)' : 'transparent'}">

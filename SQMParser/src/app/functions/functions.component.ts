@@ -10,7 +10,34 @@ import { isNullOrUndefined } from 'util';
   styleUrls: ['./functions.component.css']
 })
 export class FunctionsComponent {
+  sqmAST: boolean;
   constructor(private saver: SaverService, private parserShared: ParserSharedService) {}
+
+    /**
+   * ASYNC
+   * Toggles AutoSave
+   */
+  async toggleAutoSave() {
+    this.sqmAST = !this.sqmAST;
+    if (this.sqmAST) {
+      this.saver.enableAutoSave();
+    } else if (!this.sqmAST) {
+      this.saver.disableAutoSave();
+    }
+  }
+
+  /**
+   * Gets the current AutoSave value from localStorage using saver service
+   */
+  getSQMValue() {
+    const sqmAST = this.saver.getAutoSave();
+    if (sqmAST === null) {
+      this.saver.disableAutoSave();
+      this.sqmAST = false;
+    } else {
+      this.sqmAST = Boolean(sqmAST);
+    }
+  }
 
   /**
    * ASYNC
