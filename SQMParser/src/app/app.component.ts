@@ -23,12 +23,14 @@ export class AppComponent implements OnInit, OnDestroy {
 
   timerSubscribe: Subscription;
 
-  @ViewChild(DialogueComponent) dialogueError: string;
+  // TODO: Error dialogue
+  // @ViewChild(DialogueComponent) dialogueError: string;
 
   constructor(public parser: ParserService, private saver: SaverService, public parserShared: ParserSharedService) {}
 
   ngOnInit() {
-    this.dialogueError = '';
+    // TODO: Error dialogue
+    // this.dialogueError = '';
 
     this.loadAutoSave();
 
@@ -69,7 +71,8 @@ export class AppComponent implements OnInit, OnDestroy {
   onFileChanged(fileChangeEvent: any) {
     this.fileName = fileChangeEvent.target.files[0].name;
     if (!this.saver.validName(this.fileName)) {
-      this.dialogueError = 'Error: ' + this.fileName + ' is invalid.';
+      // TODO: Error dialogue
+      // this.dialogueError = 'Error: ' + this.fileName + ' is invalid.';
     }
     const fileReader = new FileReader();
     fileReader.onload = () => {
@@ -78,6 +81,7 @@ export class AppComponent implements OnInit, OnDestroy {
     };
     fileReader.onerror = () => {
       this.isLoading = false;
+      // TODO: Error dialogue
       fileReader.abort();
     };
     fileReader.onprogress = () => {
