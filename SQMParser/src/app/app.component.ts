@@ -107,6 +107,10 @@ export class AppComponent implements OnInit, OnDestroy {
     }
   }
 
+  cancelSelection() {
+    this.fileReaderString = undefined;
+  }
+
   /**
    * ASYNC
    * Start AST tree creation
