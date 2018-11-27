@@ -14,16 +14,20 @@ h1 {
 button {
   background-color: #78866B;
   border: 0;
-  font-size: 18px;
+  font-size: 20px;
   font-family: inherit;
+  margin-top: 10px;
+  opacity: 0.7;
+  font-weight: 400;
+}
+
+button:hover {
+  opacity: 1;
+  text-decoration: underline;
 }
 
 button:focus {
   outline: none;
-}
-
-button:hover {
-  background-color: #4c5940;
 }
 
 p {
@@ -52,4 +56,3 @@ input {
   top: 50%;
   left: 50%;
 }
-

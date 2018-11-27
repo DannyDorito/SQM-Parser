@@ -1,13 +1,3 @@
-button {
-  font-size: 28px;
-  margin-top: 10px;
-  background-color: #4c5940;
-}
-
-button:active {
-  background-color: #78866B;
-}
-
 .parent {
   display: flex;
   flex-direction: row;
@@ -43,15 +33,17 @@ button:active {
   background-color: #4c5940;
 }
 
-.file {
+.input {
+  margin: 0;
   font-size: 28px;
   font-weight: 700;
   background-color: #78866B;
   padding: 5px;
+  opacity: 1;
 }
 
-.file:hover {
-  background-color: #4c5940;
+.input:hover {
+  text-decoration: underline;
 }
 
 /* Based on: https://www.w3schools.com/howto/howto_css_tooltip.asp [Online] Accessed 26th November 2018*/
