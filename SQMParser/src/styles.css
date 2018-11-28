@@ -2,28 +2,39 @@ body {
   margin: 0;
   font-family: 'Roboto', sans-serif;
   background-color: white;
-  height: 100vh;
+  height: 100;
   text-align: center;
 }
 
+div {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
 h1 {
-  text-align: center;
   margin: 0;
 }
 
 button {
   background-color: #78866B;
   border: 0;
-  font-size: 18px;
+  font-size: 20px;
   font-family: inherit;
+  margin-top: 10px;
+  opacity: 0.7;
+  transition: opacity 0.3s;
+  font-weight: 400;
+}
+
+button:hover {
+  opacity: 1;
+  text-decoration: underline;
+  transition: opacity 0.3s;
 }
 
 button:focus {
   outline: none;
-}
-
-button:hover {
-  background-color: #4c5940;
 }
 
 p {
@@ -46,10 +57,3 @@ input {
   -moz-user-select: none;
   -ms-user-select: none;
 }
-
-.middle {
-  position: fixed;
-  top: 50%;
-  left: 50%;
-}
-

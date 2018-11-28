@@ -1,43 +1,74 @@
-.parent {
-  display: flex;
-  flex-direction: row;
-  height: 100%;
+/* Based on: https://www.w3schools.com/howto/howto_css_tooltip.asp [Online] Accessed 26th November 2018*/
+ul {
+  list-style-type: none;
+  margin: 0;
+  padding-bottom: 2px;
+  text-align: left;
+  padding-left: 2px;
+}
+
+ul::selection,
+li::selection {
+  background: #4c5940;
+}
+
+.tooltip {
+  position: relative;
+  display: inline-block;
+}
+
+.tooltip .tooltiptext {
+  width: 200px;
+  visibility: hidden;
+  background-color: #78866B;
+  color: black;
+  text-align: center;
+  position: absolute;
+  z-index: 1;
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+
+.tooltip .tooltiptext::after {
+  content: "";
+  position: absolute;
+  bottom: 100%;
+  left: 50%;
+  margin-left: -5px;
+}
+
+.tooltip:hover .tooltiptext {
+  visibility: visible;
+  opacity: 1;
+}
+
+.input {
+  cursor: pointer;
+  font-size: 28px;
+  font-weight: 600;
+  background-color: #78866B;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  margin-left: 5px;
+  margin-right: 10px;
+  padding: 10px;
+  opacity: 1;
+}
+
+.input:hover {
+  text-decoration: underline;
+}
+
+.toolbar {
+  z-index: 1;
+  position: fixed;
+  top: 0;
+  width: 100vw;
+  background-color: #78866B;
+  justify-content: left;
+  margin: 0;
 }
 
 .content {
-  width: 85%;
-}
-
-.sidenav {
-  width: 15%;
-  min-width: 150px;
-}
-
-.sidenav-header {
-  height: 15%;
-  background-color: #4c5940;
-  text-align: center;
-}
-
-.sidenav-header h1 {
-  padding: 7.5%;
-}
-
-.sidenav-content {
-  height: 70%;
-  background-color: #78866B;
-}
-
-.sidenav-footer {
-  height: 15%;
-  background-color: #4c5940;
-}
-
-button {
-  margin-top: 10px;
-  background-color: #4c5940;
-}
-
-button:active {
-  background-color: #78866B;
+  margin-top: 40px;
 }

@@ -1,17 +1,23 @@
-<div class="parent">
-  <div class="sidenav">
-    <div class="sidenav-header">
-      <h1>SQM Parser</h1>
-    </div>
-    <div class="sidenav-content">
-      <app-functions *ngIf="!isOptions"></app-functions>
-      <app-options *ngIf="isOptions"></app-options>
-    </div>
-    <div class="sidenav-footer">
-      <button (click)="isOptions = !isOptions">{{isOptions ? 'Functions' : 'Options'}}</button>
-    </div>
+<div class="toolbar">
+  <h1 class="unselectable">SQM Parser</h1>
+  <app-functions [missionAST]="missionAST" [fileName]="fileName"></app-functions>
+</div>
+<div class="content">
+  <div *ngIf="!isConfirmed && !fileReaderString && !isComplete">
+    <input type="file" accept=".sqm" id="SQMselect" (change)="onFileChanged($event)">
+    <!-- Based on: https://www.academind.com/learn/angular/snippets/angular-image-upload-made-easy/ [Online] Accessed 9th October 2018-->
+    <label class="input unselectable" for="SQMselect">Upload a file!</label>
   </div>
-  <div class="content">
-    <router-outlet></router-outlet>
+  <div *ngIf="!isConfirmed && !isComplete && fileReaderString">
+    <button class="input" (click)="cancelSelection()">Cancel</button>
+    <button class="input" (click)="confirmSelection()">Confirm</button>
   </div>
 </div>
+<!-- <app-dialogue [dialogueText]="dialogueError"></app-dialogue> -->
+<!-- Based on: https://angular.io/api/common/NgStyle [Online] Accessed 24th November 2018 -->
+<ul *ngFor="let node of missionAST">
+  <li class="tooltip" [ngStyle]="{ 'background' : node.error ? 'linear-gradient(to bottom, transparent 0, transparent 90%, #ff5572 80%, #ff5572 80%)' : 'transparent'}">
+    {{parser.traverseNodeValue(node)}}
+    <span class="tooltiptext" *ngIf="node.error">{{node.error}}</span>
+  </li>
+</ul>

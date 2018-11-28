@@ -1,8 +1,7 @@
-import { Component } from '@angular/core';
-import { ParserSharedService } from '../parser/parsershared.service';
+import { Component, Input } from '@angular/core';
+import { isNullOrUndefined } from 'util';
 import { SaverService } from '../saver/saver.service';
 import { ASTNode } from '../shared/ast';
-import { isNullOrUndefined } from 'util';
 
 @Component({
   selector: 'app-functions',
@@ -10,18 +9,47 @@ import { isNullOrUndefined } from 'util';
   styleUrls: ['./functions.component.css']
 })
 export class FunctionsComponent {
-  constructor(private saver: SaverService, private parserShared: ParserSharedService) {}
+  sqmAST: boolean;
+
+  @Input() missionAST;
+  @Input() fileName;
+
+  constructor(private saver: SaverService) {}
+
+    /**
+   * ASYNC
+   * Toggles AutoSave
+   */
+  async toggleAutoSave() {
+    this.sqmAST = !this.sqmAST;
+    if (this.sqmAST) {
+      this.saver.enableAutoSave();
+    } else if (!this.sqmAST) {
+      this.saver.disableAutoSave();
+    }
+  }
+
+  /**
+   * Gets the current AutoSave value from localStorage using saver service
+   */
+  getSQMValue() {
+    const sqmAST = this.saver.getAutoSave();
+    if (sqmAST === null) {
+      this.saver.disableAutoSave();
+      this.sqmAST = false;
+    } else {
+      this.sqmAST = Boolean(sqmAST);
+    }
+  }
 
   /**
    * ASYNC
    * Gets fileName and missionAST from ParserSharedService then exports it with SaverService
    */
   async exportSQM() {
-    const fileName = this.getFileName();
-    if (fileName !== '') {
-      const missionAST = this.getMissionAST();
-      if (missionAST.length > 0) {
-        this.saver.exportSQM(fileName, missionAST);
+    if (this.fileName !== '') {
+      if (this.missionAST.length > 0) {
+        this.saver.exportSQM(this.fileName, this.missionAST);
       } else {
         // TODO: Error
       }
@@ -32,15 +60,10 @@ export class FunctionsComponent {
 
   /**
    * ASYNC
-   * Gets missionAST from ParserSharedService then exports it with SaverService
+   * Exports it with SaverService
    */
   async saveSQM() {
-    const missionAST = this.getMissionAST();
-    if (missionAST.length > 0) {
-      this.saver.saveSQM(missionAST);
-    } else {
-      // TODO: Error
-    }
+    this.saver.saveSQM(this.missionAST);
   }
 
   /**
@@ -55,7 +78,7 @@ export class FunctionsComponent {
    * Removes addOns and addOnsAuto dependencies from mission ast
    */
   removeDependencies() {
-    const missionAST = this.getMissionAST();
+    const missionAST = this.missionAST;
     if (missionAST.length > 0) {
       const addOns = this.getIndex('addOns', missionAST, 0);
       if (!isNullOrUndefined(addOns)) {
@@ -69,7 +92,7 @@ export class FunctionsComponent {
       } else {
         // TODO: Error
       }
-      this.parserShared.setMissionAST(missionAST);
+      this.missionAST = missionAST;
     } else {
       // TODO: Error
     }
@@ -85,27 +108,5 @@ export class FunctionsComponent {
       }
     }
     return undefined;
-  }
-
-  /**
-   * Get the missionAST from the parserShared data service
-   */
-  getMissionAST() {
-    let missionAST;
-    this.parserShared.getMissionAST().subscribe(ast => {
-      missionAST = ast as ASTNode[];
-    });
-    return missionAST;
-  }
-
-  /**
-   * Get the fileName from the parserShared data service
-   */
-  getFileName() {
-    let fileName;
-    this.parserShared.getFileName().subscribe(name => {
-      fileName = name as string;
-    });
-    return fileName;
   }
 }
