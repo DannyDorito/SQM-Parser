@@ -72,27 +72,29 @@ export class AppComponent implements OnInit, OnDestroy {
   onFileChanged(fileChangeEvent: any) {
     this.fileName = fileChangeEvent.target.files[0].name;
     if (!this.saver.validName(this.fileName)) {
-      this.dialogueError = 'Error: ' + this.fileName + ' is invalid!';
-    }
-    const fileReader = new FileReader();
-    fileReader.onload = () => {
-      this.isLoading = true;
-      this.fileReaderString = fileReader.result as string;
-    };
-    fileReader.onerror = () => {
-      this.isLoading = false;
-      this.dialogueError = 'Error: Something went wrong reading file!';
-      fileReader.abort();
-    };
-    fileReader.onprogress = () => {
-      this.isLoading = true;
-    };
-    fileReader.onloadend = (data) => {
-      if (data.lengthComputable) {
+      this.dialogueError = 'Error: "' + this.fileName + '" is an invalid file!';
+      this.cancelSelection();
+    } else {
+      const fileReader = new FileReader();
+      fileReader.onload = () => {
+        this.isLoading = true;
+        this.fileReaderString = fileReader.result as string;
+      };
+      fileReader.onerror = () => {
         this.isLoading = false;
-      }
-    };
-    fileReader.readAsText(fileChangeEvent.target.files[0]);
+        this.dialogueError = 'Error: Something went wrong reading file!';
+        fileReader.abort();
+      };
+      fileReader.onprogress = () => {
+        this.isLoading = true;
+      };
+      fileReader.onloadend = (data) => {
+        if (data.lengthComputable) {
+          this.isLoading = false;
+        }
+      };
+      fileReader.readAsText(fileChangeEvent.target.files[0]);
+    }
   }
 
   /**
@@ -110,6 +112,7 @@ export class AppComponent implements OnInit, OnDestroy {
    */
   cancelSelection() {
     this.fileReaderString = undefined;
+    this.fileName = undefined;
   }
 
   /**
