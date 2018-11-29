@@ -13,10 +13,11 @@ export class FunctionsComponent {
 
   @Input() missionAST;
   @Input() fileName;
+  @Input() isComplete;
 
   constructor(private saver: SaverService) {}
 
-    /**
+  /**
    * ASYNC
    * Toggles AutoSave
    */

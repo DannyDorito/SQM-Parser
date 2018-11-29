@@ -1,6 +1,6 @@
 <div class="toolbar">
   <h1 class="unselectable">SQM Parser</h1>
-  <app-functions [missionAST]="missionAST" [fileName]="fileName"></app-functions>
+  <app-functions [isComplete]="isComplete" [missionAST]="missionAST" [fileName]="fileName"></app-functions>
 </div>
 <div class="content">
   <div *ngIf="!isConfirmed && !fileReaderString && !isComplete">

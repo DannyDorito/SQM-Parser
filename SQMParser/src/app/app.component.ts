@@ -16,7 +16,7 @@ export class AppComponent implements OnInit, OnDestroy {
   fileReaderString: string;
   isConfirmed = false;
   isLoading = false;
-  isComplete = false;
+  @ViewChild(FunctionsComponent) isComplete: boolean;
 
   timerSubscribe: Subscription;
 
@@ -30,6 +30,7 @@ export class AppComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.missionAST = [];
+    this.isComplete = false;
 
     // TODO: Error dialogue
     // this.dialogueError = '';
