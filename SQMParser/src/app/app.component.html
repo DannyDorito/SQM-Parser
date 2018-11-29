@@ -1,18 +1,23 @@
+<!-- Header Toolbar -->
 <div class="toolbar">
   <h1 class="unselectable">SQM Parser</h1>
+  <!-- Functions -->
   <app-functions [isComplete]="isComplete" [missionAST]="missionAST" [fileName]="fileName"></app-functions>
 </div>
 <div class="content">
+  <!-- Input -->
   <div *ngIf="!isConfirmed && !fileReaderString && !isComplete">
     <input type="file" accept=".sqm" id="SQMselect" (change)="onFileChanged($event)">
     <!-- Based on: https://www.academind.com/learn/angular/snippets/angular-image-upload-made-easy/ [Online] Accessed 9th October 2018-->
-    <label class="input unselectable" for="SQMselect">Upload a file!</label>
+    <label class="input unselectable" for="SQMselect">{{isDraggingFile ? 'Drop File To Upload!' : 'Click to Select File!'}}</label>
   </div>
+  <!-- Cancel & confirmation button -->
   <div *ngIf="!isConfirmed && !isComplete && fileReaderString">
     <button class="input" (click)="cancelSelection()">Cancel</button>
     <button class="input" (click)="confirmSelection()">Confirm</button>
   </div>
 </div>
+<!-- AST List -->
 <!-- Based on: https://angular.io/api/common/NgStyle [Online] Accessed 24th November 2018 -->
 <ul *ngFor="let node of missionAST">
   <li class="tooltip" [ngStyle]="{ 'background' : node.error ? 'linear-gradient(to bottom, transparent 0, transparent 90%, #ff5572 80%, #ff5572 80%)' : 'transparent'}">

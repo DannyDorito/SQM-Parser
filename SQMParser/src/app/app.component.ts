@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewChild, HostListener } from '@angular/core';
 import { Subscription, timer } from 'rxjs';
 import { environment } from 'src/environments/environment.prod';
 import { isNullOrUndefined } from 'util';
@@ -18,6 +18,7 @@ export class AppComponent implements OnInit, OnDestroy {
   isConfirmed = false;
   isLoading = false;
   @ViewChild(FunctionsComponent) isComplete: boolean;
+  isDraggingFile = false;
 
   timerSubscribe: Subscription;
 
@@ -75,25 +76,57 @@ export class AppComponent implements OnInit, OnDestroy {
       this.dialogueError = 'Error: "' + this.fileName + '" is an invalid file!';
       this.cancelSelection();
     } else {
-      const fileReader = new FileReader();
-      fileReader.onload = () => {
-        this.isLoading = true;
-        this.fileReaderString = fileReader.result as string;
-      };
-      fileReader.onerror = () => {
+      this.readFile(fileChangeEvent.target.files[0]);
+    }
+  }
+
+  /**
+   * Start reading the given file
+   */
+  readFile(file: File) {
+    const fileReader = new FileReader();
+    fileReader.onload = () => {
+      this.isLoading = true;
+      this.fileReaderString = fileReader.result as string;
+    };
+    fileReader.onerror = () => {
+      this.isLoading = false;
+      this.dialogueError = 'Error: Something went wrong reading file!';
+      fileReader.abort();
+    };
+    fileReader.onprogress = () => {
+      this.isLoading = true;
+    };
+    fileReader.onloadend = (data) => {
+      if (data.lengthComputable) {
         this.isLoading = false;
-        this.dialogueError = 'Error: Something went wrong reading file!';
-        fileReader.abort();
-      };
-      fileReader.onprogress = () => {
-        this.isLoading = true;
-      };
-      fileReader.onloadend = (data) => {
-        if (data.lengthComputable) {
-          this.isLoading = false;
-        }
-      };
-      fileReader.readAsText(fileChangeEvent.target.files[0]);
+      }
+    };
+    fileReader.readAsText(file);
+  }
+
+  @HostListener('dragover', ['$event']) onDragOver(dragEvent) {
+    dragEvent.preventDefault();
+    dragEvent.stopPropagation();
+    const files = dragEvent.dataTransfer.files;
+    if (files.length > 0) {
+      this.isDraggingFile = true;
+    }
+  }
+
+  @HostListener('drop', ['$event']) public onDrop(dropEvent) {
+    dropEvent.preventDefault();
+    dropEvent.stopPropagation();
+    const files = dropEvent.dataTransfer.files;
+    if (files.length > 0) {
+      this.isDraggingFile = false;
+      this.fileName = dropEvent.dataTransfer.files[0].name;
+      if (!this.saver.validName(this.fileName)) {
+        this.dialogueError = 'Error: "' + this.fileName + '" is an invalid file!';
+        this.cancelSelection();
+      } else {
+        this.readFile(dropEvent.dataTransfer.files[0]);
+      }
     }
   }
 
