@@ -9,6 +9,7 @@ import { DialogueComponent } from './dialogue/dialogue.component';
 import { FunctionsComponent } from './functions/functions.component';
 import { NotFoundComponent } from './not-found/not-found.component';
 import { TestsComponent } from './tests/tests.component';
+import { LoadingComponent } from './loading/loading.component';
 
 @NgModule({
   declarations: [
@@ -16,7 +17,8 @@ import { TestsComponent } from './tests/tests.component';
     NotFoundComponent,
     FunctionsComponent,
     DialogueComponent,
-    TestsComponent
+    TestsComponent,
+    LoadingComponent
   ],
   imports: [
     BrowserModule,

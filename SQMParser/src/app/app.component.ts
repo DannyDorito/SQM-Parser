@@ -7,6 +7,7 @@ import { FunctionsComponent } from './functions/functions.component';
 import { ParserService } from './parser/parser.service';
 import { SaverService } from './saver/saver.service';
 import { ASTNode } from './shared/ast';
+import { LoadingComponent } from './loading/loading.component';
 
 @Component({
   selector: 'app-root',
@@ -16,7 +17,7 @@ import { ASTNode } from './shared/ast';
 export class AppComponent implements OnInit, OnDestroy {
   fileReaderString: string;
   isConfirmed = false;
-  isLoading = false;
+  @ViewChild(LoadingComponent) isLoading: boolean;
   @ViewChild(FunctionsComponent) isComplete: boolean;
   isDraggingFile = false;
 
@@ -30,6 +31,7 @@ export class AppComponent implements OnInit, OnDestroy {
   constructor(public parser: ParserService, private saver: SaverService) {}
 
   ngOnInit() {
+    this.isLoading = false;
     this.missionAST = [];
     this.isComplete = false;
     this.dialogueError = '';
