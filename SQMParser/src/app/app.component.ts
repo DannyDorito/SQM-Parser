@@ -2,6 +2,7 @@ import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { Subscription, timer } from 'rxjs';
 import { environment } from 'src/environments/environment.prod';
 import { isNullOrUndefined } from 'util';
+import { DialogueComponent } from './dialogue/dialogue.component';
 import { FunctionsComponent } from './functions/functions.component';
 import { ParserService } from './parser/parser.service';
 import { SaverService } from './saver/saver.service';
@@ -20,8 +21,7 @@ export class AppComponent implements OnInit, OnDestroy {
 
   timerSubscribe: Subscription;
 
-  // TODO: Error dialogue
-  // @ViewChild(DialogueComponent) dialogueError: string;
+  @ViewChild(DialogueComponent) dialogueError: string;
 
   @ViewChild(FunctionsComponent) missionAST: ASTNode[];
   @ViewChild(FunctionsComponent) fileName: string;
@@ -31,9 +31,7 @@ export class AppComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.missionAST = [];
     this.isComplete = false;
-
-    // TODO: Error dialogue
-    // this.dialogueError = '';
+    this.dialogueError = '';
 
     this.loadAutoSave();
 
@@ -74,8 +72,7 @@ export class AppComponent implements OnInit, OnDestroy {
   onFileChanged(fileChangeEvent: any) {
     this.fileName = fileChangeEvent.target.files[0].name;
     if (!this.saver.validName(this.fileName)) {
-      // TODO: Error dialogue
-      // this.dialogueError = 'Error: ' + this.fileName + ' is invalid.';
+      this.dialogueError = 'Error: ' + this.fileName + ' is invalid!';
     }
     const fileReader = new FileReader();
     fileReader.onload = () => {
@@ -84,7 +81,7 @@ export class AppComponent implements OnInit, OnDestroy {
     };
     fileReader.onerror = () => {
       this.isLoading = false;
-      // TODO: Error dialogue
+      this.dialogueError = 'Error: Something went wrong reading file!';
       fileReader.abort();
     };
     fileReader.onprogress = () => {
@@ -108,6 +105,9 @@ export class AppComponent implements OnInit, OnDestroy {
     }
   }
 
+  /**
+   * Fired when user clicks the cancel button
+   */
   cancelSelection() {
     this.fileReaderString = undefined;
   }
@@ -118,7 +118,11 @@ export class AppComponent implements OnInit, OnDestroy {
    */
   async startTreeCreation() {
     const t0 = performance.now();
-    this.missionAST = await this.parser.generateAST(this.fileReaderString.split('\r\n'));
+    try {
+      this.missionAST = await this.parser.generateAST(this.fileReaderString.split('\r\n'));
+    } catch (exception) {
+      this.dialogueError = exception.toString();
+    }
     const t1 = performance.now();
     console.log('Tree generated in: ' + (t1 - t0) + 'ms');
 
@@ -130,7 +134,11 @@ export class AppComponent implements OnInit, OnDestroy {
     }
 
     const t2 = performance.now();
-    this.startErrorFinding();
+    try {
+      this.startErrorFinding();
+    } catch (exception) {
+      this.dialogueError = exception.toString();
+    }
     const t3 = performance.now();
     console.log('Errors generated in: ' + (t3 - t2) + 'ms');
   }

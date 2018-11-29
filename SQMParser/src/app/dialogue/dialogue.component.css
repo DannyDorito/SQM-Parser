@@ -3,9 +3,12 @@
   justify-content: center;
   align-items: center;
   flex-direction: column;
-  z-index: 1;
+  z-index: 2;
   background-color: white;
   overflow: auto;
+  min-width: 200px;
+  min-height: 75px;
+  text-align: center;
 }
 
 .background {
@@ -16,4 +19,9 @@
   left: 0;
   background-color: black;
   opacity: 0.75;
+}
+
+p {
+  margin: 0;
+  padding: 0;
 }

@@ -13,7 +13,6 @@
     <button class="input" (click)="confirmSelection()">Confirm</button>
   </div>
 </div>
-<!-- <app-dialogue [dialogueText]="dialogueError"></app-dialogue> -->
 <!-- Based on: https://angular.io/api/common/NgStyle [Online] Accessed 24th November 2018 -->
 <ul *ngFor="let node of missionAST">
   <li class="tooltip" [ngStyle]="{ 'background' : node.error ? 'linear-gradient(to bottom, transparent 0, transparent 90%, #ff5572 80%, #ff5572 80%)' : 'transparent'}">
@@ -21,3 +20,5 @@
     <span class="tooltiptext" *ngIf="node.error">{{node.error}}</span>
   </li>
 </ul>
+<!-- Message Box -->
+<app-dialogue [dialogueText]="dialogueError"></app-dialogue>
