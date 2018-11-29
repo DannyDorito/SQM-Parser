@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit, ViewChild, HostListener } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { Subscription, timer } from 'rxjs';
 import { environment } from 'src/environments/environment.prod';
 import { isNullOrUndefined } from 'util';
@@ -105,20 +105,37 @@ export class AppComponent implements OnInit, OnDestroy {
     fileReader.readAsText(file);
   }
 
-  @HostListener('dragover', ['$event']) onDragOver(dragEvent) {
+  /**
+   * Fired when user drags a file, when a file has been found, change the binding text for the label
+   * Based on:
+   * https://scotch.io/@minrock/how-to-create-a-drag-and-drop-file-directive-in-angular2-with-angular-cli-part-1 [Online] Accessed 29th November 2018
+   */
+  onDragOver(dragEvent) {
     dragEvent.preventDefault();
     dragEvent.stopPropagation();
-    const files = dragEvent.dataTransfer.files;
-    if (files.length > 0) {
-      this.isDraggingFile = true;
-    }
+    this.isDraggingFile = true;
   }
 
-  @HostListener('drop', ['$event']) public onDrop(dropEvent) {
+  /**
+   * Fired when the user stops dragging a file
+   * Based on:
+   * https://www.w3schools.com/tags/ev_ondragend.asp [Online] Accessed 29th November 2018
+   */
+  onDragEnd(dragEvent) {
+    dragEvent.preventDefault();
+    dragEvent.stopPropagation();
+    this.isDraggingFile = false;
+  }
+
+  /**
+   * Fired when drops a dragged file, when a file has been found, get the name of the file and attempt to read file
+   * Based on: https://scotch.io/@minrock/how-to-create-a-drag-and-drop-file-directive-in-angular2-with-angular-cli-part-1 [Online] Accessed 29th November 2018
+   */
+  onDrop(dropEvent) {
     dropEvent.preventDefault();
     dropEvent.stopPropagation();
     const files = dropEvent.dataTransfer.files;
-    if (files.length > 0) {
+    if (files.length === 1) {
       this.isDraggingFile = false;
       this.fileName = dropEvent.dataTransfer.files[0].name;
       if (!this.saver.validName(this.fileName)) {

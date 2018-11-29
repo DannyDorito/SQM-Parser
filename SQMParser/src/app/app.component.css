@@ -7,6 +7,12 @@ ul {
   padding-left: 2px;
 }
 
+.file-div {
+  margin: 0;
+  height: 90vh;
+  width: 100vw;
+}
+
 ul::selection,
 li::selection {
   background: #4c5940;

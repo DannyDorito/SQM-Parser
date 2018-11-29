@@ -97,13 +97,13 @@ export class ParserService {
       if (first !== Token.CLASS) {
         if (last !== Token.START_BRACE && last !== Token.COMMA) {
           if (last !== Token.SEMICOLON && missionAST[nodeIndex].containingTypes[1] !== Token.START_SQUARE_BRACE) {
-            missionAST[nodeIndex].error = 'Missing: ' + Token.SEMICOLON + ' on line ' + (nodeIndex + 1) + ',' + missionAST[nodeIndex].containingTypes.length + '!';
+            missionAST[nodeIndex].error = 'Missing: ' + Token.SEMICOLON + ' at the end of line ' + (nodeIndex + 1) + '!';
           }
         }
       } else {
         if (!isNullOrUndefined(missionAST[(nodeIndex + 1)])) {
           if (missionAST[(nodeIndex + 1)].containingTypes[0] !== Token.START_BRACE) {
-            missionAST[nodeIndex].error = 'Missing: ' + Token.START_BRACE + ' on line ' + (nodeIndex + 2) + '!';
+            missionAST[nodeIndex].error = 'Missing: ' + Token.START_BRACE + ' at the start of line ' + (nodeIndex + 2) + '!';
           }
         }
       }

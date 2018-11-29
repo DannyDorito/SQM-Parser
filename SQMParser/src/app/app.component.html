@@ -6,7 +6,7 @@
 </div>
 <div class="content">
   <!-- Input -->
-  <div *ngIf="!isConfirmed && !fileReaderString && !isComplete">
+  <div class="file-div" *ngIf="!isConfirmed && !fileReaderString && !isComplete" (drop)="onDrop($event)" (dragover)="onDragOver($event)" (dragleave)="onDragEnd($event)">
     <input type="file" accept=".sqm" id="SQMselect" (change)="onFileChanged($event)">
     <!-- Based on: https://www.academind.com/learn/angular/snippets/angular-image-upload-made-easy/ [Online] Accessed 9th October 2018-->
     <label class="input unselectable" for="SQMselect">{{isDraggingFile ? 'Drop File To Upload!' : 'Click to Select File!'}}</label>
