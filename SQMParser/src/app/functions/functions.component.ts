@@ -73,6 +73,7 @@ export class FunctionsComponent {
    */
   async clearSQM() {
     this.saver.clearSQM();
+    this.saver.clearFileName();
   }
 
   /**
