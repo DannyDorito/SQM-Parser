@@ -60,7 +60,7 @@ export class AppComponent implements OnInit, OnDestroy {
   }
 
   /**
-   * Before the component is destroyed, unsubscribe from the timer subscription
+   * Attempt to load the autosave from localStorage through the saver service
    */
   loadAutoSave() {
     const contents = this.saver.loadSQM();
