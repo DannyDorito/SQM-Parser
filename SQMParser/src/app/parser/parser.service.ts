@@ -126,18 +126,4 @@ export class ParserService {
   splitString(inputString: string) {
     return inputString.split(/(?=[ \s\t\n\r\[\]\"\=\{\}\,\;]+)/g).map(str => str.trim()).filter(str => str.length);
   }
-
-  /**
-   * Removes first occurrence of a string from a given string
-   * Based on:
-   * https://www.w3resource.com/javascript-exercises/javascript-string-exercise-26.php [Online] Accessed 12th November 2018
-   */
-  removeOccurrence(str: string, stringToFind: string) {
-    const strIndex = str.indexOf(stringToFind);
-    // if there is no occurrences
-    if (strIndex === -1) {
-      return str;
-    }
-    return str.slice(0, strIndex) + str.slice(strIndex + stringToFind.length);
-  }
 }
