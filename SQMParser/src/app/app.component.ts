@@ -1,14 +1,12 @@
 import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { Subscription, timer } from 'rxjs';
-import { environment } from 'src/environments/environment.prod';
+import { environment } from 'src/environments/environment';
 import { isNullOrUndefined } from 'util';
 import { DialogueComponent } from './dialogue/dialogue.component';
 import { FunctionsComponent } from './functions/functions.component';
 import { ParserService } from './parser/parser.service';
 import { SaverService } from './saver/saver.service';
 import { ASTNode } from './shared/ast';
-import { LoadingComponent } from './loading/loading.component';
-import { ContextMenuComponent } from './context-menu/context-menu.component';
 
 @Component({
   selector: 'app-root',
@@ -18,8 +16,8 @@ import { ContextMenuComponent } from './context-menu/context-menu.component';
 export class AppComponent implements OnInit, OnDestroy {
   fileReaderString: string;
   isConfirmed = false;
-  @ViewChild(LoadingComponent) isLoading: boolean;
-  @ViewChild(FunctionsComponent) isComplete: boolean;
+  isLoading: boolean;
+  isComplete: boolean;
   isDraggingFile = false;
 
   timerSubscribe: Subscription;
