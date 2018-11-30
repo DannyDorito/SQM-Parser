@@ -88,21 +88,12 @@ export class AppComponent implements OnInit, OnDestroy {
   readFile(file: File) {
     const fileReader = new FileReader();
     fileReader.onload = () => {
-      this.isLoading = true;
       this.fileReaderString = fileReader.result as string;
     };
     fileReader.onerror = () => {
       this.isLoading = false;
       this.dialogueError = 'Error: Something went wrong reading file!';
       fileReader.abort();
-    };
-    fileReader.onprogress = () => {
-      this.isLoading = true;
-    };
-    fileReader.onloadend = (data) => {
-      if (data.lengthComputable) {
-        this.isLoading = false;
-      }
     };
     fileReader.readAsText(file);
   }
@@ -155,6 +146,7 @@ export class AppComponent implements OnInit, OnDestroy {
   confirmSelection() {
     if (!isNullOrUndefined(this.fileReaderString)) {
       this.isConfirmed = true;
+      this.isLoading = true;
       this.startTreeCreation();
     }
   }
@@ -183,6 +175,7 @@ export class AppComponent implements OnInit, OnDestroy {
 
     this.fileReaderString = undefined;
     this.isComplete = true;
+    this.isLoading = false;
 
     if (this.saver.getAutoSave()) {
       this.saver.saveSQM(this.missionAST);
