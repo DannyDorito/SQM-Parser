@@ -39,7 +39,6 @@ export class ParserService {
    * ASYNC
    * Splits the input string into an array, tests Lexeme regex against it
    * if successful, set the type
-   * Based on:
    * Compilers: Principles, Techniques, and Tools (2nd Edition) pp.79-80. Accessed 21st November 2018
    * https://blog.mgechev.com/2017/09/16/developing-simple-interpreter-transpiler-compiler-tutorial/ [Online] Accessed 11th November 2018
    */
@@ -69,7 +68,6 @@ export class ParserService {
 
   /**
    * Traverse a passed ASTNode, return a string of the value of each node traversed
-   * Based on:
    * Compilers: Principles, Techniques, and Tools (2nd Edition) pp.56-68. Accessed 21st November 2018
    */
   traverseNodeValue(nodeToTraverse: ASTNode) {
@@ -118,7 +116,6 @@ export class ParserService {
    * Produces tokens to lexically analyse
    * Split the input string on terminals [ \s\t\n\r\[\]"={},;] globally with a positive lookahead
    * then map the results by trimming and filterting by length.
-   * Based on:
    * https://blog.mgechev.com/2017/09/16/developing-simple-interpreter-transpiler-compiler-tutorial/ [Online] Accessed 11th October 2018
    * https://stackoverflow.com/a/650037 [Online] Accessed 23rd November 2018
    * https://stackoverflow.com/a/12001989 [Online] Accessed 23rd November 2018

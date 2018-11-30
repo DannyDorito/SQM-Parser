@@ -17,7 +17,6 @@ export class ASTNode {
 
   /**
    * Append object to end of ASTMission.data
-   * Based on:
    * https://stackoverflow.com/a/1693066 [Online] Accessed 12th November 2018
    */
   append(nodeToAppend, depth: number) {

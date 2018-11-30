@@ -73,7 +73,6 @@ export class AppComponent implements OnInit, OnDestroy {
 
   /**
    * Fired when a file has been selected by the user's $event
-   * Based on:
    * https://www.academind.com/learn/angular/snippets/angular-image-upload-made-easy/ [Online] Accessed 9th October 2018
    * https://stackoverflow.com/a/27439524 [Online] Accessed 16th October 2018
    * https://www.typescriptlang.org/docs/handbook/declaration-files/do-s-and-don-ts.html [Online] Accessed 17th October 2018
@@ -106,10 +105,10 @@ export class AppComponent implements OnInit, OnDestroy {
 
   /**
    * Fired when user drags a file, when a file has been found, change the binding text for the label
-   * Based on:
    * https://scotch.io/@minrock/how-to-create-a-drag-and-drop-file-directive-in-angular2-with-angular-cli-part-1 [Online] Accessed 29th November 2018
+   * https://developer.mozilla.org/en-US/docs/Web/API/DragEvent [Online] Accessed 29th November 2018
    */
-  onDragOver(dragEvent) {
+  onDragOver(dragEvent: DragEvent) {
     dragEvent.preventDefault();
     dragEvent.stopPropagation();
     this.isDraggingFile = true;
@@ -117,10 +116,10 @@ export class AppComponent implements OnInit, OnDestroy {
 
   /**
    * Fired when the user stops dragging a file
-   * Based on:
    * https://www.w3schools.com/tags/ev_ondragend.asp [Online] Accessed 29th November 2018
+   * https://developer.mozilla.org/en-US/docs/Web/API/DragEvent [Online] Accessed 29th November 2018
    */
-  onDragEnd(dragEvent) {
+  onDragEnd(dragEvent: DragEvent) {
     dragEvent.preventDefault();
     dragEvent.stopPropagation();
     this.isDraggingFile = false;
@@ -128,9 +127,10 @@ export class AppComponent implements OnInit, OnDestroy {
 
   /**
    * Fired when drops a dragged file, when a file has been found, get the name of the file and attempt to read file
-   * Based on: https://scotch.io/@minrock/how-to-create-a-drag-and-drop-file-directive-in-angular2-with-angular-cli-part-1 [Online] Accessed 29th November 2018
+   * https://scotch.io/@minrock/how-to-create-a-drag-and-drop-file-directive-in-angular2-with-angular-cli-part-1 [Online] Accessed 29th November 2018
+   * https://developer.mozilla.org/en-US/docs/Web/API/DragEvent [Online] Accessed 29th November 2018
    */
-  onDrop(dropEvent) {
+  onDrop(dropEvent: DragEvent) {
     dropEvent.preventDefault();
     dropEvent.stopPropagation();
     const files = dropEvent.dataTransfer.files;
@@ -144,6 +144,17 @@ export class AppComponent implements OnInit, OnDestroy {
         this.readFile(dropEvent.dataTransfer.files[0]);
       }
     }
+  }
+
+  /**
+   * Fired when the user right clicks, enables and sets the x,y position of the context menu
+   * https://developer.mozilla.org/en-US/docs/Web/Events/contextmenu [Online] Accessed 30th November 2018
+   */
+  onRightClick(rightClickEvent: MouseEvent) {
+    this.showContextMenu = true;
+    this.contextMenuX = rightClickEvent.clientX;
+    this.contextMenuY = rightClickEvent.clientY;
+    rightClickEvent.preventDefault();
   }
 
   /**
@@ -220,12 +231,5 @@ export class AppComponent implements OnInit, OnDestroy {
    */
   clearSQM() {
     this.saver.clearSQM();
-  }
-
-  onRightClick(rightClickEvent: any) {
-    this.showContextMenu = true;
-    this.contextMenuX = rightClickEvent.clientX;
-    this.contextMenuY = rightClickEvent.clientY;
-    rightClickEvent.preventDefault();
   }
 }

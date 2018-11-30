@@ -8,7 +8,7 @@
   <!-- Input -->
   <div class="center-div" *ngIf="!isConfirmed && !fileReaderString && !isComplete" (drop)="onDrop($event)" (dragover)="onDragOver($event)" (dragleave)="onDragEnd($event)">
     <input type="file" accept=".sqm" id="SQMselect" (change)="onFileChanged($event)">
-    <!-- Based on: https://www.academind.com/learn/angular/snippets/angular-image-upload-made-easy/ [Online] Accessed 9th October 2018-->
+    <!-- https://www.academind.com/learn/angular/snippets/angular-image-upload-made-easy/ [Online] Accessed 9th October 2018-->
     <label class="input unselectable" for="SQMselect">{{isDraggingFile ? 'Drop File To Upload!' : 'Click to Select File!'}}</label>
   </div>
   <!-- Cancel & confirmation button -->
@@ -18,7 +18,8 @@
   </div>
 </div>
 <!-- AST List -->
-<!-- Based on: https://angular.io/api/common/NgStyle [Online] Accessed 24th November 2018 -->
+<!-- https://angular.io/api/common/NgStyle [Online] Accessed 24th November 2018 -->
+<!-- https://developer.mozilla.org/en-US/docs/Web/Events/contextmenu [Online] Accessed 30th November 2018 -->
 <ul *ngFor="let node of missionAST" (contextmenu)="onRightClick($event)" (click)="showContextMenu = false">
   <li class="tooltip" [ngStyle]="{ 'background' : node.error ? 'linear-gradient(to bottom, transparent 0, transparent 90%, #ff5572 80%, #ff5572 80%)' : 'transparent'}">
     {{parser.traverseNodeValue(node)}}

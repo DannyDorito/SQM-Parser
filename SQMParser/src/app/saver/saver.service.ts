@@ -9,7 +9,6 @@ import { ASTNode } from '../shared/ast';
 export class SaverService {
   /**
    * Saves given file to passed fileName, appends .sqm if it does not have it
-   * Based on:
    * https://github.com/eligrey/FileSaver.js [Online] Accessed 19th October 2018
    * https://github.com/eligrey/FileSaver.js/issues/308#issuecomment-286127364  [Online] Accessed 20th October 2018
    * https://github.com/eligrey/FileSaver.js/blob/master/README.md#supported-browsers [Online] Accessed 20th October 2018
