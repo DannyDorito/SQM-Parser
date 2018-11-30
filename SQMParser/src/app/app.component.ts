@@ -61,8 +61,12 @@ export class AppComponent implements OnInit, OnDestroy {
    * Attempt to load the autosave from localStorage through the saver service
    */
   loadAutoSave() {
-    const contents = this.saver.loadSQM();
     const autosave = this.saver.getAutoSave();
+    const fileName = this.saver.getFileName();
+    if (fileName !== null && autosave) {
+      this.fileName = fileName;
+    }
+    const contents = this.saver.loadSQM();
     if (contents !== null && autosave) {
       this.fileReaderString = contents;
       this.confirmSelection();

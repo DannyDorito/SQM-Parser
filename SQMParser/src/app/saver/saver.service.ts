@@ -82,6 +82,40 @@ export class SaverService {
   }
 
   /**
+   * ASYNC
+   * Saves filename to localStorage
+   */
+  saveFileName(fileName: string) {
+    if (window.localStorage) {
+      localStorage.setItem(environment.sqmFileName, fileName);
+    } else {
+      throw new Error('Error: This browser does not support LocalStorage, cannot clear SQM!');
+    }
+  }
+
+  /**
+   * Loads fileName from localStorage
+   */
+  getFileName() {
+    if (window.localStorage) {
+      return localStorage.getItem(environment.sqmFileName);
+    } else {
+      throw new Error('Error: This browser does not support LocalStorage, cannot clear SQM!');
+    }
+  }
+
+  /**
+   * Clears fileName from localStorage
+   */
+  clearFileName() {
+    if (window.localStorage) {
+      localStorage.removeItem(environment.sqmFileName);
+    } else {
+      throw new Error('Error: This browser does not support LocalStorage, cannot clear SQM!');
+    }
+  }
+
+  /**
    * Enables autosave, adds to localStorage
    */
   enableAutoSave() {
