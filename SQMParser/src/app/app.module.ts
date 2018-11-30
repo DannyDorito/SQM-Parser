@@ -10,6 +10,7 @@ import { FunctionsComponent } from './functions/functions.component';
 import { NotFoundComponent } from './not-found/not-found.component';
 import { TestsComponent } from './tests/tests.component';
 import { LoadingComponent } from './loading/loading.component';
+import { ContextMenuComponent } from './context-menu/context-menu.component';
 
 @NgModule({
   declarations: [
@@ -18,7 +19,8 @@ import { LoadingComponent } from './loading/loading.component';
     FunctionsComponent,
     DialogueComponent,
     TestsComponent,
-    LoadingComponent
+    LoadingComponent,
+    ContextMenuComponent
   ],
   imports: [
     BrowserModule,

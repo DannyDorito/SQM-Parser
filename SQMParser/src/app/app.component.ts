@@ -8,6 +8,7 @@ import { ParserService } from './parser/parser.service';
 import { SaverService } from './saver/saver.service';
 import { ASTNode } from './shared/ast';
 import { LoadingComponent } from './loading/loading.component';
+import { ContextMenuComponent } from './context-menu/context-menu.component';
 
 @Component({
   selector: 'app-root',
@@ -28,9 +29,14 @@ export class AppComponent implements OnInit, OnDestroy {
   @ViewChild(FunctionsComponent) missionAST: ASTNode[];
   @ViewChild(FunctionsComponent) fileName: string;
 
+  showContextMenu = false;
+  contextMenuX = 0;
+  contextMenuY = 0;
+
   constructor(public parser: ParserService, private saver: SaverService) {}
 
   ngOnInit() {
+    this.showContextMenu = false;
     this.isLoading = false;
     this.missionAST = [];
     this.isComplete = false;
@@ -214,5 +220,12 @@ export class AppComponent implements OnInit, OnDestroy {
    */
   clearSQM() {
     this.saver.clearSQM();
+  }
+
+  onRightClick(rightClickEvent: any) {
+    this.showContextMenu = true;
+    this.contextMenuX = rightClickEvent.clientX;
+    this.contextMenuY = rightClickEvent.clientY;
+    rightClickEvent.preventDefault();
   }
 }

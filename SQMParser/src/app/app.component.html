@@ -19,7 +19,7 @@
 </div>
 <!-- AST List -->
 <!-- Based on: https://angular.io/api/common/NgStyle [Online] Accessed 24th November 2018 -->
-<ul *ngFor="let node of missionAST">
+<ul *ngFor="let node of missionAST" (contextmenu)="onRightClick($event)" (click)="showContextMenu = false">
   <li class="tooltip" [ngStyle]="{ 'background' : node.error ? 'linear-gradient(to bottom, transparent 0, transparent 90%, #ff5572 80%, #ff5572 80%)' : 'transparent'}">
     {{parser.traverseNodeValue(node)}}
     <span class="tooltiptext" *ngIf="node.error">{{node.error}}</span>
@@ -29,3 +29,5 @@
 <app-dialogue [dialogueText]="dialogueError"></app-dialogue>
 <!-- Loading -->
 <app-loading [isLoading]="isLoading"></app-loading>
+<!-- Context Menu -->
+<app-context-menu [showContextMenu]="showContextMenu" [contextMenuX]="contextMenuX" [contextMenuY]="contextMenuY"></app-context-menu>
