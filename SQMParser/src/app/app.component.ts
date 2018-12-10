@@ -234,4 +234,8 @@ export class AppComponent implements OnInit, OnDestroy {
   clearSQM() {
     this.saver.clearSQM();
   }
+
+  onEdit(event) {
+    console.log(event);
+  }
 }

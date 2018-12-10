@@ -21,7 +21,7 @@
 <!-- https://angular.io/api/common/NgStyle [Online] Accessed 24th November 2018 -->
 <!-- https://developer.mozilla.org/en-US/docs/Web/Events/contextmenu [Online] Accessed 30th November 2018 -->
 <ul *ngFor="let node of missionAST" (contextmenu)="onRightClick($event)" (click)="showContextMenu = false">
-  <li class="tooltip" [ngStyle]="{ 'background' : node.error ? 'linear-gradient(to bottom, transparent 0, transparent 90%, #ff5572 80%, #ff5572 80%)' : 'transparent'}">
+  <li class="tooltip" (input)="onEdit($event)" contenteditable="true" [ngStyle]="{ 'background' : node.error ? 'linear-gradient(to bottom, transparent 0, transparent 90%, #ff5572 80%, #ff5572 80%)' : 'transparent'}">
     {{parser.traverseNodeValue(node)}}
     <span class="tooltiptext" *ngIf="node.error">{{node.error}}</span>
   </li>
