@@ -12,8 +12,7 @@ const tokensRegex = [
   { regex: /[\+\-]?(?:0|[1-9]\d*)(?:\.\d*)?(?:[eE][\+\-]?\d+)?/, tokenType: Token.NUMBER },
   { regex: /}/, tokenType: Token.END_BRACE },
   { regex: /,/, tokenType: Token.COMMA },
-  { regex: /^(?!class)([a-zA-Z]+)/, tokenType: Token.STRING },
-  { regex: /class/, tokenType: Token.CLASS },
+  { regex: /[a-zA-Z]+/, tokenType: Token.STRING },
   { regex: /;/, tokenType: Token.SEMICOLON }
 ];
 @Injectable({
@@ -50,8 +49,12 @@ export class ParserService {
       const newNode = new TreeNode(lexemes[index], Token.DEFAULT, undefined);
       for (const tokenRegex of tokensRegex) {
         if (tokenRegex.regex.test(lexemes[index])) {
-          newNode.nodeType = tokenRegex.tokenType;
-          containingTypes.push(tokenRegex.tokenType);
+          if (lexemes[index] === 'class') {
+            newNode.nodeType = Token.CLASS;
+          } else {
+            newNode.nodeType = tokenRegex.tokenType;
+          }
+          containingTypes.push(newNode.nodeType);
           break;
         }
       }
