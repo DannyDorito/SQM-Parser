@@ -1,14 +1,14 @@
-export class ASTNode {
+export class TreeNode {
   value: string;
   nodeType: Token;
-  innerNode: ASTNode;
+  innerNode: TreeNode;
   containingTypes: Token[];
   error: string;
 
   constructor(
     _value: string,
     _nodeType: Token,
-    _innerNode: ASTNode
+    _innerNode: TreeNode
   ) {
     this.value = _value;
     this.nodeType = _nodeType;
@@ -16,8 +16,7 @@ export class ASTNode {
   }
 
   /**
-   * Append object to end of ASTMission.data
-   * https://stackoverflow.com/a/1693066 [Online] Accessed 12th November 2018
+   * Append object to end of missionTree.innerNode
    */
   append(nodeToAppend, depth: number) {
     if (depth > 0) {

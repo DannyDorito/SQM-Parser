@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import * as FileSaver from 'file-saver';
 import { environment } from 'src/environments/environment.prod';
-import { ASTNode } from '../shared/ast';
+import { TreeNode } from '../shared/shared';
 
 @Injectable({
   providedIn: 'root'
@@ -10,24 +10,25 @@ export class SaverService {
   /**
    * Saves given file to passed fileName, appends .sqm if it does not have it
    * https://github.com/eligrey/FileSaver.js [Online] Accessed 19th October 2018
-   * https://github.com/eligrey/FileSaver.js/issues/308#issuecomment-286127364  [Online] Accessed 20th October 2018
-   * https://github.com/eligrey/FileSaver.js/blob/master/README.md#supported-browsers [Online] Accessed 20th October 2018
    */
-  exportSQM(fileName: string, missionAST: ASTNode[]) {
+  exportSQM(fileName: string, missionTree: TreeNode[]) {
     if (!this.validName(fileName)) {
       throw new Error('Error: ' + fileName + ' is invalid!');
     } else if (!!new Blob === false) {
       throw new Error('Error: File saving is not supported on this browser, please use a browser that supports Blobs!');
     } else {
-      FileSaver.saveAs(new Blob(this.astToStringArray(missionAST), { type: 'text/plain;charset=utf-8' }), fileName);
+      FileSaver.saveAs(new Blob(this.treeToStringArray(missionTree), { type: 'text/plain;charset=utf-8' }), fileName);
     }
   }
 
-  astToStringArray( missionAST: ASTNode[] ) {
+  /**
+   * Passed tree to string array
+   */
+  treeToStringArray( missionTree: TreeNode[] ) {
     const strArray: string[] = [];
-    for (const branch of missionAST) {
+    for (const branch of missionTree) {
       let str = '';
-      const traverse = (node: ASTNode) => {
+      const traverse = (node: TreeNode) => {
         if (node) {
           str += node.value;
           traverse(node.innerNode);
@@ -60,18 +61,18 @@ export class SaverService {
 
   /**
    * ASYNC
-   * Saves ASTMission to localStorage
+   * Saves missionTree to localStorage
    */
-  async saveSQM(missionAST: ASTNode[]) {
+  async saveSQM(missionTree: TreeNode[]) {
     if (window.localStorage) {
-      localStorage.setItem(environment.sqmLocalStorageName, this.astToStringArray(missionAST).join(''));
+      localStorage.setItem(environment.sqmLocalStorageName, this.treeToStringArray(missionTree).join(''));
     } else {
       throw new Error('Error: This browser does not support LocalStorage, cannot save SQM!');
     }
   }
 
   /**
-   * Clears ASTMission from localStorage
+   * Clears missionTree from localStorage
    */
   clearSQM() {
     if (window.localStorage) {

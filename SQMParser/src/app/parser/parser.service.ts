@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { isNullOrUndefined } from 'util';
-import { ASTNode, Token } from '../shared/ast';
+import { TreeNode, Token } from '../shared/shared';
 
 const tokensRegex = [
   { regex: /true|false/, tokenType: Token.BOOLEAN },
@@ -24,15 +24,15 @@ export class ParserService {
    * ASYNC
    * Main method execution function for ParserService
    */
-  async generateAST(inputFile: string[]) {
-    const ast: ASTNode[] = [];
+  async generateTree(inputFile: string[]) {
+    const tree: TreeNode[] = [];
     for (const inputString of inputFile) {
-      const grammar = < ASTNode > await this.parser(inputString);
+      const grammar = < TreeNode > await this.parser(inputString);
       if (!isNullOrUndefined(grammar.value)) {
-        ast.push(grammar);
+        tree.push(grammar);
       }
     }
-    return ast;
+    return tree;
   }
 
   /**
@@ -47,7 +47,7 @@ export class ParserService {
     let index = 0;
     const containingTypes: Token[] = [];
     const parseType = () => {
-      const newNode = new ASTNode(lexemes[index], Token.DEFAULT, undefined);
+      const newNode = new TreeNode(lexemes[index], Token.DEFAULT, undefined);
       for (const tokenRegex of tokensRegex) {
         if (tokenRegex.regex.test(lexemes[index])) {
           newNode.nodeType = tokenRegex.tokenType;
@@ -67,15 +67,15 @@ export class ParserService {
   }
 
   /**
-   * Traverse a passed ASTNode, return a string of the value of each node traversed
+   * Traverse a passed tree, return a string of the value of each node traversed
    * Compilers: Principles, Techniques, and Tools (2nd Edition) pp.56-68. Accessed 21st November 2018
    */
-  traverseNodeValue(nodeToTraverse: ASTNode) {
+  traverseNodeValue(nodeToTraverse: TreeNode) {
     if (isNullOrUndefined(nodeToTraverse)) {
       return '';
     }
     let str = '';
-    const traverse = (node: ASTNode) => {
+    const traverse = (node: TreeNode) => {
       if (node) {
         str += node.value;
         traverse(node.innerNode);
@@ -86,39 +86,36 @@ export class ParserService {
   }
 
   /**
-   * Find missing semicolons and braces in a given missionAST
+   * Find missing semicolons and braces in a given missionTree
    */
-  findErrors(missionAST: ASTNode[]) {
-    for (let nodeIndex = 0; nodeIndex < missionAST.length; nodeIndex++) {
-      const first = missionAST[nodeIndex].containingTypes[0];
-      const last = missionAST[nodeIndex].containingTypes[(missionAST[nodeIndex].containingTypes.length - 1)];
+  findErrors(missionTree: TreeNode[]) {
+    for (let nodeIndex = 0; nodeIndex < missionTree.length; nodeIndex++) {
+      const first = missionTree[nodeIndex].containingTypes[0];
+      const last = missionTree[nodeIndex].containingTypes[(missionTree[nodeIndex].containingTypes.length - 1)];
       if (first !== Token.CLASS) {
         if (last !== Token.START_BRACE && last !== Token.COMMA) {
-          if (last !== Token.SEMICOLON && missionAST[nodeIndex].containingTypes[1] !== Token.START_SQUARE_BRACE) {
-            missionAST[nodeIndex].error = 'Missing: ' + Token.SEMICOLON + ' at the end of line ' + (nodeIndex + 1) + '!';
+          if (last !== Token.SEMICOLON && missionTree[nodeIndex].containingTypes[1] !== Token.START_SQUARE_BRACE) {
+            missionTree[nodeIndex].error = 'Missing: ' + Token.SEMICOLON + ' at the end of line ' + (nodeIndex + 1) + '!';
           }
         }
       } else {
-        if (!isNullOrUndefined(missionAST[(nodeIndex + 1)])) {
-          if (missionAST[(nodeIndex + 1)].containingTypes[0] !== Token.START_BRACE) {
-            missionAST[nodeIndex].error = 'Missing: ' + Token.START_BRACE + ' at the start of line ' + (nodeIndex + 2) + '!';
+        if (!isNullOrUndefined(missionTree[(nodeIndex + 1)])) {
+          if (missionTree[(nodeIndex + 1)].containingTypes[0] !== Token.START_BRACE) {
+            missionTree[nodeIndex].error = 'Missing: ' + Token.START_BRACE + ' at the start of line ' + (nodeIndex + 2) + '!';
           }
         }
       }
-      if (missionAST[nodeIndex].containingTypes.includes(Token.DEFAULT)) {
-        missionAST[nodeIndex].error = 'Unrecognised Token on line ' + (nodeIndex + 1) + '!';
+      if (missionTree[nodeIndex].containingTypes.includes(Token.DEFAULT)) {
+        missionTree[nodeIndex].error = 'Unrecognised Token on line ' + (nodeIndex + 1) + '!';
       }
     }
-    return missionAST;
+    return missionTree;
   }
 
   /**
    * Produces tokens to lexically analyse
    * Split the input string on terminals [ \s\t\n\r\[\]"={},;] globally with a positive lookahead
    * then map the results by trimming and filterting by length.
-   * https://blog.mgechev.com/2017/09/16/developing-simple-interpreter-transpiler-compiler-tutorial/ [Online] Accessed 11th October 2018
-   * https://stackoverflow.com/a/650037 [Online] Accessed 23rd November 2018
-   * https://stackoverflow.com/a/12001989 [Online] Accessed 23rd November 2018
    */
   splitString(inputString: string) {
     return inputString.split(/(?=[ \s\t\n\r\[\]\"\=\{\}\,\;]+)/g).map(str => str.trim()).filter(str => str.length);

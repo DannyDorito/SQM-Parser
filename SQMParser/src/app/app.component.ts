@@ -6,7 +6,7 @@ import { DialogueComponent } from './dialogue/dialogue.component';
 import { FunctionsComponent } from './functions/functions.component';
 import { ParserService } from './parser/parser.service';
 import { SaverService } from './saver/saver.service';
-import { ASTNode } from './shared/ast';
+import { TreeNode } from './shared/shared';
 
 @Component({
   selector: 'app-root',
@@ -24,7 +24,7 @@ export class AppComponent implements OnInit, OnDestroy {
 
   @ViewChild(DialogueComponent) dialogueError: string;
 
-  @ViewChild(FunctionsComponent) missionAST: ASTNode[];
+  @ViewChild(FunctionsComponent) missionTree: TreeNode[];
   @ViewChild(FunctionsComponent) fileName: string;
 
   showContextMenu = false;
@@ -36,7 +36,7 @@ export class AppComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.showContextMenu = false;
     this.isLoading = false;
-    this.missionAST = [];
+    this.missionTree = [];
     this.isComplete = false;
     this.dialogueError = '';
 
@@ -180,12 +180,12 @@ export class AppComponent implements OnInit, OnDestroy {
 
   /**
    * ASYNC
-   * Start AST tree creation
+   * Start tree creation
    */
   async startTreeCreation() {
     const t0 = performance.now();
     try {
-      this.missionAST = await this.parser.generateAST(this.fileReaderString.split('\r\n'));
+      this.missionTree = await this.parser.generateTree(this.fileReaderString.split('\r\n'));
     } catch (exception) {
       this.dialogueError = exception.toString();
     }
@@ -197,7 +197,7 @@ export class AppComponent implements OnInit, OnDestroy {
     this.isLoading = false;
 
     if (this.saver.getAutoSave()) {
-      this.saver.saveSQM(this.missionAST);
+      this.saver.saveSQM(this.missionTree);
     }
 
     const t2 = performance.now();
@@ -211,21 +211,21 @@ export class AppComponent implements OnInit, OnDestroy {
   }
 
   async startErrorFinding() {
-    this.parser.findErrors(this.missionAST);
+    this.parser.findErrors(this.missionTree);
   }
 
   /**
-   * Gets fileName and missionAST from ParserSharedService then exports it with SaverService
+   * Gets fileName and missionTree from ParserSharedService then exports it with SaverService
    */
   exportSQM() {
-    this.saver.exportSQM(this.fileName, this.missionAST);
+    this.saver.exportSQM(this.fileName, this.missionTree);
   }
 
   /**
-   * Gets missionAST from ParserSharedService then exports it with SaverService
+   * Gets missionTree from ParserSharedService then exports it with SaverService
    */
   saveSQM() {
-    this.saver.saveSQM(this.missionAST);
+    this.saver.saveSQM(this.missionTree);
   }
 
   /**

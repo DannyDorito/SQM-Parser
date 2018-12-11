@@ -1,7 +1,7 @@
 import { Component, Input } from '@angular/core';
 import { isNullOrUndefined } from 'util';
 import { SaverService } from '../saver/saver.service';
-import { ASTNode } from '../shared/ast';
+import { TreeNode } from '../shared/shared';
 
 @Component({
   selector: 'app-functions',
@@ -11,7 +11,7 @@ import { ASTNode } from '../shared/ast';
 export class FunctionsComponent {
   sqmAST: boolean;
 
-  @Input() missionAST;
+  @Input() missionTree;
   @Input() fileName;
   @Input() isComplete;
 
@@ -49,8 +49,8 @@ export class FunctionsComponent {
    */
   async exportSQM() {
     if (this.fileName !== '') {
-      if (this.missionAST.length > 0) {
-        this.saver.exportSQM(this.fileName, this.missionAST);
+      if (this.missionTree.length > 0) {
+        this.saver.exportSQM(this.fileName, this.missionTree);
       } else {
         // TODO: Error
       }
@@ -64,7 +64,7 @@ export class FunctionsComponent {
    * Exports it with SaverService
    */
   async saveSQM() {
-    this.saver.saveSQM(this.missionAST);
+    this.saver.saveSQM(this.missionTree);
   }
 
   /**
@@ -80,7 +80,7 @@ export class FunctionsComponent {
    * Removes addOns and addOnsAuto dependencies from mission ast
    */
   removeDependencies() {
-    const missionAST = this.missionAST;
+    const missionAST = this.missionTree;
     if (missionAST.length > 0) {
       const addOns = this.getIndex('addOns', missionAST, 0);
       if (!isNullOrUndefined(addOns)) {
@@ -94,7 +94,7 @@ export class FunctionsComponent {
       } else {
         // TODO: Error
       }
-      this.missionAST = missionAST;
+      this.missionTree = missionAST;
     } else {
       // TODO: Error
     }
@@ -103,7 +103,7 @@ export class FunctionsComponent {
   /**
    * Get the index of an item from the missionAST tree
    */
-  getIndex(value: string, missionAST: ASTNode[], index: number) {
+  getIndex(value: string, missionAST: TreeNode[], index: number) {
     for (index < missionAST.length; index++;) {
       if (missionAST[index].value === value) {
         return index;
