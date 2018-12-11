@@ -49,7 +49,7 @@ export class ParserService {
       const newNode = new TreeNode(lexemes[index], Token.DEFAULT, undefined);
       for (const tokenRegex of tokensRegex) {
         if (tokenRegex.regex.test(lexemes[index])) {
-          if (lexemes[index].toLowerCase() === 'class') {
+          if (lexemes[index] === 'class') {
             newNode.nodeType = Token.CLASS;
           } else {
             newNode.nodeType = tokenRegex.tokenType;
