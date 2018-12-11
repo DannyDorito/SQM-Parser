@@ -39,7 +39,6 @@ export class ParserService {
    * Splits the input string into an array, tests Lexeme regex against it
    * if successful, set the type
    * Compilers: Principles, Techniques, and Tools (2nd Edition) pp.79-80. Accessed 21st November 2018
-   * https://blog.mgechev.com/2017/09/16/developing-simple-interpreter-transpiler-compiler-tutorial/ [Online] Accessed 11th November 2018
    */
   async parser(inputString: string) {
     const lexemes = this.splitString(inputString);
@@ -50,6 +49,7 @@ export class ParserService {
       for (const tokenRegex of tokensRegex) {
         if (tokenRegex.regex.test(lexemes[index])) {
           if (lexemes[index] === 'class') {
+            lexemes[index] += ' ';
             newNode.nodeType = Token.CLASS;
           } else {
             newNode.nodeType = tokenRegex.tokenType;
