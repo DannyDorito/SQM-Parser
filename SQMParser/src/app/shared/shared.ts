@@ -18,7 +18,7 @@ export class TreeNode {
   /**
    * Append object to end of missionTree.innerNode
    */
-  append(nodeToAppend, depth: number) {
+  append(nodeToAppend: TreeNode, depth: number) {
     if (depth > 0) {
       this.append(nodeToAppend, (depth - 1));
     } else {
