@@ -73,6 +73,7 @@ li::selection {
   background-color: #78866B;
   justify-content: left;
   margin: 0;
+  min-width: 800px;
 }
 
 .content {
