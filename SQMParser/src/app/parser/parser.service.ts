@@ -49,7 +49,7 @@ export class ParserService {
       for (const tokenRegex of tokensRegex) {
         if (tokenRegex.regex.test(lexemes[index])) {
           if (lexemes[index] === 'class') {
-            lexemes[index] += ' ';
+            newNode.value += ' ';
             newNode.nodeType = Token.CLASS;
           } else {
             newNode.nodeType = tokenRegex.tokenType;
