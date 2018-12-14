@@ -238,4 +238,11 @@ export class AppComponent implements OnInit, OnDestroy {
   onEdit(event) {
     console.log(event);
   }
+
+  /**
+   * Calculates the max height of the viewport - the toolbar size
+   */
+  getMaxSize() {
+    return (window.innerHeight - 38);
+  }
 }

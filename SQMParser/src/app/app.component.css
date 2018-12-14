@@ -1,26 +1,7 @@
-/* Based on: https://www.w3schools.com/howto/howto_css_tooltip.asp [Online] Accessed 26th November 2018*/
-ul {
-  list-style-type: none;
-  margin: 0;
-  padding-bottom: 2px;
-  text-align: left;
-  padding-left: 2px;
-}
-
 .center-div {
   margin: 0;
   height: 90vh;
   width: 100vw;
-}
-
-ul::selection,
-li::selection {
-  background: #4c5940;
-}
-
-.tooltip {
-  position: relative;
-  display: inline-block;
 }
 
 .tooltip .tooltiptext {
@@ -46,6 +27,10 @@ li::selection {
 .tooltip:hover .tooltiptext {
   visibility: visible;
   opacity: 1;
+}
+
+.tooltip::selection {
+  background: #4c5940;
 }
 
 .input {
@@ -78,4 +63,13 @@ li::selection {
 
 .content {
   margin-top: 40px;
+}
+
+.cdk-virtual-scroll-viewport {
+  height: calc(100vh - 40px);
+  text-align: left;
+}
+
+.item {
+  height: 19px;
 }

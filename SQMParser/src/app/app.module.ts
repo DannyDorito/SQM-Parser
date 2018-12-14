@@ -1,3 +1,4 @@
+import { ScrollDispatchModule } from '@angular/cdk/scrolling';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
@@ -26,7 +27,8 @@ import { TestsComponent } from './tests/tests.component';
     BrowserModule,
     AppRoutingModule,
     FormsModule,
-    ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production })
+    ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production }),
+    ScrollDispatchModule
   ],
   providers: [AppComponent],
   bootstrap: [AppComponent]
