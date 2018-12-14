@@ -1,18 +1,18 @@
 <!-- Header Toolbar -->
-<div class="toolbar">
+<div class="toolbar div">
   <h1 class="unselectable">SQM Parser</h1>
   <!-- Functions -->
   <app-functions [isComplete]="isComplete" [missionTree]="missionTree" [fileName]="fileName"></app-functions>
 </div>
-<div class="content">
+<div class="content div">
   <!-- Input -->
-  <div class="center-div" *ngIf="!isConfirmed && !fileReaderString && !isComplete" (drop)="onDrop($event)" (dragover)="onDragOver($event)" (dragleave)="onDragEnd($event)">
+  <div class="center-div div" *ngIf="!isConfirmed && !fileReaderString && !isComplete" (drop)="onDrop($event)" (dragover)="onDragOver($event)" (dragleave)="onDragEnd($event)">
     <input type="file" accept=".sqm" id="SQMselect" (change)="onFileChanged($event)">
     <!-- https://www.academind.com/learn/angular/snippets/angular-image-upload-made-easy/ [Online] Accessed 9th October 2018-->
     <label class="input unselectable" for="SQMselect">{{isDraggingFile ? 'Drop File To Upload!' : 'Click to Select File!'}}</label>
   </div>
   <!-- Cancel & confirmation button -->
-  <div class="center-div" *ngIf="!isConfirmed && !isComplete && fileReaderString">
+  <div class="center-div div" *ngIf="!isConfirmed && !isComplete && fileReaderString">
     <button class="input" (click)="cancelSelection()">Cancel</button>
     <button class="input" (click)="confirmSelection()">Confirm</button>
   </div>
