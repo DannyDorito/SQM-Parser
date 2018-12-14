@@ -16,7 +16,6 @@ import { TreeNode } from './shared/shared';
 export class AppComponent implements OnInit, OnDestroy {
   fileReaderString: string;
   isConfirmed = false;
-  isLoading: boolean;
   isComplete: boolean;
   isDraggingFile = false;
 
@@ -35,7 +34,6 @@ export class AppComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.showContextMenu = false;
-    this.isLoading = false;
     this.missionTree = [];
     this.isComplete = false;
     this.dialogueError = '';
@@ -98,7 +96,6 @@ export class AppComponent implements OnInit, OnDestroy {
       this.fileReaderString = fileReader.result as string;
     };
     fileReader.onerror = () => {
-      this.isLoading = false;
       this.dialogueError = 'Error: Something went wrong reading file!';
       fileReader.abort();
     };
@@ -165,7 +162,6 @@ export class AppComponent implements OnInit, OnDestroy {
   confirmSelection() {
     if (!isNullOrUndefined(this.fileReaderString)) {
       this.isConfirmed = true;
-      this.isLoading = true;
       this.startTreeCreation();
     }
   }
@@ -194,7 +190,6 @@ export class AppComponent implements OnInit, OnDestroy {
 
     this.fileReaderString = undefined;
     this.isComplete = true;
-    this.isLoading = false;
 
     if (this.saver.getAutoSave()) {
       this.saver.saveSQM(this.missionTree);

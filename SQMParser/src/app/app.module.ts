@@ -9,7 +9,6 @@ import { AppComponent } from './app.component';
 import { ContextMenuComponent } from './context-menu/context-menu.component';
 import { DialogueComponent } from './dialogue/dialogue.component';
 import { FunctionsComponent } from './functions/functions.component';
-import { LoadingComponent } from './loading/loading.component';
 import { NotFoundComponent } from './not-found/not-found.component';
 import { TestsComponent } from './tests/tests.component';
 
@@ -20,7 +19,6 @@ import { TestsComponent } from './tests/tests.component';
     FunctionsComponent,
     DialogueComponent,
     TestsComponent,
-    LoadingComponent,
     ContextMenuComponent
   ],
   imports: [
