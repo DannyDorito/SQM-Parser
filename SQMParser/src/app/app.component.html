@@ -22,7 +22,7 @@
   <div *cdkVirtualFor="let node of missionTree; let index = index; templateCacheSize: 0;" class="item" (click)="showContextMenu = false" 
   (contextmenu)="onRightClick($event)" class="tooltip" (input)="onEdit($event)" contenteditable="true"
   [ngStyle]="{ 'background' : node.error ? 'linear-gradient(to bottom, transparent 0, transparent 90%, #ff5572 80%, #ff5572 80%)' : 'transparent'}">
-    {{parser.traverseNodeValue(node) || 'Loading...'}}
+    {{parser.traverseNodeValue(node)}}
     <span class="tooltiptext div" *ngIf="node.error">{{node.error}}</span>
   </div>
 </cdk-virtual-scroll-viewport>
