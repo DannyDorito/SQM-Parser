@@ -1,4 +1,3 @@
-import { ScrollDispatchModule } from '@angular/cdk/scrolling';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
@@ -11,6 +10,7 @@ import { DialogueComponent } from './dialogue/dialogue.component';
 import { FunctionsComponent } from './functions/functions.component';
 import { NotFoundComponent } from './not-found/not-found.component';
 import { TestsComponent } from './tests/tests.component';
+import { ScrollingModule } from '@angular/cdk/scrolling';
 
 @NgModule({
   declarations: [
@@ -25,8 +25,8 @@ import { TestsComponent } from './tests/tests.component';
     BrowserModule,
     AppRoutingModule,
     FormsModule,
-    ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production }),
-    ScrollDispatchModule
+    ScrollingModule,
+    ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production })
   ],
   providers: [AppComponent],
   bootstrap: [AppComponent]
