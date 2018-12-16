@@ -34,13 +34,12 @@ const symbolTable = [
 })
 export class ParserService {
   /**
-   * ASYNC
    * Main method execution function for ParserService
    */
-  async generateTree(inputFile: string[]) {
+  generateTree(inputFile: string[]) {
     const tree: TreeNode[] = [];
     for (const inputString of inputFile) {
-      const grammar = < TreeNode > await this.parser(inputString);
+      const grammar = this.parser(inputString);
       if (!isNullOrUndefined(grammar.value)) {
         tree.push(grammar);
       }
@@ -49,12 +48,11 @@ export class ParserService {
   }
 
   /**
-   * ASYNC
    * Splits the input string into an array, tests Lexeme regex against it
    * if successful, set the type
    * Compilers: Principles, Techniques, and Tools (2nd Edition) pp.79-80. Accessed 21st November 2018
    */
-  async parser(inputString: string) {
+  parser(inputString: string) {
     const lexemes = this.splitString(inputString);
     let index = 0;
     const containingTypes: Token[] = [];
@@ -83,6 +81,19 @@ export class ParserService {
     return node;
   }
 
+  removeNode(index: number, missionTree: TreeNode[]) {
+    return missionTree.slice(index, (index + 1));
+  }
+
+  addNode(index: number, missionTree: TreeNode[], nodeToAdd: TreeNode) {
+    return missionTree.splice(index, 1, nodeToAdd);
+  }
+
+  parseAndAddNode(index: number, missionTree: TreeNode[], inputString: string) {
+    const nodeToAdd = this.parser(inputString);
+    return this.addNode(index, missionTree, nodeToAdd);
+  }
+
   /**
    * Traverse a passed tree, return a string of the value of each node traversed
    * Compilers: Principles, Techniques, and Tools (2nd Edition) pp.56-68. Accessed 21st November 2018
@@ -105,25 +116,25 @@ export class ParserService {
   /**
    * Find missing semicolons and braces in a given missionTree
    */
-  findErrors(missionTree: TreeNode[]) {
-    for (let nodeIndex = 0; nodeIndex < missionTree.length; nodeIndex++) {
-      const first = missionTree[nodeIndex].containingTypes[0];
-      const last = missionTree[nodeIndex].containingTypes[(missionTree[nodeIndex].containingTypes.length - 1)];
+  findErrors(missionTree: TreeNode[], startIndex: number, endIndex: number) {
+    for (startIndex; startIndex < endIndex; startIndex++) {
+      const first = missionTree[startIndex].containingTypes[0];
+      const last = missionTree[startIndex].containingTypes[(missionTree[startIndex].containingTypes.length - 1)];
       if (first !== Token.CLASS) {
         if (last !== Token.START_BRACE && last !== Token.COMMA) {
-          if (last !== Token.SEMICOLON && missionTree[nodeIndex].containingTypes[1] !== Token.START_SQUARE_BRACE) {
-            missionTree[nodeIndex].error = 'Missing: ' + Token.SEMICOLON + ' at the end of line ' + (nodeIndex + 1) + '!';
+          if (last !== Token.SEMICOLON && missionTree[startIndex].containingTypes[1] !== Token.START_SQUARE_BRACE) {
+            missionTree[startIndex].error = 'Missing: ' + Token.SEMICOLON + ' at the end of line ' + (startIndex + 1) + '!';
           }
         }
       } else {
-        if (!isNullOrUndefined(missionTree[(nodeIndex + 1)])) {
-          if (missionTree[(nodeIndex + 1)].containingTypes[0] !== Token.START_BRACE) {
-            missionTree[nodeIndex].error = 'Missing: ' + Token.START_BRACE + ' at the start of line ' + (nodeIndex + 2) + '!';
+        if (!isNullOrUndefined(missionTree[(startIndex + 1)])) {
+          if (missionTree[(startIndex + 1)].containingTypes[0] !== Token.START_BRACE) {
+            missionTree[startIndex].error = 'Missing: ' + Token.START_BRACE + ' at the start of line ' + (startIndex + 2) + '!';
           }
         }
       }
-      if (missionTree[nodeIndex].containingTypes.includes(Token.DEFAULT)) {
-        missionTree[nodeIndex].error = 'Unrecognised Token on line ' + (nodeIndex + 1) + '!';
+      if (missionTree[startIndex].containingTypes.includes(Token.DEFAULT)) {
+        missionTree[startIndex].error = 'Unrecognised Token on line ' + (startIndex + 1) + '!';
       }
     }
     return missionTree;

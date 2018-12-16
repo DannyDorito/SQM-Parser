@@ -175,13 +175,12 @@ export class AppComponent implements OnInit, OnDestroy {
   }
 
   /**
-   * ASYNC
    * Start tree creation
    */
-  async startTreeCreation() {
+  startTreeCreation() {
     const t0 = performance.now();
     try {
-      this.missionTree = await this.parser.generateTree(this.fileReaderString.split('\r\n'));
+      this.missionTree = this.parser.generateTree(this.fileReaderString.split('\r\n'));
     } catch (exception) {
       this.dialogueError = exception.toString();
     }
@@ -205,8 +204,32 @@ export class AppComponent implements OnInit, OnDestroy {
     console.log('Errors generated in: ' + (t3 - t2) + 'ms');
   }
 
-  async startErrorFinding() {
-    this.parser.findErrors(this.missionTree);
+  /**
+   * Starts the findError method in the parser service,
+   * then the UI highlights and the lines with errors
+   */
+  startErrorFinding() {
+    this.parser.findErrors(this.missionTree, 0, this.missionTree.length);
+  }
+
+  onEdit(event, index: number) {
+    event.preventDefault();
+    console.log(event);
+    console.log(index);
+    // switch (event.inputType) {
+    //   case (insertText):
+    //     break;
+    //   default:
+    //     break;
+    // }
+  }
+
+
+  /**
+   * Calculates the max height of the viewport - the toolbar size (toolbar size is always 38px)
+   */
+  getMaxSize() {
+    return (window.innerHeight - 38);
   }
 
   /**
@@ -228,16 +251,5 @@ export class AppComponent implements OnInit, OnDestroy {
    */
   clearSQM() {
     this.saver.clearSQM();
-  }
-
-  onEdit(event) {
-    console.log(event);
-  }
-
-  /**
-   * Calculates the max height of the viewport - the toolbar size
-   */
-  getMaxSize() {
-    return (window.innerHeight - 38);
   }
 }
