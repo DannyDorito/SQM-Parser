@@ -209,7 +209,10 @@ export class AppComponent implements OnInit, OnDestroy {
    * then the UI highlights and the lines with errors
    */
   startErrorFinding() {
-    this.parser.findErrors(this.missionTree, 0, this.missionTree.length);
+    const errorCount = this.parser.findErrors(this.missionTree, 0, this.missionTree.length);
+    if (errorCount > 0) {
+      this.dialogueError = 'Found ' + errorCount + ' errors, attempting to fix them automatically';
+    }
   }
 
   onEdit(event, index: number) {

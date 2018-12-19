@@ -81,14 +81,23 @@ export class ParserService {
     return node;
   }
 
+  /**
+   * Remove the index of a node from the passed mission tree, then returns the new tree
+   */
   removeNode(index: number, missionTree: TreeNode[]) {
     return missionTree.slice(index, (index + 1));
   }
 
+  /**
+   * Adds the index of a node from the passed mission tree, then returns the new tree
+   */
   addNode(index: number, missionTree: TreeNode[], nodeToAdd: TreeNode) {
     return missionTree.splice(index, 1, nodeToAdd);
   }
 
+  /**
+   * Parses the new input string for a given index, adds the new node to the tree, then returns the new tree
+   */
   parseAndAddNode(index: number, missionTree: TreeNode[], inputString: string) {
     const nodeToAdd = this.parser(inputString);
     return this.addNode(index, missionTree, nodeToAdd);
@@ -115,35 +124,43 @@ export class ParserService {
 
   /**
    * Find missing semicolons and braces in a given missionTree
+   * missionTree is passed by reference so error count is returned
    */
   findErrors(missionTree: TreeNode[], startIndex: number, endIndex: number) {
+    let errorCount = 0;
     for (startIndex; startIndex < endIndex; startIndex++) {
       const first = missionTree[startIndex].containingTypes[0];
       const last = missionTree[startIndex].containingTypes[(missionTree[startIndex].containingTypes.length - 1)];
+      let previous;
+      if (startIndex !== 0) {
+        previous = missionTree[(startIndex - 1)].containingTypes[(missionTree[(startIndex - 1)].containingTypes.length - 1)];
+      }
       if (first !== Token.CLASS) {
         if (last !== Token.START_BRACE && last !== Token.COMMA) {
-          if (last !== Token.SEMICOLON && missionTree[startIndex].containingTypes[1] !== Token.START_SQUARE_BRACE) {
-            missionTree[startIndex].error = 'Missing: ' + Token.SEMICOLON + ' at the end of line ' + (startIndex + 1) + '!';
+          if (previous !== Token.COMMA && previous !== Token.START_BRACE) {
+            if (last !== Token.SEMICOLON && missionTree[startIndex].containingTypes[1] !== Token.START_SQUARE_BRACE) {
+              missionTree[startIndex].error = 'Missing: ' + Token.SEMICOLON + ' at the end of line ' + (startIndex + 1) + '!';
+              errorCount++;
+            }
           }
         }
-      } else {
+      } else if (first === Token.CLASS) {
         if (!isNullOrUndefined(missionTree[(startIndex + 1)])) {
           if (missionTree[(startIndex + 1)].containingTypes[0] !== Token.START_BRACE) {
             missionTree[startIndex].error = 'Missing: ' + Token.START_BRACE + ' at the start of line ' + (startIndex + 2) + '!';
+            errorCount++;
           }
         }
       }
-      if (missionTree[startIndex].containingTypes.includes(Token.DEFAULT)) {
-        missionTree[startIndex].error = 'Unrecognised Token on line ' + (startIndex + 1) + '!';
-      }
     }
-    return missionTree;
+    return errorCount;
   }
 
   /**
    * Produces tokens to lexically analyse
    * Split the input string on terminals [ \s\t\n\r\[\]"={},;] globally with a positive lookahead
-   * then map the results by trimming and filterting by length.
+   * which preserves the found character,
+   * then map the results by trimming and filterting by length to a string array and returns it
    */
   splitString(inputString: string) {
     return inputString.split(/(?=[ \s\t\n\r\[\]\"\=\{\}\,\;]+)/g).map(str => str.trim()).filter(str => str.length);
