@@ -21,7 +21,7 @@ export class AppComponent implements OnInit, OnDestroy {
 
   timerSubscribe: Subscription;
 
-  @ViewChild(DialogueComponent) dialogueError: string;
+  @ViewChild(DialogueComponent) dialogueText: string;
 
   @ViewChild(FunctionsComponent) missionTree: TreeNode[];
   @ViewChild(FunctionsComponent) fileName: string;
@@ -36,7 +36,7 @@ export class AppComponent implements OnInit, OnDestroy {
     this.showContextMenu = false;
     this.missionTree = [];
     this.isComplete = false;
-    this.dialogueError = '';
+    this.dialogueText = '';
 
     this.loadAutoSave();
 
@@ -80,7 +80,7 @@ export class AppComponent implements OnInit, OnDestroy {
   onFileChanged(fileChangeEvent: any) {
     this.fileName = fileChangeEvent.target.files[0].name;
     if (!this.saver.validName(this.fileName)) {
-      this.dialogueError = 'Error: "' + this.fileName + '" is an invalid file!';
+      this.dialogueText = 'Error: "' + this.fileName + '" is an invalid file!';
       this.cancelSelection();
     } else {
       this.readFile(fileChangeEvent.target.files[0]);
@@ -96,7 +96,7 @@ export class AppComponent implements OnInit, OnDestroy {
       this.fileReaderString = fileReader.result as string;
     };
     fileReader.onerror = () => {
-      this.dialogueError = 'Error: Something went wrong reading file!';
+      this.dialogueText = 'Error: Something went wrong reading file!';
       fileReader.abort();
     };
     fileReader.readAsText(file);
@@ -137,7 +137,7 @@ export class AppComponent implements OnInit, OnDestroy {
       this.isDraggingFile = false;
       this.fileName = dropEvent.dataTransfer.files[0].name;
       if (!this.saver.validName(this.fileName)) {
-        this.dialogueError = 'Error: "' + this.fileName + '" is an invalid file!';
+        this.dialogueText = 'Error: "' + this.fileName + '" is an invalid file!';
         this.cancelSelection();
       } else {
         this.readFile(dropEvent.dataTransfer.files[0]);
@@ -182,7 +182,7 @@ export class AppComponent implements OnInit, OnDestroy {
     try {
       this.missionTree = this.parser.generateTree(this.fileReaderString.split('\r\n'));
     } catch (exception) {
-      this.dialogueError = exception.toString();
+      this.dialogueText = exception.toString();
     }
     const t1 = performance.now();
     console.log('Tree generated in: ' + (t1 - t0) + 'ms');
@@ -198,7 +198,7 @@ export class AppComponent implements OnInit, OnDestroy {
     try {
       this.startErrorFinding();
     } catch (exception) {
-      this.dialogueError = exception.toString();
+      this.dialogueText = exception.toString();
     }
     const t3 = performance.now();
     console.log('Errors generated in: ' + (t3 - t2) + 'ms');
@@ -211,11 +211,11 @@ export class AppComponent implements OnInit, OnDestroy {
   startErrorFinding() {
     const errorCount = this.parser.findErrors(this.missionTree, 0, this.missionTree.length);
     if (errorCount > 0) {
-      this.dialogueError = 'Found ' + errorCount + ' errors, attempting to fix them automatically';
+      this.dialogueText += 'Found ' + errorCount + ' errors, attempting to fix them automatically!\r\n';
     }
   }
 
-  onEdit(event, index: number) {
+  onEdit(event: any, index: number) {
     event.preventDefault();
     console.log(event);
     console.log(index);
