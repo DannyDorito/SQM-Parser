@@ -139,7 +139,7 @@ export class ParserService {
         if (last !== Token.START_BRACE && last !== Token.COMMA) {
           if (previous !== Token.COMMA && previous !== Token.START_BRACE) {
             if (last !== Token.SEMICOLON && missionTree[startIndex].containingTypes[1] !== Token.START_SQUARE_BRACE) {
-              missionTree[startIndex].error = 'Missing: ' + Token.SEMICOLON + ' at the end of line ' + (startIndex + 1) + '!';
+              missionTree[startIndex].error += 'Missing: ' + Token.SEMICOLON + ' at the end of line ' + (startIndex + 1) + '!\r\n';
               errorCount++;
             }
           }
@@ -147,7 +147,7 @@ export class ParserService {
       } else if (first === Token.CLASS) {
         if (!isNullOrUndefined(missionTree[(startIndex + 1)])) {
           if (missionTree[(startIndex + 1)].containingTypes[0] !== Token.START_BRACE) {
-            missionTree[startIndex].error = 'Missing: ' + Token.START_BRACE + ' at the start of line ' + (startIndex + 2) + '!';
+            missionTree[startIndex].error += 'Missing: ' + Token.START_BRACE + ' at the start of line ' + (startIndex + 2) + '!\r\n';
             errorCount++;
           }
         }

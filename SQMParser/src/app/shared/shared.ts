@@ -13,6 +13,7 @@ export class TreeNode {
     this.value = _value;
     this.nodeType = _nodeType;
     this.innerNode = _innerNode;
+    this.error = '';
   }
 
   /**
