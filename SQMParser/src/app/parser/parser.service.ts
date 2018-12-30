@@ -156,6 +156,15 @@ export class ParserService {
     return errorCount;
   }
 
+  fixErrors(missionTree: TreeNode[]) {
+    const traverseNode = (node: TreeNode) => {
+
+    };
+    for (let index = 0; index < missionTree.length; index++) {
+
+    }
+  }
+
   /**
    * Produces tokens to lexically analyse
    * Split the input string on terminals [ \s\t\n\r\[\]"={},;] globally with a positive lookahead
