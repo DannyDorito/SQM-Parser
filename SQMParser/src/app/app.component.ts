@@ -237,7 +237,7 @@ export class AppComponent implements OnInit, OnDestroy {
       });
       dialogueRef.afterClosed().subscribe(result => {
         if (result) {
-          // TODO: Result
+          this.parser.fixErrors(this.missionTree);
         }
       });
     } else {
