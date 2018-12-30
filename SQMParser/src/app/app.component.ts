@@ -36,12 +36,11 @@ export class AppComponent implements OnInit, OnDestroy {
     this.showContextMenu = false;
     this.missionTree = [];
     this.isComplete = false;
-
     this.loadAutoSave();
 
     const timerSource = timer((environment.sqmSavePeriodMins * 60) * 10000);
     this.timerSubscribe = timerSource.subscribe(event => {
-      this.saveSQM();
+      this.saver.saveSQM(this.missionTree);
     });
   }
 
@@ -253,26 +252,5 @@ export class AppComponent implements OnInit, OnDestroy {
    */
   getMaxSize() {
     return (window.innerHeight - 38);
-  }
-
-  /**
-   * Gets fileName and missionTree from ParserSharedService then exports it with SaverService
-   */
-  exportSQM() {
-    this.saver.exportSQM(this.fileName, this.missionTree);
-  }
-
-  /**
-   * Gets missionTree from ParserSharedService then exports it with SaverService
-   */
-  saveSQM() {
-    this.saver.saveSQM(this.missionTree);
-  }
-
-  /**
-   * Calls clearSQM from saver service
-   */
-  clearSQM() {
-    this.saver.clearSQM();
   }
 }
