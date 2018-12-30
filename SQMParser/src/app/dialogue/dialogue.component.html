@@ -1,6 +1,8 @@
-<div class="background div" *ngIf="dialogueText !== ''">
-  <div class="dialogue div">
-    <p class="unselectable">{{dialogueText}}</p>
-    <button (click)="close()">Close</button>
-  </div>
+<h1 mat-dialog-title>{{data.data}}</h1>
+<div mat-dialog-actions>
+  <!-- Dialogue Without Choice -->
+  <button *ngIf="data.isChoice" (click)="onNoClick()">No</button>
+  <button *ngIf="!data.isChoice" (click)="onYesClick()">Okay</button>
+  <!-- Dialogue With Choice -->
+  <button *ngIf="data.isChoice" [mat-dialog-close]="data">Okay</button>
 </div>

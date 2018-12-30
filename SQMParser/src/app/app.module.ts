@@ -1,6 +1,9 @@
+import { ScrollingModule } from '@angular/cdk/scrolling';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { MatDialogModule } from '@angular/material/dialog';
 import { BrowserModule } from '@angular/platform-browser';
+import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { ServiceWorkerModule } from '@angular/service-worker';
 import { environment } from '../environments/environment';
 import { AppRoutingModule } from './/app-routing.module';
@@ -10,7 +13,6 @@ import { DialogueComponent } from './dialogue/dialogue.component';
 import { FunctionsComponent } from './functions/functions.component';
 import { NotFoundComponent } from './not-found/not-found.component';
 import { TestsComponent } from './tests/tests.component';
-import { ScrollingModule } from '@angular/cdk/scrolling';
 
 @NgModule({
   declarations: [
@@ -26,9 +28,12 @@ import { ScrollingModule } from '@angular/cdk/scrolling';
     AppRoutingModule,
     FormsModule,
     ScrollingModule,
-    ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production })
+    ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production }),
+    NoopAnimationsModule,
+    MatDialogModule
   ],
   providers: [AppComponent],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
+  entryComponents: [DialogueComponent]
 })
 export class AppModule {}

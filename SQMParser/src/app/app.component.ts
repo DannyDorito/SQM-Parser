@@ -1,4 +1,5 @@
 import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { Subscription, timer } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { isNullOrUndefined } from 'util';
@@ -7,6 +8,7 @@ import { FunctionsComponent } from './functions/functions.component';
 import { ParserService } from './parser/parser.service';
 import { SaverService } from './saver/saver.service';
 import { TreeNode } from './shared/shared';
+import { DialogueData } from './shared/dialogue';
 
 @Component({
   selector: 'app-root',
@@ -21,8 +23,6 @@ export class AppComponent implements OnInit, OnDestroy {
 
   timerSubscribe: Subscription;
 
-  @ViewChild(DialogueComponent) dialogueText: string;
-
   @ViewChild(FunctionsComponent) missionTree: TreeNode[];
   @ViewChild(FunctionsComponent) fileName: string;
 
@@ -30,13 +30,12 @@ export class AppComponent implements OnInit, OnDestroy {
   contextMenuX = 0;
   contextMenuY = 0;
 
-  constructor(public parser: ParserService, private saver: SaverService) {}
+  constructor(public parser: ParserService, private saver: SaverService, public dialogue: MatDialog) {}
 
   ngOnInit() {
     this.showContextMenu = false;
     this.missionTree = [];
     this.isComplete = false;
-    this.dialogueText = '';
 
     this.loadAutoSave();
 
@@ -80,7 +79,7 @@ export class AppComponent implements OnInit, OnDestroy {
   onFileChanged(fileChangeEvent: any) {
     this.fileName = fileChangeEvent.target.files[0].name;
     if (!this.saver.validName(this.fileName)) {
-      this.dialogueText = 'Error: "' + this.fileName + '" is an invalid file!';
+      this.openDialogue('Error: "' + this.fileName + '" is an invalid file!', false);
       this.cancelSelection();
     } else {
       this.readFile(fileChangeEvent.target.files[0]);
@@ -96,7 +95,7 @@ export class AppComponent implements OnInit, OnDestroy {
       this.fileReaderString = fileReader.result as string;
     };
     fileReader.onerror = () => {
-      this.dialogueText = 'Error: Something went wrong reading file!';
+      this.openDialogue('Error: Something went wrong reading file!', false);
       fileReader.abort();
     };
     fileReader.readAsText(file);
@@ -135,12 +134,17 @@ export class AppComponent implements OnInit, OnDestroy {
     const files = dropEvent.dataTransfer.files;
     if (files.length === 1) {
       this.isDraggingFile = false;
-      this.fileName = dropEvent.dataTransfer.files[0].name;
-      if (!this.saver.validName(this.fileName)) {
-        this.dialogueText = 'Error: "' + this.fileName + '" is an invalid file!';
+      try {
+        this.fileName = dropEvent.dataTransfer.files[0].name;
+        if (!this.saver.validName(this.fileName)) {
+          this.openDialogue('Error: "' + this.fileName + '" is an invalid file!', false);
+          this.cancelSelection();
+        } else {
+          this.readFile(dropEvent.dataTransfer.files[0]);
+        }
+      } catch (exception) {
         this.cancelSelection();
-      } else {
-        this.readFile(dropEvent.dataTransfer.files[0]);
+        this.openDialogue(exception.toString(), false);
       }
     }
   }
@@ -182,7 +186,7 @@ export class AppComponent implements OnInit, OnDestroy {
     try {
       this.missionTree = this.parser.generateTree(this.fileReaderString.split('\r\n'));
     } catch (exception) {
-      this.dialogueText = exception.toString();
+      this.openDialogue(exception.toString(), false);
     }
     const t1 = performance.now();
     console.log('Tree generated in: ' + (t1 - t0) + 'ms');
@@ -198,7 +202,7 @@ export class AppComponent implements OnInit, OnDestroy {
     try {
       this.startErrorFinding();
     } catch (exception) {
-      this.dialogueText = exception.toString();
+      this.openDialogue(exception.toString(), false);
     }
     const t3 = performance.now();
     console.log('Errors generated in: ' + (t3 - t2) + 'ms');
@@ -211,7 +215,7 @@ export class AppComponent implements OnInit, OnDestroy {
   startErrorFinding() {
     const errorCount = this.parser.findErrors(this.missionTree, 0, this.missionTree.length);
     if (errorCount > 0) {
-      this.dialogueText += 'Found ' + errorCount + ' errors, attempting to fix them automatically!\r\n';
+      this.openDialogue('Found ' + errorCount + ' errors, attempt to fix them automatically?', true);
     }
   }
 
@@ -227,6 +231,22 @@ export class AppComponent implements OnInit, OnDestroy {
     // }
   }
 
+  openDialogue(data: string, isChoice: boolean) {
+    if (isChoice) {
+      const dialogueRef = this.dialogue.open(DialogueComponent, {
+        data: new DialogueData(data, isChoice)
+      });
+      dialogueRef.afterClosed().subscribe(result => {
+        if (result) {
+          // TODO: Result
+        }
+      });
+    } else {
+      this.dialogue.open(DialogueComponent, {
+        data: new DialogueData(data, isChoice)
+      });
+    }
+  }
 
   /**
    * Calculates the max height of the viewport - the toolbar size (toolbar size is always 38px)

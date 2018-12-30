@@ -1,4 +1,6 @@
-import { Component, Input } from '@angular/core';
+import { Component, Inject } from '@angular/core';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { DialogueData } from '../shared/dialogue';
 
 @Component({
   selector: 'app-dialogue',
@@ -6,9 +8,13 @@ import { Component, Input } from '@angular/core';
   styleUrls: ['./dialogue.component.css']
 })
 export class DialogueComponent {
-  @Input() dialogueText: string;
+  constructor(public dialogRef: MatDialogRef<DialogueComponent>, @Inject(MAT_DIALOG_DATA) public data: DialogueData) {}
 
-  close() {
-    this.dialogueText = '';
+  onNoClick() {
+    this.dialogRef.close();
+  }
+
+  onYesClick() {
+
   }
 }
