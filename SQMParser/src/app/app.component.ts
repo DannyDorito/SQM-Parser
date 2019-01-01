@@ -214,16 +214,16 @@ export class AppComponent implements OnInit, OnDestroy {
   startErrorFinding() {
     const errorCount = this.parser.findErrors(this.missionTree, 0, this.missionTree.length);
     if (errorCount > 0) {
-      this.openDialogue('Found ' + errorCount + ' errors, attempt to fix them automatically?', true);
+      this.openDialogue('Found ' + errorCount + ' potential errors, attempt to fix them automatically?', true);
     }
   }
 
-  onEdit(event: any, index: number) {
+  onEdit(event: InputEvent, index: number) {
     event.preventDefault();
     console.log(event);
     console.log(index);
-    // switch (event.inputType) {
-    //   case (insertText):
+    // switch (event) {
+    //   case (inputType.insertText):
     //     break;
     //   default:
     //     break;
