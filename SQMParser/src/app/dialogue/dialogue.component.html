@@ -4,5 +4,5 @@
   <button *ngIf="data.isChoice" (click)="onNoClick()">No</button>
   <button *ngIf="!data.isChoice" (click)="onYesClick()">Okay</button>
   <!-- Dialogue With Choice -->
-  <button *ngIf="data.isChoice" [mat-dialog-close]="data">Okay</button>
+  <button *ngIf="data.isChoice" [mat-dialog-close]="data">Yes</button>
 </div>
