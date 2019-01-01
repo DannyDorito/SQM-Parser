@@ -76,6 +76,7 @@
   border: none;
   width: 100vw;
   font: inherit;
+  text-decoration-style: wavy;
 }
 
 .item:focus {
