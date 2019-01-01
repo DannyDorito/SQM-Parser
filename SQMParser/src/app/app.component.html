@@ -18,9 +18,9 @@
   </div>
 </div>
 <!-- AST List -->
-<cdk-virtual-scroll-viewport itemSize="getMaxSize()" [ngStyle]="{ 'height' : missionTree.length > 1 ? '' : '0'}">
-  <div *cdkVirtualFor="let node of missionTree; let index = index; templateCacheSize: 0;" class="item" (click)="showContextMenu = false"
-  (contextmenu)="onRightClick($event)" class="tooltip" (input)="onEdit($event)" contenteditable="true"
+<cdk-virtual-scroll-viewport itemSize="1" [ngStyle]="{ 'height' : missionTree.length > 1 ? '' : '0'}">
+  <div *cdkVirtualFor="let node of missionTree; let index = index; templateCacheSize: 0;" class="item tooltip" (click)="showContextMenu = false"
+  (contextmenu)="onRightClick($event)" (input)="onEdit($event, index)" contenteditable="true"
   [ngStyle]="{ 'background' : node.error ? 'linear-gradient(to bottom, transparent 0, transparent 90%, #ff5572 80%, #ff5572 80%)' : 'transparent'}">
     {{parser.traverseNodeValue(node)}}
     <span class="tooltiptext div" *ngIf="node.error">{{node.error}}</span>
