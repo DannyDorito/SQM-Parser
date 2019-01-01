@@ -19,10 +19,7 @@
 </div>
 <!-- AST List -->
 <cdk-virtual-scroll-viewport itemSize="1" [ngStyle]="{ 'height' : missionTree.length > 1 ? '' : '0'}">
-  <input type="text" *cdkVirtualFor="let node of missionTree; let index = index; templateCacheSize: 0;"
-  [ngModel]="parser.traverseNodeValue(node)" (ngModelChange)="editNode($event, index)"
-  class="item" [title]="node.error"
-  [style.text-decoration]="node.error ? 'underline' : 'none'" [style.text-decoration-color]="node.error ? 'red' : 'transparent'">
-</cdk-virtual-scroll-viewport>  <!-- (click)="showContextMenu = false" (contextmenu)="onRightClick($event)" -->
+  <input type="text" *cdkVirtualFor="let node of missionTree; let index = index; templateCacheSize: 0;" [ngModel]="parser.traverseNodeValue(node)" (ngModelChange)="editNode($event, index)" class="item" [title]="node.error" spellcheck="false" [style.text-decoration]="node.error ? 'underline' : 'none'" [style.text-decoration-color]="node.error ? 'red' : 'transparent'">
+</cdk-virtual-scroll-viewport> <!-- (click)="showContextMenu = false" (contextmenu)="onRightClick($event)" -->
 <!-- Context Menu -->
 <app-context-menu [showContextMenu]="showContextMenu" [contextMenuX]="contextMenuX" [contextMenuY]="contextMenuY"></app-context-menu>

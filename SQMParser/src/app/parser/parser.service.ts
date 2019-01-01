@@ -103,21 +103,12 @@ export class ParserService {
     return this.addNode(index, missionTree, nodeToAdd);
   }
 
-    /**
+  /**
    * Parses the new input string for a given index, edits the node at the index in the tree, then returns the new tree
    */
   parseAndEditNode(index: number, missionTree: TreeNode[], inputString: string) {
     missionTree[index] = this.parser(inputString);
-    let startIndex = 0;
-    let endIndex = 0;
-    if (index > 0) {
-      startIndex = (index - 1);
-    }
-
-    if ((index + 1) < missionTree.length) {
-      endIndex = (index + 1);
-    }
-    this.findErrors(missionTree, startIndex, endIndex);
+    this.findErrors(missionTree, 0, missionTree.length);
     return missionTree;
   }
 
