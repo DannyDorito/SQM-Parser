@@ -1,7 +1,10 @@
 import { Component, Input } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { isNullOrUndefined } from 'util';
 import { SaverService } from '../saver/saver.service';
 import { TreeNode } from '../shared/shared';
+import { DialogueComponent } from '../dialogue/dialogue.component';
+import { DialogueData } from '../shared/dialogue';
 
 @Component({
   selector: 'app-functions',
@@ -15,7 +18,7 @@ export class FunctionsComponent {
   @Input() fileName: string;
   @Input() isComplete: boolean;
 
-  constructor(private saver: SaverService) {}
+  constructor(private saver: SaverService, public dialogue: MatDialog) {}
 
   /**
    * ASYNC
@@ -52,10 +55,10 @@ export class FunctionsComponent {
       if (this.missionTree.length > 0) {
         this.saver.exportSQM(this.fileName, this.missionTree);
       } else {
-        // TODO: Error
+        this.openDialogue('Error: File is too short!');
       }
     } else {
-      // TODO: Error
+      this.openDialogue('Error: File name not set!');
     }
   }
 
@@ -86,17 +89,17 @@ export class FunctionsComponent {
       if (!isNullOrUndefined(addOns)) {
         missionAST.splice(addOns, this.getIndex('}', missionAST, addOns));
       } else {
-        // TODO: Error
+        this.openDialogue('Error: Cannot find "addOns"!');
       }
       const addOnsAutoIndex = this.getIndex('addOnsAuto', missionAST, 0);
       if (!isNullOrUndefined(addOnsAutoIndex)) {
         missionAST.splice(addOnsAutoIndex, this.getIndex('}', missionAST, addOnsAutoIndex));
       } else {
-        // TODO: Error
+        this.openDialogue('Error: Cannot Find "addOnsAuto"!');
       }
       this.missionTree = missionAST;
     } else {
-      // TODO: Error
+      this.openDialogue('Error: File is too short!');
     }
   }
 
@@ -110,5 +113,14 @@ export class FunctionsComponent {
       }
     }
     return undefined;
+  }
+
+  /**
+   * Open MatDialog from angular material
+   */
+  openDialogue(data: string) {
+    this.dialogue.open(DialogueComponent, {
+      data: new DialogueData(data, false)
+    });
   }
 }
