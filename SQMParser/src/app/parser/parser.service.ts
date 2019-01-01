@@ -103,6 +103,25 @@ export class ParserService {
     return this.addNode(index, missionTree, nodeToAdd);
   }
 
+    /**
+   * Parses the new input string for a given index, edits the node at the index in the tree, then returns the new tree
+   */
+  parseAndEditNode(index: number, missionTree: TreeNode[], inputString: string) {
+    missionTree[index] = this.parser(inputString);
+    let startIndex = 0;
+    let endIndex = 0;
+    if (index > 0) {
+      startIndex = (index - 1);
+    }
+
+    if ((index + 1) < missionTree.length) {
+      endIndex = (index + 1);
+    }
+    this.findErrors(missionTree, startIndex, endIndex);
+    console.log(missionTree);
+    return missionTree;
+  }
+
   /**
    * Traverse a passed tree, return a string of the value of each node traversed
    * Compilers: Principles, Techniques, and Tools (2nd Edition) pp.56-68. Accessed 21st November 2018

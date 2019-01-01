@@ -218,16 +218,9 @@ export class AppComponent implements OnInit, OnDestroy {
     }
   }
 
-  onEdit(event: any, index: number) {
-    event.preventDefault();
-    console.log(event);
-    console.log(index);
-    // switch (event) {
-    //   case (inputType.insertText):
-    //     break;
-    //   default:
-    //     break;
-    // }
+  editNode(event: Event, index: number) {
+    console.log(this.missionTree);
+    this.parser.parseAndEditNode(index, this.missionTree, event.toString());
   }
 
   openDialogue(data: string, isChoice: boolean) {
