@@ -11,9 +11,9 @@ import { TreeNode } from '../shared/shared';
 export class FunctionsComponent {
   sqmAST: boolean;
 
-  @Input() missionTree;
-  @Input() fileName;
-  @Input() isComplete;
+  @Input() missionTree: TreeNode[];
+  @Input() fileName: string;
+  @Input() isComplete: boolean;
 
   constructor(private saver: SaverService) {}
 

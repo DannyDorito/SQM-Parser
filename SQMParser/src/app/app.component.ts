@@ -7,8 +7,8 @@ import { DialogueComponent } from './dialogue/dialogue.component';
 import { FunctionsComponent } from './functions/functions.component';
 import { ParserService } from './parser/parser.service';
 import { SaverService } from './saver/saver.service';
-import { TreeNode } from './shared/shared';
 import { DialogueData } from './shared/dialogue';
+import { TreeNode } from './shared/shared';
 
 @Component({
   selector: 'app-root',

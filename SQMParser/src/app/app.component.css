@@ -81,3 +81,14 @@
 .item:focus {
   outline-color: #4c5940;
 }
+
+.context-menu-div {
+  position: absolute;
+  flex-direction: column;
+  background-color:  white;
+  padding: 5px;
+}
+
+.context-menu-button {
+  margin: 2px;
+}
