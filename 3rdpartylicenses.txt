@@ -332,6 +332,9 @@ MIT
 @angular/router
 MIT
 
+@angular/forms
+MIT
+
 @angular/cdk
 MIT
 The MIT License
@@ -388,9 +391,6 @@ THE SOFTWARE.
 
 
 @angular/material/dialog
-
-@angular/forms
-MIT
 
 @angular/service-worker
 MIT
