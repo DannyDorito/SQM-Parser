@@ -4,7 +4,6 @@ body {
   margin: 0;
   font-family: 'Roboto', sans-serif;
   background-color: white;
-  height: 100;
   text-align: center;
 }
 
@@ -46,7 +45,7 @@ p {
   padding-left: 5px;
 }
 
-input {
+.input-class {
   opacity: 0;
   overflow: hidden;
   position: absolute;

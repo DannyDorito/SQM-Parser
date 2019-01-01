@@ -218,7 +218,7 @@ export class AppComponent implements OnInit, OnDestroy {
     }
   }
 
-  onEdit(event: InputEvent, index: number) {
+  onEdit(event: any, index: number) {
     event.preventDefault();
     console.log(event);
     console.log(index);

@@ -4,7 +4,7 @@
   width: 100vw;
 }
 
-.tooltip .tooltiptext {
+/* .tooltip .tooltiptext {
   width: 200px;
   visibility: hidden;
   background-color: #78866B;
@@ -30,8 +30,8 @@
 }
 
 .tooltip::selection {
-  background: #4c5940;
-}
+  background: #78866B;
+} */
 
 .input {
   cursor: pointer;
@@ -68,8 +68,16 @@
 .cdk-virtual-scroll-viewport {
   height: calc(100vh - 40px);
   text-align: left;
+  display: flex;
 }
 
 .item {
   height: 19px;
+  border: none;
+  width: 100vw;
+  font: inherit;
+}
+
+.item:focus {
+  outline-color: #4c5940;
 }
