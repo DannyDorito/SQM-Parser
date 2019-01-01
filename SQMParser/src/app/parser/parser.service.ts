@@ -118,7 +118,6 @@ export class ParserService {
       endIndex = (index + 1);
     }
     this.findErrors(missionTree, startIndex, endIndex);
-    console.log(missionTree);
     return missionTree;
   }
 

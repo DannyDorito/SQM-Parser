@@ -219,7 +219,6 @@ export class AppComponent implements OnInit, OnDestroy {
   }
 
   editNode(event: Event, index: number) {
-    console.log(this.missionTree);
     this.parser.parseAndEditNode(index, this.missionTree, event.toString());
   }
 
