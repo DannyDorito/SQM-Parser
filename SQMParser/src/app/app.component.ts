@@ -218,10 +218,16 @@ export class AppComponent implements OnInit, OnDestroy {
     }
   }
 
+  /**
+   * Edit a passed node from CDK virtual for
+   */
   editNode(event: Event, index: number) {
     this.parser.parseAndEditNode(index, this.missionTree, event.toString());
   }
 
+  /**
+   * Open MatDialog from angular material
+   */
   openDialogue(data: string, isChoice: boolean) {
     if (isChoice) {
       const dialogueRef = this.dialogue.open(DialogueComponent, {
