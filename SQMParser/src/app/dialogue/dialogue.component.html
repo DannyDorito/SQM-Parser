@@ -2,7 +2,7 @@
 <div mat-dialog-actions>
   <!-- Dialogue Without Choice -->
   <button *ngIf="data.isChoice" (click)="onNoClick()">No</button>
-  <button *ngIf="!data.isChoice" (click)="onYesClick()">Okay</button>
+  <button *ngIf="!data.isChoice" (click)="onYesClick()" cdkFocusInitial>Okay</button>
   <!-- Dialogue With Choice -->
-  <button *ngIf="data.isChoice" [mat-dialog-close]="data">Yes</button>
+  <button *ngIf="data.isChoice" [mat-dialog-close]="data" cdkFocusInitial>Yes</button>
 </div>

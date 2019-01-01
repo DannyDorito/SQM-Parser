@@ -15,6 +15,6 @@ export class DialogueComponent {
   }
 
   onYesClick() {
-
+    this.dialogRef.close();
   }
 }
