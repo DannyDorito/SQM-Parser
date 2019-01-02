@@ -24,4 +24,5 @@
 <!-- Context Menu -->
 <div class="context-menu-div unselectable div" *ngIf="showContextMenu" contextmenu="menu" [ngStyle]="{'left.px': contextMenuX, 'top.px': contextMenuY}">
   <button class="context-menu-button" (click)="deleteLine()">Delete</button>
+  <button class="context-menu-button" (click)="addLine()">Add Line</button>
 </div>

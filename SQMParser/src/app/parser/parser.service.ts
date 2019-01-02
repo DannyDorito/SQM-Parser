@@ -57,7 +57,7 @@ export class ParserService {
     let index = 0;
     const containingTypes: Token[] = [];
     const parseType = () => {
-      const newNode = new TreeNode(lexemes[index], Token.DEFAULT, undefined);
+      const newNode = new TreeNode(lexemes[index], undefined);
       for (const tokenRegex of tokensRegex) {
         if (tokenRegex.regex.test(lexemes[index])) {
           if (lexemes[index] === 'class') {

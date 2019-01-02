@@ -174,6 +174,10 @@ export class AppComponent implements OnInit, OnDestroy {
     }
   }
 
+  addLine() {
+    this.missionTree = this.parser.addNode(this.lastSelected, this.missionTree, new TreeNode('', undefined));
+  }
+
   /**
    * Fired when the user clicks the confirm button, main method
    */
@@ -237,7 +241,7 @@ export class AppComponent implements OnInit, OnDestroy {
    * Edit a passed node from CDK virtual for
    */
   editNode(event: Event, index: number) {
-    this.parser.parseAndEditNode(index, this.missionTree, event.toString());
+    this.missionTree = this.parser.parseAndEditNode(index, this.missionTree, event.toString());
   }
 
   /**
@@ -262,7 +266,7 @@ export class AppComponent implements OnInit, OnDestroy {
               this.parser.fixErrors(this.missionTree);
               break;
             case DialogueType.DELETE:
-              this.parser.removeNode(this.lastSelected, this.missionTree);
+              this.missionTree = this.parser.removeNode(this.lastSelected, this.missionTree);
               break;
             default:
               break;
