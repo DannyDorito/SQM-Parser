@@ -29,6 +29,7 @@ export class AppComponent implements OnInit, OnDestroy {
   showContextMenu = false;
   contextMenuX = 0;
   contextMenuY = 0;
+  lastSelected = -1;
 
   constructor(public parser: ParserService, private saver: SaverService, public dialogue: MatDialog) {}
 
@@ -154,11 +155,19 @@ export class AppComponent implements OnInit, OnDestroy {
    */
   onRightClick(rightClickEvent: MouseEvent, index: number) {
     if (index >= 0 && index < this.missionTree.length) {
-      console.log(index);
+      this.lastSelected = index;
       rightClickEvent.preventDefault();
       this.showContextMenu = true;
       this.contextMenuX = rightClickEvent.clientX;
       this.contextMenuY = rightClickEvent.clientY;
+    }
+  }
+
+  deleteLine() {
+    if (this.lastSelected >= 0 && this.lastSelected < this.missionTree.length) {
+      this.openDialogue('Delete line ' + this.lastSelected + '?', DialogueType.DELETE);
+    } else {
+      this.openDialogue('Error: Last selected "' + this.lastSelected + '" is out of bounds!', DialogueType.DEFAULT);
     }
   }
 
@@ -235,10 +244,6 @@ export class AppComponent implements OnInit, OnDestroy {
     return (window.innerHeight - 38);
   }
 
-  deleteLine() {
-
-  }
-
   /**
    * Open MatDialog from angular material
    */
@@ -249,7 +254,16 @@ export class AppComponent implements OnInit, OnDestroy {
       });
       dialogueRef.afterClosed().subscribe(result => {
         if (result) {
-          this.parser.fixErrors(this.missionTree);
+          switch (type) {
+            case DialogueType.FIX_ERRORS:
+              this.parser.fixErrors(this.missionTree);
+              break;
+            case DialogueType.DELETE:
+              this.parser.removeNode(this.lastSelected, this.missionTree);
+              break;
+            default:
+              break;
+          }
         }
       });
     } else {
