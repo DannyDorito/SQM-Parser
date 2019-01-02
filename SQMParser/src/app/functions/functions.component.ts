@@ -4,7 +4,7 @@ import { isNullOrUndefined } from 'util';
 import { SaverService } from '../saver/saver.service';
 import { TreeNode } from '../shared/shared';
 import { DialogueComponent } from '../dialogue/dialogue.component';
-import { DialogueData } from '../shared/dialogue';
+import { DialogueData, DialogueType } from '../shared/dialogue';
 
 @Component({
   selector: 'app-functions',
@@ -120,7 +120,7 @@ export class FunctionsComponent {
    */
   openDialogue(data: string) {
     this.dialogue.open(DialogueComponent, {
-      data: new DialogueData(data, false)
+      data: new DialogueData(data, DialogueType.DEFAULT)
     });
   }
 }

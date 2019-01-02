@@ -1,11 +1,17 @@
 export class DialogueData {
   data: string;
-  isChoice: boolean;
+  type: DialogueType;
   constructor(
     _data: string,
-    _isChoice: boolean
+    _type: DialogueType
   ) {
     this.data = _data;
-    this.isChoice = _isChoice;
+    this.type = _type;
   }
+}
+
+export enum DialogueType {
+  DEFAULT,
+  FIX_ERRORS,
+  DELETE
 }

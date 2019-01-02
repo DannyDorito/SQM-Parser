@@ -1,8 +1,8 @@
 <h1 mat-dialog-title>{{data.data}}</h1>
 <div mat-dialog-actions>
   <!-- Dialogue Without Choice -->
-  <button *ngIf="data.isChoice" (click)="onNoClick()">No</button>
-  <button *ngIf="!data.isChoice" (click)="onYesClick()" cdkFocusInitial>Okay</button>
+  <button *ngIf="data.type === defaultType" (click)="onYesClick()" cdkFocusInitial>Okay</button>
   <!-- Dialogue With Choice -->
-  <button *ngIf="data.isChoice" [mat-dialog-close]="data" cdkFocusInitial>Yes</button>
+  <button *ngIf="data.type !== defaultType" (click)="onNoClick()">No</button>
+  <button *ngIf="data.type !== defaultType" [mat-dialog-close]="data" cdkFocusInitial>Yes</button>
 </div>
