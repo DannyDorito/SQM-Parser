@@ -163,6 +163,9 @@ export class AppComponent implements OnInit, OnDestroy {
     }
   }
 
+  /**
+   * Delete the last selected index of the line that has been right clicked
+   */
   deleteLine() {
     if (this.lastSelected >= 0 && this.lastSelected < this.missionTree.length) {
       this.openDialogue('Delete line ' + this.lastSelected + '?', DialogueType.DELETE);
