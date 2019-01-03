@@ -29,7 +29,7 @@ export class AppComponent implements OnInit, OnDestroy {
   showContextMenu = false;
   contextMenuX = 0;
   contextMenuY = 0;
-  lastSelected = -1;
+  lastSelectedIndex = -1;
 
   constructor(public parser: ParserService, private saver: SaverService, public dialogue: MatDialog) {}
 
@@ -155,7 +155,7 @@ export class AppComponent implements OnInit, OnDestroy {
    */
   onRightClick(rightClickEvent: MouseEvent, index: number) {
     if (index >= 0 && index < this.missionTree.length) {
-      this.lastSelected = index;
+      this.lastSelectedIndex = index;
       rightClickEvent.preventDefault();
       this.showContextMenu = true;
       this.contextMenuX = rightClickEvent.clientX;
@@ -167,15 +167,18 @@ export class AppComponent implements OnInit, OnDestroy {
    * Delete the last selected index of the line that has been right clicked
    */
   deleteLine() {
-    if (this.lastSelected >= 0 && this.lastSelected < this.missionTree.length) {
-      this.openDialogue('Delete line ' + this.lastSelected + '?', DialogueType.DELETE);
+    if (this.lastSelectedIndex >= 0 && this.lastSelectedIndex < this.missionTree.length) {
+      this.openDialogue('Delete line ' + this.lastSelectedIndex + '?', DialogueType.DELETE);
     } else {
-      this.openDialogue('Error: Last selected "' + this.lastSelected + '" is out of bounds!', DialogueType.DEFAULT);
+      this.openDialogue('Error: Last selected "' + this.lastSelectedIndex + '" is out of bounds!', DialogueType.DEFAULT);
     }
   }
 
+  /**
+   * Add a line at the selected index
+   */
   addLine() {
-    this.missionTree = this.parser.addNode(this.lastSelected, this.missionTree, new TreeNode('', undefined));
+    this.missionTree = this.parser.parseAndAddNode(this.lastSelectedIndex, this.missionTree, '');
   }
 
   /**
@@ -266,7 +269,7 @@ export class AppComponent implements OnInit, OnDestroy {
               this.parser.fixErrors(this.missionTree);
               break;
             case DialogueType.DELETE:
-              this.missionTree = this.parser.removeNode(this.lastSelected, this.missionTree);
+              this.missionTree = this.parser.removeNode(this.lastSelectedIndex, this.missionTree);
               break;
             default:
               break;

@@ -57,7 +57,7 @@ export class ParserService {
     let index = 0;
     const containingTypes: Token[] = [];
     const parseType = () => {
-      const newNode = new TreeNode(lexemes[index], undefined);
+      const newNode = new TreeNode(lexemes[index], undefined, '');
       for (const tokenRegex of tokensRegex) {
         if (tokenRegex.regex.test(lexemes[index])) {
           if (lexemes[index] === 'class') {
@@ -92,7 +92,14 @@ export class ParserService {
    * Adds the index of a node from the passed mission tree, then returns the new tree
    */
   addNode(index: number, missionTree: TreeNode[], nodeToAdd: TreeNode) {
-    return missionTree.splice(index, 1, nodeToAdd);
+    if (index === 0) {
+      missionTree.unshift(nodeToAdd);
+    } else if (index === (missionTree.length - 1)) {
+      missionTree.push(nodeToAdd);
+    } else {
+      missionTree.splice(index, 0, nodeToAdd);
+    }
+    return missionTree;
   }
 
   /**
@@ -100,7 +107,8 @@ export class ParserService {
    */
   parseAndAddNode(index: number, missionTree: TreeNode[], inputString: string) {
     const nodeToAdd = this.parser(inputString);
-    return this.addNode(index, missionTree, nodeToAdd);
+    missionTree = this.addNode(index, missionTree, nodeToAdd);
+    return missionTree;
   }
 
   /**
@@ -108,7 +116,11 @@ export class ParserService {
    */
   parseAndEditNode(index: number, missionTree: TreeNode[], inputString: string) {
     missionTree[index] = this.parser(inputString);
-    this.findErrors(missionTree, 0, missionTree.length);
+    let startIndex = index;
+    if (index >= 0) {
+      startIndex = index - 1;
+    }
+    this.findErrors(missionTree, startIndex, index);
     return missionTree;
   }
 
@@ -148,7 +160,7 @@ export class ParserService {
         if (last !== Token.START_BRACE && last !== Token.COMMA) {
           if (previous !== Token.COMMA && previous !== Token.START_BRACE) {
             if (last !== Token.SEMICOLON && missionTree[startIndex].containingTypes[1] !== Token.START_SQUARE_BRACE) {
-              missionTree[startIndex].error += 'Missing: ' + Token.SEMICOLON + ' at the end of line ' + (startIndex + 1) + '!\r\n';
+              missionTree[startIndex].error = 'Missing: "' + Token.SEMICOLON + '" at the end of line ' + (startIndex + 1) + '!\r\n';
               errorCount++;
             }
           }
@@ -156,7 +168,7 @@ export class ParserService {
       } else if (first === Token.CLASS) {
         if (!isNullOrUndefined(missionTree[(startIndex + 1)])) {
           if (missionTree[(startIndex + 1)].containingTypes[0] !== Token.START_BRACE) {
-            missionTree[startIndex].error += 'Missing: ' + Token.START_BRACE + ' at the start of line ' + (startIndex + 2) + '!\r\n';
+            missionTree[startIndex].error = 'Missing: "' + Token.START_BRACE + '" at the start of line ' + (startIndex + 2) + '!\r\n';
             errorCount++;
           }
         }

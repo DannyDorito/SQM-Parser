@@ -7,10 +7,12 @@ export class TreeNode {
 
   constructor(
     _value: string,
-    _innerNode: TreeNode
+    _innerNode: TreeNode,
+    _error: string
   ) {
     this.value = _value;
     this.innerNode = _innerNode;
+    this.error = _error;
   }
 
   /**
