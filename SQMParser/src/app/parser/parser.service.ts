@@ -37,14 +37,14 @@ export class ParserService {
    * Main method execution function for ParserService
    */
   generateTree(inputFile: string[]) {
-    const tree: TreeNode[] = [];
+    const missionTree: TreeNode[] = [];
     for (const inputString of inputFile) {
       const grammar = this.parser(inputString);
       if (!isNullOrUndefined(grammar.value)) {
-        tree.push(grammar);
+        missionTree.push(grammar);
       }
     }
-    return tree;
+    return missionTree;
   }
 
   /**
@@ -177,13 +177,11 @@ export class ParserService {
     return errorCount;
   }
 
+  /**
+   * Fix found errors in the passed missionTree
+   */
   fixErrors(missionTree: TreeNode[]) {
-    const traverseNode = (node: TreeNode) => {
 
-    };
-    for (let index = 0; index < missionTree.length; index++) {
-
-    }
   }
 
   /**
