@@ -134,7 +134,7 @@ export class SaverService {
   /**
    * Disables autosave, removes from localstorage
    */
-  disableAutoSave() {
+  async disableAutoSave() {
     if (window.localStorage) {
       localStorage.removeItem(environment.sqmAutoSaveName);
     } else {
