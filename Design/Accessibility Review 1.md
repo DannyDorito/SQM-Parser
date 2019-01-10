@@ -11,6 +11,6 @@
 * High contrast mode is not implemented
 * Buttons and labels should have the same style
 * Better on hover for buttons and labels
-* Opacity change on hover for intractable components
+* Opacity change on hover for interactable components
 * Add icons where appropriate
 
