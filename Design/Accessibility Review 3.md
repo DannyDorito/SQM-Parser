@@ -4,3 +4,4 @@
 * Backspace on blank line should delete it
 * Better hover interaction
 * Dialogue box should be square
+* Reduce Angular Material CSS bundle size
