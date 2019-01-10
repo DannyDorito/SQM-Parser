@@ -1,4 +1,4 @@
-# Accessability Review 1 - 29th November 2018
+# Accessibility Review 1 - 29th November 2018
 
 * Side bar takes up too much of screen, should be replaced with a header
 * Functions should be hidden until operations on the inputted file is complete
