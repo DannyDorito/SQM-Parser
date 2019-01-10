@@ -2,5 +2,5 @@
 
 * Enter should start a new line
 * Backspace on blank line should delete it
-* Better hover interation
+* Better hover interaction
 * Dialogue box should be square
