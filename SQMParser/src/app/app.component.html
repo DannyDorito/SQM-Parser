@@ -1,20 +1,20 @@
 <!-- Header Toolbar -->
 <div class="toolbar div">
-  <h1 class="unselectable">SQM Parser</h1>
+  <h1 class="unselectable" tabindex="-1">SQM Parser</h1>
   <!-- Functions -->
   <app-functions [isComplete]="isComplete" [missionTree]="missionTree" [fileName]="fileName"></app-functions>
 </div>
 <div class="content div">
   <!-- Input -->
   <div class="center-div div" *ngIf="!isConfirmed && !fileReaderString && !isComplete" (drop)="onDrop($event)" (dragover)="onDragOver($event)" (dragleave)="onDragEnd($event)">
-    <input class="input-class" type="file" accept=".sqm" id="SQMselect" (change)="onFileChanged($event)">
+    <input class="input-class" type="file" accept=".sqm" id="SQMselect" (change)="onFileChanged($event)" aria-hidden="true" required>
     <!-- https://www.academind.com/learn/angular/snippets/angular-image-upload-made-easy/ [Online] Accessed 9th October 2018-->
-    <label class="input unselectable" for="SQMselect">{{isDraggingFile ? 'Drop File To Upload!' : 'Click to Select File!'}}</label>
+    <label class="input" for="SQMselect" tabindex="0">{{isDraggingFile ? 'Drop File To Upload!' : 'Click to Select File!'}}</label>
   </div>
   <!-- Cancel & confirmation button -->
   <div class="center-div div" *ngIf="!isConfirmed && !isComplete && fileReaderString">
-    <button class="input" (click)="cancelSelection()">Cancel</button>
-    <button class="input" (click)="confirmSelection()">Confirm</button>
+    <button class="input" tabindex="0" (click)="cancelSelection()" (keydown.enter)="cancelSelection()">Cancel</button>
+    <button class="input" tabindex="1" (click)="confirmSelection()" (keydown.enter)="confirmSelection()">Confirm</button>
   </div>
 </div>
 <!-- AST List -->
@@ -23,6 +23,6 @@
 </cdk-virtual-scroll-viewport>
 <!-- Context Menu -->
 <div class="context-menu-div unselectable div" *ngIf="showContextMenu" contextmenu="menu" [ngStyle]="{'left.px': contextMenuX, 'top.px': contextMenuY}">
-  <button class="context-menu-button" (click)="deleteLine()">Delete</button>
-  <button class="context-menu-button" (click)="addLine()">Add Line</button>
+  <button class="context-menu-button" (click)="deleteLine()" (keydown.enter)="deleteLine()"></button>
+  <button class="context-menu-button" (click)="addLine()" (keydown.enter)="addLine()">Add Line</button>
 </div>
