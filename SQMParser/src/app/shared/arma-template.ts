@@ -9,6 +9,7 @@ export class NPCTemplate extends TemplateClass {
   }
 
   toString() {
+    return 'NPC';
   }
 }
 
@@ -18,6 +19,7 @@ export class PlayerTemplate extends TemplateClass {
   }
 
   toString() {
+    return 'Player';
   }
 }
 
@@ -27,6 +29,7 @@ export class VehicleTemplate extends TemplateClass {
   }
 
   toString() {
+    return 'Vehicle';
   }
 }
 
@@ -36,6 +39,7 @@ export class WeatherTemplate extends TemplateClass {
   }
 
   toString() {
+    return 'Weather';
   }
 }
 
@@ -45,6 +49,7 @@ export class IntroTemplate extends TemplateClass {
   }
 
   toString() {
+    return 'Intro';
   }
 }
 
@@ -54,6 +59,7 @@ export class OutroTemplate extends TemplateClass {
   }
 
   toString() {
+    return 'Outro';
   }
 }
 
@@ -63,6 +69,7 @@ export class SquadTemplate extends TemplateClass {
   }
 
   toString() {
+    return 'Squad';
   }
 }
 
@@ -72,5 +79,6 @@ export class ObjectTemplate extends TemplateClass {
   }
 
   toString() {
+    return 'Object';
   }
 }
