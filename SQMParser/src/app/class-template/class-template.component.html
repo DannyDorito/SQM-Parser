@@ -3,6 +3,6 @@
 
 </div>
 <div mat-dialog-actions>
-  <button (click)="onNoClick()">Cancel</button>
-  <button>Okay</button>
+  <button (click)="onNoClick()" (keydown.enter)="onNoClick()" tabindex="0">Cancel</button>
+  <button tabindex="1">Okay</button>
 </div>
