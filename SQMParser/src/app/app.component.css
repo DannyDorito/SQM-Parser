@@ -4,35 +4,6 @@
   width: 100vw;
 }
 
-/* .tooltip .tooltiptext {
-  width: 200px;
-  visibility: hidden;
-  background-color: #78866B;
-  color: black;
-  text-align: center;
-  position: absolute;
-  z-index: 1;
-  opacity: 0;
-  transition: opacity 0.3s;
-}
-
-.tooltip .tooltiptext::after {
-  content: "";
-  position: absolute;
-  bottom: 100%;
-  left: 50%;
-  margin-left: -5px;
-}
-
-.tooltip:hover .tooltiptext {
-  visibility: visible;
-  opacity: 1;
-}
-
-.tooltip::selection {
-  background: #78866B;
-} */
-
 .input {
   cursor: pointer;
   font-size: 28px;
@@ -48,6 +19,11 @@
 
 .input:hover {
   text-decoration: underline;
+}
+
+.input:focus {
+  outline: none;
+  border: 5px solid #4c5940;
 }
 
 .toolbar {
