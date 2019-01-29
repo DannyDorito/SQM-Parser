@@ -9,13 +9,14 @@ import { DialogueData, DialogueType } from '../shared/dialogue';
 })
 export class DialogueComponent {
   defaultType: DialogueType = DialogueType.DEFAULT;
-  constructor(public dialogRef: MatDialogRef<DialogueComponent>, @Inject(MAT_DIALOG_DATA) public data: DialogueData) {}
+  constructor(public dialogueRef: MatDialogRef<DialogueComponent>,
+    @Inject(MAT_DIALOG_DATA) public data: DialogueData) {}
 
   onNoClick() {
-    this.dialogRef.close();
+    this.dialogueRef.close();
   }
 
   onYesClick() {
-    this.dialogRef.close();
+    this.dialogueRef.close();
   }
 }
