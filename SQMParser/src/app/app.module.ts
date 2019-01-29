@@ -11,13 +11,15 @@ import { AppComponent } from './app.component';
 import { DialogueComponent } from './dialogue/dialogue.component';
 import { FunctionsComponent } from './functions/functions.component';
 import { NotFoundComponent } from './not-found/not-found.component';
+import { ClassTemplateComponent } from './class-template/class-template.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     NotFoundComponent,
     FunctionsComponent,
-    DialogueComponent
+    DialogueComponent,
+    ClassTemplateComponent
   ],
   imports: [
     BrowserModule,
