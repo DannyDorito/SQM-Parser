@@ -32,11 +32,14 @@ button:hover {
   opacity: 1;
   text-decoration: underline;
   transition: opacity 0.3s;
-  cursor:pointer;
+  cursor: pointer;
+  outline-color: #4c5940;
+  outline-width: thick;
 }
 
-button:focus {
-  outline: #4C5940;
+button:focus, label:focus {
+  outline-color: #4c5940;
+  outline-width: thick;
 }
 
 p {

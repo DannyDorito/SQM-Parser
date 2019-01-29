@@ -22,8 +22,8 @@
 }
 
 .input:focus {
-  outline: none;
-  border: 5px solid #4c5940;
+  outline-color: #4c5940;
+  outline-width: thick;
 }
 
 .toolbar {
