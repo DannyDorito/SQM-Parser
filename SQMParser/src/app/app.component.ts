@@ -248,13 +248,6 @@ export class AppComponent implements OnInit, OnDestroy {
   }
 
   /**
-   * Calculates the max height of the viewport - the toolbar size (toolbar size is always 38px)
-   */
-  getMaxSize() {
-    return (window.innerHeight - 38);
-  }
-
-  /**
    * Open MatDialog from angular material
    */
   openDialogue(data: string, type: DialogueType) {
