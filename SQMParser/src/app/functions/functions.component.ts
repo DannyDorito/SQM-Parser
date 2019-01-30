@@ -85,15 +85,22 @@ export class FunctionsComponent {
   removeDependencies() {
     const missionAST = this.missionTree;
     if (missionAST.length > 0) {
-      const addOns = this.getIndex('addOns', missionAST, 0);
+      let addOns = this.getIndex('addOns', missionAST, 0);
+      if (addOns === undefined) {
+        addOns = this.getIndex('addons', missionAST, 0);
+      }
       if (!isNullOrUndefined(addOns)) {
-        missionAST.splice(addOns, this.getIndex('}', missionAST, addOns));
+        missionAST.splice(addOns, this.getIndex(';', missionAST, addOns));
       } else {
         this.openDialogue('Error: Cannot find "addOns"!');
       }
-      const addOnsAutoIndex = this.getIndex('addOnsAuto', missionAST, 0);
+
+      let addOnsAutoIndex = this.getIndex('addOnsAuto', missionAST, 0);
+      if (addOns === undefined) {
+        addOnsAutoIndex = this.getIndex('addonsauto', missionAST, 0);
+      }
       if (!isNullOrUndefined(addOnsAutoIndex)) {
-        missionAST.splice(addOnsAutoIndex, this.getIndex('}', missionAST, addOnsAutoIndex));
+        missionAST.splice(addOnsAutoIndex, this.getIndex(';', missionAST, addOnsAutoIndex));
       } else {
         this.openDialogue('Error: Cannot Find "addOnsAuto"!');
       }
@@ -107,9 +114,9 @@ export class FunctionsComponent {
    * Get the index of an item from the missionAST tree
    */
   getIndex(value: string, missionAST: TreeNode[], index: number) {
-    for (index < missionAST.length; index++;) {
+    for (let i = 0; i < missionAST.length; i++) {
       if (missionAST[index].value === value) {
-        return index;
+        return i;
       }
     }
     return undefined;
