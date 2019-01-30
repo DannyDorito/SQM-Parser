@@ -8,7 +8,7 @@ import { FunctionsComponent } from './functions/functions.component';
 import { ParserService } from './parser/parser.service';
 import { SaverService } from './saver/saver.service';
 import { DialogueData, DialogueType } from './shared/dialogue';
-import { TreeNode } from './shared/shared';
+import { TreeNode, Token } from './shared/shared';
 
 @Component({
   selector: 'app-root',
@@ -245,6 +245,14 @@ export class AppComponent implements OnInit, OnDestroy {
    */
   editNode(event: Event, index: number) {
     this.missionTree = this.parser.parseAndEditNode(index, this.missionTree, event.toString());
+  }
+
+  getError(node: TreeNode) {
+    if (node.error !== Token.DEFAULT && !isNullOrUndefined(node.error)) {
+      return 'Missing ' + node.error;
+    } else {
+      return null;
+    }
   }
 
   /**

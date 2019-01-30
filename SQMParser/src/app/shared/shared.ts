@@ -3,12 +3,12 @@ export class TreeNode {
   nodeType: Token = Token.DEFAULT;
   innerNode: TreeNode;
   containingTypes: Token[];
-  error: string;
+  error: Token;
 
   constructor(
     _value: string,
     _innerNode: TreeNode,
-    _error: string
+    _error: Token
   ) {
     this.value = _value;
     this.innerNode = _innerNode;
