@@ -102,25 +102,33 @@ export class AppComponent implements OnInit, OnDestroy {
   }
 
   /**
+   * ASYNC
    * Fired when user drags a file, when a file has been found, change the binding text for the label
    * https://scotch.io/@minrock/how-to-create-a-drag-and-drop-file-directive-in-angular2-with-angular-cli-part-1 [Online] Accessed 29th November 2018
    * https://developer.mozilla.org/en-US/docs/Web/API/DragEvent [Online] Accessed 29th November 2018
    */
-  onDragOver(dragEvent: DragEvent) {
+  async onDragOver(dragEvent: DragEvent) {
     dragEvent.preventDefault();
     dragEvent.stopPropagation();
-    this.isDraggingFile = true;
+    (async () => {
+      await this.delay(500);
+      this.isDraggingFile = true;
+    })();
   }
 
   /**
+   * ASYNC
    * Fired when the user stops dragging a file
    * https://www.w3schools.com/tags/ev_ondragend.asp [Online] Accessed 29th November 2018
    * https://developer.mozilla.org/en-US/docs/Web/API/DragEvent [Online] Accessed 29th November 2018
    */
-  onDragEnd(dragEvent: DragEvent) {
+  async onDragEnd(dragEvent: DragEvent) {
     dragEvent.preventDefault();
     dragEvent.stopPropagation();
-    this.isDraggingFile = false;
+    (async () => {
+      await this.delay(500);
+      this.isDraggingFile = false;
+    })();
   }
 
   /**
@@ -133,7 +141,6 @@ export class AppComponent implements OnInit, OnDestroy {
     dropEvent.stopPropagation();
     const files = dropEvent.dataTransfer.files;
     if (files.length === 1) {
-      this.isDraggingFile = false;
       try {
         this.fileName = dropEvent.dataTransfer.files[0].name;
         if (!this.saver.validName(this.fileName)) {
@@ -283,4 +290,7 @@ export class AppComponent implements OnInit, OnDestroy {
       });
     }
   }
+
+  async delay(milliseconds: number) {
+    return new Promise( resolve => setTimeout(resolve, milliseconds) );  }
 }
