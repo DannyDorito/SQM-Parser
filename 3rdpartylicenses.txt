@@ -332,9 +332,6 @@ MIT
 @angular/router
 MIT
 
-@angular/animations
-MIT
-
 @angular/cdk
 MIT
 The MIT License
@@ -360,6 +357,9 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 
 
+@angular/animations
+MIT
+
 @angular/material
 MIT
 The MIT License
@@ -384,6 +384,8 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 
+
+@angular/material/menu
 
 @angular/forms
 MIT
