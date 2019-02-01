@@ -7,7 +7,8 @@ export const environment = {
   sqmLocalStorageName: 'sqmAST',
   sqmAutoSaveName: 'sqmAutoSave',
   sqmSavePeriodMins: 10,
-  sqmFileName: 'sqmFileName'
+  sqmFileName: 'sqmFileName',
+  dropDelayInMS: 500
 };
 
 /*

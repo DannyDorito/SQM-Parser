@@ -111,7 +111,7 @@ export class AppComponent implements OnInit, OnDestroy {
     dragEvent.preventDefault();
     dragEvent.stopPropagation();
     (async () => {
-      await this.delay(500);
+      await this.delay(environment.dropDelayInMS);
       this.isDraggingFile = true;
     })();
   }
@@ -126,7 +126,7 @@ export class AppComponent implements OnInit, OnDestroy {
     dragEvent.preventDefault();
     dragEvent.stopPropagation();
     (async () => {
-      await this.delay(500);
+      await this.delay(environment.dropDelayInMS);
       this.isDraggingFile = false;
     })();
   }
