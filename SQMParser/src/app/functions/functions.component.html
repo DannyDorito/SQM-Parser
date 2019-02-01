@@ -1,14 +1,14 @@
 <div *ngIf="isComplete">
   <mat-menu #functionsMenu="matMenu">
-    <button mat-menu-item (click)="removeDependencies()" (keydown.enter)="removeDependencies()" tabindex="3">Remove Addons</button>
-    <button mat-menu-item (click)="toggleAutoSave()" (keydown.enter)="toggleAutoSave()" tabindex="4">{{sqmAST ? 'Disable Autosave' : 'Enable Autosave'}}</button>
+    <button mat-menu-item disableRipple="true" (click)="removeDependencies()" (keydown.enter)="removeDependencies()" tabindex="3">Remove Addons</button>
+    <button mat-menu-item disableRipple="true" (click)="toggleAutoSave()" (keydown.enter)="toggleAutoSave()" tabindex="4">{{sqmAST ? 'Disable Autosave' : 'Enable Autosave'}}</button>
   </mat-menu>
   <button class="menu-button" [matMenuTriggerFor]="functionsMenu">Functions</button>
 
   <mat-menu #backupMenu="matMenu">
-    <button mat-menu-item (click)="saveSQM()" (keydown.enter)="saveSQM()">Backup</button>
-    <button mat-menu-item (click)="clearSQM()" (keydown.enter)="clearSQM()">Clear Backup</button>
-    <button mat-menu-item (click)="exportSQM()" (keydown.enter)="exportSQM()">Export</button>
+    <button mat-menu-item disableRipple="true" (click)="saveSQM()" (keydown.enter)="saveSQM()">Backup</button>
+    <button mat-menu-item disableRipple="true" (click)="clearSQM()" (keydown.enter)="clearSQM()">Clear Backup</button>
+    <button mat-menu-item disableRipple="true" (click)="exportSQM()" (keydown.enter)="exportSQM()">Export</button>
   </mat-menu>
   <button class="menu-button" [matMenuTriggerFor]="backupMenu">Backup/Save</button>
 </div>
