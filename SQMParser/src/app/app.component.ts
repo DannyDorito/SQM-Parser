@@ -291,6 +291,10 @@ export class AppComponent implements OnInit, OnDestroy {
     }
   }
 
+  /**
+   * Artificial async/await delay
+   */
   async delay(milliseconds: number) {
-    return new Promise( resolve => setTimeout(resolve, milliseconds) );  }
+    return new Promise( resolve => setTimeout(resolve, milliseconds) );
+  }
 }
