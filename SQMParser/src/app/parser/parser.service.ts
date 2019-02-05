@@ -15,20 +15,6 @@ const tokensRegex = [
   { regex: /[a-zA-Z]+/, tokenType: Token.STRING },
   { regex: /;/, tokenType: Token.SEMICOLON }
 ];
-const symbolTable = [
-  { tokenType: Token.STRING, potentialNext: [Token.EQUALS, Token.START_SQUARE_BRACE, Token.QUOTE]},
-  { tokenType: Token.EQUALS, potentialNext: [Token.STRING, Token.START_BRACE, Token.QUOTE, Token.NUMBER, Token.BOOLEAN]},
-  { tokenType: Token.START_BRACE, potentialNext: [Token.STRING, Token.END_BRACE, Token.QUOTE, Token.NUMBER, Token.BOOLEAN, Token.CLASS]},
-  { tokenType: Token.END_BRACE, potentialNext: [Token.SEMICOLON]},
-  { tokenType: Token.START_SQUARE_BRACE, potentialNext: [Token.END_SQUARE_BRACE]},
-  { tokenType: Token.END_SQUARE_BRACE, potentialNext: [Token.EQUALS]},
-  { tokenType: Token.SEMICOLON, potentialNext: [Token.STRING, Token.END_BRACE]},
-  { tokenType: Token.COMMA, potentialNext: [Token.QUOTE, Token.NUMBER, Token.BOOLEAN]},
-  { tokenType: Token.QUOTE, potentialNext: [Token.STRING, Token.END_BRACE, Token.SEMICOLON, Token.COMMA, Token.QUOTE]},
-  { tokenType: Token.NUMBER, potentialNext: [Token.SEMICOLON, Token.COMMA]},
-  { tokenType: Token.BOOLEAN, potentialNext: [Token.SEMICOLON, Token.COMMA]},
-  { tokenType: Token.CLASS, potentialNext: [Token.STRING, Token.START_BRACE]}
-];
 @Injectable({
   providedIn: 'root'
 })
