@@ -188,7 +188,7 @@ export class ParserService {
       }
       return returnNode;
     };
-    missionTree.forEach((node, index, missionTreeCopy) => {
+    missionTree.forEach((node) => {
       if (!isNullOrUndefined(node.error)) {
         switch (node.error) {
           case (Token.SEMICOLON):
