@@ -23,6 +23,6 @@
 </cdk-virtual-scroll-viewport>
 <!-- Context Menu -->
 <div class="context-menu-div unselectable div" *ngIf="showContextMenu" contextmenu="menu" [ngStyle]="{'left.px': contextMenuX, 'top.px': contextMenuY}">
-  <button class="context-menu-button" (click)="deleteLine()" (keydown.enter)="deleteLine()"></button>
+  <button class="context-menu-button" (click)="deleteLine()" (keydown.enter)="deleteLine()">Delete Line</button>
   <button class="context-menu-button" (click)="addLine()" (keydown.enter)="addLine()">Add Line</button>
 </div>
