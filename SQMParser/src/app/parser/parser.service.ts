@@ -181,22 +181,47 @@ export class ParserService {
    * Fix found errors in the passed missionTree
    */
   fixErrors(missionTree: TreeNode[]) {
-    for (let index = 0; index < missionTree.length; index++) {
-      if (!isNullOrUndefined(missionTree[index].error)) {
-        switch (missionTree[index].error) {
+    // for (let index = 0; index < missionTree.length; index++) {
+    //   if (!isNullOrUndefined(missionTree[index].error)) {
+    //     switch (missionTree[index].error) {
+    //       case (Token.SEMICOLON):
+    //         // TODO: out of bounds
+    //         missionTree = this.addNode(index, missionTree, new TreeNode(';', undefined, undefined));
+    //         break;
+    //       case (Token.START_BRACE):
+    //         // TODO: out of bounds
+    //         missionTree = this.addNode(index, missionTree, new TreeNode('{', undefined, undefined));
+    //         break;
+    //       default:
+    //         break;
+    //     }
+    //   }
+    // }
+    const getFinalNode = (node: TreeNode) => {
+      let returnNode = node;
+      while (!isNullOrUndefined(returnNode.innerNode)) {
+        returnNode = returnNode.innerNode;
+      }
+      return returnNode;
+    };
+    missionTree.forEach((node, index, missionTreeCopy) => {
+      if (!isNullOrUndefined(node.error)) {
+        switch (node.error) {
           case (Token.SEMICOLON):
-            // TODO: out of bounds
-            missionTree = this.addNode(index, missionTree, new TreeNode(';', undefined, undefined));
+            const finalSemiColonNode = getFinalNode(node);
+            finalSemiColonNode.innerNode = new TreeNode(';', undefined, undefined);
+            node.error = undefined;
             break;
           case (Token.START_BRACE):
-            // TODO: out of bounds
-            missionTree.push(new TreeNode('{', undefined, undefined));
+            const finalStart_BraceNode = getFinalNode(node);
+            finalStart_BraceNode.innerNode = new TreeNode(';', undefined, undefined);
+            node.error = undefined;
             break;
           default:
             break;
         }
       }
-    }
+    });
     return missionTree;
   }
 
