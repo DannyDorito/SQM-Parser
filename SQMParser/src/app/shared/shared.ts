@@ -30,16 +30,16 @@ export class TreeNode {
 
 export enum Token {
   DEFAULT = 'DEFAULT',
-  START_BRACE = '}',
-  END_BRACE = '}',
-  START_SQUARE_BRACE = '[',
-  END_SQUARE_BRACE = ']',
-  SEMICOLON = ';',
-  EQUALS = '=',
-  COMMA = ',',
-  QUOTE = '"',
-  NUMBER = 'Number',
-  BOOLEAN = 'Boolean',
-  STRING = 'String',
-  CLASS = 'Class'
+    START_BRACE = '}',
+    END_BRACE = '}',
+    START_SQUARE_BRACE = '[',
+    END_SQUARE_BRACE = ']',
+    SEMICOLON = ';',
+    EQUALS = '=',
+    COMMA = ',',
+    QUOTE = '"',
+    NUMBER = 'Number',
+    BOOLEAN = 'Boolean',
+    STRING = 'String',
+    CLASS = 'Class'
 }

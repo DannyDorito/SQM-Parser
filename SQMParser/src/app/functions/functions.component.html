@@ -4,7 +4,6 @@
     <button mat-menu-item disableRipple="true" (click)="toggleAutoSave()" (keydown.enter)="toggleAutoSave()" tabindex="4">{{sqmAST ? 'Disable Autosave' : 'Enable Autosave'}}</button>
   </mat-menu>
   <button class="menu-button" [matMenuTriggerFor]="functionsMenu">Functions</button>
-
   <mat-menu #backupMenu="matMenu">
     <button mat-menu-item disableRipple="true" (click)="saveSQM()" (keydown.enter)="saveSQM()">Backup</button>
     <button mat-menu-item disableRipple="true" (click)="clearSQM()" (keydown.enter)="clearSQM()">Clear Backup</button>

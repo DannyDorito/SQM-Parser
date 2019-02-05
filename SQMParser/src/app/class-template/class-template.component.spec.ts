@@ -1,5 +1,4 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-
 import { ClassTemplateComponent } from './class-template.component';
 
 describe('ClassTemplateComponent', () => {

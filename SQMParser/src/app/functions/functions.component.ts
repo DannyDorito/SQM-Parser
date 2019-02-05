@@ -1,10 +1,10 @@
 import { Component, Input } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { isNullOrUndefined } from 'util';
-import { SaverService } from '../saver/saver.service';
-import { TreeNode } from '../shared/shared';
 import { DialogueComponent } from '../dialogue/dialogue.component';
+import { SaverService } from '../saver/saver.service';
 import { DialogueData, DialogueType } from '../shared/dialogue';
+import { TreeNode } from '../shared/shared';
 
 @Component({
   selector: 'app-functions',

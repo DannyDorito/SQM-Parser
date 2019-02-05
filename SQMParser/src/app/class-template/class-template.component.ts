@@ -1,6 +1,6 @@
 import { Component, Inject } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { NPCTemplate, PlayerTemplate, VehicleTemplate, WeatherTemplate, IntroTemplate, OutroTemplate, SquadTemplate, ObjectTemplate } from '../shared/arma-template';
+import { IntroTemplate, NPCTemplate, ObjectTemplate, OutroTemplate, PlayerTemplate, SquadTemplate, VehicleTemplate, WeatherTemplate } from '../shared/arma-template';
 
 @Component({
   selector: 'app-class-template',
