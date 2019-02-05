@@ -181,22 +181,6 @@ export class ParserService {
    * Fix found errors in the passed missionTree
    */
   fixErrors(missionTree: TreeNode[]) {
-    // for (let index = 0; index < missionTree.length; index++) {
-    //   if (!isNullOrUndefined(missionTree[index].error)) {
-    //     switch (missionTree[index].error) {
-    //       case (Token.SEMICOLON):
-    //         // TODO: out of bounds
-    //         missionTree = this.addNode(index, missionTree, new TreeNode(';', undefined, undefined));
-    //         break;
-    //       case (Token.START_BRACE):
-    //         // TODO: out of bounds
-    //         missionTree = this.addNode(index, missionTree, new TreeNode('{', undefined, undefined));
-    //         break;
-    //       default:
-    //         break;
-    //     }
-    //   }
-    // }
     const getFinalNode = (node: TreeNode) => {
       let returnNode = node;
       while (!isNullOrUndefined(returnNode.innerNode)) {
