@@ -254,6 +254,9 @@ export class AppComponent implements OnInit, OnDestroy {
     this.missionTree = this.parser.parseAndEditNode(index, this.missionTree, event.toString());
   }
 
+  /**
+   * Get error from a given node
+   */
   getError(node: TreeNode) {
     if (node.error !== Token.DEFAULT && !isNullOrUndefined(node.error)) {
       return 'Missing ' + node.error;
