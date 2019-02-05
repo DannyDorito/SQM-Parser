@@ -258,7 +258,7 @@ export class AppComponent implements OnInit, OnDestroy {
     if (node.error !== Token.DEFAULT && !isNullOrUndefined(node.error)) {
       return 'Missing ' + node.error;
     } else {
-      return null;
+      return '';
     }
   }
 
