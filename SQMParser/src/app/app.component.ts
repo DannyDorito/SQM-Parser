@@ -238,6 +238,9 @@ export class AppComponent implements OnInit, OnDestroy {
     this.missionTreeToTreeData(this.treeData, this.missionTree);
   }
 
+  /**
+   * Map missionTree TreeNode[] to the Angular Material Tree component dataSource
+   */
   missionTreeToTreeData(treeData: TreeData[], missionTree: TreeNode[]) {
     let currentNode: TreeNode;
     let newTreeData = new TreeData(undefined, []);
