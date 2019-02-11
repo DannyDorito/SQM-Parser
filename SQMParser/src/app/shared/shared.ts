@@ -28,6 +28,19 @@ export class TreeNode {
   }
 }
 
+export class TreeData {
+  value: string;
+  children: TreeData[];
+  error: String;
+  constructor(
+    _value: string,
+    _children: TreeData[],
+  ) {
+    this.value = _value;
+    this.children = _children;
+  }
+}
+
 export enum Token {
   DEFAULT = 'DEFAULT',
     START_BRACE = '}',

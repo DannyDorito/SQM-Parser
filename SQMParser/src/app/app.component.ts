@@ -8,7 +8,7 @@ import { FunctionsComponent } from './functions/functions.component';
 import { ParserService } from './parser/parser.service';
 import { SaverService } from './saver/saver.service';
 import { DialogueData, DialogueType } from './shared/dialogue';
-import { Token, TreeNode } from './shared/shared';
+import { Token, TreeNode, TreeData } from './shared/shared';
 
 @Component({
   selector: 'app-root',
@@ -25,6 +25,7 @@ export class AppComponent implements OnInit, OnDestroy {
 
   @ViewChild(FunctionsComponent) missionTree: TreeNode[];
   @ViewChild(FunctionsComponent) fileName: string;
+  treeData: TreeData[] = [];
 
   showContextMenu = false;
   contextMenuX = 0;
@@ -234,6 +235,36 @@ export class AppComponent implements OnInit, OnDestroy {
     }
     const t3 = performance.now();
     console.log('Errors generated in: ' + (t3 - t2) + 'ms');
+  }
+
+  missionTreeToTreeData(treeData: TreeData[], missionTree: TreeNode[]) {
+    let currentNode: TreeNode;
+    let newTreeData = new TreeData(undefined, []);
+    const getNextNode = (node: TreeNode, nextNode: TreeNode) => {
+      if (isNullOrUndefined(node)) {
+        index++;
+        return nextNode;
+      } else {
+        if (!isNullOrUndefined(node.innerNode)) {
+          return node.innerNode;
+        } else {
+          index++;
+          return nextNode;
+        }
+      }
+    };
+    let index = 0;
+    while (!isNullOrUndefined(currentNode)) {
+      if (currentNode.nodeType === Token.START_BRACE) {
+        newTreeData.children.push(new TreeData(currentNode.value, []));
+      } else if (currentNode.nodeType === Token.SEMICOLON) {
+        treeData.push(newTreeData);
+        newTreeData = new TreeData(undefined, []);
+      } else {
+        newTreeData.value = currentNode.value;
+      }
+      currentNode = getNextNode(currentNode, missionTree[index]);
+    }
   }
 
   /**
