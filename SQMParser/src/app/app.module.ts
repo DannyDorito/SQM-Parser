@@ -3,6 +3,7 @@ import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatMenuModule } from '@angular/material/menu';
+import { MatTreeModule } from '@angular/material/tree';
 import { BrowserModule } from '@angular/platform-browser';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { ServiceWorkerModule } from '@angular/service-worker';
@@ -30,7 +31,8 @@ import { NotFoundComponent } from './not-found/not-found.component';
     ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production }),
     NoopAnimationsModule,
     MatDialogModule,
-    MatMenuModule
+    MatMenuModule,
+    MatTreeModule
   ],
   providers: [AppComponent],
   bootstrap: [AppComponent],
