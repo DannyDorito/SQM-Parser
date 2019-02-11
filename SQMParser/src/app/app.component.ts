@@ -235,6 +235,7 @@ export class AppComponent implements OnInit, OnDestroy {
     }
     const t3 = performance.now();
     console.log('Errors generated in: ' + (t3 - t2) + 'ms');
+    this.missionTreeToTreeData(this.treeData, this.missionTree);
   }
 
   missionTreeToTreeData(treeData: TreeData[], missionTree: TreeNode[]) {
