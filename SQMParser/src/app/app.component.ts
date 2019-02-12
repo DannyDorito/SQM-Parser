@@ -236,6 +236,7 @@ export class AppComponent implements OnInit, OnDestroy {
     const t3 = performance.now();
     console.log('Errors generated in: ' + (t3 - t2) + 'ms');
     this.missionTreeToTreeData(this.treeData, this.missionTree);
+    console.log(this.treeData);
   }
 
   /**
@@ -258,6 +259,7 @@ export class AppComponent implements OnInit, OnDestroy {
       }
     };
     let index = 0;
+    currentNode = missionTree[index];
     while (!isNullOrUndefined(currentNode)) {
       if (currentNode.nodeType === Token.START_BRACE) {
         newTreeData.children.push(new TreeData(currentNode.value, []));
@@ -267,7 +269,12 @@ export class AppComponent implements OnInit, OnDestroy {
       } else {
         newTreeData.value = currentNode.value;
       }
-      currentNode = getNextNode(currentNode, missionTree[index]);
+
+      if (index < (missionTree.length - 1)) {
+        currentNode = getNextNode(currentNode, missionTree[(index + 1)]);
+      } else {
+        currentNode = getNextNode(currentNode, missionTree[index]);
+      }
     }
   }
 
