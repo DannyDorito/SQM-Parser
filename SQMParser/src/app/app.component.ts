@@ -243,8 +243,9 @@ export class AppComponent implements OnInit, OnDestroy {
    * Map missionTree TreeNode[] to the Angular Material Tree component dataSource
    */
   missionTreeToTreeData(treeData: TreeData[], missionTree: TreeNode[]) {
-    let currentNode: TreeNode;
     let newTreeData = new TreeData(undefined, []);
+    let index = 0;
+    let currentNode = missionTree[index];
     const getNextNode = (node: TreeNode, nextNode: TreeNode) => {
       if (isNullOrUndefined(node)) {
         index++;
@@ -258,15 +259,15 @@ export class AppComponent implements OnInit, OnDestroy {
         }
       }
     };
-    let index = 0;
-    currentNode = missionTree[index];
     while (!isNullOrUndefined(currentNode)) {
       if (currentNode.nodeType === Token.START_BRACE) {
+        console.log('hit start');
         newTreeData.children.push(new TreeData(currentNode.value, []));
+        treeData.push(new TreeData(currentNode.value, []));
       } else if (currentNode.nodeType === Token.SEMICOLON) {
-        treeData.push(newTreeData);
-        newTreeData = new TreeData(undefined, []);
+        console.log('hit end');
       } else {
+        console.log('else');
         newTreeData.value = currentNode.value;
       }
 
