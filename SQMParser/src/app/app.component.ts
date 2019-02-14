@@ -9,7 +9,6 @@ import { ParserService } from './parser/parser.service';
 import { SaverService } from './saver/saver.service';
 import { DialogueData, DialogueType } from './shared/dialogue';
 import { Token, TreeNode, TreeData } from './shared/shared';
-import { FlatTreeControl } from '@angular/cdk/tree';
 
 @Component({
   selector: 'app-root',
@@ -21,7 +20,6 @@ export class AppComponent implements OnInit, OnDestroy {
   isConfirmed = false;
   isComplete: boolean;
   isDraggingFile = false;
-  treeControl: FlatTreeControl<TreeNode[]>;
 
   timerSubscribe: Subscription;
 
