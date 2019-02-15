@@ -166,7 +166,7 @@ export class ParserService {
   /**
    * Map missionTree MissionTreeNode[] to the Angular Material Tree component dataSource
    */
-  missionTreeToTreeData(treeData: TreeData[], missionTree: MissionTreeNode[]) {
+  async missionTreeToTreeData(treeData: TreeData[], missionTree: MissionTreeNode[]) {
     const newTreeData = new TreeData(undefined, []);
     let index = 0;
     let currentNode = missionTree[index];
@@ -192,6 +192,13 @@ export class ParserService {
         index = nextNode.index;
       }
     }
+  }
+
+  /**
+   * Map generated TreeData array to Angular Material Tree Control
+   */
+  missionTreeToTreeControl(treeData: TreeData[]) {
+    return treeData.map(data => data.value);
   }
 
   /**
