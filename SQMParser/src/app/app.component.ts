@@ -235,39 +235,8 @@ export class AppComponent implements OnInit, OnDestroy {
     }
     const t3 = performance.now();
     console.log('Errors generated in: ' + (t3 - t2) + 'ms');
-    this.missionTreeToTreeData(this.treeData, this.missionTree);
+    this.parser.missionTreeToTreeData(this.treeData, this.missionTree);
     console.log(this.treeData);
-  }
-
-  /**
-   * Map missionTree TreeNode[] to the Angular Material Tree component dataSource
-   */
-  missionTreeToTreeData(treeData: TreeData[], missionTree: MissionTreeNode[]) {
-    const newTreeData = new TreeData(undefined, []);
-    let index = 0;
-    let currentNode = missionTree[index];
-    while (!isNullOrUndefined(currentNode)) {
-      if (currentNode.nodeType === Token.START_BRACE) {
-        console.log('hit start');
-        newTreeData.children.push(new TreeData(currentNode.value, []));
-        treeData.push(new TreeData(currentNode.value, []));
-      } else if (currentNode.nodeType === Token.SEMICOLON) {
-        console.log('hit end');
-      } else {
-        console.log('else');
-        newTreeData.value = currentNode.value;
-      }
-
-      if (index < (missionTree.length - 1)) {
-        const nextNode = this.parser.getNextNode(currentNode,  missionTree[(index + 1)], index);
-        currentNode = nextNode.node;
-        index = nextNode.index;
-      } else {
-        const nextNode = this.parser.getNextNode(currentNode,  missionTree[index], index);
-        currentNode = nextNode.node;
-        index = nextNode.index;
-      }
-    }
   }
 
   /**
