@@ -387,12 +387,16 @@ THE SOFTWARE.
 
 @angular/material/menu
 
-@angular/forms
-MIT
+@angular/material/button
 
-@angular/cdk/scrolling
+@angular/material/icon
+
+@angular/material/tree
 
 @angular/material/dialog
+
+@angular/forms
+MIT
 
 @angular/service-worker
 MIT
