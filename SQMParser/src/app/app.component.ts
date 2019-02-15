@@ -251,8 +251,8 @@ export class AppComponent implements OnInit, OnDestroy {
         index++;
         return nextNode;
       } else {
-        if (!isNullOrUndefined(node.innerNode)) {
-          return node.innerNode;
+        if (!isNullOrUndefined(node.child)) {
+          return node.child;
         } else {
           index++;
           return nextNode;

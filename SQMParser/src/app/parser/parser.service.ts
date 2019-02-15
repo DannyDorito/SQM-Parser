@@ -58,7 +58,7 @@ export class ParserService {
       }
       index++;
       while (lexemes[index]) {
-        newNode.innerNode = parseType();
+        newNode.child = parseType();
       }
       return newNode;
     };
@@ -122,7 +122,7 @@ export class ParserService {
     const traverse = (node: MissionTreeNode) => {
       if (node) {
         str += node.value;
-        traverse(node.innerNode);
+        traverse(node.child);
       }
     };
     traverse(nodeToTraverse);
@@ -169,8 +169,8 @@ export class ParserService {
   fixErrors(missionTree: MissionTreeNode[]) {
     const getFinalNode = (node: MissionTreeNode) => {
       let returnNode = node;
-      while (!isNullOrUndefined(returnNode.innerNode)) {
-        returnNode = returnNode.innerNode;
+      while (!isNullOrUndefined(returnNode.child)) {
+        returnNode = returnNode.child;
       }
       return returnNode;
     };
@@ -179,12 +179,12 @@ export class ParserService {
         switch (node.error) {
           case (Token.SEMICOLON):
             const finalSemiColonNode = getFinalNode(node);
-            finalSemiColonNode.innerNode = new MissionTreeNode(';', undefined, undefined);
+            finalSemiColonNode.child = new MissionTreeNode(';', undefined, undefined);
             node.error = undefined;
             break;
           case (Token.START_BRACE):
             const finalStart_BraceNode = getFinalNode(node);
-            finalStart_BraceNode.innerNode = new MissionTreeNode(';', undefined, undefined);
+            finalStart_BraceNode.child = new MissionTreeNode(';', undefined, undefined);
             node.error = undefined;
             break;
           default:

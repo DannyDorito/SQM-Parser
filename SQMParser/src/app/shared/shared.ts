@@ -1,7 +1,7 @@
 export class MissionTreeNode {
   value: string;
   nodeType: Token = Token.DEFAULT;
-  innerNode: MissionTreeNode;
+  child: MissionTreeNode;
   containingTypes: Token[];
   error: Token;
 
@@ -11,7 +11,7 @@ export class MissionTreeNode {
     _error: Token
   ) {
     this.value = _value;
-    this.innerNode = _innerNode;
+    this.child = _innerNode;
     this.error = _error;
   }
 
@@ -22,7 +22,7 @@ export class MissionTreeNode {
     if (depth > 0) {
       this.append(nodeToAppend, (depth - 1));
     } else {
-      this.innerNode = nodeToAppend;
+      this.child = nodeToAppend;
     }
     return this;
   }

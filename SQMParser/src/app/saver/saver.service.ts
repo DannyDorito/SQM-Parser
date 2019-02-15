@@ -31,7 +31,7 @@ export class SaverService {
       const traverse = (node: MissionTreeNode) => {
         if (node) {
           str += node.value;
-          traverse(node.innerNode);
+          traverse(node.child);
         }
       };
       traverse(branch);
