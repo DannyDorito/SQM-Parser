@@ -167,23 +167,16 @@ export class ParserService {
    * Fix found errors in the passed missionTree
    */
   fixErrors(missionTree: MissionTreeNode[]) {
-    const getFinalNode = (node: MissionTreeNode) => {
-      let returnNode = node;
-      while (!isNullOrUndefined(returnNode.child)) {
-        returnNode = returnNode.child;
-      }
-      return returnNode;
-    };
     missionTree.forEach((node) => {
       if (!isNullOrUndefined(node.error)) {
         switch (node.error) {
           case (Token.SEMICOLON):
-            const finalSemiColonNode = getFinalNode(node);
+            const finalSemiColonNode = this.getFinalNode(node);
             finalSemiColonNode.child = new MissionTreeNode(';', undefined, undefined);
             node.error = undefined;
             break;
           case (Token.START_BRACE):
-            const finalStart_BraceNode = getFinalNode(node);
+            const finalStart_BraceNode = this.getFinalNode(node);
             finalStart_BraceNode.child = new MissionTreeNode(';', undefined, undefined);
             node.error = undefined;
             break;
@@ -193,6 +186,17 @@ export class ParserService {
       }
     });
     return missionTree;
+  }
+
+  /**
+   * Get the last child node in the passed MissionTreeNode
+   */
+  getFinalNode(node: MissionTreeNode) {
+    let returnNode = node;
+    while (!isNullOrUndefined(returnNode.child)) {
+      returnNode = returnNode.child;
+    }
+    return returnNode;
   }
 
   /**
