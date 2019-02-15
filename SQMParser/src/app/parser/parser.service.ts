@@ -200,6 +200,23 @@ export class ParserService {
   }
 
   /**
+   * Get the child node of the passed MissionTreeNode or the next in the array index + 1
+   */
+  getNextNode(node: MissionTreeNode, nextNode: MissionTreeNode, index: number) {
+    if (isNullOrUndefined(node)) {
+      index++;
+      return {node: nextNode, index: index};
+    } else {
+      if (!isNullOrUndefined(node.child)) {
+        return {node: node.child, index: index};
+      } else {
+        index++;
+        return {node: nextNode, index: index};
+      }
+    }
+  }
+
+  /**
    * Produces tokens to lexically analyse
    * Split the input string on terminals [ \s\t\n\r\[\]"={},;] globally with a positive lookahead
    * which preserves the found character,

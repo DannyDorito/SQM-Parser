@@ -246,19 +246,6 @@ export class AppComponent implements OnInit, OnDestroy {
     const newTreeData = new TreeData(undefined, []);
     let index = 0;
     let currentNode = missionTree[index];
-    const getNextNode = (node: MissionTreeNode, nextNode: MissionTreeNode) => {
-      if (isNullOrUndefined(node)) {
-        index++;
-        return nextNode;
-      } else {
-        if (!isNullOrUndefined(node.child)) {
-          return node.child;
-        } else {
-          index++;
-          return nextNode;
-        }
-      }
-    };
     while (!isNullOrUndefined(currentNode)) {
       if (currentNode.nodeType === Token.START_BRACE) {
         console.log('hit start');
@@ -272,9 +259,13 @@ export class AppComponent implements OnInit, OnDestroy {
       }
 
       if (index < (missionTree.length - 1)) {
-        currentNode = getNextNode(currentNode, missionTree[(index + 1)]);
+        const nextNode = this.parser.getNextNode(currentNode,  missionTree[(index + 1)], index);
+        currentNode = nextNode.node;
+        index = nextNode.index;
       } else {
-        currentNode = getNextNode(currentNode, missionTree[index]);
+        const nextNode = this.parser.getNextNode(currentNode,  missionTree[index], index);
+        currentNode = nextNode.node;
+        index = nextNode.index;
       }
     }
   }
