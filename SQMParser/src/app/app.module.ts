@@ -16,6 +16,8 @@ import { ClassTemplateComponent } from './class-template/class-template.componen
 import { DialogueComponent } from './dialogue/dialogue.component';
 import { FunctionsComponent } from './functions/functions.component';
 import { NotFoundComponent } from './not-found/not-found.component';
+import { TreeComponent } from './tree/tree';
+import { MatButtonModule } from '@angular/material/button';
 
 @NgModule({
   declarations: [
@@ -23,6 +25,7 @@ import { NotFoundComponent } from './not-found/not-found.component';
     NotFoundComponent,
     FunctionsComponent,
     DialogueComponent,
+    TreeComponent,
     ClassTemplateComponent
   ],
   imports: [
@@ -35,6 +38,7 @@ import { NotFoundComponent } from './not-found/not-found.component';
     MatDialogModule,
     MatMenuModule,
     MatTreeModule,
+    MatButtonModule,
     MatProgressBarModule,
     MatIconModule
   ],
