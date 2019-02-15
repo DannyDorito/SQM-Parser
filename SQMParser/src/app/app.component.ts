@@ -212,11 +212,16 @@ export class AppComponent implements OnInit, OnDestroy {
    */
   startTreeCreation() {
     const t0 = performance.now();
-    try {
+    if (environment.production) {
+      try {
+        this.missionTree = this.parser.generateTree(this.fileReaderString.split('\r\n'));
+      } catch (exception) {
+        this.openDialogue(exception.toString(), DialogueType.DEFAULT);
+      }
+    } else {
       this.missionTree = this.parser.generateTree(this.fileReaderString.split('\r\n'));
-    } catch (exception) {
-      this.openDialogue(exception.toString(), DialogueType.DEFAULT);
     }
+
     const t1 = performance.now();
     console.log('Tree generated in: ' + (t1 - t0) + 'ms');
 
@@ -228,10 +233,14 @@ export class AppComponent implements OnInit, OnDestroy {
     }
 
     const t2 = performance.now();
-    try {
+    if (environment.production) {
+      try {
+        this.startErrorFinding();
+      } catch (exception) {
+        this.openDialogue(exception.toString(), DialogueType.DEFAULT);
+      }
+    } else {
       this.startErrorFinding();
-    } catch (exception) {
-      this.openDialogue(exception.toString(), DialogueType.DEFAULT);
     }
     const t3 = performance.now();
     console.log('Errors generated in: ' + (t3 - t2) + 'ms');
