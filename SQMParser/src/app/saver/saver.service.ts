@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import * as FileSaver from 'file-saver';
 import { environment } from 'src/environments/environment.prod';
-import { TreeNode } from '../shared/shared';
+import { MissionTreeNode } from '../shared/shared';
 
 @Injectable({
   providedIn: 'root'
@@ -11,7 +11,7 @@ export class SaverService {
    * Saves given file to passed fileName, appends .sqm if it does not have it
    * https://github.com/eligrey/FileSaver.js [Online] Accessed 19th October 2018
    */
-  exportSQM(fileName: string, missionTree: TreeNode[]) {
+  exportSQM(fileName: string, missionTree: MissionTreeNode[]) {
     if (!this.validName(fileName)) {
       throw new Error('Error: ' + fileName + ' is invalid!');
     } else if (!!new Blob === false) {
@@ -24,11 +24,11 @@ export class SaverService {
   /**
    * Passed tree to string array
    */
-  treeToStringArray( missionTree: TreeNode[] ) {
+  treeToStringArray( missionTree: MissionTreeNode[] ) {
     const strArray: string[] = [];
     for (const branch of missionTree) {
       let str = '';
-      const traverse = (node: TreeNode) => {
+      const traverse = (node: MissionTreeNode) => {
         if (node) {
           str += node.value;
           traverse(node.innerNode);
@@ -63,7 +63,7 @@ export class SaverService {
    * ASYNC
    * Saves missionTree to localStorage
    */
-  async saveSQM(missionTree: TreeNode[]) {
+  async saveSQM(missionTree: MissionTreeNode[]) {
     if (window.localStorage) {
       localStorage.setItem(environment.sqmLocalStorageName, this.treeToStringArray(missionTree).join(''));
     } else {

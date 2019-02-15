@@ -1,13 +1,13 @@
-export class TreeNode {
+export class MissionTreeNode {
   value: string;
   nodeType: Token = Token.DEFAULT;
-  innerNode: TreeNode;
+  innerNode: MissionTreeNode;
   containingTypes: Token[];
   error: Token;
 
   constructor(
     _value: string,
-    _innerNode: TreeNode,
+    _innerNode: MissionTreeNode,
     _error: Token
   ) {
     this.value = _value;
@@ -18,7 +18,7 @@ export class TreeNode {
   /**
    * Append object to end of missionTree.innerNode
    */
-  append(nodeToAppend: TreeNode, depth: number) {
+  append(nodeToAppend: MissionTreeNode, depth: number) {
     if (depth > 0) {
       this.append(nodeToAppend, (depth - 1));
     } else {

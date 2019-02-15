@@ -4,7 +4,7 @@ import { isNullOrUndefined } from 'util';
 import { DialogueComponent } from '../dialogue/dialogue.component';
 import { SaverService } from '../saver/saver.service';
 import { DialogueData, DialogueType } from '../shared/dialogue';
-import { TreeNode } from '../shared/shared';
+import { MissionTreeNode } from '../shared/shared';
 
 @Component({
   selector: 'app-functions',
@@ -14,7 +14,7 @@ import { TreeNode } from '../shared/shared';
 export class FunctionsComponent {
   sqmAST: boolean;
 
-  @Input() missionTree: TreeNode[];
+  @Input() missionTree: MissionTreeNode[];
   @Input() fileName: string;
   @Input() isComplete: boolean;
 
@@ -113,7 +113,7 @@ export class FunctionsComponent {
   /**
    * Get the index of an item from the missionAST tree
    */
-  getIndex(value: string, missionAST: TreeNode[], index: number) {
+  getIndex(value: string, missionAST: MissionTreeNode[], index: number) {
     for (let i = 0; i < missionAST.length; i++) {
       if (missionAST[index].value === value) {
         return i;

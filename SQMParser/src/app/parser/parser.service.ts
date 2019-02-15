@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { isNullOrUndefined } from 'util';
-import { Token, TreeNode } from '../shared/shared';
+import { Token, MissionTreeNode } from '../shared/shared';
 
 const tokensRegex = [
   { regex: /true|false/, tokenType: Token.BOOLEAN },
@@ -23,7 +23,7 @@ export class ParserService {
    * Main method execution function for ParserService
    */
   generateTree(inputFile: string[]) {
-    const missionTree: TreeNode[] = [];
+    const missionTree: MissionTreeNode[] = [];
     for (const inputString of inputFile) {
       const grammar = this.parser(inputString);
       if (!isNullOrUndefined(grammar.value)) {
@@ -43,7 +43,7 @@ export class ParserService {
     let index = 0;
     const containingTypes: Token[] = [];
     const parseType = () => {
-      const newNode = new TreeNode(lexemes[index], undefined, undefined);
+      const newNode = new MissionTreeNode(lexemes[index], undefined, undefined);
       for (const tokenRegex of tokensRegex) {
         if (tokenRegex.regex.test(lexemes[index])) {
           if (lexemes[index] === 'class') {
@@ -70,14 +70,14 @@ export class ParserService {
   /**
    * Remove the index of a node from the passed mission tree, then returns the new tree
    */
-  removeNode(index: number, missionTree: TreeNode[]) {
+  removeNode(index: number, missionTree: MissionTreeNode[]) {
     return missionTree.slice(index, (index + 1));
   }
 
   /**
    * Adds the index of a node from the passed mission tree, then returns the new tree
    */
-  addNode(index: number, missionTree: TreeNode[], nodeToAdd: TreeNode) {
+  addNode(index: number, missionTree: MissionTreeNode[], nodeToAdd: MissionTreeNode) {
     if (index === 0) {
       missionTree.unshift(nodeToAdd);
     } else if (index === (missionTree.length - 1)) {
@@ -91,7 +91,7 @@ export class ParserService {
   /**
    * Parses the new input string for a given index, adds the new node to the tree, then returns the new tree
    */
-  parseAndAddNode(index: number, missionTree: TreeNode[], inputString: string) {
+  parseAndAddNode(index: number, missionTree: MissionTreeNode[], inputString: string) {
     const nodeToAdd = this.parser(inputString);
     missionTree = this.addNode(index, missionTree, nodeToAdd);
     return missionTree;
@@ -100,7 +100,7 @@ export class ParserService {
   /**
    * Parses the new input string for a given index, edits the node at the index in the tree, then returns the new tree
    */
-  parseAndEditNode(index: number, missionTree: TreeNode[], inputString: string) {
+  parseAndEditNode(index: number, missionTree: MissionTreeNode[], inputString: string) {
     missionTree[index] = this.parser(inputString);
     let startIndex = index;
     if (index >= 0) {
@@ -114,12 +114,12 @@ export class ParserService {
    * Traverse a passed tree, return a string of the value of each node traversed
    * Compilers: Principles, Techniques, and Tools (2nd Edition) pp.56-68. Accessed 21st November 2018
    */
-  traverseNodeValue(nodeToTraverse: TreeNode) {
+  traverseNodeValue(nodeToTraverse: MissionTreeNode) {
     if (isNullOrUndefined(nodeToTraverse)) {
       return '';
     }
     let str = '';
-    const traverse = (node: TreeNode) => {
+    const traverse = (node: MissionTreeNode) => {
       if (node) {
         str += node.value;
         traverse(node.innerNode);
@@ -133,7 +133,7 @@ export class ParserService {
    * Find missing semicolons and braces in a given missionTree
    * missionTree is passed by reference so error count is returned
    */
-  findErrors(missionTree: TreeNode[], startIndex: number, endIndex: number) {
+  findErrors(missionTree: MissionTreeNode[], startIndex: number, endIndex: number) {
     let errorCount = 0;
     for (startIndex; startIndex < endIndex; startIndex++) {
       const first = missionTree[startIndex].containingTypes[0];
@@ -166,8 +166,8 @@ export class ParserService {
   /**
    * Fix found errors in the passed missionTree
    */
-  fixErrors(missionTree: TreeNode[]) {
-    const getFinalNode = (node: TreeNode) => {
+  fixErrors(missionTree: MissionTreeNode[]) {
+    const getFinalNode = (node: MissionTreeNode) => {
       let returnNode = node;
       while (!isNullOrUndefined(returnNode.innerNode)) {
         returnNode = returnNode.innerNode;
@@ -179,12 +179,12 @@ export class ParserService {
         switch (node.error) {
           case (Token.SEMICOLON):
             const finalSemiColonNode = getFinalNode(node);
-            finalSemiColonNode.innerNode = new TreeNode(';', undefined, undefined);
+            finalSemiColonNode.innerNode = new MissionTreeNode(';', undefined, undefined);
             node.error = undefined;
             break;
           case (Token.START_BRACE):
             const finalStart_BraceNode = getFinalNode(node);
-            finalStart_BraceNode.innerNode = new TreeNode(';', undefined, undefined);
+            finalStart_BraceNode.innerNode = new MissionTreeNode(';', undefined, undefined);
             node.error = undefined;
             break;
           default:

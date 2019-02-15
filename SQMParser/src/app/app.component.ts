@@ -8,7 +8,7 @@ import { FunctionsComponent } from './functions/functions.component';
 import { ParserService } from './parser/parser.service';
 import { SaverService } from './saver/saver.service';
 import { DialogueData, DialogueType } from './shared/dialogue';
-import { Token, TreeNode, TreeData } from './shared/shared';
+import { Token, MissionTreeNode, TreeData } from './shared/shared';
 
 @Component({
   selector: 'app-root',
@@ -23,7 +23,7 @@ export class AppComponent implements OnInit, OnDestroy {
 
   timerSubscribe: Subscription;
 
-  @ViewChild(FunctionsComponent) missionTree: TreeNode[];
+  @ViewChild(FunctionsComponent) missionTree: MissionTreeNode[];
   @ViewChild(FunctionsComponent) fileName: string;
   treeData: TreeData[] = [];
 
@@ -242,11 +242,11 @@ export class AppComponent implements OnInit, OnDestroy {
   /**
    * Map missionTree TreeNode[] to the Angular Material Tree component dataSource
    */
-  missionTreeToTreeData(treeData: TreeData[], missionTree: TreeNode[]) {
+  missionTreeToTreeData(treeData: TreeData[], missionTree: MissionTreeNode[]) {
     const newTreeData = new TreeData(undefined, []);
     let index = 0;
     let currentNode = missionTree[index];
-    const getNextNode = (node: TreeNode, nextNode: TreeNode) => {
+    const getNextNode = (node: MissionTreeNode, nextNode: MissionTreeNode) => {
       if (isNullOrUndefined(node)) {
         index++;
         return nextNode;
@@ -300,7 +300,7 @@ export class AppComponent implements OnInit, OnDestroy {
   /**
    * Get error from a given node
    */
-  getError(node: TreeNode) {
+  getError(node: MissionTreeNode) {
     if (node.error !== Token.DEFAULT && !isNullOrUndefined(node.error)) {
       return 'Missing ' + node.error;
     } else {
