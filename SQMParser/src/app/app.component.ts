@@ -1,5 +1,7 @@
+import { FlatTreeControl } from '@angular/cdk/tree';
 import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
+import { MatTreeFlatDataSource, MatTreeFlattener } from '@angular/material/tree';
 import { Subscription, timer } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { isNullOrUndefined } from 'util';
@@ -8,9 +10,7 @@ import { FunctionsComponent } from './functions/functions.component';
 import { ParserService } from './parser/parser.service';
 import { SaverService } from './saver/saver.service';
 import { DialogueData, DialogueType } from './shared/dialogue';
-import { Token, MissionTreeNode, TreeData } from './shared/shared';
-import { FlatTreeControl } from '@angular/cdk/tree';
-import { MatTreeFlattener, MatTreeFlatDataSource } from '@angular/material/tree';
+import { MissionTreeNode, Token, TreeData } from './shared/shared';
 
 @Component({
   selector: 'app-root',

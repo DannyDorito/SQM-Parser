@@ -1,6 +1,7 @@
 import { ScrollingModule } from '@angular/cdk/scrolling';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { MatButtonModule } from '@angular/material/button';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
 import { MatMenuModule } from '@angular/material/menu';
@@ -16,8 +17,6 @@ import { ClassTemplateComponent } from './class-template/class-template.componen
 import { DialogueComponent } from './dialogue/dialogue.component';
 import { FunctionsComponent } from './functions/functions.component';
 import { NotFoundComponent } from './not-found/not-found.component';
-import { TreeComponent } from './tree/tree';
-import { MatButtonModule } from '@angular/material/button';
 
 @NgModule({
   declarations: [
@@ -25,7 +24,6 @@ import { MatButtonModule } from '@angular/material/button';
     NotFoundComponent,
     FunctionsComponent,
     DialogueComponent,
-    TreeComponent,
     ClassTemplateComponent
   ],
   imports: [
