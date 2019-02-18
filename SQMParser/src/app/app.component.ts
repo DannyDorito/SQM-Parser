@@ -216,13 +216,13 @@ export class AppComponent implements OnInit, OnDestroy {
     if (environment.production) {
       try {
         this.missionTree = this.parser.generateTree(this.fileReaderString.split('\r\n'));
-        this.dataSource.data = this.missionTree;
+        this.treeDataSource.data = this.missionTree;
       } catch (exception) {
         this.openDialogue(exception.toString(), DialogueType.DEFAULT);
       }
     } else {
       this.missionTree = this.parser.generateTree(this.fileReaderString.split('\r\n'));
-      this.dataSource.data = this.missionTree;
+      this.treeDataSource.data = this.missionTree;
     }
 
     const t1 = performance.now();
@@ -333,7 +333,9 @@ export class AppComponent implements OnInit, OnDestroy {
   );
 
   // tslint:disable-next-line: member-ordering
-  dataSource = new MatTreeFlatDataSource(this.treeControl, this.treeFlattener);
+  treeDataSource = new MatTreeFlatDataSource(this.treeControl, this.treeFlattener);
 
   hasChild = (_: number, node: UITreeNode) => node.expandable;
+
+  hasError = (_: number, node: UITreeNode) => node.error;
 }
