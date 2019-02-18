@@ -268,17 +268,6 @@ export class AppComponent implements OnInit, OnDestroy {
   }
 
   /**
-   * Get error from a given node
-   */
-  getError(node: MissionTreeNode) {
-    if (node.error !== Token.DEFAULT && !isNullOrUndefined(node.error)) {
-      return 'Missing ' + node.error;
-    } else {
-      return '';
-    }
-  }
-
-  /**
    * Open MatDialog from angular material
    */
   openDialogue(data: string, type: DialogueType) {
@@ -337,5 +326,5 @@ export class AppComponent implements OnInit, OnDestroy {
 
   hasChild = (_: number, node: UITreeNode) => node.expandable;
 
-  hasError = (_: number, node: UITreeNode) => node.error;
+  hasComment = (_: number, node: UITreeNode) => node.comment;
 }

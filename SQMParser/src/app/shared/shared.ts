@@ -3,16 +3,16 @@ export class MissionTreeNode {
   nodeType: Token = Token.DEFAULT;
   child: MissionTreeNode;
   containingTypes: Token[];
-  error: Token;
+  comment: string;
 
   constructor(
     _value: string,
     _innerNode: MissionTreeNode,
-    _error: Token
+    _error: string
   ) {
     this.value = _value;
     this.child = _innerNode;
-    this.error = _error;
+    this.comment = _error;
   }
 
   /**
@@ -32,7 +32,7 @@ export interface UITreeNode {
   expandable: boolean;
   name: string;
   level: number;
-  error: Token;
+  comment: string;
 }
 
 export enum Token {
