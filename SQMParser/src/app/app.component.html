@@ -21,7 +21,24 @@
 <!-- <cdk-virtual-scroll-viewport itemSize="1" [ngStyle]="{ 'height' : missionTree.length > 1 ? '' : '0'}" (click)="showContextMenu = false" spellcheck="false">
   <input type="text" *cdkVirtualFor="let node of missionTree; let index = index; templateCacheSize: 0;" [ngModel]="parser.traverseNodeValue(node)" (contextmenu)="onRightClick($event, index)" (ngModelChange)="editNode($event, index)" class="item" [title]="getError(node)" spellcheck="false" [style.text-decoration]="node.error ? 'underline' : 'none'" [style.text-decoration-color]="node.error ? 'red' : 'transparent'">
 </cdk-virtual-scroll-viewport> -->
-<app-tree></app-tree>
+<mat-tree [dataSource]="dataSource" [treeControl]="treeControl">
+  <!-- This is the tree node template for leaf nodes -->
+  <mat-tree-node *matTreeNodeDef="let node" matTreeNodePadding>
+    <!-- use a disabled button to provide padding for tree leaf -->
+    <button mat-icon-button disabled></button>
+    {{node.name}}
+  </mat-tree-node>
+  <!-- This is the tree node template for expandable nodes -->
+  <mat-tree-node *matTreeNodeDef="let node;when: hasChild" matTreeNodePadding>
+    <button mat-icon-button matTreeNodeToggle [attr.aria-label]="'toggle ' + node.name">
+      <mat-icon class="mat-icon-rtl-mirror">
+        {{treeControl.isExpanded(node) ? 'expand_more' : 'chevron_right'}}
+      </mat-icon>
+    </button>
+    {{node.name}}
+  </mat-tree-node>
+</mat-tree>
+
 <!-- Context Menu -->
 <div class="context-menu-div unselectable div" *ngIf="showContextMenu" contextmenu="menu" [ngStyle]="{'left.px': contextMenuX, 'top.px': contextMenuY}">
   <button class="context-menu-button" (click)="deleteLine()" (keydown.enter)="deleteLine()">Delete Line</button>

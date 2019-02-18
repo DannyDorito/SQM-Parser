@@ -9,6 +9,8 @@ import { ParserService } from './parser/parser.service';
 import { SaverService } from './saver/saver.service';
 import { DialogueData, DialogueType } from './shared/dialogue';
 import { Token, MissionTreeNode, TreeData } from './shared/shared';
+import { FlatTreeControl } from '@angular/cdk/tree';
+import { MatTreeFlattener, MatTreeFlatDataSource } from '@angular/material/tree';
 
 @Component({
   selector: 'app-root',
@@ -215,11 +217,13 @@ export class AppComponent implements OnInit, OnDestroy {
     if (environment.production) {
       try {
         this.missionTree = this.parser.generateTree(this.fileReaderString.split('\r\n'));
+        this.dataSource.data = this.missionTree;
       } catch (exception) {
         this.openDialogue(exception.toString(), DialogueType.DEFAULT);
       }
     } else {
       this.missionTree = this.parser.generateTree(this.fileReaderString.split('\r\n'));
+      this.dataSource.data = this.missionTree;
     }
 
     const t1 = performance.now();
@@ -312,4 +316,33 @@ export class AppComponent implements OnInit, OnDestroy {
   async delay(milliseconds: number) {
     return new Promise( resolve => setTimeout(resolve, milliseconds) );
   }
+
+  treeTransformer = (node: MissionTreeNode, level: number) => {
+    return {
+      expandable: !!node.child && node.child.value.length > 0,
+      name: node.value,
+      level: level
+    };
+  }
+
+  // tslint:disable-next-line: member-ordering
+  treeControl = new FlatTreeControl<UITreeNode> (
+    node => node.level, node => node.expandable
+  );
+
+  // tslint:disable-next-line: member-ordering
+  treeFlattener = new MatTreeFlattener(
+    this.treeTransformer, node => node.level, node => node.expandable, node => new Array(node.child)
+  );
+
+  // tslint:disable-next-line: member-ordering
+  dataSource = new MatTreeFlatDataSource(this.treeControl, this.treeFlattener);
+
+  hasChild = (_: number, node: UITreeNode) => node.expandable;
+}
+
+interface UITreeNode {
+  expandable: boolean;
+  name: string;
+  level: number;
 }
