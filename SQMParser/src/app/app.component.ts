@@ -10,7 +10,7 @@ import { FunctionsComponent } from './functions/functions.component';
 import { ParserService } from './parser/parser.service';
 import { SaverService } from './saver/saver.service';
 import { DialogueData, DialogueType } from './shared/dialogue';
-import { MissionTreeNode, Token, TreeData } from './shared/shared';
+import { MissionTreeNode, Token } from './shared/shared';
 
 @Component({
   selector: 'app-root',
@@ -27,7 +27,6 @@ export class AppComponent implements OnInit, OnDestroy {
 
   @ViewChild(FunctionsComponent) missionTree: MissionTreeNode[];
   @ViewChild(FunctionsComponent) fileName: string;
-  treeData: TreeData[] = [];
 
   showContextMenu = false;
   contextMenuX = 0;
@@ -248,8 +247,6 @@ export class AppComponent implements OnInit, OnDestroy {
     }
     const t3 = performance.now();
     console.log('Errors generated in: ' + (t3 - t2) + 'ms');
-    this.parser.missionTreeToTreeData(this.treeData, this.missionTree);
-    this.parser.missionTreeToTreeControl(this.treeData);
   }
 
   /**
