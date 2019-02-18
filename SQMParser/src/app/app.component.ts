@@ -311,7 +311,7 @@ export class AppComponent implements OnInit, OnDestroy {
    * Artificial async/await delay
    */
   async delay(milliseconds: number) {
-    return new Promise( resolve => setTimeout(resolve, milliseconds) );
+    return new Promise(resolve => setTimeout(resolve, milliseconds));
   }
 
   treeTransformer = (node: MissionTreeNode, level: number) => {
@@ -323,7 +323,7 @@ export class AppComponent implements OnInit, OnDestroy {
   }
 
   // tslint:disable-next-line: member-ordering
-  treeControl = new FlatTreeControl<UITreeNode> (
+  treeControl = new FlatTreeControl < UITreeNode > (
     node => node.level, node => node.expandable
   );
 
