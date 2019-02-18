@@ -10,7 +10,7 @@ import { FunctionsComponent } from './functions/functions.component';
 import { ParserService } from './parser/parser.service';
 import { SaverService } from './saver/saver.service';
 import { DialogueData, DialogueType } from './shared/dialogue';
-import { MissionTreeNode, Token } from './shared/shared';
+import { MissionTreeNode, Token, UITreeNode } from './shared/shared';
 
 @Component({
   selector: 'app-root',
@@ -336,10 +336,4 @@ export class AppComponent implements OnInit, OnDestroy {
   dataSource = new MatTreeFlatDataSource(this.treeControl, this.treeFlattener);
 
   hasChild = (_: number, node: UITreeNode) => node.expandable;
-}
-
-interface UITreeNode {
-  expandable: boolean;
-  name: string;
-  level: number;
 }

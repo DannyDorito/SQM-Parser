@@ -28,6 +28,12 @@ export class MissionTreeNode {
   }
 }
 
+export interface UITreeNode {
+  expandable: boolean;
+  name: string;
+  level: number;
+}
+
 export enum Token {
   DEFAULT = 'DEFAULT',
     START_BRACE = '}',
