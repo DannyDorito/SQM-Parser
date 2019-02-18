@@ -37,7 +37,6 @@
     {{node.name}}
   </mat-tree-node>
 </mat-tree>
-
 <!-- Context Menu -->
 <div class="context-menu-div unselectable div" *ngIf="showContextMenu" contextmenu="menu" [ngStyle]="{'left.px': contextMenuX, 'top.px': contextMenuY}">
   <button class="context-menu-button" (click)="deleteLine()" (keydown.enter)="deleteLine()">Delete Line</button>
