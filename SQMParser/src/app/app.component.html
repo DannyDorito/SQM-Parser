@@ -22,13 +22,12 @@
   <input type="text" *cdkVirtualFor="let node of missionTree; let index = index; templateCacheSize: 0;" [ngModel]="parser.traverseNodeValue(node)" (contextmenu)="onRightClick($event, index)" (ngModelChange)="editNode($event, index)" class="item" [title]="getError(node)" spellcheck="false" [style.text-decoration]="node.error ? 'underline' : 'none'" [style.text-decoration-color]="node.error ? 'red' : 'transparent'">
 </cdk-virtual-scroll-viewport> -->
 <mat-tree [dataSource]="dataSource" [treeControl]="treeControl">
-  <!-- This is the tree node template for leaf nodes -->
+  <!-- Leaf Node -->
   <mat-tree-node *matTreeNodeDef="let node" matTreeNodePadding>
-    <!-- use a disabled button to provide padding for tree leaf -->
     <button mat-icon-button disabled></button>
     {{node.name}}
   </mat-tree-node>
-  <!-- This is the tree node template for expandable nodes -->
+  <!-- Expandabe Node -->
   <mat-tree-node *matTreeNodeDef="let node;when: hasChild" matTreeNodePadding>
     <button mat-icon-button matTreeNodeToggle [attr.aria-label]="'toggle ' + node.name">
       <mat-icon class="mat-icon-rtl-mirror">
