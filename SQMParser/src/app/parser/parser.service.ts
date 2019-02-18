@@ -138,7 +138,7 @@ export class ParserService {
     for (startIndex; startIndex < endIndex; startIndex++) {
       const first = missionTree[startIndex].containingTypes[0];
       const last = missionTree[startIndex].containingTypes[(missionTree[startIndex].containingTypes.length - 1)];
-      let previous;
+      let previous: Token;
       if (startIndex !== 0) {
         previous = missionTree[(startIndex - 1)].containingTypes[(missionTree[(startIndex - 1)].containingTypes.length - 1)];
       }
