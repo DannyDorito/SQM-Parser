@@ -304,7 +304,7 @@ export class AppComponent implements OnInit, OnDestroy {
   }
 
   treeTransformer = (node: MissionTreeNode, level: number) => {
-    node = new MissionTreeNode(this.parser.traverseNodeValue(node), undefined, node.comment);
+    node.value = this.parser.traverseNodeValue(node);
     return {
       expandable: !!node.child && node.child.value.length > 0,
       name: node.value,
