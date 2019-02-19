@@ -10,7 +10,7 @@ import { FunctionsComponent } from './functions/functions.component';
 import { ParserService } from './parser/parser.service';
 import { SaverService } from './saver/saver.service';
 import { DialogueData, DialogueType } from './shared/dialogue';
-import { MissionTreeNode, Token, UITreeNode } from './shared/shared';
+import { MissionTreeNode, UITreeNode } from './shared/shared';
 
 @Component({
   selector: 'app-root',
