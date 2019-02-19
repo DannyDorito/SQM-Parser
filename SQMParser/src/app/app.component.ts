@@ -304,6 +304,7 @@ export class AppComponent implements OnInit, OnDestroy {
   }
 
   treeTransformer = (node: MissionTreeNode, level: number) => {
+    node = new MissionTreeNode(this.parser.traverseNodeValue(node), undefined, node.comment);
     return {
       expandable: !!node.child && node.child.value.length > 0,
       name: node.value,
@@ -318,7 +319,7 @@ export class AppComponent implements OnInit, OnDestroy {
 
   // tslint:disable-next-line: member-ordering
   treeFlattener = new MatTreeFlattener(
-    this.treeTransformer, node => node.level, node => node.expandable, node => new Array(node.child)
+    this.treeTransformer, node => node.level, node => node.expandable, node => new Array(new MissionTreeNode(this.parser.traverseNodeValue(node), undefined, node.comment))
   );
 
   // tslint:disable-next-line: member-ordering
