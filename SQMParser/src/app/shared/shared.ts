@@ -2,7 +2,6 @@ export class MissionTreeNode {
   value: string;
   nodeType: Token = Token.DEFAULT;
   child: MissionTreeNode;
-  containingTypes: Token[];
   comment: string;
 
   constructor(

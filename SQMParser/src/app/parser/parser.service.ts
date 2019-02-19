@@ -41,7 +41,6 @@ export class ParserService {
   parser(inputString: string) {
     const lexemes = this.splitString(inputString);
     let index = 0;
-    const containingTypes: Token[] = [];
     const parseType = () => {
       const newNode = new MissionTreeNode(lexemes[index], undefined, undefined);
       for (const tokenRegex of tokensRegex) {
@@ -52,7 +51,6 @@ export class ParserService {
           } else {
             newNode.nodeType = tokenRegex.tokenType;
           }
-          containingTypes.push(newNode.nodeType);
           break;
         }
       }
@@ -63,7 +61,6 @@ export class ParserService {
       return newNode;
     };
     const node = parseType();
-    node.containingTypes = containingTypes;
     return node;
   }
 
@@ -136,16 +133,17 @@ export class ParserService {
   findErrors(missionTree: MissionTreeNode[], startIndex: number, endIndex: number) {
     let errorCount = 0;
     for (startIndex; startIndex < endIndex; startIndex++) {
-      const first = missionTree[startIndex].containingTypes[0];
-      const last = missionTree[startIndex].containingTypes[(missionTree[startIndex].containingTypes.length - 1)];
+      const first = missionTree[startIndex].nodeType;
+      const second = this.getNextNode(missionTree[startIndex], missionTree[(startIndex + 1)], startIndex).node.nodeType;
+      const last = this.getFinalNode(missionTree[startIndex]).nodeType;
       let previous: Token;
       if (startIndex !== 0) {
-        previous = missionTree[(startIndex - 1)].containingTypes[(missionTree[(startIndex - 1)].containingTypes.length - 1)];
+        previous = this.getFinalNode(missionTree[(startIndex - 1)]).nodeType;
       }
       if (first !== Token.CLASS) {
         if (last !== Token.START_BRACE && last !== Token.COMMA) {
           if (previous !== Token.COMMA && previous !== Token.START_BRACE) {
-            if (last !== Token.SEMICOLON && missionTree[startIndex].containingTypes[1] !== Token.START_SQUARE_BRACE) {
+            if (last !== Token.SEMICOLON && second !== Token.START_SQUARE_BRACE) {
               missionTree[startIndex].comment += 'GENERATED ERROR: Cannot Find ' + Token.SEMICOLON.toString() + '/r/n';
               errorCount++;
             }
@@ -153,7 +151,7 @@ export class ParserService {
         }
       } else if (first === Token.CLASS) {
         if (!isNullOrUndefined(missionTree[(startIndex + 1)])) {
-          if (missionTree[(startIndex + 1)].containingTypes[0] !== Token.START_BRACE) {
+          if (missionTree[(startIndex + 1)].nodeType !== Token.START_BRACE) {
             missionTree[startIndex].comment += 'GENERATED ERROR: Cannot Find ' + Token.START_BRACE.toString() + '/r/n';
             errorCount++;
           }
