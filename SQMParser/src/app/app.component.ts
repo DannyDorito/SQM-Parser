@@ -311,6 +311,7 @@ export class AppComponent implements OnInit, OnDestroy {
     for (let index = 0; index < traverseArray.length; index++) {
       if (index === 0) {
         nodeCopyRef.value = traverseArray[index];
+        nodeCopy.child = undefined;
       } else {
         nodeCopyRef.child.value = traverseArray[index];
         nodeCopyRef = nodeCopyRef.child;
