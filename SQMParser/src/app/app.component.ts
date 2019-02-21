@@ -10,7 +10,7 @@ import { FunctionsComponent } from './functions/functions.component';
 import { ParserService } from './parser/parser.service';
 import { SaverService } from './saver/saver.service';
 import { DialogueData, DialogueType } from './shared/dialogue';
-import { MissionTreeNode, UITreeNode, Token } from './shared/shared';
+import { MissionTreeNode, Token, UITreeNode } from './shared/shared';
 
 @Component({
   selector: 'app-root',
@@ -303,7 +303,7 @@ export class AppComponent implements OnInit, OnDestroy {
     return new Promise(resolve => setTimeout(resolve, milliseconds));
   }
 
-// tslint:disable-next-line: member-ordering
+  // tslint:disable-next-line: member-ordering
   lastWasStart_Brace: boolean;
   treeTransformer = (node: MissionTreeNode, level: number) => {
     const nodeCopy = Object.assign({}, node);
@@ -312,7 +312,7 @@ export class AppComponent implements OnInit, OnDestroy {
     } else {
       this.lastWasStart_Brace = false;
     }
-    const traverseArray = this.parser.traverseNodeValue(node);
+    const traverseArray = this.parser.traverseNodeValue(node, Token.START_BRACE, Token.END_BRACE);
     nodeCopy.value = traverseArray[0];
     let nodeCopyRef = nodeCopy;
     for (let index = 0; index < traverseArray.length; index++) {
@@ -341,7 +341,7 @@ export class AppComponent implements OnInit, OnDestroy {
     // this.treeTransformer, node => node.level, node => node.expandable, node => new Array(new MissionTreeNode(this.parser.traverseNodeValue(node), undefined, node.comment))
     this.treeTransformer, node => node.level, node => node.expandable, node => {
       const nodeArray = [];
-      const traversalArray = this.parser.traverseNodeValue(node, [Token.START_BRACE], [Token.END_BRACE]);
+      const traversalArray = this.parser.traverseNodeValue(node, Token.START_BRACE, Token.END_BRACE);
       traversalArray.forEach(traversalArr => {
         nodeArray.push(traversalArr);
       });

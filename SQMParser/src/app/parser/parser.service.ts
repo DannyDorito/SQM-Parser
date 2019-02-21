@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { isNullOrUndefined } from 'util';
-import { Token, MissionTreeNode } from '../shared/shared';
+import { MissionTreeNode, Token } from '../shared/shared';
 
 const tokensRegex = [
   { regex: /true|false/, tokenType: Token.BOOLEAN },
@@ -111,7 +111,7 @@ export class ParserService {
    * Traverse a passed tree, return a string of the value of each node traversed
    * Compilers: Principles, Techniques, and Tools (2nd Edition) pp.56-68. Accessed 21st November 2018
    */
-  traverseNodeValue(nodeToTraverse: MissionTreeNode, tokensToInner?: Token[], tokensToOuter?: Token[]) {
+  traverseNodeValue(nodeToTraverse: MissionTreeNode, tokensToInner?: Token, tokensToOuter?: Token) {
     if (isNullOrUndefined(nodeToTraverse)) {
       return [];
     }
@@ -119,13 +119,18 @@ export class ParserService {
     let index = 0;
     const traverse = (node: MissionTreeNode) => {
       if (!isNullOrUndefined(node)) {
-        if (!isNullOrUndefined(tokensToInner) && !isNullOrUndefined(tokensToOuter)) {
-          if (tokensToInner.includes(node.nodeType)) {
+        console.log('type: ' + node.nodeType);
+        console.log('inner: ' + tokensToInner);
+        console.log('outer: ' + tokensToOuter);
+
+        if (tokensToInner === node.nodeType) {
+          console.log('inner');
           index++;
-        } else if (tokensToOuter.includes(node.nodeType)) {
-            if (index - 1 >= 0) {
-              index--;
-            }
+        }
+        if (tokensToOuter === node.nodeType) {
+          console.log('outer');
+          if (index - 1 >= 0) {
+            index--;
           }
         }
         if (!isNullOrUndefined(strArray[index])) {
@@ -227,13 +232,22 @@ export class ParserService {
   getNextNode(node: MissionTreeNode, nextNode: MissionTreeNode, index: number) {
     if (isNullOrUndefined(node)) {
       index++;
-      return {node: nextNode, index: index};
+      return {
+        node: nextNode,
+        index: index
+      };
     } else {
       if (!isNullOrUndefined(node.child)) {
-        return {node: node.child, index: index};
+        return {
+          node: node.child,
+          index: index
+        };
       } else {
         index++;
-        return {node: nextNode, index: index};
+        return {
+          node: nextNode,
+          index: index
+        };
       }
     }
   }
