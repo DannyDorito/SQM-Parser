@@ -144,7 +144,12 @@ export class ParserService {
         if (last !== Token.START_BRACE && last !== Token.COMMA) {
           if (previous !== Token.COMMA && previous !== Token.START_BRACE) {
             if (last !== Token.SEMICOLON && second !== Token.START_SQUARE_BRACE) {
-              missionTree[startIndex].comment += 'GENERATED ERROR: Cannot Find ' + Token.SEMICOLON.toString() + '/r/n';
+              if (!isNullOrUndefined(missionTree[startIndex].comment)) {
+                missionTree[startIndex].comment += 'GENERATED ERROR: Cannot Find: "' + Token.SEMICOLON.toString() + '"\r\n';
+              } else {
+                missionTree[startIndex].comment = 'GENERATED ERROR: Cannot Find: "' + Token.SEMICOLON.toString() + '"\r\n';
+              }
+              console.log(missionTree[startIndex].comment);
               errorCount++;
             }
           }
@@ -152,7 +157,12 @@ export class ParserService {
       } else if (first === Token.CLASS) {
         if (!isNullOrUndefined(missionTree[(startIndex + 1)])) {
           if (missionTree[(startIndex + 1)].nodeType !== Token.START_BRACE) {
-            missionTree[startIndex].comment += 'GENERATED ERROR: Cannot Find ' + Token.START_BRACE.toString() + '/r/n';
+            if (!isNullOrUndefined(missionTree[startIndex].comment)) {
+              missionTree[startIndex].comment += 'GENERATED ERROR: Cannot Find: "' + Token.START_BRACE.toString() + '"\r\n';
+            } else {
+              missionTree[startIndex].comment = 'GENERATED ERROR: Cannot Find: "' + Token.START_BRACE.toString() + '"\r\n';
+            }
+            console.log(missionTree[startIndex].comment);
             errorCount++;
           }
         }
