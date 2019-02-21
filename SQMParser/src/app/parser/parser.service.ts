@@ -119,16 +119,10 @@ export class ParserService {
     let index = 0;
     const traverse = (node: MissionTreeNode) => {
       if (!isNullOrUndefined(node)) {
-        console.log('type: ' + node.nodeType);
-        console.log('inner: ' + tokensToInner);
-        console.log('outer: ' + tokensToOuter);
-
         if (tokensToInner === node.nodeType) {
-          console.log('inner');
           index++;
         }
         if (tokensToOuter === node.nodeType) {
-          console.log('outer');
           if (index - 1 >= 0) {
             index--;
           }
