@@ -303,15 +303,8 @@ export class AppComponent implements OnInit, OnDestroy {
     return new Promise(resolve => setTimeout(resolve, milliseconds));
   }
 
-  // tslint:disable-next-line: member-ordering
-  lastWasStart_Brace: boolean;
   treeTransformer = (node: MissionTreeNode, level: number) => {
     const nodeCopy = Object.assign({}, node);
-    if (nodeCopy.nodeType === Token.START_BRACE) {
-      this.lastWasStart_Brace = true;
-    } else {
-      this.lastWasStart_Brace = false;
-    }
     const traverseArray = this.parser.traverseNodeValue(node, Token.START_BRACE, Token.END_BRACE);
     nodeCopy.value = traverseArray[0];
     let nodeCopyRef = nodeCopy;
@@ -323,7 +316,6 @@ export class AppComponent implements OnInit, OnDestroy {
         nodeCopyRef = nodeCopyRef.child;
       }
     }
-    nodeCopy.child = undefined;
     return {
       expandable: !!nodeCopy.child && nodeCopy.child.value.length > 0,
       name: nodeCopy.value,
