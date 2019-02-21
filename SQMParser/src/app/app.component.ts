@@ -10,7 +10,7 @@ import { FunctionsComponent } from './functions/functions.component';
 import { ParserService } from './parser/parser.service';
 import { SaverService } from './saver/saver.service';
 import { DialogueData, DialogueType } from './shared/dialogue';
-import { MissionTreeNode, UITreeNode } from './shared/shared';
+import { MissionTreeNode, UITreeNode, Token } from './shared/shared';
 
 @Component({
   selector: 'app-root',
@@ -303,9 +303,26 @@ export class AppComponent implements OnInit, OnDestroy {
     return new Promise(resolve => setTimeout(resolve, milliseconds));
   }
 
+// tslint:disable-next-line: member-ordering
+  lastWasStart_Brace: boolean;
   treeTransformer = (node: MissionTreeNode, level: number) => {
     const nodeCopy = Object.assign({}, node);
-    nodeCopy.value = this.parser.traverseNodeValue(node);
+    if (nodeCopy.nodeType === Token.START_BRACE) {
+      this.lastWasStart_Brace = true;
+    } else {
+      this.lastWasStart_Brace = false;
+    }
+    const traverseArray = this.parser.traverseNodeValue(node);
+    nodeCopy.value = traverseArray[0];
+    let nodeCopyRef = nodeCopy;
+    for (let index = 0; index < traverseArray.length; index++) {
+      if (index === 0) {
+        nodeCopyRef.value = traverseArray[index];
+      } else {
+        nodeCopyRef.child.value = traverseArray[index];
+        nodeCopyRef = nodeCopyRef.child;
+      }
+    }
     nodeCopy.child = undefined;
     return {
       expandable: !!nodeCopy.child && nodeCopy.child.value.length > 0,
@@ -321,7 +338,15 @@ export class AppComponent implements OnInit, OnDestroy {
 
   // tslint:disable-next-line: member-ordering
   treeFlattener = new MatTreeFlattener(
-    this.treeTransformer, node => node.level, node => node.expandable, node => new Array(new MissionTreeNode(this.parser.traverseNodeValue(node), undefined, node.comment))
+    // this.treeTransformer, node => node.level, node => node.expandable, node => new Array(new MissionTreeNode(this.parser.traverseNodeValue(node), undefined, node.comment))
+    this.treeTransformer, node => node.level, node => node.expandable, node => {
+      const nodeArray = [];
+      const traversalArray = this.parser.traverseNodeValue(node);
+      for (let index = 0; index < traversalArray.length; index++) {
+        nodeArray.push(traversalArray[index]);
+      }
+      return nodeArray;
+    }
   );
 
   // tslint:disable-next-line: member-ordering
