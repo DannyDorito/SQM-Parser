@@ -341,10 +341,10 @@ export class AppComponent implements OnInit, OnDestroy {
     // this.treeTransformer, node => node.level, node => node.expandable, node => new Array(new MissionTreeNode(this.parser.traverseNodeValue(node), undefined, node.comment))
     this.treeTransformer, node => node.level, node => node.expandable, node => {
       const nodeArray = [];
-      const traversalArray = this.parser.traverseNodeValue(node);
-      for (let index = 0; index < traversalArray.length; index++) {
-        nodeArray.push(traversalArray[index]);
-      }
+      const traversalArray = this.parser.traverseNodeValue(node, [Token.START_BRACE], [Token.END_BRACE]);
+      traversalArray.forEach(traversalArr => {
+        nodeArray.push(traversalArr);
+      });
       return nodeArray;
     }
   );
