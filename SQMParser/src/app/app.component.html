@@ -25,6 +25,7 @@
   <!-- Leaf Node -->
   <mat-tree-node class="tree-node" *matTreeNodeDef="let node" matTreeNodePadding="0.5">
     {{node.name}}
+    {{node.extraData}}
   </mat-tree-node>
   <!-- Expandabe Node -->
   <mat-tree-node class="tree-node" *matTreeNodeDef="let node; when: hasChild" matTreeNodePadding="0.5">
@@ -34,6 +35,7 @@
       </mat-icon>
     </button>
     {{node.name}}
+    {{node.extraData}}
   </mat-tree-node>
 </mat-tree>
 <!-- Context Menu -->

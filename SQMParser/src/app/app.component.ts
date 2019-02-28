@@ -11,6 +11,7 @@ import { ParserService } from './parser/parser.service';
 import { SaverService } from './saver/saver.service';
 import { DialogueData, DialogueType } from './shared/dialogue';
 import { MissionTreeNode, Token, UITreeNode } from './shared/shared';
+import { MissionTreeControl, MissionTreeFlattener, MissionTreeFlatDataSource } from './shared/tree-data-source';
 
 @Component({
   selector: 'app-root',
@@ -303,7 +304,7 @@ export class AppComponent implements OnInit, OnDestroy {
     return new Promise(resolve => setTimeout(resolve, milliseconds));
   }
 
-  treeTransformer = (node: MissionTreeNode, level: number) => {
+  treeTransformer = (node: MissionTreeNode, level: number, extraData: any) => {
     const nodeCopy = Object.assign({}, node);
     const traverseArray = this.parser.traverseNodeValue(node, Token.START_BRACE, Token.END_BRACE);
     nodeCopy.value = traverseArray[0];
@@ -320,13 +321,14 @@ export class AppComponent implements OnInit, OnDestroy {
     return {
       expandable: !!nodeCopy.child && nodeCopy.child.value.length > 0,
       name: nodeCopy.value,
-      level: level
+      level: level,
+      extraData: 'extraData'
     };
   }
 
   // tslint:disable-next-line: member-ordering
-  treeControl = new FlatTreeControl < UITreeNode > (
-    node => node.level, node => node.expandable
+  treeControl = new MissionTreeControl < UITreeNode > (
+    node => node.level, node => node.expandable, node => node.extraData
   );
 
   // tslint:disable-next-line: member-ordering
@@ -343,9 +345,9 @@ export class AppComponent implements OnInit, OnDestroy {
   );
 
   // tslint:disable-next-line: member-ordering
-  treeDataSource = new MatTreeFlatDataSource(this.treeControl, this.treeFlattener);
+  treeDataSource = new MissionTreeFlatDataSource(this.treeControl, this.treeFlattener, 'test');
 
   hasChild = (_: number, node: UITreeNode) => node.expandable;
 
-  hasComment = (_: number, node: UITreeNode) => node.comment;
+  hasComment = (_: number, node: UITreeNode) => node.extraData;
 }

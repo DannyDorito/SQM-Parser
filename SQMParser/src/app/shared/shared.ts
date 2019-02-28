@@ -31,7 +31,7 @@ export interface UITreeNode {
   expandable: boolean;
   name: string;
   level: number;
-  comment: string;
+  extraData: any;
 }
 
 export enum Token {
