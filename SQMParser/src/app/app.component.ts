@@ -1,7 +1,6 @@
-import { FlatTreeControl } from '@angular/cdk/tree';
 import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { MatTreeFlatDataSource, MatTreeFlattener } from '@angular/material/tree';
+import { MatTreeFlatDataSource } from '@angular/material/tree';
 import { Subscription, timer } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { isNullOrUndefined } from 'util';
@@ -11,7 +10,7 @@ import { ParserService } from './parser/parser.service';
 import { SaverService } from './saver/saver.service';
 import { DialogueData, DialogueType } from './shared/dialogue';
 import { MissionTreeNode, Token, UITreeNode } from './shared/shared';
-import { MissionTreeControl, MissionTreeFlattener, MissionTreeFlatDataSource } from './shared/tree-data-source';
+import { MissionTreeControl, MissionTreeFlattener } from './shared/tree-data-source';
 
 @Component({
   selector: 'app-root',
@@ -304,7 +303,7 @@ export class AppComponent implements OnInit, OnDestroy {
     return new Promise(resolve => setTimeout(resolve, milliseconds));
   }
 
-  treeTransformer = (node: MissionTreeNode, level: number, extraData: any) => {
+  treeTransformer = (node: MissionTreeNode, level: number) => {
     const nodeCopy = Object.assign({}, node);
     const traverseArray = this.parser.traverseNodeValue(node, Token.START_BRACE, Token.END_BRACE);
     nodeCopy.value = traverseArray[0];
@@ -322,7 +321,7 @@ export class AppComponent implements OnInit, OnDestroy {
       expandable: !!nodeCopy.child && nodeCopy.child.value.length > 0,
       name: nodeCopy.value,
       level: level,
-      extraData: 'extraData'
+      extraData: nodeCopy.comment
     };
   }
 
@@ -332,7 +331,7 @@ export class AppComponent implements OnInit, OnDestroy {
   );
 
   // tslint:disable-next-line: member-ordering
-  treeFlattener = new MatTreeFlattener(
+  treeFlattener = new MissionTreeFlattener(
     this.treeTransformer, node => node.level, node => node.expandable, node => {
       const nodeArray = [];
       const traversalArray = this.parser.traverseNodeValue(node, Token.START_BRACE, Token.END_BRACE);
@@ -340,11 +339,11 @@ export class AppComponent implements OnInit, OnDestroy {
         nodeArray.push(traversalArr);
       });
       return nodeArray;
-    }
+    }, node => node.extraData
   );
 
   // tslint:disable-next-line: member-ordering
-  treeDataSource = new MissionTreeFlatDataSource(this.treeControl, this.treeFlattener, 'test');
+  treeDataSource = new MatTreeFlatDataSource(this.treeControl, this.treeFlattener);
 
   hasChild = (_: number, node: UITreeNode) => node.expandable;
 
