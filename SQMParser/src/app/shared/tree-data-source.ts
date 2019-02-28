@@ -28,7 +28,7 @@ export class MissionTreeControl<T> extends FlatTreeControl<T> {
 }
 
 export class MissionTreeFlattener<T, F> extends MatTreeFlattener<T, F> {
-  extraData;
+  extraData: any;
 
   constructor(
     transformFunction: (node: T, level: number) => F,
