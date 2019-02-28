@@ -333,7 +333,6 @@ export class AppComponent implements OnInit, OnDestroy {
 
   // tslint:disable-next-line: member-ordering
   treeFlattener = new MatTreeFlattener(
-    // this.treeTransformer, node => node.level, node => node.expandable, node => new Array(new MissionTreeNode(this.parser.traverseNodeValue(node), undefined, node.comment))
     this.treeTransformer, node => node.level, node => node.expandable, node => {
       const nodeArray = [];
       const traversalArray = this.parser.traverseNodeValue(node, Token.START_BRACE, Token.END_BRACE);
