@@ -36,7 +36,7 @@ export interface UITreeNode {
 
 export enum Token {
   DEFAULT = 'DEFAULT',
-    START_BRACE = '}',
+    START_BRACE = '{',
     END_BRACE = '}',
     START_SQUARE_BRACE = '[',
     END_SQUARE_BRACE = ']',
