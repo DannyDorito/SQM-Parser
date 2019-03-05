@@ -305,18 +305,15 @@ export class AppComponent implements OnInit, OnDestroy {
 
   treeTransformer = (node: MissionTreeNode, level: number) => {
     const nodeCopy = Object.assign({}, node);
-    const traverseArray = this.parser.traverseNodeValue(node, Token.START_BRACE, Token.END_BRACE);
-    nodeCopy.value = traverseArray[0];
-    let nodeCopyRef = nodeCopy;
-    for (let index = 0; index < traverseArray.length; index++) {
-      if (index === 0) {
-        nodeCopyRef.value = traverseArray[index];
-        nodeCopy.child = undefined;
-      } else {
-        nodeCopyRef.child.value = traverseArray[index];
-        nodeCopyRef = nodeCopyRef.child;
-      }
+
+    if (nodeCopy.value !== Token.START_BRACE.toString()) {
+      const a = this.parser.traverseNodeValue(nodeCopy)[0];
+      nodeCopy.value = a;
+      nodeCopy.child = undefined;
+    } else {
+      console.log('hit');
     }
+
     return {
       expandable: !!nodeCopy.child && nodeCopy.child.value.length > 0,
       name: nodeCopy.value,
