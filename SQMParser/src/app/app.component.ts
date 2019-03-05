@@ -332,14 +332,7 @@ export class AppComponent implements OnInit, OnDestroy {
 
   // tslint:disable-next-line: member-ordering
   treeFlattener = new MissionTreeFlattener(
-    this.treeTransformer, node => node.level, node => node.expandable, node => {
-      const nodeArray = [];
-      const traversalArray = this.parser.traverseNodeValue(node, Token.START_BRACE, Token.END_BRACE);
-      traversalArray.forEach(traversalArr => {
-        nodeArray.push(traversalArr);
-      });
-      return nodeArray;
-    }, node => node.extraData
+    this.treeTransformer, node => node.level, node => node.expandable, node => Array(node), node => node.extraData
   );
 
   // tslint:disable-next-line: member-ordering
