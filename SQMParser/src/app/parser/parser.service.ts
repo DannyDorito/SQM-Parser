@@ -162,7 +162,6 @@ export class ParserService {
               } else {
                 missionTree[startIndex].comment = 'GENERATED ERROR: Cannot Find: "' + Token.SEMICOLON.toString() + '"\r\n';
               }
-              console.log(missionTree[startIndex].comment);
               errorCount++;
             }
           }
@@ -175,7 +174,6 @@ export class ParserService {
             } else {
               missionTree[startIndex].comment = 'GENERATED ERROR: Cannot Find: "' + Token.START_BRACE.toString() + '"\r\n';
             }
-            console.log(missionTree[startIndex].comment);
             errorCount++;
           }
         }
