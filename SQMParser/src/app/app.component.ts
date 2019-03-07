@@ -279,10 +279,12 @@ export class AppComponent implements OnInit, OnDestroy {
         if (result) {
           switch (type) {
             case DialogueType.FIX_ERRORS:
-              this.parser.fixErrors(this.missionTree);
+              this.missionTree = this.parser.fixErrors(this.missionTree);
+              this.treeDataSource.data = this.missionTree;
               break;
             case DialogueType.DELETE:
               this.missionTree = this.parser.removeNode(this.lastSelectedIndex, this.missionTree);
+              this.treeDataSource.data = this.missionTree;
               break;
             default:
               break;
