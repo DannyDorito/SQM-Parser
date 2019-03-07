@@ -305,22 +305,41 @@ export class AppComponent implements OnInit, OnDestroy {
     return new Promise(resolve => setTimeout(resolve, milliseconds));
   }
 
+  // tslint:disable-next-line: member-ordering
+  refList: MissionTreeNode[] = [];
+  // tslint:disable-next-line: member-ordering
+  itemToAdd: MissionTreeNode;
   treeTransformer = (node: MissionTreeNode, level: number) => {
+    const nodes: UITreeNode[] = [];
     const nodeCopy = Object.assign({}, node);
-
-    if (nodeCopy.value !== Token.START_BRACE.toString()) {
-      const a = this.parser.traverseNodeValue(nodeCopy)[0];
-      nodeCopy.value = a;
-      nodeCopy.child = undefined;
-    } else {
-      console.log('hit');
+    if (this.refList.length === 0) {
+      this.refList.push(nodeCopy);
     }
 
+    switch (nodeCopy.nodeType) {
+      case Token.START_BRACE:
+        this.refList.push(nodeCopy);
+        break;
+      case Token.END_BRACE:
+        if (this.refList.length !== 0) {
+          this.refList.pop();
+        }
+        this.refList[(this.refList.length - 1)].value = this.parser.traverseNodeValue(nodeCopy)[0];
+        this.refList[(this.refList.length - 1)].child = undefined;
+        break;
+      default:
+        this.refList[(this.refList.length - 1)].value = this.parser.traverseNodeValue(nodeCopy)[0];
+        this.refList[(this.refList.length - 1)].child = undefined;
+        break;
+    }
+
+    console.log(this.refList);
+
     return {
-      expandable: !!nodeCopy.child && nodeCopy.child.value.length > 0,
-      name: nodeCopy.value,
+      expandable: !!this.refList[(this.refList.length - 1)].child && this.refList[(this.refList.length - 1)].child.value.length > 0,
+      name: this.refList[(this.refList.length - 1)].value,
       level: level,
-      extraData: nodeCopy.comment
+      extraData: this.refList[(this.refList.length - 1)].comment
     };
   }
 
