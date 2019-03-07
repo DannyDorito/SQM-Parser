@@ -111,7 +111,7 @@ export class ParserService {
    * Traverse a passed tree, return a string of the value of each node traversed
    * Compilers: Principles, Techniques, and Tools (2nd Edition) pp.56-68. Accessed 21st November 2018
    */
-  traverseNodeValue(nodeToTraverse: MissionTreeNode, tokensToInner?: Token, tokensToOuter?: Token) {
+  traverseNodeValue(nodeToTraverse: MissionTreeNode, tokensToInner ?: Token, tokensToOuter ?: Token) {
     if (isNullOrUndefined(nodeToTraverse)) {
       return [];
     }

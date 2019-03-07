@@ -17,14 +17,16 @@ export class SaverService {
     } else if (!!new Blob === false) {
       throw new Error('Error: File saving is not supported on this browser, please use a browser that supports Blobs!');
     } else {
-      FileSaver.saveAs(new Blob(this.treeToStringArray(missionTree), { type: 'text/plain;charset=utf-8' }), fileName);
+      FileSaver.saveAs(new Blob(this.treeToStringArray(missionTree), {
+        type: 'text/plain;charset=utf-8'
+      }), fileName);
     }
   }
 
   /**
    * Passed tree to string array
    */
-  treeToStringArray( missionTree: MissionTreeNode[] ) {
+  treeToStringArray(missionTree: MissionTreeNode[]) {
     const strArray: string[] = [];
     for (const branch of missionTree) {
       let str = '';
