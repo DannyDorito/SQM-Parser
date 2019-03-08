@@ -310,27 +310,23 @@ export class AppComponent implements OnInit, OnDestroy {
       return [];
     }
     const nestedTreeNodeArray: NestedTreeNode[] = [];
-    nestedTreeNodeArray.push(new NestedTreeNode('', '', []));
     let indent = 0;
 
     missionTree.forEach(node => {
       switch (node.nodeType) {
         case Token.START_BRACE:
-          nestedTreeNodeArray[(nestedTreeNodeArray.length - 1)].name += this.parser.traverseNodeToString(node);
           indent++;
           break;
         case Token.END_BRACE:
-          nestedTreeNodeArray.push(new NestedTreeNode(this.parser.traverseNodeToString(node), '', []));
           indent--;
           break;
         default:
-          if (indent > 0) {
-            nestedTreeNodeArray[(nestedTreeNodeArray.length - 1)].append(new NestedTreeNode(this.parser.traverseNodeToString(node), '', []), indent);
-          } else {
-            nestedTreeNodeArray.push(new NestedTreeNode(this.parser.traverseNodeToString(node), '', []));
-          }
-          nestedTreeNodeArray[(nestedTreeNodeArray.length - 1)].name += this.parser.traverseNodeToString(node);
           break;
+      }
+      if (indent > 0) {
+        nestedTreeNodeArray[(nestedTreeNodeArray.length - 1)].append(new NestedTreeNode(this.parser.traverseNodeToString(node), node.comment, []), indent);
+      } else {
+        nestedTreeNodeArray.push(new NestedTreeNode(this.parser.traverseNodeToString(node), node.comment, []));
       }
     });
     console.log(nestedTreeNodeArray);
