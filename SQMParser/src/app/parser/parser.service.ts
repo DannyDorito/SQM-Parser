@@ -244,6 +244,18 @@ export class ParserService {
     }
   }
 
+  getNextNodeUndef(node: MissionTreeNode) {
+    if (isNullOrUndefined(node)) {
+      return undefined;
+    } else {
+      if (!isNullOrUndefined(node.child)) {
+        return node.child;
+      } else {
+        return undefined;
+      }
+    }
+  }
+
   /**
    * Produces tokens to lexically analyse
    * Split the input string on terminals [ \s\t\n\r\[\]"={},;] globally with a positive lookahead

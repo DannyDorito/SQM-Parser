@@ -1,6 +1,7 @@
+import { NestedTreeControl } from '@angular/cdk/tree';
 import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { MatTreeFlatDataSource } from '@angular/material/tree';
+import { MatTreeNestedDataSource } from '@angular/material/tree';
 import { Subscription, timer } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { isNullOrUndefined } from 'util';
@@ -9,8 +10,7 @@ import { FunctionsComponent } from './functions/functions.component';
 import { ParserService } from './parser/parser.service';
 import { SaverService } from './saver/saver.service';
 import { DialogueData, DialogueType } from './shared/dialogue';
-import { MissionTreeNode, Token, UITreeNode } from './shared/shared';
-import { MissionTreeControl, MissionTreeFlattener } from './shared/tree-data-source';
+import { MissionTreeNode, NestedTreeNode, Token } from './shared/shared';
 
 @Component({
   selector: 'app-root',
@@ -216,13 +216,13 @@ export class AppComponent implements OnInit, OnDestroy {
     if (environment.production) {
       try {
         this.missionTree = this.parser.generateTree(this.fileReaderString.split('\r\n'));
-        this.treeDataSource.data = this.missionTree;
+        this.treeDataSource.data = this.missionTreeNodeToNestedTreeNode(this.missionTree);
       } catch (exception) {
         this.openDialogue(exception.toString(), DialogueType.DEFAULT);
       }
     } else {
       this.missionTree = this.parser.generateTree(this.fileReaderString.split('\r\n'));
-      this.treeDataSource.data = this.missionTree;
+      this.treeDataSource.data = this.missionTreeNodeToNestedTreeNode(this.missionTree);
     }
 
     const t1 = performance.now();
@@ -280,11 +280,11 @@ export class AppComponent implements OnInit, OnDestroy {
           switch (type) {
             case DialogueType.FIX_ERRORS:
               this.missionTree = this.parser.fixErrors(this.missionTree);
-              this.treeDataSource.data = this.missionTree;
+              this.treeDataSource.data = this.missionTreeNodeToNestedTreeNode(this.missionTree);
               break;
             case DialogueType.DELETE:
               this.missionTree = this.parser.removeNode(this.lastSelectedIndex, this.missionTree);
-              this.treeDataSource.data = this.missionTree;
+              this.treeDataSource.data = this.missionTreeNodeToNestedTreeNode(this.missionTree);
               break;
             default:
               break;
@@ -305,65 +305,52 @@ export class AppComponent implements OnInit, OnDestroy {
     return new Promise(resolve => setTimeout(resolve, milliseconds));
   }
 
-  // tslint:disable-next-line: member-ordering
-  refList: MissionTreeNode[] = [];
-  // tslint:disable-next-line: member-ordering
-  itemToAdd: MissionTreeNode;
-  treeTransformer = (node: MissionTreeNode, level: number) => {
-    const nodes: UITreeNode[] = [];
-    const nodeCopy = Object.assign({}, node);
-    if (this.refList.length === 0) {
-      this.refList.push(nodeCopy);
+  missionTreeNodeToNestedTreeNode(missionTree: MissionTreeNode[]) {
+    if (isNullOrUndefined(missionTree)) {
+      return [];
     }
+    const nestedTreeNodeArray: NestedTreeNode[] = [];
+    let node = missionTree[0];
+    let index = 0;
+    let newNestedNode = new NestedTreeNode('', undefined, undefined);
+    let nestedNodeRef = newNestedNode;
 
-    switch (nodeCopy.nodeType) {
-      case Token.START_BRACE:
-        this.refList.push(nodeCopy);
-        break;
-      case Token.END_BRACE:
-        if (this.refList.length !== 0) {
-          this.refList.pop();
+    while (!isNullOrUndefined(node)) {
+      const nextNodeResult = this.parser.getNextNodeUndef(node);
+      if (!isNullOrUndefined(nextNodeResult)) {
+        switch (node.nodeType) {
+          case Token.START_BRACE:
+
+          break;
+
+          case Token.END_BRACE:
+
+          break;
+          default:
+
+          break;
         }
-        this.refList[(this.refList.length - 1)].value = this.parser.traverseNodeValue(nodeCopy)[0];
-        this.refList[(this.refList.length - 1)].child = undefined;
-        break;
-      default:
-        this.refList[(this.refList.length - 1)].value = this.parser.traverseNodeValue(nodeCopy)[0];
-        this.refList[(this.refList.length - 1)].child = undefined;
-        break;
+        node = nextNodeResult;
+      } else {
+        if ((index + 1) < (missionTree.length - 1)) {
+          index++;
+        } else {
+          console.log(nestedTreeNodeArray);
+          return nestedTreeNodeArray;
+        }
+      }
     }
-
-    console.log(this.refList);
-
-    return {
-      expandable: !!this.refList[(this.refList.length - 1)].child && this.refList[(this.refList.length - 1)].child.value.length > 0,
-      name: this.refList[(this.refList.length - 1)].value,
-      level: level,
-      extraData: this.refList[(this.refList.length - 1)].comment
-    };
+    console.log(nestedTreeNodeArray);
+    return nestedTreeNodeArray;
   }
 
   // tslint:disable-next-line: member-ordering
-  treeControl = new MissionTreeControl < UITreeNode > (
-    node => node.level, node => node.expandable, node => node.extraData
-  );
+  treeControl = new NestedTreeControl<NestedTreeNode>(node => node.children);
 
   // tslint:disable-next-line: member-ordering
-  treeFlattener = new MissionTreeFlattener(
-    this.treeTransformer, node => node.level, node => node.expandable, node => {
-      const nodeArray = [];
-      const traversalArray = this.parser.traverseNodeValue(node, Token.START_BRACE, Token.END_BRACE);
-      traversalArray.forEach(traversalArr => {
-        nodeArray.push(traversalArr);
-      });
-      return nodeArray;
-    }, node => node.extraData
-  );
+  treeDataSource = new MatTreeNestedDataSource<NestedTreeNode>();
 
-  // tslint:disable-next-line: member-ordering
-  treeDataSource = new MatTreeFlatDataSource(this.treeControl, this.treeFlattener);
+  hasChild = (_: number, node: NestedTreeNode) => node.children;
 
-  hasChild = (_: number, node: UITreeNode) => node.expandable;
-
-  hasComment = (_: number, node: UITreeNode) => node.extraData;
+  // hasComment = (_: number, node: UITreeNode) => node.extraData;
 }

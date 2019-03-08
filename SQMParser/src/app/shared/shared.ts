@@ -27,11 +27,21 @@ export class MissionTreeNode {
   }
 }
 
-export interface UITreeNode {
-  expandable: boolean;
+export class NestedTreeNode {
   name: string;
-  level: number;
-  extraData: any;
+  extraData: string;
+  parent: NestedTreeNode;
+  children?: NestedTreeNode[];
+
+  constructor(
+    _name: string,
+    _extraData: string,
+    _children?: NestedTreeNode[]
+  ) {
+    this.name = _name;
+    this.extraData = _extraData;
+    this.children = _children;
+  }
 }
 
 export enum Token {
