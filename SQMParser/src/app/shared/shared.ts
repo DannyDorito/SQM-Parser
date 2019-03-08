@@ -31,16 +31,28 @@ export class NestedTreeNode {
   name: string;
   extraData: string;
   parent: NestedTreeNode;
-  children?: NestedTreeNode[];
+  children ?: NestedTreeNode[];
 
   constructor(
     _name: string,
     _extraData: string,
-    _children?: NestedTreeNode[]
+    _children ?: NestedTreeNode[]
   ) {
     this.name = _name;
     this.extraData = _extraData;
     this.children = _children;
+  }
+
+  /**
+   * Append object to end of missionTree.innerNode
+   */
+  append(nodeToAppend: NestedTreeNode, depth: number) {
+    if (depth > 0) {
+      this.append(nodeToAppend, (depth - 1));
+    } else {
+      this.children.push(nodeToAppend);
+    }
+    return this;
   }
 }
 

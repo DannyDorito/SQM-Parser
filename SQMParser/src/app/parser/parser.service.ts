@@ -111,7 +111,7 @@ export class ParserService {
    * Traverse a passed tree, return a string of the value of each node traversed
    * Compilers: Principles, Techniques, and Tools (2nd Edition) pp.56-68. Accessed 21st November 2018
    */
-  traverseNodeValue(nodeToTraverse: MissionTreeNode, tokensToInner ?: Token, tokensToOuter ?: Token) {
+  traverseNodeToArray(nodeToTraverse: MissionTreeNode, tokensToInner ?: Token, tokensToOuter ?: Token) {
     if (isNullOrUndefined(nodeToTraverse)) {
       return [];
     }
@@ -137,6 +137,21 @@ export class ParserService {
     };
     traverse(nodeToTraverse);
     return strArray;
+  }
+
+  traverseNodeToString(nodeToTraverse: MissionTreeNode) {
+    if (isNullOrUndefined(nodeToTraverse)) {
+      return undefined;
+    }
+    let str = '';
+    const traverse = (node: MissionTreeNode) => {
+      if (!isNullOrUndefined(node)) {
+        str += node.value;
+        traverse(node.child);
+      }
+    };
+    traverse(nodeToTraverse);
+    return str;
   }
 
   /**

@@ -21,7 +21,7 @@
 <!-- <cdk-virtual-scroll-viewport itemSize="1" [ngStyle]="{ 'height' : missionTree.length > 1 ? '' : '0'}" (click)="showContextMenu = false" spellcheck="false">
   <input type="text" *cdkVirtualFor="let node of missionTree; let index = index; templateCacheSize: 0;" [ngModel]="parser.traverseNodeValue(node)" (contextmenu)="onRightClick($event, index)" (ngModelChange)="editNode($event, index)" class="item" [title]="node.comment" spellcheck="false" [style.text-decoration]="node.error ? 'underline' : 'none'" [style.text-decoration-color]="node.error ? 'red' : 'transparent'">
 </cdk-virtual-scroll-viewport> -->
-<mat-tree [dataSource]="treeDataSource" [treeControl]="treeControl">
+<mat-tree [dataSource]="dataSource" [treeControl]="treeControl" class="tree">
   <!-- Leaf Node -->
   <mat-tree-node *matTreeNodeDef="let node" matTreeNodeToggle>
     <li class="mat-tree-node">
@@ -33,14 +33,15 @@
   <mat-nested-tree-node *matTreeNodeDef="let node; when: hasChild">
     <li>
       <div class="mat-tree-node">
-        <button mat-icon-button matTreeNodeToggle [attr.aria-label]="'toggle ' + node.name">
+        <!-- <button mat-icon-button matTreeNodeToggle[attr.aria-label]="'toggle ' + node.name"> -->
+        <button mat-icon-button>
           <mat-icon class="mat-icon-rtl-mirror">
             {{treeControl.isExpanded(node) ? 'expand_more' : 'chevron_right'}}
           </mat-icon>
         </button>
         {{node.name}}
       </div>
-      <ul [class.example-tree-invisible]="!treeControl.isExpanded(node)">
+      <ul [class.tree-invisible]="!treeControl.isExpanded(node)">
         <ng-container matTreeNodeOutlet></ng-container>
       </ul>
     </li>

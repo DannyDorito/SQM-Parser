@@ -216,13 +216,13 @@ export class AppComponent implements OnInit, OnDestroy {
     if (environment.production) {
       try {
         this.missionTree = this.parser.generateTree(this.fileReaderString.split('\r\n'));
-        this.treeDataSource.data = this.missionTreeNodeToNestedTreeNode(this.missionTree);
+        this.dataSource.data = this.missionTreeNodeToNestedTreeNode(this.missionTree);
       } catch (exception) {
         this.openDialogue(exception.toString(), DialogueType.DEFAULT);
       }
     } else {
       this.missionTree = this.parser.generateTree(this.fileReaderString.split('\r\n'));
-      this.treeDataSource.data = this.missionTreeNodeToNestedTreeNode(this.missionTree);
+      this.dataSource.data = this.missionTreeNodeToNestedTreeNode(this.missionTree);
     }
 
     const t1 = performance.now();
@@ -280,11 +280,11 @@ export class AppComponent implements OnInit, OnDestroy {
           switch (type) {
             case DialogueType.FIX_ERRORS:
               this.missionTree = this.parser.fixErrors(this.missionTree);
-              this.treeDataSource.data = this.missionTreeNodeToNestedTreeNode(this.missionTree);
+              this.dataSource.data = this.missionTreeNodeToNestedTreeNode(this.missionTree);
               break;
             case DialogueType.DELETE:
               this.missionTree = this.parser.removeNode(this.lastSelectedIndex, this.missionTree);
-              this.treeDataSource.data = this.missionTreeNodeToNestedTreeNode(this.missionTree);
+              this.dataSource.data = this.missionTreeNodeToNestedTreeNode(this.missionTree);
               break;
             default:
               break;
@@ -310,45 +310,38 @@ export class AppComponent implements OnInit, OnDestroy {
       return [];
     }
     const nestedTreeNodeArray: NestedTreeNode[] = [];
-    let node = missionTree[0];
-    let index = 0;
-    let newNestedNode = new NestedTreeNode('', undefined, undefined);
-    let nestedNodeRef = newNestedNode;
+    nestedTreeNodeArray.push(new NestedTreeNode('', '', []));
+    let indent = 0;
 
-    while (!isNullOrUndefined(node)) {
-      const nextNodeResult = this.parser.getNextNodeUndef(node);
-      if (!isNullOrUndefined(nextNodeResult)) {
-        switch (node.nodeType) {
-          case Token.START_BRACE:
-
+    missionTree.forEach(node => {
+      switch (node.nodeType) {
+        case Token.START_BRACE:
+          nestedTreeNodeArray[(nestedTreeNodeArray.length - 1)].name += this.parser.traverseNodeToString(node);
+          indent++;
           break;
-
-          case Token.END_BRACE:
-
+        case Token.END_BRACE:
+          nestedTreeNodeArray.push(new NestedTreeNode(this.parser.traverseNodeToString(node), '', []));
+          indent--;
           break;
-          default:
-
+        default:
+          if (indent > 0) {
+            nestedTreeNodeArray[(nestedTreeNodeArray.length - 1)].append(new NestedTreeNode(this.parser.traverseNodeToString(node), '', []), indent);
+          } else {
+            nestedTreeNodeArray.push(new NestedTreeNode(this.parser.traverseNodeToString(node), '', []));
+          }
+          nestedTreeNodeArray[(nestedTreeNodeArray.length - 1)].name += this.parser.traverseNodeToString(node);
           break;
-        }
-        node = nextNodeResult;
-      } else {
-        if ((index + 1) < (missionTree.length - 1)) {
-          index++;
-        } else {
-          console.log(nestedTreeNodeArray);
-          return nestedTreeNodeArray;
-        }
       }
-    }
+    });
     console.log(nestedTreeNodeArray);
     return nestedTreeNodeArray;
   }
 
   // tslint:disable-next-line: member-ordering
-  treeControl = new NestedTreeControl<NestedTreeNode>(node => node.children);
+  treeControl = new NestedTreeControl < NestedTreeNode > (node => node.children);
 
   // tslint:disable-next-line: member-ordering
-  treeDataSource = new MatTreeNestedDataSource<NestedTreeNode>();
+  dataSource = new MatTreeNestedDataSource < NestedTreeNode > ();
 
   hasChild = (_: number, node: NestedTreeNode) => node.children;
 
