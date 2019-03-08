@@ -320,8 +320,6 @@ export class AppComponent implements OnInit, OnDestroy {
         case Token.END_BRACE:
           indent--;
           break;
-        default:
-          break;
       }
       if (indent > 0) {
         nestedTreeNodeArray[(nestedTreeNodeArray.length - 1)].append(new NestedTreeNode(this.parser.traverseNodeToString(node), node.comment, []), indent);
