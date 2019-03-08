@@ -29,7 +29,7 @@ export class MissionTreeNode {
 
 export class NestedTreeNode {
   name: string;
-  extraData: string;
+  comment: string;
   parent: NestedTreeNode;
   children ?: NestedTreeNode[];
 
@@ -39,7 +39,7 @@ export class NestedTreeNode {
     _children ?: NestedTreeNode[]
   ) {
     this.name = _name;
-    this.extraData = _extraData;
+    this.comment = _extraData;
     this.children = _children;
   }
 
