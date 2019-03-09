@@ -278,6 +278,6 @@ export class ParserService {
    * then map the results by trimming and filterting by length to a string array and returns it
    */
   splitString(inputString: string) {
-    return inputString.split(/(?=[ \s\t\n\r\[\]\"\=\{\}\,\;]+)/g).map(str => str.trim()).filter(str => str.length);
+    return inputString.split(/(?=[ \s\t\n\r\[\]"={},;]+)/g).map(str => str.trim()).filter(str => str.length);
   }
 }
