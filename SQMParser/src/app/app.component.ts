@@ -337,7 +337,7 @@ export class AppComponent implements OnInit, OnDestroy {
   // tslint:disable-next-line: member-ordering
   dataSource = new MatTreeNestedDataSource < NestedTreeNode > ();
 
-  hasChild = (_: number, node: NestedTreeNode) => node.children;
+  hasChild = (_: number, node: NestedTreeNode) => !!node.children && node.children.length > 0;
 
   // hasComment = (_: number, node: UITreeNode) => node.extraData;
 }
