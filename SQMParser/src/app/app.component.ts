@@ -319,9 +319,6 @@ export class AppComponent implements OnInit, OnDestroy {
       }
       switch (node.nodeType) {
         case Token.START_BRACE:
-          indent++;
-          break;
-        case Token.END_BRACE:
           if (indent > 0) {
             indent--;
           }
