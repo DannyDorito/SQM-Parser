@@ -312,21 +312,22 @@ export class AppComponent implements OnInit, OnDestroy {
     let indent = 0;
 
     missionTree.forEach(node => {
-      switch (node.nodeType) {
-        case Token.START_BRACE:
-          indent++;
-          break;
-        case Token.END_BRACE:
-          indent--;
-          break;
-      }
       if (indent > 0) {
         nestedTreeNodeArray[(nestedTreeNodeArray.length - 1)].append(new NestedTreeNode(this.parser.traverseNodeToString(node), node.comment, []), indent);
       } else {
         nestedTreeNodeArray.push(new NestedTreeNode(this.parser.traverseNodeToString(node), node.comment, []));
       }
+      switch (node.nodeType) {
+        case Token.START_BRACE:
+          indent++;
+          break;
+        case Token.END_BRACE:
+          if (indent > 0) {
+            indent--;
+          }
+          break;
+      }
     });
-    console.log(nestedTreeNodeArray);
     return nestedTreeNodeArray;
   }
 
