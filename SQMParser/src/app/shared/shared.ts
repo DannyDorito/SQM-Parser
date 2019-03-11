@@ -32,17 +32,14 @@ export class MissionTreeNode {
 
 export class NestedTreeNode {
   name: string;
-  comment: string;
   // node does not have children
   children ?: NestedTreeNode[];
 
   constructor(
     _name: string,
-    _comment: string,
     _children ?: NestedTreeNode[]
   ) {
     this.name = _name;
-    this.comment = _comment;
     this.children = _children;
   }
 

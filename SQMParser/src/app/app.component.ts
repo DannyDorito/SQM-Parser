@@ -317,9 +317,9 @@ export class AppComponent implements OnInit, OnDestroy {
       }
 
       if (indent > 0) {
-        nestedTreeNodeArray[(nestedTreeNodeArray.length - 1)].append(new NestedTreeNode(this.parser.traverseNodeToString(node), node.comment), indent);
+        nestedTreeNodeArray[(nestedTreeNodeArray.length - 1)].append(new NestedTreeNode(this.parser.traverseNodeToString(node)), indent);
       } else {
-        nestedTreeNodeArray.push(new NestedTreeNode(this.parser.traverseNodeToString(node), node.comment));
+        nestedTreeNodeArray.push(new NestedTreeNode(this.parser.traverseNodeToString(node)));
       }
 
       if (node.nodeType === Token.START_BRACE) {
