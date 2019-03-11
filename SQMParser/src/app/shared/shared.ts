@@ -1,3 +1,5 @@
+import { isNullOrUndefined } from 'util';
+
 export class MissionTreeNode {
   value: string;
   nodeType: Token = Token.DEFAULT;
@@ -19,7 +21,8 @@ export class MissionTreeNode {
    */
   append(nodeToAppend: MissionTreeNode, depth: number) {
     if (depth > 0) {
-      this.append(nodeToAppend, (depth - 1));
+      depth--;
+      this.append(nodeToAppend, depth);
     } else {
       this.child = nodeToAppend;
     }
@@ -30,26 +33,31 @@ export class MissionTreeNode {
 export class NestedTreeNode {
   name: string;
   comment: string;
-  parent: NestedTreeNode;
+  // node does not have children
   children ?: NestedTreeNode[];
 
   constructor(
     _name: string,
-    _extraData: string,
+    _comment: string,
     _children ?: NestedTreeNode[]
   ) {
     this.name = _name;
-    this.comment = _extraData;
+    this.comment = _comment;
     this.children = _children;
   }
 
   /**
-   * Append object to end of missionTree.innerNode
+   * Append object to end of NestedTreeNode.?children
    */
   append(nodeToAppend: NestedTreeNode, depth: number) {
     if (depth > 0) {
-      this.append(nodeToAppend, (depth - 1));
+      depth--;
+      this.append(nodeToAppend, depth);
     } else {
+      // if this does not have children, initialise it
+      if (isNullOrUndefined(this.children)) {
+        this.children = [];
+      }
       this.children.push(nodeToAppend);
     }
     return this;

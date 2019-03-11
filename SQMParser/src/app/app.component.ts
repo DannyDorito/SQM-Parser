@@ -317,14 +317,9 @@ export class AppComponent implements OnInit, OnDestroy {
       }
 
       if (indent > 0) {
-        // console.log('before');
-        // console.log(nestedTreeNodeArray[(nestedTreeNodeArray.length - 1)]);
-        nestedTreeNodeArray[(nestedTreeNodeArray.length - 1)].append(new NestedTreeNode(this.parser.traverseNodeToString(node), node.comment, []), indent);
-        // console.log('after');
-        // console.log(nestedTreeNodeArray[(nestedTreeNodeArray.length - 1)]);
-        // console.log('');
+        nestedTreeNodeArray[(nestedTreeNodeArray.length - 1)].append(new NestedTreeNode(this.parser.traverseNodeToString(node), node.comment), indent);
       } else {
-        nestedTreeNodeArray.push(new NestedTreeNode(this.parser.traverseNodeToString(node), node.comment, []));
+        nestedTreeNodeArray.push(new NestedTreeNode(this.parser.traverseNodeToString(node), node.comment));
       }
 
       if (node.nodeType === Token.START_BRACE) {
@@ -332,6 +327,10 @@ export class AppComponent implements OnInit, OnDestroy {
       }
     });
     return nestedTreeNodeArray;
+  }
+
+  log(x) {
+    console.log(x);
   }
 
   // tslint:disable-next-line: member-ordering

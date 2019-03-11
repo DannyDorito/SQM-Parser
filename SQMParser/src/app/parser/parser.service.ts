@@ -108,37 +108,9 @@ export class ParserService {
   }
 
   /**
-   * Traverse a passed tree, return a string of the value of each node traversed
+   * Traverse a passed tree, return an array of the value of each node traversed
    * Compilers: Principles, Techniques, and Tools (2nd Edition) pp.56-68. Accessed 21st November 2018
    */
-  traverseNodeToArray(nodeToTraverse: MissionTreeNode, tokensToInner ?: Token, tokensToOuter ?: Token) {
-    if (isNullOrUndefined(nodeToTraverse)) {
-      return [];
-    }
-    const strArray: string[] = [];
-    let index = 0;
-    const traverse = (node: MissionTreeNode) => {
-      if (!isNullOrUndefined(node)) {
-        if (tokensToInner === node.nodeType) {
-          index++;
-        }
-        if (tokensToOuter === node.nodeType) {
-          if (index - 1 >= 0) {
-            index--;
-          }
-        }
-        if (!isNullOrUndefined(strArray[index])) {
-          strArray[index] += node.value;
-        } else {
-          strArray[index] = node.value;
-        }
-        traverse(node.child);
-      }
-    };
-    traverse(nodeToTraverse);
-    return strArray;
-  }
-
   traverseNodeToString(nodeToTraverse: MissionTreeNode) {
     if (isNullOrUndefined(nodeToTraverse)) {
       return undefined;
@@ -259,6 +231,9 @@ export class ParserService {
     }
   }
 
+  /**
+   * Get the child node of the passed MissionTreeNode or undefined
+   */
   getNextNodeUndef(node: MissionTreeNode) {
     if (isNullOrUndefined(node)) {
       return undefined;
