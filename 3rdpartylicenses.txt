@@ -389,14 +389,14 @@ MIT
 
 @angular/material/button
 
+@angular/forms
+MIT
+
 @angular/material/icon
 
 @angular/material/tree
 
 @angular/material/dialog
-
-@angular/forms
-MIT
 
 @angular/service-worker
 MIT
