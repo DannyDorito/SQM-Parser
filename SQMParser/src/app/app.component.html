@@ -39,7 +39,6 @@
           </mat-icon>
         </button>
         {{node.name}}
-        {{log(node.children)}}
       </div>
       <ul [class.tree-invisible]="!treeControl.isExpanded(node)">
         <ng-container matTreeNodeOutlet></ng-container>

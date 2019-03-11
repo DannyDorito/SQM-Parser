@@ -344,10 +344,6 @@ export class AppComponent implements OnInit, OnDestroy {
     return nestedTreeNodeArray;
   }
 
-  log(x) {
-    console.log(x);
-  }
-
   // tslint:disable-next-line: member-ordering
   treeControl = new NestedTreeControl < NestedTreeNode > (node => node.children);
 
