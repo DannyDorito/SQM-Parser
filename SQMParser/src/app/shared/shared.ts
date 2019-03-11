@@ -30,35 +30,12 @@ export class MissionTreeNode {
   }
 }
 
-export class NestedTreeNode {
+export interface NestedTreeNode {
   name: string;
   // node does not have children
   children ?: NestedTreeNode[];
 
-  constructor(
-    _name: string,
-    _children ?: NestedTreeNode[]
-  ) {
-    this.name = _name;
-    this.children = _children;
-  }
-
-  /**
-   * Append object to end of NestedTreeNode.?children
-   */
-  append(nodeToAppend: NestedTreeNode, depth: number) {
-    if (depth > 0) {
-      depth--;
-      this.append(nodeToAppend, depth);
-    } else {
-      // if this does not have children, initialise it
-      if (isNullOrUndefined(this.children)) {
-        this.children = [];
-      }
-      this.children.push(nodeToAppend);
-    }
-    return this;
-  }
+  append(nodeToAppend: NestedTreeNode, depth: number): NestedTreeNode;
 }
 
 export enum Token {
