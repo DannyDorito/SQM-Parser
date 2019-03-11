@@ -315,26 +315,11 @@ export class AppComponent implements OnInit, OnDestroy {
       if (node.nodeType === Token.END_BRACE && indent > 0) {
         indent--;
       }
-      const newNode: NestedTreeNode = {
-        name: this.parser.traverseNodeToString(node),
-        append: (nodeToAppend: NestedTreeNode, depth: number) => {
-          if (depth > 0) {
-            depth--;
-            newNode.append(nodeToAppend, depth);
-          } else {
-            // if this does not have children, initialise it
-            if (isNullOrUndefined(newNode.children)) {
-              newNode.children = [];
-            }
-            newNode.children.push(nodeToAppend);
-          }
-          return newNode;
-        }
-      };
+
       if (indent > 0) {
-        nestedTreeNodeArray[(nestedTreeNodeArray.length - 1)].append(newNode, indent);
+        nestedTreeNodeArray[(nestedTreeNodeArray.length - 1)].append(new NestedTreeNode(this.parser.traverseNodeToString(node)), indent);
       } else {
-       nestedTreeNodeArray.push(newNode);
+        nestedTreeNodeArray.push(new NestedTreeNode(this.parser.traverseNodeToString(node)));
       }
 
       if (node.nodeType === Token.START_BRACE) {
