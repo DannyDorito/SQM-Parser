@@ -19,14 +19,14 @@
 </div>
 <!-- AST List -->
 <!-- <cdk-virtual-scroll-viewport itemSize="1" [ngStyle]="{ 'height' : missionTree.length > 1 ? '' : '0'}" (click)="showContextMenu = false" spellcheck="false">
-  <input type="text" *cdkVirtualFor="let node of missionTree; let index = index; templateCacheSize: 0;" [ngModel]="parser.traverseNodeValue(node)" (contextmenu)="onRightClick($event, index)" (ngModelChange)="editNode($event, index)" class="item" [title]="node.comment" spellcheck="false" [style.text-decoration]="node.error ? 'underline' : 'none'" [style.text-decoration-color]="node.error ? 'red' : 'transparent'">
+  <input *cdkVirtualFor="let node of missionTree; let index = index; templateCacheSize: 0;" (contextmenu)="onRightClick($event, index)" (ngModelChange)="editNode($event, index)" [title]="node.comment" spellcheck="false" [style.text-decoration]="node.error ? 'underline' : 'none'" [style.text-decoration-color]="node.error ? 'red' : 'transparent'">
 </cdk-virtual-scroll-viewport> -->
 <mat-tree [dataSource]="dataSource" [treeControl]="treeControl" class="tree">
   <!-- Leaf Node -->
   <mat-tree-node *matTreeNodeDef="let node" matTreeNodeToggle>
     <li class="mat-tree-node">
       <button mat-icon-button disabled></button>
-      {{node.name}}
+      <input type="text" [ngModel]="node.name" spellcheck="false" class="item">
     </li>
   </mat-tree-node>
   <!-- Expandable Node -->
@@ -38,7 +38,7 @@
             {{treeControl.isExpanded(node) ? 'expand_more' : 'chevron_right'}}
           </mat-icon>
         </button>
-        {{node.name}}
+        <input type="text" [ngModel]="node.name" spellcheck="false" class="item">
       </div>
       <ul [class.tree-invisible]="!treeControl.isExpanded(node)">
         <ng-container matTreeNodeOutlet></ng-container>
