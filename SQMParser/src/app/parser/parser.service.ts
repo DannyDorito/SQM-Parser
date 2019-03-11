@@ -126,6 +126,21 @@ export class ParserService {
     return str;
   }
 
+  traverseNodeComment(nodeToTraverse: MissionTreeNode) {
+    if (isNullOrUndefined(nodeToTraverse)) {
+      return undefined;
+    }
+    let str = '';
+    const traverse = (node: MissionTreeNode) => {
+      if (!isNullOrUndefined(node)) {
+        str += node.comment;
+        traverse(node.child);
+      }
+    };
+    traverse(nodeToTraverse);
+    return str;
+  }
+
   /**
    * Find missing semicolons and braces in a given missionTree
    * missionTree is passed by reference so error count is returned
