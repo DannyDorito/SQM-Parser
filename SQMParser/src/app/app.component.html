@@ -35,7 +35,7 @@
             {{treeControl.isExpanded(node) ? 'expand_more' : 'chevron_right'}}
           </mat-icon>
         </button>
-        <input type="text" [ngModel]="node.name" spellcheck="false" class="item" (contextmenu)="onRightClick($event, node.index)" (ngModelChange)="editNode($event, node.index)">
+        <input type="text" [ngModel]="node.name" spellcheck="false" class="item" (contextmenu)="onRightClick($event, node.index)" (ngModelChange)="editNode($event, node.index)" [title]="node.comment" [style.text-decoration]="node.hasError ? 'underline' : 'none'">
       </div>
       <ul [class.tree-invisible]="!treeControl.isExpanded(node)">
         <ng-container matTreeNodeOutlet></ng-container>
