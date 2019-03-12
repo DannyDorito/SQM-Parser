@@ -5,15 +5,16 @@ export class MissionTreeNode {
   nodeType: Token = Token.DEFAULT;
   child: MissionTreeNode;
   comment: string;
+  hasError: boolean;
 
   constructor(
     _value: string,
     _innerNode: MissionTreeNode,
-    _error: string
+    _comment: string
   ) {
     this.value = _value;
     this.child = _innerNode;
-    this.comment = _error;
+    this.comment = _comment;
   }
 
   /**
@@ -34,6 +35,7 @@ export class NestedTreeNode {
   name: string;
   index: number;
   comment: string;
+  hasError: boolean;
   // node does not have children
   children ?: NestedTreeNode[];
 
@@ -41,11 +43,13 @@ export class NestedTreeNode {
     _name: string,
     _index: number,
     _comment: string,
+    _hasError: boolean,
     _children ?: NestedTreeNode[]
   ) {
     this.name = _name;
     this.index = _index;
     this.comment = _comment;
+    this.hasError = _hasError;
     this.children = _children;
   }
 

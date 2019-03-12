@@ -17,16 +17,13 @@
     <button class="input" tabindex="1" (click)="confirmSelection()" (keydown.enter)="confirmSelection()">Confirm</button>
   </div>
 </div>
-<!-- AST List -->
-<!-- <cdk-virtual-scroll-viewport itemSize="1" [ngStyle]="{ 'height' : missionTree.length > 1 ? '' : '0'}" (click)="showContextMenu = false" spellcheck="false">
-  <input *cdkVirtualFor="let node of missionTree; let index = index; templateCacheSize: 0;" [title]="node.comment" [style.text-decoration]="node.error ? 'underline' : 'none'" [style.text-decoration-color]="node.error ? 'red' : 'transparent'">
-</cdk-virtual-scroll-viewport> -->
-<mat-tree [dataSource]="dataSource" [treeControl]="treeControl" class="tree">
+<!-- MissionTree Folding Editor Tree -->
+<mat-tree [dataSource]="dataSource" [treeControl]="treeControl" class="tree" (click)="showContextMenu = false">
   <!-- Leaf Node -->
   <mat-tree-node *matTreeNodeDef="let node" matTreeNodeToggle>
     <li class="mat-tree-node">
       <button mat-icon-button disabled></button>
-      <input type="text" [ngModel]="node.name" spellcheck="false" class="item" (contextmenu)="onRightClick($event, node.index)" (ngModelChange)="editNode($event, node.index)">
+      <input type="text" [ngModel]="node.name" spellcheck="false" class="item" (contextmenu)="onRightClick($event, node.index)" (ngModelChange)="editNode($event, node.index)" [title]="node.comment" [style.text-decoration]="node.hasError ? 'underline' : 'none'">
     </li>
   </mat-tree-node>
   <!-- Expandable Node -->

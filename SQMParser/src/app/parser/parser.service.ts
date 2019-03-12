@@ -161,8 +161,10 @@ export class ParserService {
             if (last !== Token.SEMICOLON && second !== Token.START_SQUARE_BRACE) {
               if (!isNullOrUndefined(missionTree[startIndex].comment)) {
                 missionTree[startIndex].comment += 'GENERATED ERROR: Cannot Find: "' + Token.SEMICOLON.toString() + '"\r\n';
+                missionTree[startIndex].hasError = true;
               } else {
                 missionTree[startIndex].comment = 'GENERATED ERROR: Cannot Find: "' + Token.SEMICOLON.toString() + '"\r\n';
+                missionTree[startIndex].hasError = true;
               }
               errorCount++;
             }
@@ -173,8 +175,10 @@ export class ParserService {
           if (missionTree[(startIndex + 1)].nodeType !== Token.START_BRACE) {
             if (!isNullOrUndefined(missionTree[startIndex].comment)) {
               missionTree[startIndex].comment += 'GENERATED ERROR: Cannot Find: "' + Token.START_BRACE.toString() + '"\r\n';
+              missionTree[startIndex].hasError = true;
             } else {
               missionTree[startIndex].comment = 'GENERATED ERROR: Cannot Find: "' + Token.START_BRACE.toString() + '"\r\n';
+              missionTree[startIndex].hasError = true;
             }
             errorCount++;
           }
@@ -194,11 +198,13 @@ export class ParserService {
           case (Token.SEMICOLON):
             const finalSemiColonNode = this.getFinalNode(node);
             finalSemiColonNode.child = new MissionTreeNode(';', undefined, undefined);
+            node.hasError = false;
             node.comment = undefined;
             break;
           case (Token.START_BRACE):
             const finalStart_BraceNode = this.getFinalNode(node);
             finalStart_BraceNode.child = new MissionTreeNode(';', undefined, undefined);
+            node.hasError = false;
             node.comment = undefined;
             break;
           default:
