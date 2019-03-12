@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { isNullOrUndefined } from 'util';
-import { MissionTreeNode, Token } from '../shared/shared';
+import { MissionTreeNode, Token, NestedTreeNode } from '../shared/shared';
 
 const tokensRegex = [
   { regex: /true|false/, tokenType: Token.BOOLEAN },
@@ -265,6 +265,36 @@ export class ParserService {
         return undefined;
       }
     }
+  }
+
+    /**
+   * passed missionTreeNode[] is converted to nestedTreeNode[] for the ui
+   */
+  missionTreeToNestedTree(missionTree: MissionTreeNode[]) {
+    if (isNullOrUndefined(missionTree)) {
+      return [];
+    }
+    const nestedTree: NestedTreeNode[] = [];
+    let indent = 0;
+
+    missionTree.forEach((node, index) => {
+      if (node.nodeType === Token.END_BRACE) {
+        if (indent > 0) {
+          indent--;
+        }
+      }
+
+      if (indent > 0) {
+        nestedTree[(nestedTree.length - 1)].append(new NestedTreeNode(this.traverseNodeToString(node), index, this.traverseNodeComment(node), node.hasError), indent);
+      } else {
+        nestedTree.push(new NestedTreeNode(this.traverseNodeToString(node), index, this.traverseNodeComment(node), node.hasError));
+      }
+
+      if (node.nodeType === Token.START_BRACE) {
+        indent++;
+      }
+    });
+    return nestedTree;
   }
 
   /**

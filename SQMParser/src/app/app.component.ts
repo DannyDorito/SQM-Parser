@@ -216,13 +216,13 @@ export class AppComponent implements OnInit, OnDestroy {
     if (environment.production) {
       try {
         this.missionTree = this.parser.generateTree(this.fileReaderString.split('\r\n'));
-        this.dataSource.data = this.missionTreeNodeToNestedTreeNode(this.missionTree);
+        this.dataSource.data = this.parser.missionTreeToNestedTree(this.missionTree);
       } catch (exception) {
         this.openDialogue(exception.toString(), DialogueType.DEFAULT);
       }
     } else {
       this.missionTree = this.parser.generateTree(this.fileReaderString.split('\r\n'));
-      this.dataSource.data = this.missionTreeNodeToNestedTreeNode(this.missionTree);
+      this.dataSource.data = this.parser.missionTreeToNestedTree(this.missionTree);
     }
 
     const t1 = performance.now();
@@ -287,7 +287,7 @@ export class AppComponent implements OnInit, OnDestroy {
             default:
               break;
           }
-          this.dataSource.data = this.missionTreeNodeToNestedTreeNode(this.missionTree);
+          this.dataSource.data = this.parser.missionTreeToNestedTree(this.missionTree);
         }
       });
     } else {
@@ -304,38 +304,23 @@ export class AppComponent implements OnInit, OnDestroy {
     return new Promise(resolve => setTimeout(resolve, milliseconds));
   }
 
-  missionTreeNodeToNestedTreeNode(missionTree: MissionTreeNode[]) {
-    if (isNullOrUndefined(missionTree)) {
-      return [];
-    }
-    const nestedTreeNodeArray: NestedTreeNode[] = [];
-    let indent = 0;
-
-    missionTree.forEach((node, index) => {
-      if (node.nodeType === Token.END_BRACE && indent > 0) {
-        indent--;
-      }
-
-      if (indent > 0) {
-        nestedTreeNodeArray[(nestedTreeNodeArray.length - 1)].append(new NestedTreeNode(this.parser.traverseNodeToString(node), index, this.parser.traverseNodeComment(node), node.hasError), indent);
-      } else {
-        nestedTreeNodeArray.push(new NestedTreeNode(this.parser.traverseNodeToString(node), index, this.parser.traverseNodeComment(node), node.hasError));
-      }
-
-      if (node.nodeType === Token.START_BRACE) {
-        indent++;
-      }
-    });
-    return nestedTreeNodeArray;
-  }
-
+  /**
+   * NestedTreeControl mapping for UI Tree
+   * https://material.angular.io/components/tree/api [Online] Accessed 25th February 2019
+   */
   // tslint:disable-next-line: member-ordering
   treeControl = new NestedTreeControl < NestedTreeNode > (node => node.children);
 
+  /**
+   * MatTreeNestedDataSource mapping for UI Tree
+   * https://material.angular.io/components/tree/api [Online] Accessed 25th February 2019
+   */
   // tslint:disable-next-line: member-ordering
   dataSource = new MatTreeNestedDataSource < NestedTreeNode > ();
 
+  /**
+   * hasChild method, if node has .children
+   * https://material.angular.io/components/tree/api [Online] Accessed 25th February 2019
+   */
   hasChild = (_: number, node: NestedTreeNode) => !!node.children && node.children.length > 0;
-
-  // hasComment = (_: number, node: UITreeNode) => node.extraData;
 }
