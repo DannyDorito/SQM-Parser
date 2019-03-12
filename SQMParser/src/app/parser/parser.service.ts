@@ -108,7 +108,7 @@ export class ParserService {
   }
 
   /**
-   * Traverse a passed tree, return an array of the value of each node traversed
+   * Traverse a passed tree, return a string of the value of each node traversed
    * Compilers: Principles, Techniques, and Tools (2nd Edition) pp.56-68. Accessed 21st November 2018
    */
   traverseNodeToString(nodeToTraverse: MissionTreeNode) {
@@ -126,6 +126,10 @@ export class ParserService {
     return str;
   }
 
+  /**
+   * Traverse a passed tree, return the comment of the value of each node traversed
+   * Compilers: Principles, Techniques, and Tools (2nd Edition) pp.56-68. Accessed 21st November 2018
+   */
   traverseNodeComment(nodeToTraverse: MissionTreeNode) {
     if (isNullOrUndefined(nodeToTraverse)) {
       return undefined;
@@ -146,6 +150,9 @@ export class ParserService {
    * missionTree is passed by reference so error count is returned
    */
   findErrors(missionTree: MissionTreeNode[], startIndex: number, endIndex: number) {
+    if (isNullOrUndefined(missionTree[startIndex])) {
+      throw new Error('Error: Tree is incorrect!');
+    }
     let errorCount = 0;
     for (startIndex; startIndex < endIndex; startIndex++) {
       const first = missionTree[startIndex].nodeType;
@@ -197,13 +204,13 @@ export class ParserService {
         switch (node.comment) {
           case (Token.SEMICOLON):
             const finalSemiColonNode = this.getFinalNode(node);
-            finalSemiColonNode.child = new MissionTreeNode(';', undefined, undefined);
+            finalSemiColonNode.child = new MissionTreeNode(Token.SEMICOLON.toString());
             node.hasError = false;
             node.comment = undefined;
             break;
           case (Token.START_BRACE):
             const finalStart_BraceNode = this.getFinalNode(node);
-            finalStart_BraceNode.child = new MissionTreeNode(';', undefined, undefined);
+            finalStart_BraceNode.child = new MissionTreeNode(Token.SEMICOLON.toString());
             node.hasError = false;
             node.comment = undefined;
             break;
@@ -219,6 +226,9 @@ export class ParserService {
    * Get the last child node in the passed MissionTreeNode
    */
   getFinalNode(node: MissionTreeNode) {
+    if (isNullOrUndefined(node)) {
+      return undefined;
+    }
     let returnNode = node;
     while (!isNullOrUndefined(returnNode.child)) {
       returnNode = returnNode.child;
@@ -229,9 +239,8 @@ export class ParserService {
   /**
    * Get the child node of the passed MissionTreeNode or the next in the array index + 1
    */
-  getNextNode(node: MissionTreeNode, nextNode: MissionTreeNode, index: number) {
+  getNextNode(node: MissionTreeNode, nextNode: MissionTreeNode, index?: number) {
     if (isNullOrUndefined(node)) {
-      index++;
       return {
         node: nextNode,
         index: index
@@ -243,7 +252,9 @@ export class ParserService {
           index: index
         };
       } else {
-        index++;
+        if (!isNullOrUndefined(index)) {
+          index++;
+        }
         return {
           node: nextNode,
           index: index
