@@ -267,7 +267,7 @@ export class ParserService {
     }
   }
 
-    /**
+  /**
    * passed missionTreeNode[] is converted to nestedTreeNode[] for the ui
    */
   missionTreeToNestedTree(missionTree: MissionTreeNode[]) {
