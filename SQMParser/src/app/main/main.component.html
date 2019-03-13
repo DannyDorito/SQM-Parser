@@ -1,0 +1,50 @@
+<!-- Header Toolbar -->
+<div class="toolbar div">
+  <h1 class="unselectable" tabindex="-1">SQM Parser</h1>
+  <!-- Functions -->
+  <app-functions [isComplete]="isComplete" [missionTree]="missionTree" [fileName]="fileName"></app-functions>
+</div>
+<div class="content div">
+  <!-- Input -->
+  <div class="center-div div" *ngIf="!isConfirmed && !fileReaderString && !isComplete" (drop)="onDrop($event)" (dragover)="onDragOver($event)" (dragleave)="onDragEnd($event)">
+    <input class="input-class" type="file" accept=".sqm" id="SQMselect" (change)="onFileChanged($event)" aria-hidden="true" required>
+    <!-- https://www.academind.com/learn/angular/snippets/angular-image-upload-made-easy/ [Online] Accessed 9th October 2018-->
+    <label class="input" for="SQMselect" tabindex="0">{{isDraggingFile ? 'Drop File To Upload!' : 'Click to Select File!'}}</label>
+  </div>
+  <!-- Cancel & confirmation button -->
+  <div class="center-div div" *ngIf="!isConfirmed && !isComplete && fileReaderString">
+    <button class="input" tabindex="0" (click)="cancelSelection()" (keydown.enter)="cancelSelection()">Cancel</button>
+    <button class="input" tabindex="1" (click)="confirmSelection()" (keydown.enter)="confirmSelection()">Confirm</button>
+  </div>
+</div>
+<!-- MissionTree Folding Editor Tree -->
+<mat-tree [dataSource]="dataSource" [treeControl]="treeControl" class="tree" (click)="showContextMenu = false">
+  <!-- Leaf Node -->
+  <mat-tree-node *matTreeNodeDef="let node" matTreeNodeToggle>
+    <li class="mat-tree-node">
+      <button mat-icon-button disabled></button>
+      <input tabindex="(node.index + treeControl.level)" type="text" [ngModel]="node.name" spellcheck="false" class="item" (contextmenu)="onRightClick($event, node.index)" (ngModelChange)="editNode($event, node.index)" [title]="node.comment" [style.text-decoration]="node.hasError ? 'underline' : 'none'">
+    </li>
+  </mat-tree-node>
+  <!-- Expandable Node -->
+  <mat-nested-tree-node *matTreeNodeDef="let node; when: hasChild">
+    <li>
+      <div class="mat-tree-node">
+        <button mat-icon-button matTreeNodeToggle [attr.aria-label]="'toggle ' + node.name">
+          <mat-icon class="mat-icon-rtl-mirror">
+            {{treeControl.isExpanded(node) ? 'expand_more' : 'chevron_right'}}
+          </mat-icon>
+        </button>
+        <input tabindex="(node.index + treeControl.level)" type="text" [ngModel]="node.name" spellcheck="false" class="item" (contextmenu)="onRightClick($event, node.index)" (ngModelChange)="editNode($event, node.index)" [title]="node.comment" [style.text-decoration]="node.hasError ? 'underline' : 'none'">
+      </div>
+      <ul [class.tree-invisible]="!treeControl.isExpanded(node)">
+        <ng-container matTreeNodeOutlet></ng-container>
+      </ul>
+    </li>
+  </mat-nested-tree-node>
+</mat-tree>
+<!-- Context Menu -->
+<div class="context-menu-div unselectable div" *ngIf="showContextMenu" contextmenu="menu" [ngStyle]="{'left.px': contextMenuX, 'top.px': contextMenuY}">
+  <button class="context-menu-button" (click)="deleteLine()" (keydown.enter)="deleteLine()">Delete Line</button>
+  <button class="context-menu-button" (click)="addLine()" (keydown.enter)="addLine()">Add Line</button>
+</div>

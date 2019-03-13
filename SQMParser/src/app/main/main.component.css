@@ -1,0 +1,86 @@
+.center-div {
+  margin: 0;
+  height: 90vh;
+  width: 100vw;
+}
+
+.input {
+  cursor: pointer;
+  font-size: 28px;
+  font-weight: 600;
+  background-color: #78866B;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  margin-left: 5px;
+  margin-right: 10px;
+  padding: 10px;
+  opacity: 1;
+}
+
+.input:hover {
+  text-decoration: underline;
+}
+
+.input:focus {
+  outline-color: #4c5940;
+  outline-width: thick;
+}
+
+.toolbar {
+  z-index: 1;
+  position: fixed;
+  top: 0;
+  width: 100vw;
+  background-color: #78866B;
+  justify-content: left;
+  margin: 0;
+  min-width: 800px;
+}
+
+.content {
+  margin-top: 40px;
+}
+
+.cdk-virtual-scroll-viewport {
+  height: calc(100vh - 40px);
+  text-align: left;
+  display: flex;
+}
+
+.item {
+  height: 19px;
+  border: none;
+  width: 100vw;
+  font: inherit;
+}
+
+.item:focus {
+  outline-color: #4c5940;
+}
+
+.context-menu-div {
+  position: absolute;
+  flex-direction: column;
+  background-color: white;
+  padding: 5px;
+}
+
+.context-menu-button {
+  margin: 2px;
+}
+
+h1 {
+  padding-right: 20px;
+  padding-left: 10px;
+}
+
+.tree-invisible {
+  display: none;
+}
+
+.tree ul,
+.tree li {
+  margin-top: 0;
+  margin-bottom: 0;
+  list-style-type: none;
+}

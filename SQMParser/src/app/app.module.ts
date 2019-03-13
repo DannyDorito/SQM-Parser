@@ -15,14 +15,16 @@ import { ClassTemplateComponent } from './class-template/class-template.componen
 import { DialogueComponent } from './dialogue/dialogue.component';
 import { FunctionsComponent } from './functions/functions.component';
 import { NotFoundComponent } from './not-found/not-found.component';
+import { MainComponent } from './main/main.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    NotFoundComponent,
     FunctionsComponent,
     DialogueComponent,
-    ClassTemplateComponent
+    ClassTemplateComponent,
+    NotFoundComponent,
+    MainComponent
   ],
   imports: [
     BrowserModule,
