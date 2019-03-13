@@ -41,7 +41,8 @@ button:hover {
   outline-width: thick;
 }
 
-button:focus, label:focus {
+button:focus,
+label:focus {
   outline-color: #4c5940;
   outline-width: thick;
 }

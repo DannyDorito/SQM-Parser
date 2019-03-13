@@ -239,7 +239,7 @@ export class ParserService {
   /**
    * Get the child node of the passed MissionTreeNode or the next in the array index + 1
    */
-  getNextNode(node: MissionTreeNode, nextNode: MissionTreeNode, index?: number) {
+  getNextNode(node: MissionTreeNode, nextNode: MissionTreeNode, index ? : number) {
     if (isNullOrUndefined(node)) {
       return {
         node: nextNode,

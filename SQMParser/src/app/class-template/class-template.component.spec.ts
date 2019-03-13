@@ -3,13 +3,13 @@ import { ClassTemplateComponent } from './class-template.component';
 
 describe('ClassTemplateComponent', () => {
   let component: ClassTemplateComponent;
-  let fixture: ComponentFixture<ClassTemplateComponent>;
+  let fixture: ComponentFixture < ClassTemplateComponent > ;
 
-  beforeEach(async(() => {
+  beforeEach(async (() => {
     TestBed.configureTestingModule({
-      declarations: [ ClassTemplateComponent ]
-    })
-    .compileComponents();
+        declarations: [ClassTemplateComponent]
+      })
+      .compileComponents();
   }));
 
   beforeEach(() => {

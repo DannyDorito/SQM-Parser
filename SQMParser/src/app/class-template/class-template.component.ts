@@ -10,8 +10,8 @@ import { IntroTemplate, NPCTemplate, ObjectTemplate, OutroTemplate, PlayerTempla
 export class ClassTemplateComponent {
   template: NPCTemplate | PlayerTemplate | VehicleTemplate | WeatherTemplate | IntroTemplate | OutroTemplate | SquadTemplate | ObjectTemplate;
 
-  constructor(public dialogueRef: MatDialogRef<ClassTemplateComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: NPCTemplate | PlayerTemplate | VehicleTemplate | WeatherTemplate | IntroTemplate | OutroTemplate | SquadTemplate | ObjectTemplate ) {}
+  constructor(public dialogueRef: MatDialogRef < ClassTemplateComponent > ,
+    @Inject(MAT_DIALOG_DATA) public data: NPCTemplate | PlayerTemplate | VehicleTemplate | WeatherTemplate | IntroTemplate | OutroTemplate | SquadTemplate | ObjectTemplate) {}
 
   onNoClick() {
     this.dialogueRef.close();

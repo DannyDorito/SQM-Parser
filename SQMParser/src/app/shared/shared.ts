@@ -3,14 +3,14 @@ import { isNullOrUndefined } from 'util';
 export class MissionTreeNode {
   value: string;
   nodeType: Token = Token.DEFAULT;
-  child?: MissionTreeNode;
-  comment?: string;
+  child ?: MissionTreeNode;
+  comment ?: string;
   hasError: boolean;
 
   constructor(
     _value: string,
-    _comment?: string,
-    _child?: MissionTreeNode
+    _comment ?: string,
+    _child ?: MissionTreeNode
   ) {
     this.value = _value;
     this.child = _child;
