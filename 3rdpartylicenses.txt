@@ -323,6 +323,15 @@ Apache-2.0
 @angular/core
 MIT
 
+@angular/common
+MIT
+
+@angular/platform-browser
+MIT
+
+@angular/router
+MIT
+
 @angular/cdk
 MIT
 The MIT License
@@ -348,10 +357,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 
 
-@angular/common
-MIT
-
-@angular/platform-browser
+@angular/animations
 MIT
 
 @angular/material
@@ -378,12 +384,6 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 
-
-@angular/router
-MIT
-
-@angular/animations
-MIT
 
 @angular/material/menu
 
