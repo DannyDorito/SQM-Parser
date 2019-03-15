@@ -33,6 +33,7 @@
 			"text",
 			"typescript",
 			"typescriptreact",
+			"xml",
 			"yml"
 		],
 		"cSpell.language": "en,en-GB,en-US"
