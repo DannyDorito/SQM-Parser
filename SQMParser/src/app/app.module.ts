@@ -16,6 +16,7 @@ import { DialogueComponent } from './dialogue/dialogue.component';
 import { FunctionsComponent } from './functions/functions.component';
 import { NotFoundComponent } from './not-found/not-found.component';
 import { MainComponent } from './main/main.component';
+import { ScrollDispatchModule } from '@angular/cdk/scrolling';
 
 @NgModule({
   declarations: [
@@ -38,7 +39,8 @@ import { MainComponent } from './main/main.component';
     MatMenuModule,
     MatTreeModule,
     MatButtonModule,
-    MatIconModule
+    MatIconModule,
+    ScrollDispatchModule
   ],
   providers: [AppComponent],
   bootstrap: [AppComponent],
