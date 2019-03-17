@@ -1,6 +1,7 @@
 export class DialogueData {
   data: string;
   type: DialogueType;
+
   constructor(
     _data: string,
     _type: DialogueType
