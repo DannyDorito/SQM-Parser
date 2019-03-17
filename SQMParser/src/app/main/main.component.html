@@ -23,7 +23,8 @@
   <mat-tree-node *matTreeNodeDef="let node" matTreeNodeToggle>
     <li class="mat-tree-node">
       <button mat-icon-button disabled></button>
-      <input tabindex="(node.index + treeControl.level)" type="text" [ngModel]="node.name" spellcheck="false" class="item" (contextmenu)="onRightClick($event, node.index)" (ngModelChange)="editNode($event, node.index)" [title]="node.comment" [style.text-decoration]="node.hasError ? 'underline' : 'none'">
+      <input tabindex="(node.index + treeControl.level)" type="text" [ngModel]="node.name" spellcheck="false" class="item" (contextmenu)="onRightClick($event, node.index)" (ngModelChange)="editNode($event, node.index)" [style.text-decoration]="node.hasError ? 'underline' : 'none'">
+      <input type="text" [ngModel]="node.comment" class="item" spellcheck="false">
     </li>
   </mat-tree-node>
   <!-- Expandable Node -->
@@ -35,7 +36,8 @@
             {{treeControl.isExpanded(node) ? 'expand_more' : 'chevron_right'}}
           </mat-icon>
         </button>
-        <input tabindex="(node.index + treeControl.level)" type="text" [ngModel]="node.name" spellcheck="false" class="item" (contextmenu)="onRightClick($event, node.index)" (ngModelChange)="editNode($event, node.index)" [title]="node.comment" [style.text-decoration]="node.hasError ? 'underline' : 'none'">
+        <input tabindex="(node.index + treeControl.level)" type="text" [ngModel]="node.name" spellcheck="false" class="item" (contextmenu)="onRightClick($event, node.index)" (ngModelChange)="editNode($event, node.index)" [style.text-decoration]="node.hasError ? 'underline' : 'none'">
+        <input type="text" [ngModel]="node.comment" class="item" spellcheck="false">
       </div>
       <ul [class.tree-invisible]="!treeControl.isExpanded(node)">
         <ng-container matTreeNodeOutlet></ng-container>
