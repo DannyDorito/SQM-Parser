@@ -1,5 +1,5 @@
 import { NestedTreeControl } from '@angular/cdk/tree';
-import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewChild, AfterViewInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatTreeNestedDataSource } from '@angular/material/tree';
 import { Subscription, timer } from 'rxjs';
@@ -11,13 +11,14 @@ import { ParserService } from '../parser/parser.service';
 import { SaverService } from '../saver/saver.service';
 import { DialogueData, DialogueType } from '../shared/dialogue';
 import { MissionTreeNode, NestedTreeNode } from '../shared/shared';
+import { CdkVirtualScrollViewport } from '@angular/cdk/scrolling';
 
 @Component({
   selector: 'app-root',
   templateUrl: './main.component.html',
   styleUrls: ['./main.component.css']
 })
-export class MainComponent implements OnInit, OnDestroy {
+export class MainComponent implements OnInit, OnDestroy, AfterViewInit {
   fileReaderString: string;
   isConfirmed = false;
   isComplete: boolean;
@@ -32,6 +33,9 @@ export class MainComponent implements OnInit, OnDestroy {
   contextMenuX = 0;
   contextMenuY = 0;
   lastSelectedIndex = -1;
+  fullDataSource: NestedTreeNode[];
+  @ViewChild(CdkVirtualScrollViewport) virtualScroll: CdkVirtualScrollViewport;
+
 
   constructor(public parser: ParserService, private saver: SaverService, public dialogue: MatDialog) {}
 
@@ -54,6 +58,12 @@ export class MainComponent implements OnInit, OnDestroy {
     if (!isNullOrUndefined(this.timerSubscribe)) {
       this.timerSubscribe.unsubscribe();
     }
+  }
+
+  ngAfterViewInit() {
+    this.virtualScroll.renderedRangeStream.subscribe(range => {
+      this.dataSource.data = this.fullDataSource.slice(range.start, range.end);
+    });
   }
 
   /**
@@ -216,13 +226,13 @@ export class MainComponent implements OnInit, OnDestroy {
     if (environment.production) {
       try {
         this.missionTree = this.parser.generateTree(this.fileReaderString.split('\r\n'));
-        this.dataSource.data = this.parser.missionTreeToNestedTree(this.missionTree);
+        this.fullDataSource = this.parser.missionTreeToNestedTree(this.missionTree);
       } catch (exception) {
         this.openDialogue(exception.toString(), DialogueType.DEFAULT);
       }
     } else {
       this.missionTree = this.parser.generateTree(this.fileReaderString.split('\r\n'));
-      this.dataSource.data = this.parser.missionTreeToNestedTree(this.missionTree);
+      this.fullDataSource = this.parser.missionTreeToNestedTree(this.missionTree);
     }
 
     const t1 = performance.now();
@@ -287,7 +297,7 @@ export class MainComponent implements OnInit, OnDestroy {
             default:
               break;
           }
-          this.dataSource.data = this.parser.missionTreeToNestedTree(this.missionTree);
+          this.fullDataSource = this.parser.missionTreeToNestedTree(this.missionTree);
         }
       });
     } else {
