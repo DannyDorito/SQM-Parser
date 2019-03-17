@@ -394,6 +394,8 @@ MIT
 
 @angular/material/menu
 
+@angular/cdk/scrolling
+
 @angular/material/tree
 
 @angular/material/dialog
