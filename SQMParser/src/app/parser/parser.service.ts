@@ -167,10 +167,10 @@ export class ParserService {
           if (previous !== Token.COMMA && previous !== Token.START_BRACE) {
             if (last !== Token.SEMICOLON && second !== Token.START_SQUARE_BRACE) {
               if (!isNullOrUndefined(missionTree[startIndex].comment)) {
-                missionTree[startIndex].comment += 'GENERATED ERROR: Cannot Find: "' + Token.SEMICOLON.toString() + '"\r\n';
+                missionTree[startIndex].comment += 'ERROR: Cannot Find: "' + Token.SEMICOLON.toString() + '"\r\n';
                 missionTree[startIndex].hasError = true;
               } else {
-                missionTree[startIndex].comment = 'GENERATED ERROR: Cannot Find: "' + Token.SEMICOLON.toString() + '"\r\n';
+                missionTree[startIndex].comment = 'ERROR: Cannot Find: "' + Token.SEMICOLON.toString() + '"\r\n';
                 missionTree[startIndex].hasError = true;
               }
               errorCount++;
@@ -181,10 +181,10 @@ export class ParserService {
         if (!isNullOrUndefined(missionTree[(startIndex + 1)])) {
           if (missionTree[(startIndex + 1)].nodeType !== Token.START_BRACE) {
             if (!isNullOrUndefined(missionTree[startIndex].comment)) {
-              missionTree[startIndex].comment += 'GENERATED ERROR: Cannot Find: "' + Token.START_BRACE.toString() + '"\r\n';
+              missionTree[startIndex].comment += 'ERROR: Cannot Find: "' + Token.START_BRACE.toString() + '"\r\n';
               missionTree[startIndex].hasError = true;
             } else {
-              missionTree[startIndex].comment = 'GENERATED ERROR: Cannot Find: "' + Token.START_BRACE.toString() + '"\r\n';
+              missionTree[startIndex].comment = 'ERROR: Cannot Find: "' + Token.START_BRACE.toString() + '"\r\n';
               missionTree[startIndex].hasError = true;
             }
             errorCount++;
