@@ -4,5 +4,6 @@ export const environment = {
   sqmAutoSaveName: 'sqmAutoSave',
   sqmSavePeriodMins: 10,
   sqmFileName: 'sqmFileName',
-  dropDelayInMS: 500
+  dropDelayInMS: 500,
+  listItemSizePx: 48
 };

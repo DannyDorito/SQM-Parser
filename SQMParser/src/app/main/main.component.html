@@ -18,7 +18,7 @@
   </div>
 </div>
 <!-- MissionTree Folding Editor Tree -->
-<cdk-virtual-scroll-viewport itemSize="48">
+<cdk-virtual-scroll-viewport itemSize="getViewItemSize()">
   <ng-container *cdkVirtualFor="let item of fullDataSource"></ng-container>
   <mat-tree [dataSource]="dataSource" [treeControl]="treeControl" class="tree" (click)="showContextMenu = false">
     <!-- Leaf Node -->

@@ -308,6 +308,13 @@ export class MainComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   /**
+   * window.inner height / list item size that is set in environment
+   */
+  getViewItemSize() {
+    return (window.innerHeight / environment.listItemSizePx);
+  }
+
+  /**
    * Artificial async/await delay
    */
   async delay(milliseconds: number) {
