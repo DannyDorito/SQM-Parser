@@ -150,9 +150,6 @@ export class ParserService {
    * missionTree is passed by reference so error count is returned
    */
   findErrors(missionTree: MissionTreeNode[], startIndex: number, endIndex: number) {
-    if (isNullOrUndefined(missionTree[startIndex])) {
-      throw new Error('Error: Tree is incorrect!');
-    }
     let errorCount = 0;
     for (startIndex; startIndex < endIndex; startIndex++) {
       const first = missionTree[startIndex].nodeType;
