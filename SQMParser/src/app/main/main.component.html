@@ -19,12 +19,15 @@
 </div>
 <!-- MissionTree Folding Editor Tree -->
 <cdk-virtual-scroll-viewport itemSize="getViewItemSize()">
+  <!--Virtual for loop for virtual scroll items-->
   <ng-container *cdkVirtualFor="let item of fullDataSource"></ng-container>
   <mat-tree [dataSource]="dataSource" [treeControl]="treeControl" class="tree" (click)="showContextMenu = false">
-    <!-- Leaf Node -->
+    <!--Leaf Node-->
     <mat-tree-node *matTreeNodeDef="let node" matTreeNodeToggle>
       <li class="mat-tree-node">
+        <!--Padding-->
         <button mat-icon-button disabled></button>
+        <!--Main Input-->
         <input tabindex="(node.index + treeControl.level)" type="text" [ngModel]="node.name" spellcheck="false" class="item" (contextmenu)="onRightClick($event, node.index)" (ngModelChange)="editNode($event, node.index)" [style.text-decoration]="node.hasError ? 'underline' : 'none'">
         <input type="text" [ngModel]="node.comment" class="item" spellcheck="false">
       </li>
@@ -33,14 +36,17 @@
     <mat-nested-tree-node *matTreeNodeDef="let node; when: hasChild">
       <li>
         <div class="mat-tree-node">
+          <!--Toggle Expansion Button-->
           <button mat-icon-button matTreeNodeToggle [attr.aria-label]="'toggle ' + node.name">
             <mat-icon class="mat-icon-rtl-mirror">
               {{treeControl.isExpanded(node) ? 'expand_more' : 'chevron_right'}}
             </mat-icon>
           </button>
+          <!--Main Input-->
           <input tabindex="(node.index + treeControl.level)" type="text" [ngModel]="node.name" spellcheck="false" class="item" (contextmenu)="onRightClick($event, node.index)" (ngModelChange)="editNode($event, node.index)" [style.text-decoration]="node.hasError ? 'underline' : 'none'">
           <input type="text" [ngModel]="node.comment" class="item" spellcheck="false">
         </div>
+        <!--Child Outlet-->
         <ul [class.tree-invisible]="!treeControl.isExpanded(node)">
           <ng-container matTreeNodeOutlet></ng-container>
         </ul>
@@ -50,6 +56,8 @@
 </cdk-virtual-scroll-viewport>
 <!-- Context Menu -->
 <div class="context-menu-div unselectable div" *ngIf="showContextMenu" contextmenu="menu" [ngStyle]="{'left.px': contextMenuX, 'top.px': contextMenuY}">
+  <!--Delete-->
   <button class="context-menu-button" (click)="deleteLine()" (keydown.enter)="deleteLine()" i18n>Delete Line</button>
+  <!--Add-->
   <button class="context-menu-button" (click)="addLine()" (keydown.enter)="addLine()" i18n>Add Line</button>
 </div>
