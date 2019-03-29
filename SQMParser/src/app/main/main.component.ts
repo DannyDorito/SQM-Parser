@@ -1,5 +1,6 @@
+import { CdkVirtualScrollViewport } from '@angular/cdk/scrolling';
 import { NestedTreeControl } from '@angular/cdk/tree';
-import { Component, OnDestroy, OnInit, ViewChild, AfterViewInit } from '@angular/core';
+import { AfterViewInit, Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatTreeNestedDataSource } from '@angular/material/tree';
 import { Subscription, timer } from 'rxjs';
@@ -11,7 +12,6 @@ import { ParserService } from '../parser/parser.service';
 import { SaverService } from '../saver/saver.service';
 import { DialogueData, DialogueType } from '../shared/dialogue';
 import { MissionTreeNode, NestedTreeNode } from '../shared/shared';
-import { CdkVirtualScrollViewport } from '@angular/cdk/scrolling';
 
 @Component({
   selector: 'app-root',
