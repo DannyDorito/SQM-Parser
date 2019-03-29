@@ -1,3 +1,4 @@
+import { ScrollDispatchModule } from '@angular/cdk/scrolling';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
@@ -13,9 +14,8 @@ import { AppRoutingModule } from './/app-routing.module';
 import { AppComponent } from './app.component';
 import { DialogueComponent } from './dialogue/dialogue.component';
 import { FunctionsComponent } from './functions/functions.component';
-import { NotFoundComponent } from './not-found/not-found.component';
 import { MainComponent } from './main/main.component';
-import { ScrollDispatchModule } from '@angular/cdk/scrolling';
+import { NotFoundComponent } from './not-found/not-found.component';
 
 @NgModule({
   declarations: [
