@@ -36,9 +36,14 @@ export class MainComponent implements OnInit, OnDestroy, AfterViewInit {
   fullDataSource: NestedTreeNode[];
   @ViewChild(CdkVirtualScrollViewport) virtualScroll: CdkVirtualScrollViewport;
 
+  constructor(
+    public parser: ParserService,
+    private saver: SaverService,
+    public dialogue: MatDialog) {}
 
-  constructor(public parser: ParserService, private saver: SaverService, public dialogue: MatDialog) {}
-
+  /**
+   * When main is initialized
+   */
   ngOnInit() {
     this.showContextMenu = false;
     this.missionTree = [];
@@ -60,6 +65,9 @@ export class MainComponent implements OnInit, OnDestroy, AfterViewInit {
     }
   }
 
+  /**
+   * When view is first painted
+   */
   ngAfterViewInit() {
     this.virtualScroll.renderedRangeStream.subscribe(range => {
       this.dataSource.data = this.fullDataSource.slice(range.start, range.end);
@@ -280,7 +288,7 @@ export class MainComponent implements OnInit, OnDestroy, AfterViewInit {
   /**
    * Open MatDialog from angular material
    */
-  openDialogue(data: string, type?: DialogueType) {
+  openDialogue(data: string, type ? : DialogueType) {
     if (!isNullOrUndefined(type)) {
       const dialogueRef = this.dialogue.open(DialogueComponent, {
         data: new DialogueData(data, type)
