@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { isNullOrUndefined } from 'util';
-import { MissionTreeNode, Token, NestedTreeNode } from '../shared/shared';
+import { MissionTreeNode, NestedTreeNode, Token } from '../shared/shared';
 
 const tokensRegex = [
   { regex: /true|false/, tokenType: Token.BOOLEAN },

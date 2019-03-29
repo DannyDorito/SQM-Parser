@@ -18,7 +18,9 @@ export class FunctionsComponent {
   @Input() fileName: string;
   @Input() isComplete: boolean;
 
-  constructor(private saver: SaverService, public dialogue: MatDialog) {}
+  constructor(
+    private saver: SaverService,
+    public dialogue: MatDialog) {}
 
   /**
    * ASYNC
