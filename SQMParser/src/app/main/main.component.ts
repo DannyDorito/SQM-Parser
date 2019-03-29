@@ -288,7 +288,7 @@ export class MainComponent implements OnInit, OnDestroy, AfterViewInit {
   /**
    * Open MatDialog from angular material
    */
-  openDialogue(data: string, type ? : DialogueType) {
+  openDialogue(data: string, type ?: DialogueType) {
     if (!isNullOrUndefined(type)) {
       const dialogueRef = this.dialogue.open(DialogueComponent, {
         data: new DialogueData(data, type)
