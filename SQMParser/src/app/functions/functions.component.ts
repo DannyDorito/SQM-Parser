@@ -88,7 +88,7 @@ export class FunctionsComponent {
     const missionAST = this.missionTree;
     if (missionAST.length > 0) {
       let addOns = this.getIndex('addOns', missionAST, 0);
-      if (addOns === undefined) {
+      if (isNullOrUndefined(addOns)) {
         addOns = this.getIndex('addons', missionAST, 0);
       }
       if (!isNullOrUndefined(addOns)) {
@@ -98,7 +98,7 @@ export class FunctionsComponent {
       }
 
       let addOnsAutoIndex = this.getIndex('addOnsAuto', missionAST, 0);
-      if (addOns === undefined) {
+      if (isNullOrUndefined(addOns)) {
         addOnsAutoIndex = this.getIndex('addonsauto', missionAST, 0);
       }
       if (!isNullOrUndefined(addOnsAutoIndex)) {
