@@ -30,7 +30,7 @@
         <!--Main Input-->
         <input tabindex="(node.index + treeControl.level)" type="text" [ngModel]="node.name" spellcheck="false" class="item" (contextmenu)="onRightClick($event, node.index)" (ngModelChange)="editNode($event, node.index)" [style.text-decoration]="node.hasError ? 'underline' : 'none'">
         <!--Comment-->
-        <input type="text" [ngModel]="node.comment" class="item" spellcheck="false" placeholder="//">
+        <input tabindex="(node.index + treeControl.level + 1)" type="text" [ngModel]="node.comment" class="item" spellcheck="false" placeholder="//" (ngModelChange)="editComment($event, node.index)">
       </li>
     </mat-tree-node>
     <!-- Expandable Node -->
@@ -46,7 +46,7 @@
           <!--Main Input-->
           <input tabindex="(node.index + treeControl.level)" type="text" [ngModel]="node.name" spellcheck="false" class="item" (contextmenu)="onRightClick($event, node.index)" (ngModelChange)="editNode($event, node.index)" [style.text-decoration]="node.hasError ? 'underline' : 'none'">
           <!--Comment-->
-          <input type="text" [ngModel]="node.comment" class="item" spellcheck="false" placeholder="//">
+          <input tabindex="(node.index + treeControl.level + 1)" type="text" [ngModel]="node.comment" class="item" spellcheck="false" placeholder="//" (ngModelChange)="editComment($event, node.index)">
         </div>
         <!--Child Outlet-->
         <ul [class.tree-invisible]="!treeControl.isExpanded(node)">

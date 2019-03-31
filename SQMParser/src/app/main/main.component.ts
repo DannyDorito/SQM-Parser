@@ -286,6 +286,14 @@ export class MainComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   /**
+   * Edit a passed comment
+   */
+  editComment(event: Event, index: number) {
+    console.log(event.toString());
+    console.log(index);
+  }
+
+  /**
    * Open MatDialog from angular material
    */
   openDialogue(data: string, type ?: DialogueType) {
