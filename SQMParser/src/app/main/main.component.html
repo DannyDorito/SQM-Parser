@@ -29,7 +29,8 @@
         <button mat-icon-button disabled></button>
         <!--Main Input-->
         <input tabindex="(node.index + treeControl.level)" type="text" [ngModel]="node.name" spellcheck="false" class="item" (contextmenu)="onRightClick($event, node.index)" (ngModelChange)="editNode($event, node.index)" [style.text-decoration]="node.hasError ? 'underline' : 'none'">
-        <input type="text" [ngModel]="node.comment" class="item" spellcheck="false">
+        <!--Comment-->
+        <input type="text" [ngModel]="node.comment" class="item" spellcheck="false" placeholder="//">
       </li>
     </mat-tree-node>
     <!-- Expandable Node -->
@@ -44,7 +45,8 @@
           </button>
           <!--Main Input-->
           <input tabindex="(node.index + treeControl.level)" type="text" [ngModel]="node.name" spellcheck="false" class="item" (contextmenu)="onRightClick($event, node.index)" (ngModelChange)="editNode($event, node.index)" [style.text-decoration]="node.hasError ? 'underline' : 'none'">
-          <input type="text" [ngModel]="node.comment" class="item" spellcheck="false">
+          <!--Comment-->
+          <input type="text" [ngModel]="node.comment" class="item" spellcheck="false" placeholder="//">
         </div>
         <!--Child Outlet-->
         <ul [class.tree-invisible]="!treeControl.isExpanded(node)">
