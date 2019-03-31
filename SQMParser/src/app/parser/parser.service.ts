@@ -137,7 +137,6 @@ export class ParserService {
     let str = '';
     const traverse = (node: MissionTreeNode) => {
       if (!isNullOrUndefined(node)) {
-        console.log(node.comment);
         if (!isNullOrUndefined(node.comment)) {
           str += node.comment;
         }
