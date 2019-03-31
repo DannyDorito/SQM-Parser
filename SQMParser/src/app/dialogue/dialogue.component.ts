@@ -9,6 +9,7 @@ import { DialogueData, DialogueType } from '../shared/dialogue';
 })
 export class DialogueComponent {
   defaultType: DialogueType = DialogueType.DEFAULT;
+
   constructor(
     public dialogueRef: MatDialogRef < DialogueComponent > ,
     @Inject(MAT_DIALOG_DATA) public data: DialogueData) {}
