@@ -279,7 +279,7 @@ export class MainComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   /**
-   * Edit a passed node from CDK virtual for
+   * Edit a passed node
    */
   editNode(event: Event, index: number) {
     this.missionTree = this.parser.parseAndEditNode(index, this.missionTree, event.toString());
