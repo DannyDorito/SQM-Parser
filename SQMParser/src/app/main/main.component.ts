@@ -289,8 +289,7 @@ export class MainComponent implements OnInit, OnDestroy, AfterViewInit {
    * Edit a passed comment
    */
   editComment(event: Event, index: number) {
-    console.log(event.toString());
-    console.log(index);
+    this.parser.editComment(index, this.missionTree, event.toString());
   }
 
   /**

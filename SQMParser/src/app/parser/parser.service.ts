@@ -108,6 +108,26 @@ export class ParserService {
   }
 
   /**
+   * Edit comment of nth node from tree
+   */
+  editComment(nodeIndex: number, missionTree: MissionTreeNode[], inputString: string) {
+    let index = 0;
+    let missionTreeIndex = 0;
+    let currentNode = missionTree[missionTreeIndex];
+    while (index !== 0) {
+      if ((missionTreeIndex + 1) < missionTree.length) {
+        const nextNode = this.getNextNode(currentNode, missionTree[missionTreeIndex + 1]);
+        currentNode = nextNode.node;
+        missionTreeIndex = nextNode.index;
+      } else {
+        currentNode = this.getNextNodeUndef(currentNode);
+      }
+      index++;
+    }
+    currentNode.comment = inputString;
+  }
+
+  /**
    * Traverse a passed tree, return a string of the value of each node traversed
    * Compilers: Principles, Techniques, and Tools (2nd Edition) pp.56-68. Accessed 21st November 2018
    */
