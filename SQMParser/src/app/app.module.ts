@@ -7,7 +7,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatTreeModule } from '@angular/material/tree';
 import { BrowserModule } from '@angular/platform-browser';
-import { NoopAnimationsModule } from '@angular/platform-browser/animations';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ServiceWorkerModule } from '@angular/service-worker';
 import { environment } from '../environments/environment';
 import { AppRoutingModule } from './/app-routing.module';
@@ -32,7 +32,7 @@ import { NotFoundComponent } from './not-found/not-found.component';
     ServiceWorkerModule.register('ngsw-worker.js', {
       enabled: environment.production
     }),
-    NoopAnimationsModule,
+    BrowserAnimationsModule,
     MatDialogModule,
     MatMenuModule,
     MatTreeModule,
