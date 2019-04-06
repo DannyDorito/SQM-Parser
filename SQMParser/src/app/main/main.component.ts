@@ -93,7 +93,8 @@ export class MainComponent implements OnInit, OnDestroy, AfterViewInit {
   /**
    * Fired when a file has been selected by the user's $event
    * https://www.academind.com/learn/angular/snippets/angular-image-upload-made-easy/ [Online] Accessed 9th October 2018
-   * https://stackoverflow.com/a/27439524 [Online] Accessed 16th October 2018
+   * https://developer.mozilla.org/en-US/docs/Web/API/File/Using_files_from_web_applications [Online] Accessed 16th October 2018
+   * https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/file [Online] Accessed 16th October 2018
    * https://www.typescriptlang.org/docs/handbook/declaration-files/do-s-and-don-ts.html [Online] Accessed 17th October 2018
    */
   onFileChanged(fileChangeEvent: any) {
@@ -127,27 +128,12 @@ export class MainComponent implements OnInit, OnDestroy, AfterViewInit {
    * https://scotch.io/@minrock/how-to-create-a-drag-and-drop-file-directive-in-angular2-with-angular-cli-part-1 [Online] Accessed 29th November 2018
    * https://developer.mozilla.org/en-US/docs/Web/API/DragEvent [Online] Accessed 29th November 2018
    */
-  async onDragOver(dragEvent: DragEvent) {
+  async onDrag(dragEvent: DragEvent) {
     dragEvent.preventDefault();
     dragEvent.stopPropagation();
     (async () => {
       await this.delay(environment.dropDelayInMS);
       this.isDraggingFile = true;
-    })();
-  }
-
-  /**
-   * ASYNC
-   * Fired when the user stops dragging a file
-   * https://www.w3schools.com/tags/ev_ondragend.asp [Online] Accessed 29th November 2018
-   * https://developer.mozilla.org/en-US/docs/Web/API/DragEvent [Online] Accessed 29th November 2018
-   */
-  async onDragEnd(dragEvent: DragEvent) {
-    dragEvent.preventDefault();
-    dragEvent.stopPropagation();
-    (async () => {
-      await this.delay(environment.dropDelayInMS);
-      this.isDraggingFile = false;
     })();
   }
 
