@@ -220,12 +220,12 @@ export class ParserService {
   fixErrors(missionTree: MissionTreeNode[]) {
     missionTree.forEach((node) => {
       if (!isNullOrUndefined(node.comment)) {
-        if (node.comment.includes(Token.SEMICOLON)) {
+        if (node.comment.includes(Token.SEMICOLON.toString())) {
           const finalSemiColonNode = this.getFinalNode(node);
           finalSemiColonNode.child = new MissionTreeNode(Token.SEMICOLON.toString());
           node.hasError = false;
           node.comment = undefined;
-        } else if (node.comment.includes(Token.START_BRACE)) {
+        } else if (node.comment.includes(Token.START_BRACE.toString())) {
           const finalStart_BraceNode = this.getFinalNode(node);
           finalStart_BraceNode.child = new MissionTreeNode(Token.START_BRACE.toString());
           node.hasError = false;
