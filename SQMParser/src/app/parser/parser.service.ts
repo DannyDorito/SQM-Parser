@@ -220,21 +220,16 @@ export class ParserService {
   fixErrors(missionTree: MissionTreeNode[]) {
     missionTree.forEach((node) => {
       if (!isNullOrUndefined(node.comment)) {
-        switch (node.comment) {
-          case (Token.SEMICOLON):
-            const finalSemiColonNode = this.getFinalNode(node);
-            finalSemiColonNode.child = new MissionTreeNode(Token.SEMICOLON.toString());
-            node.hasError = false;
-            node.comment = undefined;
-            break;
-          case (Token.START_BRACE):
-            const finalStart_BraceNode = this.getFinalNode(node);
-            finalStart_BraceNode.child = new MissionTreeNode(Token.START_BRACE.toString());
-            node.hasError = false;
-            node.comment = undefined;
-            break;
-          default:
-            break;
+        if (node.comment.includes(Token.SEMICOLON)) {
+          const finalSemiColonNode = this.getFinalNode(node);
+          finalSemiColonNode.child = new MissionTreeNode(Token.SEMICOLON.toString());
+          node.hasError = false;
+          node.comment = undefined;
+        } else if (node.comment.includes(Token.START_BRACE)) {
+          const finalStart_BraceNode = this.getFinalNode(node);
+          finalStart_BraceNode.child = new MissionTreeNode(Token.START_BRACE.toString());
+          node.hasError = false;
+          node.comment = undefined;
         }
       }
     });
