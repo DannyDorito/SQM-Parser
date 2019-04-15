@@ -229,7 +229,7 @@ export class ParserService {
             break;
           case (Token.START_BRACE):
             const finalStart_BraceNode = this.getFinalNode(node);
-            finalStart_BraceNode.child = new MissionTreeNode(Token.SEMICOLON.toString());
+            finalStart_BraceNode.child = new MissionTreeNode(Token.START_BRACE.toString());
             node.hasError = false;
             node.comment = undefined;
             break;
