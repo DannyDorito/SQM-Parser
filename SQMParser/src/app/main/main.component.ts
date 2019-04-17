@@ -168,11 +168,11 @@ export class MainComponent implements OnInit, OnDestroy, AfterViewInit {
    */
   onRightClick(rightClickEvent: MouseEvent, index: number) {
     if (index >= 0 && index < this.missionTree.length) {
-      this.lastSelectedIndex = index;
       rightClickEvent.preventDefault();
-      this.showContextMenu = true;
+      this.lastSelectedIndex = index;
       this.contextMenuX = rightClickEvent.clientX;
       this.contextMenuY = rightClickEvent.clientY;
+      this.showContextMenu = true;
     }
   }
 
