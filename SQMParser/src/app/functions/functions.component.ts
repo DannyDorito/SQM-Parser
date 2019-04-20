@@ -85,6 +85,7 @@ export class FunctionsComponent {
    * Removes addOns and addOnsAuto dependencies from mission ast
    */
   removeDependencies() {
+    const t0 = performance.now();
     const missionAST = this.missionTree;
     if (missionAST.length > 0) {
       let addOns = this.getIndex('addOns', missionAST, 0);
@@ -110,6 +111,8 @@ export class FunctionsComponent {
     } else {
       this.openDialogue('Error: File is too short!');
     }
+    const t1 = performance.now();
+    console.log('Dependencies deleted in: ' + (t1 - t0) + 'ms');
   }
 
   /**
