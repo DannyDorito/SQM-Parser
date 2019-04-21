@@ -88,22 +88,18 @@ export class FunctionsComponent {
     const t0 = performance.now();
     const missionAST = this.missionTree;
     if (missionAST.length > 0) {
-      let addOns = this.getIndex('addOns', missionAST, 0);
-      if (isNullOrUndefined(addOns)) {
-        addOns = this.getIndex('addons', missionAST, 0);
-      }
-      if (!isNullOrUndefined(addOns)) {
-        missionAST.splice(addOns, this.getIndex(';', missionAST, addOns));
+      const addOns = missionAST.findIndex(node => node.value === 'addons');
+
+      if (addOns > -1) {
+        missionAST.splice(addOns, missionAST.findIndex(node => node.value === ';'));
       } else {
         this.openDialogue('Error: Cannot find "addOns"!');
       }
 
-      let addOnsAutoIndex = this.getIndex('addOnsAuto', missionAST, 0);
-      if (isNullOrUndefined(addOns)) {
-        addOnsAutoIndex = this.getIndex('addonsauto', missionAST, 0);
-      }
-      if (!isNullOrUndefined(addOnsAutoIndex)) {
-        missionAST.splice(addOnsAutoIndex, this.getIndex(';', missionAST, addOnsAutoIndex));
+      const addOnsAuto = missionAST.findIndex(node => node.value.toLowerCase() === 'addonsauto');
+
+      if (addOnsAuto > -1) {
+        missionAST.splice(addOnsAuto, missionAST.findIndex(node => node.value === ';'));
       } else {
         this.openDialogue('Error: Cannot Find "addOnsAuto"!');
       }
@@ -113,18 +109,6 @@ export class FunctionsComponent {
     }
     const t1 = performance.now();
     console.log('Dependencies deleted in: ' + (t1 - t0) + 'ms');
-  }
-
-  /**
-   * Get the index of an item from the missionAST tree
-   */
-  getIndex(value: string, missionAST: MissionTreeNode[], index: number) {
-    for (let i = 0; i < missionAST.length; i++) {
-      if (missionAST[index].value === value) {
-        return i;
-      }
-    }
-    return undefined;
   }
 
   /**
