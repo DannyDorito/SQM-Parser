@@ -1,6 +1,5 @@
 import { Component, Input } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { isNullOrUndefined } from 'util';
 import { DialogueComponent } from '../dialogue/dialogue.component';
 import { SaverService } from '../saver/saver.service';
 import { DialogueData, DialogueType } from '../shared/dialogue';
