@@ -1,4 +1,11 @@
-# SQM Parser README
+# SQM Parser README.md
+
+## Included in this zip
+
+* mission-bnf.ebnf - SQM file rule definitions
+* Design folder - Accessability reviews & Design Concept.psd
+* .sqm Examples folder - Many examples of .sqm files
+* SQMParser folder - Code solution, VSCode workspace, etc.
 
 ## Run SQM Parser on local machine
 
