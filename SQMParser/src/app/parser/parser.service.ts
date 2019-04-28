@@ -100,7 +100,7 @@ export class ParserService {
   parseAndEditNode(index: number, missionTree: MissionTreeNode[], inputString: string) {
     missionTree[index] = this.parser(inputString);
     let startIndex = index;
-    if (index >= 0) {
+    if (index > 0) {
       startIndex = index - 1;
     }
     this.findErrors(missionTree, startIndex, index);
