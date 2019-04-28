@@ -15,8 +15,8 @@
 4. Run the command `npm install`
 5. Run the command `npm install @angular/cli -g`
 6. Run the command `ng serve`
-7. Open your browser and go to the URL [localhost:4200](http://localhost:4200)
+7. Open your browser and go to the URL: [localhost:4200](http://localhost:4200)
 
 ## Alternate Method
 
-1. Open your browser and go to the URL [sqm.jallison.co.uk](https://sqm.jallison.co.uk)
+1. Open your browser and go to the URL: [sqm.jallison.co.uk](https://sqm.jallison.co.uk)
