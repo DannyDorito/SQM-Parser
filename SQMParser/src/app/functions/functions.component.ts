@@ -3,7 +3,9 @@ import { MatDialog } from '@angular/material/dialog';
 import { DialogueComponent } from '../dialogue/dialogue.component';
 import { SaverService } from '../saver/saver.service';
 import { DialogueData, DialogueType } from '../shared/dialogue';
-import { MissionTreeNode } from '../shared/shared';
+import { MissionTreeNode, Token } from '../shared/shared';
+import { ParserService } from '../parser/parser.service';
+import { isNullOrUndefined } from 'util';
 
 @Component({
   selector: 'app-functions',
@@ -18,10 +20,12 @@ export class FunctionsComponent implements OnInit {
   @Input() isComplete: boolean;
 
   @Output() findErrorEvent = new EventEmitter<boolean>();
+  @Output() updateTreeEvent = new EventEmitter<boolean>();
 
   constructor(
     private saver: SaverService,
-    public dialogue: MatDialog) {}
+    public dialogue: MatDialog,
+    private parser: ParserService) {}
 
   ngOnInit() {
     this.getSQMValue();
@@ -94,17 +98,28 @@ export class FunctionsComponent implements OnInit {
   }
 
   /**
+   * Event emitter for rebuildTreeListener() that calls missionTreeToNestedTree() in MainComponent
+   */
+  rebuildTreeEmitter() {
+    this.updateTreeEvent.emit(true);
+  }
+
+  /**
    * Removes addOns and addOnsAuto dependencies from mission ast
    */
   removeDependencies() {
     const t0 = performance.now();
-    const missionAST = this.missionTree;
-    if (missionAST.length > 0) {
+    const missionTree = this.missionTree;
+    if (missionTree.length > 0) {
       try {
-        const addOns = missionAST.findIndex(node => node.value.toLowerCase() === 'addons');
-
+        const addOns = this.findNext('addons', 0, missionTree);
         if (addOns > -1) {
-          missionAST.splice(addOns, missionAST.findIndex(node => node.value === ';'));
+          const node = this.findEnd(missionTree, addOns);
+          if (!isNullOrUndefined(node)) {
+            missionTree.splice(node, 1);
+          } else {
+            missionTree.splice(addOns, 1);
+          }
         } else {
           this.openDialogue('Error: Cannot find "addOns"!');
         }
@@ -113,10 +128,14 @@ export class FunctionsComponent implements OnInit {
       }
 
       try {
-        const addOnsAuto = missionAST.findIndex(node => node.value.toLowerCase() === 'addonsauto');
-
+        const addOnsAuto = this.findNext('addonsauto', 0, missionTree);
         if (addOnsAuto > -1) {
-          missionAST.splice(addOnsAuto, missionAST.findIndex(node => node.value === ';'));
+          const nodeAuto = this.findEnd(missionTree, addOnsAuto);
+          if (!isNullOrUndefined(nodeAuto)) {
+            missionTree.splice(nodeAuto, 1);
+          } else {
+            missionTree.splice(addOnsAuto, 1);
+          }
         } else {
           this.openDialogue('Error: Cannot Find "addOnsAuto"!');
         }
@@ -124,12 +143,41 @@ export class FunctionsComponent implements OnInit {
         this.openDialogue('Error: Cannot Find "addOnsAuto"!');
       }
 
-      this.missionTree = missionAST;
+      this.missionTree = missionTree;
     } else {
       this.openDialogue('Error: File is too short!');
     }
     const t1 = performance.now();
     console.log('Dependencies deleted in: ' + (t1 - t0) + 'ms');
+    this.rebuildTreeEmitter();
+  }
+
+  /**
+   * Find next node
+   */
+  findNext(valueToFind: string, startIndex: number, missionTree: MissionTreeNode[]) {
+    for (let index = startIndex; index < missionTree.length; index++) {
+      if (missionTree[index].value.toLowerCase() === valueToFind) {
+        return index;
+      }
+    }
+    return -1;
+  }
+
+  /**
+   * Find the end of the addons array
+   */
+  findEnd(missionTree: MissionTreeNode[], index: number) {
+    const lastNode = this.parser.getFinalNode(missionTree[index]);
+    if (!isNullOrUndefined(lastNode)) {
+      if (lastNode.nodeType === Token.SEMICOLON) {
+        return undefined;
+      } else {
+        return this.findNext(Token.END_BRACE.toString(), index, missionTree);
+      }
+    } else {
+      return undefined;
+    }
   }
 
   /**

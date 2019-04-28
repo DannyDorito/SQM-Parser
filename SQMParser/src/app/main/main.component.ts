@@ -293,8 +293,15 @@ export class MainComponent implements OnInit, OnDestroy, AfterViewInit {
   /**
    * Event listener for findErrorEmitter() in FunctionsComponent
    */
-  findErrorListener(event: any) {
+  findErrorListener(event: boolean) {
     this.startErrorFinding();
+  }
+
+  /**
+   * Event listener for rebuildTreeEmitter() in FunctionsComponent
+   */
+  rebuildTreeListener(event: boolean) {
+    this.fullDataSource = this.parser.missionTreeToNestedTree(this.missionTree);
   }
 
   /**
