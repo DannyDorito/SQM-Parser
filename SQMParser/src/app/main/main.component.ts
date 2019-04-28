@@ -188,9 +188,9 @@ export class MainComponent implements OnInit, OnDestroy, AfterViewInit {
    */
   deleteLine() {
     if (this.lastSelectedIndex >= 0 && this.lastSelectedIndex < this.missionTree.length) {
-      this.openDialogue('Delete line ' + this.lastSelectedIndex + '?', DialogueType.DELETE);
+      this.openDialogue('Delete line ' + (this.lastSelectedIndex + 1) + '?', DialogueType.DELETE);
     } else {
-      this.openDialogue('Error: Last selected "' + this.lastSelectedIndex + '" is out of bounds!', DialogueType.DEFAULT);
+      this.openDialogue('Error: Last selected "' + (this.lastSelectedIndex + 1) + '" is out of bounds!', DialogueType.DEFAULT);
     }
   }
 
