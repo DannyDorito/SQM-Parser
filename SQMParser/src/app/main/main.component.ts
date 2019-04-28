@@ -287,6 +287,14 @@ export class MainComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   /**
+   * Event listener for findErrorEmitter() in FunctionsComponent
+   */
+  findErrorListener(event: any) {
+    console.log(event);
+    this.startErrorFinding();
+  }
+
+  /**
    * Open MatDialog from angular material
    */
   openDialogue(data: string, type ?: DialogueType) {

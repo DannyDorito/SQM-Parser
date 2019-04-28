@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { DialogueComponent } from '../dialogue/dialogue.component';
 import { SaverService } from '../saver/saver.service';
@@ -16,6 +16,8 @@ export class FunctionsComponent implements OnInit {
   @Input() missionTree: MissionTreeNode[];
   @Input() fileName: string;
   @Input() isComplete: boolean;
+
+  @Output() findErrorEvent = new EventEmitter<boolean>();
 
   constructor(
     private saver: SaverService,
@@ -82,6 +84,13 @@ export class FunctionsComponent implements OnInit {
   async clearSQM() {
     this.saver.clearSQM();
     this.saver.clearFileName();
+  }
+
+  /**
+   * Event emitter for findErrorListener() that calls startErrorFinding() in MainComponent
+   */
+  findErrorEmitter() {
+    this.findErrorEvent.emit(true);
   }
 
   /**

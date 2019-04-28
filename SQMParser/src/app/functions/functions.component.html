@@ -5,6 +5,8 @@
     <button mat-menu-item disableRipple="true" (click)="removeDependencies()" (keydown.enter)="removeDependencies()" tabindex="3">Remove Addons</button>
     <!--Toggle Autosave-->
     <button mat-menu-item disableRipple="true" (click)="toggleAutoSave()" (keydown.enter)="toggleAutoSave()" tabindex="4">{{sqmAST ? 'Disable Autosave' : 'Enable Autosave'}}</button>
+    <!--Check for Errors-->
+    <button mat-menu-item disableRipple="true" (click)="findErrorEmitter()" (keydown.enter)="findErrorEmitter()" tabindex="5">Find Error</button>
   </mat-menu>
   <button class="menu-button" [matMenuTriggerFor]="functionsMenu">Functions</button>
   <!--Backup-->
