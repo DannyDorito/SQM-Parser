@@ -27,7 +27,6 @@ export class MissionTreeNode {
     } else {
       this.child = nodeToAppend;
     }
-    return this;
   }
 }
 
