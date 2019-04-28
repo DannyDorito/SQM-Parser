@@ -18,7 +18,7 @@
   </div>
 </div>
 <!-- MissionTree Folding Editor Tree -->
-<cdk-virtual-scroll-viewport itemSize="getViewItemSize()" [style.height]="fullDataSource ? 'calc(100vh - 40px)' : '0'">
+<cdk-virtual-scroll-viewport itemSize="getViewItemSize()" [style.height]="fullDataSource ? 'calc(100vh - 40px)' : '0'" (click)="showContextMenu = false" (contextmenu)="preventRightClickDefault($event)">
   <!--Virtual for loop for virtual scroll items-->
   <ng-container *cdkVirtualFor="let item of fullDataSource"></ng-container>
   <mat-tree [dataSource]="dataSource" [treeControl]="treeControl" class="tree" (click)="showContextMenu = false">

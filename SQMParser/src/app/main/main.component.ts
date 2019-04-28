@@ -177,6 +177,13 @@ export class MainComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   /**
+   * Fired when the user right clicks, used to prevent default action
+   */
+  preventRightClickDefault(rightClickEvent: MouseEvent) {
+    rightClickEvent.preventDefault();
+  }
+
+  /**
    * Delete the last selected index of the line that has been right clicked
    */
   deleteLine() {
