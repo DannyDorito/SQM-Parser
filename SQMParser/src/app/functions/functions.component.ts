@@ -87,21 +87,30 @@ export class FunctionsComponent {
     const t0 = performance.now();
     const missionAST = this.missionTree;
     if (missionAST.length > 0) {
-      const addOns = missionAST.findIndex(node => node.value === 'addons');
-
-      if (addOns > -1) {
-        missionAST.splice(addOns, missionAST.findIndex(node => node.value === ';'));
-      } else {
+      try {
+        const addOns = missionAST.findIndex(node => node.value.toLowerCase() === 'addons');
+        
+        if (addOns > -1) {
+          missionAST.splice(addOns, missionAST.findIndex(node => node.value === ';'));
+        } else {
+          this.openDialogue('Error: Cannot find "addOns"!');
+        }
+      } catch {
         this.openDialogue('Error: Cannot find "addOns"!');
       }
 
-      const addOnsAuto = missionAST.findIndex(node => node.value.toLowerCase() === 'addonsauto');
+      try {
+        const addOnsAuto = missionAST.findIndex(node => node.value.toLowerCase() === 'addonsauto');
 
-      if (addOnsAuto > -1) {
-        missionAST.splice(addOnsAuto, missionAST.findIndex(node => node.value === ';'));
-      } else {
+        if (addOnsAuto > -1) {
+          missionAST.splice(addOnsAuto, missionAST.findIndex(node => node.value === ';'));
+        } else {
+          this.openDialogue('Error: Cannot Find "addOnsAuto"!');
+        }
+      } catch {
         this.openDialogue('Error: Cannot Find "addOnsAuto"!');
       }
+
       this.missionTree = missionAST;
     } else {
       this.openDialogue('Error: File is too short!');
