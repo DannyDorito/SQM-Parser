@@ -67,8 +67,8 @@ export class ParserService {
   /**
    * Remove the index of a node from the passed mission tree, then returns the new tree
    */
-  removeNode(index: number, missionTree: MissionTreeNode[]) {
-    return missionTree.slice(index, (index + 1));
+  removeNode(indexToRemove: number, missionTree: MissionTreeNode[]) {
+    missionTree.splice(indexToRemove, 1);
   }
 
   /**

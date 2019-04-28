@@ -293,7 +293,8 @@ export class MainComponent implements OnInit, OnDestroy, AfterViewInit {
               this.missionTree = this.parser.fixErrors(this.missionTree);
               break;
             case DialogueType.DELETE:
-              this.missionTree = this.parser.removeNode(this.lastSelectedIndex, this.missionTree);
+              this.parser.removeNode(this.lastSelectedIndex, this.missionTree);
+              this.showContextMenu = false;
               break;
             default:
               break;
