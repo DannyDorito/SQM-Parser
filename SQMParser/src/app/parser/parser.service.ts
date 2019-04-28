@@ -147,27 +147,6 @@ export class ParserService {
   }
 
   /**
-   * Traverse a passed tree, return the comment of the value of each node traversed
-   * Compilers: Principles, Techniques, and Tools (2nd Edition) pp.56-68. Accessed 21st November 2018
-   */
-  traverseNodeComment(nodeToTraverse: MissionTreeNode) {
-    if (isNullOrUndefined(nodeToTraverse)) {
-      return '';
-    }
-    let str = '';
-    const traverse = (node: MissionTreeNode) => {
-      if (!isNullOrUndefined(node)) {
-        if (!isNullOrUndefined(node.comment)) {
-          str += node.comment;
-        }
-        traverse(node.child);
-      }
-    };
-    traverse(nodeToTraverse);
-    return str;
-  }
-
-  /**
    * Find missing semicolons and braces in a given missionTree
    * missionTree is passed by reference so error count is returned
    */
@@ -310,9 +289,9 @@ export class ParserService {
       }
 
       if (indent > 0) {
-        nestedTree[(nestedTree.length - 1)].append(new NestedTreeNode(this.traverseNodeToString(node), index, this.traverseNodeComment(node), node.hasError), indent);
+        nestedTree[(nestedTree.length - 1)].append(new NestedTreeNode(this.traverseNodeToString(node), index, node.comment, node.hasError), indent);
       } else {
-        nestedTree.push(new NestedTreeNode(this.traverseNodeToString(node), index, this.traverseNodeComment(node), node.hasError));
+        nestedTree.push(new NestedTreeNode(this.traverseNodeToString(node), index, node.comment, node.hasError));
       }
 
       if (node.nodeType === Token.START_BRACE) {

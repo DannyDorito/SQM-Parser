@@ -317,15 +317,16 @@ export class MainComponent implements OnInit, OnDestroy, AfterViewInit {
           switch (type) {
             case DialogueType.FIX_ERRORS:
               this.missionTree = this.parser.fixErrors(this.missionTree);
+              this.fullDataSource = this.parser.missionTreeToNestedTree(this.missionTree);
               break;
             case DialogueType.DELETE:
               this.parser.removeNode(this.lastSelectedIndex, this.missionTree);
               this.showContextMenu = false;
+              this.fullDataSource = this.parser.missionTreeToNestedTree(this.missionTree);
               break;
             default:
               break;
           }
-          this.fullDataSource = this.parser.missionTreeToNestedTree(this.missionTree);
         }
       });
     } else {
