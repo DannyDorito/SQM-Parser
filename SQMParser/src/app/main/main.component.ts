@@ -197,8 +197,12 @@ export class MainComponent implements OnInit, OnDestroy, AfterViewInit {
   /**
    * Add a line at the selected index
    */
-  addLine() {
-    this.missionTree = this.parser.parseAndAddNode(this.lastSelectedIndex, this.missionTree, 'New Node');
+  addLine(index?: number) {
+    if (!isNullOrUndefined(index)) {
+      this.missionTree = this.parser.parseAndAddNode((index + 1), this.missionTree, ' ');
+    } else {
+      this.missionTree = this.parser.parseAndAddNode(this.lastSelectedIndex, this.missionTree, 'Node');
+    }
     this.fullDataSource = this.parser.missionTreeToNestedTree(this.missionTree);
   }
 
