@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { DialogueComponent } from '../dialogue/dialogue.component';
 import { SaverService } from '../saver/saver.service';
@@ -10,7 +10,7 @@ import { MissionTreeNode } from '../shared/shared';
   templateUrl: './functions.component.html',
   styleUrls: ['./functions.component.css']
 })
-export class FunctionsComponent {
+export class FunctionsComponent implements OnInit {
   sqmAST: boolean;
 
   @Input() missionTree: MissionTreeNode[];
@@ -20,6 +20,10 @@ export class FunctionsComponent {
   constructor(
     private saver: SaverService,
     public dialogue: MatDialog) {}
+
+  ngOnInit() {
+    this.getSQMValue();
+  }
 
   /**
    * ASYNC
@@ -49,7 +53,7 @@ export class FunctionsComponent {
 
   /**
    * ASYNC
-   * Gets fileName and missionAST from ParserSharedService then exports it with SaverService
+   * Gets fileName and missionAST then exports it with SaverService
    */
   async exportSQM() {
     if (this.fileName !== '') {
@@ -89,7 +93,7 @@ export class FunctionsComponent {
     if (missionAST.length > 0) {
       try {
         const addOns = missionAST.findIndex(node => node.value.toLowerCase() === 'addons');
-        
+
         if (addOns > -1) {
           missionAST.splice(addOns, missionAST.findIndex(node => node.value === ';'));
         } else {
