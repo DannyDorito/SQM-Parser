@@ -16,6 +16,7 @@ import { DialogueComponent } from './dialogue/dialogue.component';
 import { FunctionsComponent } from './functions/functions.component';
 import { MainComponent } from './main/main.component';
 import { NotFoundComponent } from './not-found/not-found.component';
+import { RouterModule } from '@angular/router';
 
 @NgModule({
   declarations: [
@@ -38,7 +39,8 @@ import { NotFoundComponent } from './not-found/not-found.component';
     MatTreeModule,
     MatButtonModule,
     MatIconModule,
-    ScrollDispatchModule
+    ScrollDispatchModule,
+    RouterModule
   ],
   providers: [AppComponent],
   bootstrap: [AppComponent],
