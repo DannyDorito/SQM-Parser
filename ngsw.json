@@ -1,6 +1,6 @@
 {
   "configVersion": 1,
-  "timestamp": 1559570818432,
+  "timestamp": 1559871372402,
   "index": "/index.html",
   "assetGroups": [
     {
@@ -23,6 +23,8 @@
       "installMode": "lazy",
       "updateMode": "prefetch",
       "urls": [
+        "/assets/arma2/squad.xml",
+        "/assets/arma3/squad.xml",
         "/assets/icons/icon-128x128.png",
         "/assets/icons/icon-144x144.png",
         "/assets/icons/icon-152x152.png",
@@ -37,6 +39,8 @@
   ],
   "dataGroups": [],
   "hashTable": {
+    "/assets/arma2/squad.xml": "da39a3ee5e6b4b0d3255bfef95601890afd80709",
+    "/assets/arma3/squad.xml": "da39a3ee5e6b4b0d3255bfef95601890afd80709",
     "/assets/icons/icon-128x128.png": "0afcfe13b9932bee22906ebe1dbb024e24b09386",
     "/assets/icons/icon-144x144.png": "7e4f47aec62cc50efeeb746605c21072a1895736",
     "/assets/icons/icon-152x152.png": "3618e90b17bba11af4f947954b6da7858e3796e4",
