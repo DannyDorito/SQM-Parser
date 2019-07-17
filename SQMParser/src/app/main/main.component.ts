@@ -26,15 +26,15 @@ export class MainComponent implements OnInit, OnDestroy, AfterViewInit {
 
   timerSubscribe: Subscription;
 
-  @ViewChild(FunctionsComponent, { static: true }) missionTree: MissionTreeNode[];
-  @ViewChild(FunctionsComponent, { static: true }) fileName: string;
+  @ViewChild(FunctionsComponent, { static: false }) missionTree: MissionTreeNode[];
+  @ViewChild(FunctionsComponent, { static: false }) fileName: string;
 
   showContextMenu = false;
   contextMenuX = 0;
   contextMenuY = 0;
   lastSelectedIndex = -1;
   fullDataSource: NestedTreeNode[];
-  @ViewChild(CdkVirtualScrollViewport, { static: true }) virtualScroll: CdkVirtualScrollViewport;
+  @ViewChild(CdkVirtualScrollViewport, { static: false }) virtualScroll: CdkVirtualScrollViewport;
 
   constructor(
     public parser: ParserService,
