@@ -1,4 +1,4 @@
-import { ScrollDispatchModule } from '@angular/cdk/scrolling';
+import { ScrollingModule } from '@angular/cdk/scrolling';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
@@ -39,7 +39,7 @@ import { RouterModule } from '@angular/router';
     MatTreeModule,
     MatButtonModule,
     MatIconModule,
-    ScrollDispatchModule,
+    ScrollingModule,
     RouterModule
   ],
   providers: [AppComponent],
