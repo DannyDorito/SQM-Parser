@@ -2,7 +2,7 @@
 <div class="toolbar div">
   <h1 class="unselectable" tabindex="-1" i18n>SQM Parser</h1>
   <!-- Functions -->
-  <app-functions [isComplete]="isComplete" [missionTree]="missionTree" [fileName]="fileName" (findErrorEvent)="findErrorListener($event)" (updateTreeEvent)="rebuildTreeListener($event)"></app-functions>
+  <app-functions [isComplete]="isComplete" [missionTree]="missionTree" [fileName]="fileName" (findErrorEvent)="findErrorListener()" (updateTreeEvent)="rebuildTreeListener()"></app-functions>
 </div>
 <div class="content div">
   <!-- Input -->

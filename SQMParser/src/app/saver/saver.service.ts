@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import * as FileSaver from 'file-saver';
+import FileSaver from 'file-saver';
 import { environment } from 'src/environments/environment.prod';
 import { MissionTreeNode } from '../shared/shared';
 
