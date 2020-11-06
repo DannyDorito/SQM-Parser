@@ -1,20 +1,23 @@
 {
   "configVersion": 1,
-  "timestamp": 1586219851194,
+  "timestamp": 1604673239138,
   "index": "/index.html",
   "assetGroups": [
     {
       "name": "app",
       "installMode": "prefetch",
       "updateMode": "prefetch",
+      "cacheQueryOptions": {
+        "ignoreVary": true
+      },
       "urls": [
         "/favicon.ico",
         "/index.html",
-        "/main.9d421d7d9a0f662c62fe.js",
-        "/polyfills-es5.c1833eb505d28ddcc75a.js",
-        "/polyfills.c1f5ac072a4450f3c260.js",
-        "/runtime.1f9857a69c99897d6be3.js",
-        "/styles.cd69b62811d17b3180c9.css"
+        "/main.30d7e77f010dc25a8d82.js",
+        "/polyfills-es5.9a3f5dda43e3cfa6e309.js",
+        "/polyfills.ad7f09ff2f60ec38dfe6.js",
+        "/runtime.acf0dec4155e77772545.js",
+        "/styles.76278e8e063a5d4385d7.css"
       ],
       "patterns": []
     },
@@ -22,9 +25,10 @@
       "name": "assets",
       "installMode": "lazy",
       "updateMode": "prefetch",
+      "cacheQueryOptions": {
+        "ignoreVary": true
+      },
       "urls": [
-        "/assets/arma2/squad.xml",
-        "/assets/arma3/squad.xml",
         "/assets/icons/icon-128x128.png",
         "/assets/icons/icon-144x144.png",
         "/assets/icons/icon-152x152.png",
@@ -39,8 +43,6 @@
   ],
   "dataGroups": [],
   "hashTable": {
-    "/assets/arma2/squad.xml": "da39a3ee5e6b4b0d3255bfef95601890afd80709",
-    "/assets/arma3/squad.xml": "da39a3ee5e6b4b0d3255bfef95601890afd80709",
     "/assets/icons/icon-128x128.png": "0afcfe13b9932bee22906ebe1dbb024e24b09386",
     "/assets/icons/icon-144x144.png": "7e4f47aec62cc50efeeb746605c21072a1895736",
     "/assets/icons/icon-152x152.png": "3618e90b17bba11af4f947954b6da7858e3796e4",
@@ -50,12 +52,12 @@
     "/assets/icons/icon-72x72.png": "ea8b407f7f88aa0960808c75f3898ddc74135d51",
     "/assets/icons/icon-96x96.png": "85f721bdccae9676587d80b06ec44053a8bb8447",
     "/favicon.ico": "e8a48a384e7d1faab1bbae637d155cb73111baff",
-    "/index.html": "8db5de4cc58bc20b9c04c440c8bece513141e991",
-    "/main.9d421d7d9a0f662c62fe.js": "7bf4285ddb5bc31c21230aea2d7cc59e7d04ebc2",
-    "/polyfills-es5.c1833eb505d28ddcc75a.js": "5c12a321ca2cca92f0c489805050442ed6bb89ae",
-    "/polyfills.c1f5ac072a4450f3c260.js": "63a1302a62c291b7d57d2b47ae04346744983152",
-    "/runtime.1f9857a69c99897d6be3.js": "a9aafcf49f49145093fc831efd9b8e2f6c71bb9c",
-    "/styles.cd69b62811d17b3180c9.css": "a3487009a9c46965937005dade6080ee48407195"
+    "/index.html": "acccdb0d1d743906861567bf7e836e66f6162af5",
+    "/main.30d7e77f010dc25a8d82.js": "1ca12b5333c48422659def2d881d1cb664e8c028",
+    "/polyfills-es5.9a3f5dda43e3cfa6e309.js": "7666dad184f1de3d93c6e1dce8eae1f607e8e683",
+    "/polyfills.ad7f09ff2f60ec38dfe6.js": "ee3e31177f5e54ca3073aae74de38350b4d3c982",
+    "/runtime.acf0dec4155e77772545.js": "a9aafcf49f49145093fc831efd9b8e2f6c71bb9c",
+    "/styles.76278e8e063a5d4385d7.css": "e251486ad1d516417071d7bf667b52b64447aec1"
   },
   "navigationUrls": [
     {
