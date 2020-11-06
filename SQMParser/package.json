@@ -25,6 +25,7 @@
     "@angular/pwa": "^0.901.9",
     "@angular/router": "^10.2.2",
     "@angular/service-worker": "^10.2.2",
+    "@types/file-saver": "^2.0.1",
     "classlist.js": "^1.1.20150312",
     "core-js": "^2.6.11",
     "file-saver": "^2.0.2",

@@ -5,7 +5,6 @@ import { MatDialog } from '@angular/material/dialog';
 import { MatTreeNestedDataSource } from '@angular/material/tree';
 import { Subscription, timer } from 'rxjs';
 import { environment } from 'src/environments/environment';
-import { isNullOrUndefined } from 'util';
 import { DialogueComponent } from '../dialogue/dialogue.component';
 import { FunctionsComponent } from '../functions/functions.component';
 import { ParserService } from '../parser/parser.service';
@@ -60,7 +59,7 @@ export class MainComponent implements OnInit, OnDestroy, AfterViewInit {
    * Before the component is destroyed, unsubscribe from the timer subscription
    */
   ngOnDestroy() {
-    if (!isNullOrUndefined(this.timerSubscribe)) {
+    if (this.timerSubscribe !== null) {
       this.timerSubscribe.unsubscribe();
     }
   }
@@ -198,7 +197,7 @@ export class MainComponent implements OnInit, OnDestroy, AfterViewInit {
    * Add a line at the selected index
    */
   addLine(index?: number) {
-    if (!isNullOrUndefined(index)) {
+    if (index !== null) {
       this.missionTree = this.parser.parseAndAddNode((index + 1), this.missionTree, ' ');
     } else {
       this.missionTree = this.parser.parseAndAddNode(this.lastSelectedIndex, this.missionTree, 'Node');
@@ -210,7 +209,7 @@ export class MainComponent implements OnInit, OnDestroy, AfterViewInit {
    * Fired when the user clicks the confirm button, main method
    */
   confirmSelection() {
-    if (!isNullOrUndefined(this.fileReaderString)) {
+    if (this.fileReaderString !== null) {
       this.isConfirmed = true;
       this.startTreeCreation();
     }
@@ -293,14 +292,14 @@ export class MainComponent implements OnInit, OnDestroy, AfterViewInit {
   /**
    * Event listener for findErrorEmitter() in FunctionsComponent
    */
-  findErrorListener(event: boolean) {
+  findErrorListener() {
     this.startErrorFinding();
   }
 
   /**
    * Event listener for rebuildTreeEmitter() in FunctionsComponent
    */
-  rebuildTreeListener(event: boolean) {
+  rebuildTreeListener() {
     this.fullDataSource = this.parser.missionTreeToNestedTree(this.missionTree);
   }
 
@@ -308,7 +307,7 @@ export class MainComponent implements OnInit, OnDestroy, AfterViewInit {
    * Open MatDialog from angular material
    */
   openDialogue(data: string, type ?: DialogueType) {
-    if (!isNullOrUndefined(type)) {
+    if (type !== null) {
       const dialogueRef = this.dialogue.open(DialogueComponent, {
         data: new DialogueData(data, type)
       });

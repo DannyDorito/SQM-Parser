@@ -1,5 +1,3 @@
-import { isNullOrUndefined } from 'util';
-
 export class MissionTreeNode {
   value: string;
   nodeType: Token = Token.DEFAULT;
@@ -61,7 +59,7 @@ export class NestedTreeNode {
       this.append(nodeToAppend, depth);
     } else {
       // if this does not have children, initialise it
-      if (isNullOrUndefined(this.children)) {
+      if (this.children === null) {
         this.children = [];
       }
       this.children.push(nodeToAppend);

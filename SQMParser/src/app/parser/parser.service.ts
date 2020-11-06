@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core';
-import { isNullOrUndefined } from 'util';
 import { MissionTreeNode, NestedTreeNode, Token } from '../shared/shared';
 
 const tokensRegex = [
@@ -26,7 +25,7 @@ export class ParserService {
     const missionTree: MissionTreeNode[] = [];
     for (const inputString of inputFile) {
       const grammar = this.parser(inputString);
-      if (!isNullOrUndefined(grammar.value)) {
+      if (grammar.value !== null) {
         missionTree.push(grammar);
       }
     }
@@ -132,12 +131,12 @@ export class ParserService {
    * Compilers: Principles, Techniques, and Tools (2nd Edition) pp.56-68. Accessed 21st November 2018
    */
   traverseNodeToString(nodeToTraverse: MissionTreeNode) {
-    if (isNullOrUndefined(nodeToTraverse)) {
+    if (nodeToTraverse === null) {
       return undefined;
     }
     let str = '';
     const traverse = (node: MissionTreeNode) => {
-      if (!isNullOrUndefined(node)) {
+      if (node === null) {
         str += node.value;
         traverse(node.child);
       }
@@ -164,7 +163,7 @@ export class ParserService {
         if (last !== Token.START_BRACE && last !== Token.COMMA) {
           if (previous !== Token.COMMA && previous !== Token.START_BRACE) {
             if (last !== Token.SEMICOLON && second !== Token.START_SQUARE_BRACE) {
-              if (!isNullOrUndefined(missionTree[startIndex].comment)) {
+              if (missionTree[startIndex].comment !== null) {
                 missionTree[startIndex].comment += 'ERROR: Cannot Find: "' + Token.SEMICOLON.toString() + '"\r\n';
                 missionTree[startIndex].hasError = true;
               } else {
@@ -176,9 +175,9 @@ export class ParserService {
           }
         }
       } else if (first === Token.CLASS) {
-        if (!isNullOrUndefined(missionTree[(startIndex + 1)])) {
+        if (missionTree[(startIndex + 1)] !== null) {
           if (missionTree[(startIndex + 1)].nodeType !== Token.START_BRACE) {
-            if (!isNullOrUndefined(missionTree[startIndex].comment)) {
+            if (missionTree[startIndex].comment !== null) {
               missionTree[startIndex].comment += 'ERROR: Cannot Find: "' + Token.START_BRACE.toString() + '"\r\n';
               missionTree[startIndex].hasError = true;
             } else {
@@ -198,7 +197,7 @@ export class ParserService {
    */
   fixErrors(missionTree: MissionTreeNode[]) {
     missionTree.forEach((node) => {
-      if (!isNullOrUndefined(node.comment)) {
+      if (node.comment !== null) {
         if (node.comment.includes(Token.SEMICOLON.toString())) {
           const finalSemiColonNode = this.getFinalNode(node);
           finalSemiColonNode.child = new MissionTreeNode(Token.SEMICOLON.toString());
@@ -219,11 +218,11 @@ export class ParserService {
    * Get the last child node in the passed MissionTreeNode
    */
   getFinalNode(node: MissionTreeNode) {
-    if (isNullOrUndefined(node)) {
+    if (node === null) {
       return undefined;
     }
     let returnNode = node;
-    while (!isNullOrUndefined(returnNode.child)) {
+    while (returnNode.child !== null) {
       returnNode = returnNode.child;
     }
     return returnNode;
@@ -233,19 +232,19 @@ export class ParserService {
    * Get the child node of the passed MissionTreeNode or the next in the array index + 1
    */
   getNextNode(node: MissionTreeNode, nextNode: MissionTreeNode, index ?: number) {
-    if (isNullOrUndefined(node)) {
+    if (node === null) {
       return {
         node: nextNode,
         index: index
       };
     } else {
-      if (!isNullOrUndefined(node.child)) {
+      if (node.child !== null) {
         return {
           node: node.child,
           index: index
         };
       } else {
-        if (!isNullOrUndefined(index)) {
+        if (index !== null) {
           index++;
         }
         return {
@@ -260,10 +259,10 @@ export class ParserService {
    * Get the child node of the passed MissionTreeNode or undefined
    */
   getNextNodeUndef(node: MissionTreeNode) {
-    if (isNullOrUndefined(node)) {
+    if (node === null) {
       return undefined;
     } else {
-      if (!isNullOrUndefined(node.child)) {
+      if (node.child !== null) {
         return node.child;
       } else {
         return undefined;
@@ -275,7 +274,7 @@ export class ParserService {
    * passed missionTreeNode[] is converted to nestedTreeNode[] for the ui
    */
   missionTreeToNestedTree(missionTree: MissionTreeNode[]) {
-    if (isNullOrUndefined(missionTree)) {
+    if (missionTree === null) {
       return [];
     }
     const nestedTree: NestedTreeNode[] = [];

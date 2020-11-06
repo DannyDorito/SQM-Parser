@@ -5,7 +5,6 @@ import { SaverService } from '../saver/saver.service';
 import { DialogueData, DialogueType } from '../shared/dialogue';
 import { MissionTreeNode, Token } from '../shared/shared';
 import { ParserService } from '../parser/parser.service';
-import { isNullOrUndefined } from 'util';
 
 @Component({
   selector: 'app-functions',
@@ -115,7 +114,7 @@ export class FunctionsComponent implements OnInit {
         const addOns = this.findNext('addons', 0, missionTree);
         if (addOns > -1) {
           const node = this.findEnd(missionTree, addOns);
-          if (!isNullOrUndefined(node)) {
+          if (node !== null) {
             missionTree.splice(node, 1);
           } else {
             missionTree.splice(addOns, 1);
@@ -131,7 +130,7 @@ export class FunctionsComponent implements OnInit {
         const addOnsAuto = this.findNext('addonsauto', 0, missionTree);
         if (addOnsAuto > -1) {
           const nodeAuto = this.findEnd(missionTree, addOnsAuto);
-          if (!isNullOrUndefined(nodeAuto)) {
+          if (nodeAuto !== null) {
             missionTree.splice(nodeAuto, 1);
           } else {
             missionTree.splice(addOnsAuto, 1);
@@ -169,7 +168,7 @@ export class FunctionsComponent implements OnInit {
    */
   findEnd(missionTree: MissionTreeNode[], index: number) {
     const lastNode = this.parser.getFinalNode(missionTree[index]);
-    if (!isNullOrUndefined(lastNode)) {
+    if (lastNode !== null) {
       if (lastNode.nodeType === Token.SEMICOLON) {
         return undefined;
       } else {
